@@ -4,6 +4,8 @@ import com.hanu.gdsc.hanuoj.foo.domains.Foo;
 import com.hanu.gdsc.hanuoj.foo.usecases.FooCrudUseCases;
 import lombok.Builder;
 
+import java.util.List;
+
 public interface FooCrudRepository {
     public Foo createFoo(Foo foo);
 
@@ -14,5 +16,7 @@ public interface FooCrudRepository {
         public int sort;
     }
 
-    public FooCrudUseCases.ListFooOutput listFoo(ListFooInput input);
+    public List<Foo> listFoo(ListFooInput input);
+
+    public int countTotalFoo();
 }

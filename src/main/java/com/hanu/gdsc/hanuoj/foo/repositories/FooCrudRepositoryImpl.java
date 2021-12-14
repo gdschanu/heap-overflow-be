@@ -1,10 +1,10 @@
 package com.hanu.gdsc.hanuoj.foo.repositories;
 
 import com.hanu.gdsc.hanuoj.foo.domains.Foo;
-import com.hanu.gdsc.hanuoj.foo.usecases.FooCrudUseCases;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 @Repository
@@ -15,10 +15,12 @@ public class FooCrudRepositoryImpl implements FooCrudRepository {
     }
 
     @Override
-    public FooCrudUseCases.ListFooOutput listFoo(ListFooInput input) {
-        return FooCrudUseCases.ListFooOutput.builder()
-                .total(0)
-                .data(new ArrayList<>())
-                .build();
+    public List<Foo> listFoo(ListFooInput input) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public int countTotalFoo() {
+        return 0;
     }
 }

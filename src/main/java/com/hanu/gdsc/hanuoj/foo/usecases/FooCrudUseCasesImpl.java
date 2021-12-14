@@ -4,6 +4,8 @@ import com.hanu.gdsc.hanuoj.foo.domains.Foo;
 import com.hanu.gdsc.hanuoj.foo.repositories.FooCrudRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FooCrudUseCasesImpl implements FooCrudUseCases {
 
@@ -20,11 +22,14 @@ public class FooCrudUseCasesImpl implements FooCrudUseCases {
 
     @Override
     public ListFooOutput listFoo(ListFooInput input) {
-        return fooCrudRepository.listFoo(
-                FooCrudRepository.ListFooInput.builder()
-                        .limit(input.perPage)
-                        .skip(input.perPage * (input.page - 1))
-                        .build()
-        );
+        List<Foo> foos = fooCrudRepository.listFoo(FooCrudRepository.ListFooInput.builder()
+                .skip(input.perPage * (input.page - 1))
+                .limit(input.perPage)
+                .build());
+        int total = fooCrudRepository.countTotalFoo();
+        return ListFooOutput.builder()
+                .data(foos)
+                .total(total)
+                .build();
     }
 }
