@@ -1,13 +1,24 @@
 package hanu.gdsc.domains.exercise;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-@Entity
 public class TimeLimit {
-    @Id
     private int id;
     private int exerciseId;
     private ProgrammingLanguage language;
-    private String timeLimitInMillis;
+    private long timeLimitInMillis;
+
+    public int getId() {
+        return id;
+    }
+
+    public int getExerciseId() {
+        return exerciseId;
+    }
+
+    public ProgrammingLanguage getLanguage() {
+        return language;
+    }
+
+    public long getTimeLimitInMillis() {
+        return timeLimitInMillis;
+    }
 }

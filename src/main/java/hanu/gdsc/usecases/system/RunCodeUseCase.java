@@ -13,6 +13,8 @@ public interface RunCodeUseCase {
 
     public static class Output {
         public List<String> outputs;
+        public long runTimeInMillis;
+        public int memoryConsumedInKB;
     }
 
     public Output execute(Input input);

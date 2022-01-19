@@ -1,16 +1,6 @@
 package hanu.gdsc.domains.exercise;
 
-import hanu.gdsc.domains.ActiveRecord;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-
-@Entity
-public class Exercise extends ActiveRecord {
-    @Id
+public class Exercise {
     private int id;
     private String name;
     private String description;
@@ -18,34 +8,4 @@ public class Exercise extends ActiveRecord {
     private int ACsCount;
     private int submissionsCount;
     private ExerciseDifficulty difficulty;
-
-    public Exercise(JdbcTemplate jdbcTemplate) {
-        super(jdbcTemplate);
-    }
-
-    @Override
-    protected String makeInsertQuery() {
-        return "INSERT INTO hanuoj.exercise " +
-                "(name," +
-                "description," +
-                "author," +
-                "ACsCount," +
-                "submissionsCount," +
-                "difficulty) VALUES (?,?,?,?,?)";
-    }
-
-    @Override
-    protected void prepareInsertStmt(PreparedStatement stmt) throws SQLException {
-        stmt.setString(1, name);
-        stmt.setString(2, description);
-        stmt.setInt(3, author);
-        stmt.setInt(4, ACsCount);
-        stmt.setInt(5, submissionsCount);
-        stmt.setString(6, difficulty.toString());
-    }
-
-    @Override
-    protected String makeGetByIdQuery() {
-        return null;
-    }
 }
