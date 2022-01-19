@@ -1,6 +1,6 @@
 package hanu.gdsc.domains.exercise;
 
-import hanu.gdsc.domains.DomainObject;
+import hanu.gdsc.domains.ActiveRecord;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @Entity
-public class Exercise extends DomainObject {
+public class Exercise extends ActiveRecord {
     @Id
     private int id;
     private String name;

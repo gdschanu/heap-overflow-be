@@ -5,15 +5,19 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-public abstract class DomainObject {
+/*
+This class use the design pattern "Template Method"
+ */
+@Component
+public abstract class ActiveRecord {
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    protected JdbcTemplate jdbcTemplate;
 
     /*
     Save a domain object to DB and return its ID
