@@ -15,7 +15,7 @@ public class TestCases extends ActiveRecord {
         super(jdbcTemplate);
     }
 
-    void sortTestCasesByOrdinal() {
+    public void sortTestCasesByOrdinal() {
         data.sort(Comparator.comparingInt(x -> x.getOrdinal()));
     }
 
@@ -31,5 +31,10 @@ public class TestCases extends ActiveRecord {
     @Override
     protected void prepareInsertStmt(PreparedStatement stmt) throws SQLException {
 
+    }
+
+    @Override
+    protected String makeGetByIdQuery() {
+        return null;
     }
 }

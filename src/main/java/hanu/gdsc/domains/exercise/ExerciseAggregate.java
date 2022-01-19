@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Comparator;
 import java.util.List;
 
 public class ExerciseAggregate extends ActiveRecord {
@@ -13,12 +12,27 @@ public class ExerciseAggregate extends ActiveRecord {
     private MemoryLimits memoryLimits;
     private TimeLimits timeLimits;
     private TestCases testCases;
+    private AllowedProgrammingLanguages allowedProgrammingLanguages;
 
     public ExerciseAggregate(JdbcTemplate jdbcTemplate) {
         super(jdbcTemplate);
     }
 
-    public void assertAllTestCases(List<String> actualOutputs) {
+    public void checkAllowedProgrammingLanguage(ProgrammingLanguage programmingLanguage) {
+        for (AllowedProgrammingLanguage allowedProgrammingLanguage : allowedProgrammingLanguages.getData()) {
+            if (allowedProgrammingLanguage.equals(programmingLanguage)) {
+                return;
+            }
+        }
+        throw new Error("Programming language " + programmingLanguage + " is not allowed for this exercise.");
+
+    }
+
+    public void checkLimits() {
+
+    }
+
+    public void checkAllTestCases(List<String> actualOutputs) {
         testCases.sortTestCasesByOrdinal();
         for (int i = 0; i < actualOutputs.size(); i++) {
             String actualOutput = actualOutputs.get(i);
@@ -38,5 +52,30 @@ public class ExerciseAggregate extends ActiveRecord {
     @Override
     protected void prepareInsertStmt(PreparedStatement stmt) throws SQLException {
 
+    }
+
+    @Override
+    protected String makeGetByIdQuery() {
+        return null;
+    }
+
+    public Exercise getExercise() {
+        return exercise;
+    }
+
+    public MemoryLimits getMemoryLimits() {
+        return memoryLimits;
+    }
+
+    public TimeLimits getTimeLimits() {
+        return timeLimits;
+    }
+
+    public TestCases getTestCases() {
+        return testCases;
+    }
+
+    public AllowedProgrammingLanguages getAllowedProgrammingLanguages() {
+        return allowedProgrammingLanguages;
     }
 }

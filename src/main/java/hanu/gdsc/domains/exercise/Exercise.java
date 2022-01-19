@@ -43,4 +43,9 @@ public class Exercise extends ActiveRecord {
         stmt.setInt(5, submissionsCount);
         stmt.setString(6, difficulty.toString());
     }
+
+    @Override
+    protected String makeGetByIdQuery() {
+        return null;
+    }
 }

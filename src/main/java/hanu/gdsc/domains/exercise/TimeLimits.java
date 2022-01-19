@@ -23,4 +23,9 @@ public class TimeLimits extends ActiveRecord {
     protected void prepareInsertStmt(PreparedStatement stmt) throws SQLException {
 
     }
+
+    @Override
+    protected String makeGetByIdQuery() {
+        return null;
+    }
 }

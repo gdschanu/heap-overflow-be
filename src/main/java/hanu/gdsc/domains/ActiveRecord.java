@@ -22,8 +22,8 @@ public abstract class ActiveRecord {
     }
 
     /*
-        Save a domain object to DB and return its ID
-         */
+    Save a domain object to DB and return its ID
+     */
     public int insert() {
         KeyHolder kh = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {
@@ -40,4 +40,10 @@ public abstract class ActiveRecord {
     protected abstract String makeInsertQuery();
 
     protected abstract void prepareInsertStmt(PreparedStatement stmt) throws SQLException;
+
+    public ActiveRecord getById(int id) {
+        return jdbcTemplate.queryForObject(makeGetByIdQuery(), getClass(), id);
+    }
+
+    protected abstract String makeGetByIdQuery();
 }
