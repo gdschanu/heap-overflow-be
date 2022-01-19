@@ -14,14 +14,16 @@ import java.sql.Statement;
 /*
 This class use the design pattern "Template Method"
  */
-@Component
 public abstract class ActiveRecord {
-    @Autowired
-    protected JdbcTemplate jdbcTemplate;
+    protected final JdbcTemplate jdbcTemplate;
+
+    public ActiveRecord(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     /*
-    Save a domain object to DB and return its ID
-     */
+        Save a domain object to DB and return its ID
+         */
     public int insert() {
         KeyHolder kh = new GeneratedKeyHolder();
         jdbcTemplate.update(new PreparedStatementCreator() {

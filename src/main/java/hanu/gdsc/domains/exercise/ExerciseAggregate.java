@@ -1,6 +1,7 @@
 package hanu.gdsc.domains.exercise;
 
 import hanu.gdsc.domains.ActiveRecord;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -12,6 +13,10 @@ public class ExerciseAggregate extends ActiveRecord {
     private MemoryLimits memoryLimits;
     private TimeLimits timeLimits;
     private TestCases testCases;
+
+    public ExerciseAggregate(JdbcTemplate jdbcTemplate) {
+        super(jdbcTemplate);
+    }
 
     public void assertAllTestCases(List<String> actualOutputs) {
         testCases.sortTestCasesByOrdinal();
