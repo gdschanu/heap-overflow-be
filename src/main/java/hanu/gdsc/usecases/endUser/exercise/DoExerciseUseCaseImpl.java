@@ -22,6 +22,7 @@ public class DoExerciseUseCaseImpl implements DoExerciseUseCase {
         // Run code
         RunCodeUseCase.Output runCodeOutput = runCodeUseCase.execute(RunCodeUseCase.Input.builder()
                 .code(input.code)
+                .programmingLanguage(programmingLanguage)
                 .inputs(exercise.getSortedTestCasesInputs())
                 .build());
         // Check if time or memory limit exceeded
