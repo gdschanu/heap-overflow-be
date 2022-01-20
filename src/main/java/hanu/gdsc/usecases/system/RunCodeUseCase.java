@@ -1,5 +1,7 @@
 package hanu.gdsc.usecases.system;
 
+import hanu.gdsc.domains.KB;
+import hanu.gdsc.domains.Millisecond;
 import lombok.Builder;
 
 import java.util.List;
@@ -13,8 +15,8 @@ public interface RunCodeUseCase {
 
     public static class Output {
         public List<String> outputs;
-        public long runTimeInMillis;
-        public int memoryConsumedInKB;
+        public Millisecond runTime;
+        public KB memoryConsumed;
     }
 
     public Output execute(Input input);
