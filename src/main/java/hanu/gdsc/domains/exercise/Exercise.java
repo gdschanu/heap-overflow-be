@@ -1,11 +1,14 @@
 package hanu.gdsc.domains.exercise;
 
+import hanu.gdsc.domains.ID;
+import hanu.gdsc.domains.endUser.EndUser;
+
 public class Exercise {
-    private int id;
+    private ID id;
     private String name;
     private String description;
-    private int author;
+    private EndUser author;
     private int ACsCount;
     private int submissionsCount;
-    private ExerciseDifficulty difficulty;
+    private Difficulty difficulty;
 }

@@ -1,24 +1,10 @@
 package hanu.gdsc.domains.exercise;
 
+import hanu.gdsc.domains.ID;
+import hanu.gdsc.domains.KB;
+
 public class MemoryLimit {
-    private int id;
-    private int exerciseId;
-    private ProgrammingLanguage language;
-    private int memoryLimitInKB;
-
-    public int getId() {
-        return id;
-    }
-
-    public int getExerciseId() {
-        return exerciseId;
-    }
-
-    public ProgrammingLanguage getLanguage() {
-        return language;
-    }
-
-    public int getMemoryLimitInKB() {
-        return memoryLimitInKB;
-    }
+    private ID id;
+    private ProgrammingLanguage programmingLanguage;
+    private KB memoryLimit;
 }

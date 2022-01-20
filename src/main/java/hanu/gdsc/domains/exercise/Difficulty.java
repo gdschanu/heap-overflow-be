@@ -2,22 +2,22 @@ package hanu.gdsc.domains.exercise;
 
 import java.util.Objects;
 
-public class ProgrammingLanguage {
+public class Difficulty {
     private Type type;
 
     public enum Type {
-        JAVA, CPLUSPLUS, PYTHON
+        HARD, MEDIUM, EASY
     }
 
-    private ProgrammingLanguage(Type type) {
+    public Difficulty(Type type) {
         this.type = type;
     }
 
-    public static ProgrammingLanguage valueOf(String value) {
+    public static Difficulty valueOf(String value) {
         try {
-            return new ProgrammingLanguage(Type.valueOf(value));
+            return new Difficulty(Type.valueOf(value));
         } catch (Exception e) {
-            throw new Error("Invalid programming language: " + value);
+            throw new Error("Invalid difficulty: " + value);
         }
     }
 
@@ -25,7 +25,7 @@ public class ProgrammingLanguage {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProgrammingLanguage that = (ProgrammingLanguage) o;
+        Difficulty that = (Difficulty) o;
         return type == that.type;
     }
 
