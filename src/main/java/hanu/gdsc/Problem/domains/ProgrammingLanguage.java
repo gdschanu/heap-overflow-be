@@ -1,7 +1,7 @@
-package hanu.gdsc.problemService.domains;
+package hanu.gdsc.Problem.domains;
 
 public enum ProgrammingLanguage {
     
     JAVA, PYTHON, CPLUSPLUS, JAVASCRIPT
-    
+
 }

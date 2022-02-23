@@ -1,7 +1,7 @@
-package hanu.gdsc.problemService.domains.problem;
+package hanu.gdsc.Problem.domains.problem;
 
 public enum Difficulty {
     
     HARD, MEDIUM, EASY
-    
+
 }

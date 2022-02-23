@@ -1,4 +1,4 @@
-package hanu.gdsc.problemService.domains;
+package hanu.gdsc.Problem.domains;
 
 public class TestCase {
     
@@ -7,5 +7,5 @@ public class TestCase {
     private int ordinal;
     private boolean isSample;
     private String description;
-    
+
 }

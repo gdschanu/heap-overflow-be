@@ -1,14 +1,14 @@
-package hanu.gdsc.problemService.domains.submission;
+package hanu.gdsc.Problem.domains.submission;
 
 
 
 import java.util.Date;
 
-import hanu.gdsc.problemService.domains.ID;
-import hanu.gdsc.problemService.domains.KB;
-import hanu.gdsc.problemService.domains.Millisecond;
-import hanu.gdsc.problemService.domains.ProgrammingLanguage;
-import hanu.gdsc.problemService.domains.TestCase;
+import hanu.gdsc.Problem.domains.ID;
+import hanu.gdsc.Problem.domains.KB;
+import hanu.gdsc.Problem.domains.Millisecond;
+import hanu.gdsc.Problem.domains.ProgrammingLanguage;
+import hanu.gdsc.Problem.domains.TestCase;
 
 public class Submission {
     
