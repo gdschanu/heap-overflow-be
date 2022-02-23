@@ -1,4 +1,4 @@
-package hanu.gdsc.Problem.domains;
+package hanu.gdsc.problem.domains;
 
 public class Millisecond {
     public boolean greaterThan(Millisecond millisecond) {

@@ -1,12 +1,12 @@
-package hanu.gdsc.Problem.domains.problem;
+package hanu.gdsc.problem.domains.problem;
 
 import java.util.List;
 
-import hanu.gdsc.Problem.domains.ID;
-import hanu.gdsc.Problem.domains.MemoryLimit;
-import hanu.gdsc.Problem.domains.ProgrammingLanguage;
-import hanu.gdsc.Problem.domains.TestCase;
-import hanu.gdsc.Problem.domains.TimeLimit;
+import hanu.gdsc.problem.domains.ID;
+import hanu.gdsc.problem.domains.MemoryLimit;
+import hanu.gdsc.problem.domains.ProgrammingLanguage;
+import hanu.gdsc.problem.domains.TestCase;
+import hanu.gdsc.problem.domains.TimeLimit;
 
 public class Problem {
 

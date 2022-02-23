@@ -1,4 +1,4 @@
-package hanu.gdsc.Problem.domains.problem;
+package hanu.gdsc.problem.domains.problem;
 
 public enum Difficulty {
     

@@ -1,4 +1,4 @@
-package hanu.gdsc.Problem.domains.submission;
+package hanu.gdsc.problem.domains.submission;
 
 public enum Status {
     
