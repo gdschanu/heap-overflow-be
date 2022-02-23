@@ -20,4 +20,40 @@ public class Submission {
     private String code;
     private Status status;
     private TestCase failedTestCase;
+
+    public ID getId() {
+        return id;
+    }
+
+    public ID getProblemId() {
+        return problemId;
+    }
+
+    public ProgrammingLanguage getProgrammingLanguage() {
+        return programmingLanguage;
+    }
+
+    public Millisecond getRunTime() {
+        return runTime;
+    }
+
+    public KB getMemory() {
+        return memory;
+    }
+
+    public Date getSubmittedAt() {
+        return submittedAt;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public TestCase getFailedTestCase() {
+        return failedTestCase;
+    }
 }
