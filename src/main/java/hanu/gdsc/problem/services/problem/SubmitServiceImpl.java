@@ -1,6 +1,6 @@
 package hanu.gdsc.problem.services.problem;
 
-import hanu.gdsc.contest.domains.Contest;
+import hanu.gdsc.contest.domains.contest.Contest;
 import hanu.gdsc.contest.services.contest.GetContestService;
 import hanu.gdsc.problem.domains.ID;
 import hanu.gdsc.problem.domains.submission.Submission;
@@ -13,9 +13,8 @@ public class SubmitServiceImpl implements SubmitService {
     private final GetContestService getContestService;
 
     private boolean problemIsInAnyRunningContest(ID problemId) {
-        Contest contest = getContestService
-                .getByProblemId(problemId);
-        return contest.isRunning();
+        Contest contest = getContestService.getByProblemId(problemId);
+        return contest != null && contest.isRunning();
     }
 
     @Override

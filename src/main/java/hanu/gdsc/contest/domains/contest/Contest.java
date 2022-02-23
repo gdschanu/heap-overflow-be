@@ -1,4 +1,4 @@
-package hanu.gdsc.contest.domains;
+package hanu.gdsc.contest.domains.contest;
 
 public class Contest {
     public boolean isRunning() {
