@@ -1,33 +1,21 @@
 package hanu.gdsc.problem.services.problem;
 
+import hanu.gdsc.contest.domains.Contest;
 import hanu.gdsc.contest.services.contest.GetContestService;
-import hanu.gdsc.contest.services.contestProblem.GetContestProblemService;
 import hanu.gdsc.problem.domains.ID;
 import hanu.gdsc.problem.domains.submission.Submission;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @AllArgsConstructor
 @Service
 public class SubmitServiceImpl implements SubmitService {
     private final GetContestService getContestService;
-    private final GetContestProblemService getContestProblemService;
 
     private boolean problemIsInAnyRunningContest(ID problemId) {
-        List<GetContestService.ContestDTO> contests = getContestService.getAllRunningContest();
-        List<GetContestProblemService.ContestProblemDTO> contestProblems = getContestProblemService
-                .getContestProblemsOfContests(contests
-                        .stream().map(c -> c.id)
-                        .collect(Collectors.toList()));
-        for (GetContestProblemService.ContestProblemDTO contestProblem : contestProblems) {
-            if (contestProblem.problemId.equals(problemId)) {
-                return true;
-            }
-        }
-        return false;
+        Contest contest = getContestService
+                .getByProblemId(problemId);
+        return contest.isRunning();
     }
 
     @Override
