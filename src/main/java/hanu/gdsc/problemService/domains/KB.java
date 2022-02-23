@@ -1,4 +1,4 @@
-package hanu.gdsc.domains;
+package hanu.gdsc.problemService.domains;
 
 public class KB {
 
