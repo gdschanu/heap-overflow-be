@@ -12,4 +12,4 @@
   - Repositories -> Services
   - Services -> Domains
   - Giải thích: Khi layer A -> layer B, nghĩa là code ở layer B không được phép nhắc đến code ở layer A. Code ở layer A có thể sử dụng code từ layer B.
-  - 
+- Thời gian trong hệ thống phải dùng ZonedDateTime

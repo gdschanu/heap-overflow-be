@@ -1,51 +1,60 @@
 package hanu.gdsc.problem.services.problem;
 
-import hanu.gdsc.contest.domains.contest.Contest;
-import hanu.gdsc.contest.services.contest.GetContestService;
-import hanu.gdsc.problem.domains.ID;
-import hanu.gdsc.problem.domains.submission.Submission;
+import hanu.gdsc.problem.domains.Problem;
+import hanu.gdsc.problem.domains.Submission;
+import hanu.gdsc.problem.repository.ProblemRepository;
+import hanu.gdsc.problem.repository.SubmissionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @Service
 public class SubmitServiceImpl implements SubmitService {
-    private final GetContestService getContestService;
-
-    private boolean problemIsInAnyRunningContest(ID problemId) {
-        Contest contest = getContestService.getByProblemId(problemId);
-        return contest != null && contest.isRunning();
-    }
+    private final ProblemRepository problemRepository;
+    private final RunCodeService runCodeService;
+    private final SubmissionRepository submissionRepository;
 
     @Override
-    public InContestSubmitOutput inContestSubmit(SubmitInput input) {
-        if (!problemIsInAnyRunningContest(input.problemId)) {
-            throw new Error("Problem không thuộc về Contest nào.");
-        }
-        Submission submission = submit(input);
-        return InContestSubmitOutput.builder()
-                .runTime(submission.getRunTime())
-                .memory(submission.getMemory())
-                .status(submission.getStatus())
+    public Output submitForCoder(Input input) {
+        Problem problem = problemRepository.getById(input.problemId);
+        Problem.SubmitOutput submitOutput = problem.submitForCoder(input.code, input.programmingLanguage, runCodeService);
+        Submission submission = Submission.createCoderAccessSubmission(
+                problem.getId(),
+                input.programmingLanguage,
+                submitOutput.runTime,
+                submitOutput.memory,
+                input.code,
+                submitOutput.status,
+                submitOutput.failedTestCase
+        );
+        submissionRepository.create(submission);
+        return Output.builder()
+                .memory(submitOutput.memory)
+                .runTime(submitOutput.runTime)
+                .status(submitOutput.status)
+                .failedTestCase(submitOutput.failedTestCase)
                 .build();
     }
 
     @Override
-    public OutContestSubmitOutput outContestSubmit(SubmitInput input) {
-        if (problemIsInAnyRunningContest(input.problemId)) {
-            throw new Error("Problem đang được sử dụng trong Contest.");
-        }
-        Submission submission = submit(input);
-        return OutContestSubmitOutput.builder()
-                .runTime(submission.getRunTime())
-                .memory(submission.getMemory())
-                .status(submission.getStatus())
-                .failedTestCase(submission.getFailedTestCase())
+    public Output submitForSystem(Input input) {
+        Problem problem = problemRepository.getById(input.problemId);
+        Problem.SubmitOutput submitOutput = problem.submitForSystem(input.code, input.programmingLanguage, runCodeService);
+        Submission submission = Submission.createSystemAccessSubmission(
+                problem.getId(),
+                input.programmingLanguage,
+                submitOutput.runTime,
+                submitOutput.memory,
+                input.code,
+                submitOutput.status,
+                submitOutput.failedTestCase
+        );
+        submissionRepository.create(submission);
+        return Output.builder()
+                .memory(submitOutput.memory)
+                .runTime(submitOutput.runTime)
+                .status(submitOutput.status)
+                .failedTestCase(submitOutput.failedTestCase)
                 .build();
-    }
-
-    private Submission submit(SubmitInput input) {
-        // TODO: implement this
-        return null;
     }
 }
