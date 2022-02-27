@@ -24,13 +24,8 @@ public class MemoryLimitEntity {
     @ManyToOne()
     @JoinColumn(name="problem_uuid")
     private ProblemEntity problem;
-
-    @Column(name="programmingLanguage")
     private String programmingLanguage;
-
-    @Column(name="memoryLimit")
     private double memoryLimit;
-
     @Column(name="version")
     @Version
     private int version;

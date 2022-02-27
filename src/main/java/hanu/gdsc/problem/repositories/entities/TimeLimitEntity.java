@@ -24,13 +24,8 @@ public class TimeLimitEntity {
     @ManyToOne
     @JoinColumn(name="problem_uuid")
     private ProblemEntity problem;
-
-    @Column(name ="programmingLanguage")
     private String programmingLanguage;
-
-    @Column(name="timeLimit")
     private double timeLimit;
-
     @Column(name="version")
     @Version
     private int version;
