@@ -1,4 +1,4 @@
-package hanu.gdsc.problem.repository;
+package hanu.gdsc.problem.repositories;
 
 import hanu.gdsc.problem.domains.Problem;
 import hanu.gdsc.share.domains.ID;
