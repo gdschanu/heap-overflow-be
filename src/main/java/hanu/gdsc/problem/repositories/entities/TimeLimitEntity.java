@@ -1,19 +1,21 @@
 package hanu.gdsc.problem.repositories.entities;
 
-import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
 import java.util.UUID;
 
+import javax.persistence.*;
+
+import org.hibernate.annotations.GenericGenerator;
+
+import lombok.*;
+
 @Entity
-@Table(name = "test_case")
-@Getter
-@Setter
+@Table(name="timeLimit")
 @NoArgsConstructor
 @AllArgsConstructor
+@Setter
+@Getter
 @Builder
-public class TestCaseEntity {
+public class TimeLimitEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -22,11 +24,9 @@ public class TestCaseEntity {
     @ManyToOne
     @JoinColumn(name="problem_uuid")
     private ProblemEntity problem;
+    private String programmingLanguage;
+    private double timeLimit;
+    @Column(name="version")
     @Version
-    private long version;
-    private String input;
-    private String expectedOutput;
-    private int ordinal;
-    private boolean isSample;
-    private String description;
+    private int version;
 }

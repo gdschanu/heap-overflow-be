@@ -8,4 +8,10 @@ public class ProblemRepositoryImpl implements ProblemRepository{
     public Problem getById(ID id) {
         return null;
     }
+
+    @Override
+    public void deleteById(ID id) {
+        // TODO Auto-generated method stub
+        
+    }
 }
