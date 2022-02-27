@@ -1,12 +1,18 @@
 package hanu.gdsc.problem.domains;
 
-public class TestCase {
-    
+import hanu.gdsc.share.domains.ID;
+import hanu.gdsc.share.domains.IdentitifedDomainObject;
+
+public class TestCase extends IdentitifedDomainObject {
     private String input;
     private String expectedOutput;
     private int ordinal;
     private boolean isSample;
     private String description;
+
+    public TestCase(ID id, long version) {
+        super(id, version);
+    }
 
     public String getInput() {
         return input;

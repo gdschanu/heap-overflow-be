@@ -2,8 +2,8 @@ package hanu.gdsc.problem.services.problem;
 
 import hanu.gdsc.problem.domains.Problem;
 import hanu.gdsc.problem.domains.Submission;
-import hanu.gdsc.problem.repository.ProblemRepository;
-import hanu.gdsc.problem.repository.SubmissionRepository;
+import hanu.gdsc.problem.repositories.ProblemRepository;
+import hanu.gdsc.problem.repositories.SubmissionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class SubmitServiceImpl implements SubmitService {
                 submitOutput.status,
                 submitOutput.failedTestCase
         );
-        submissionRepository.create(submission);
+        submissionRepository.save(submission);
         return Output.builder()
                 .memory(submitOutput.memory)
                 .runTime(submitOutput.runTime)
@@ -49,7 +49,7 @@ public class SubmitServiceImpl implements SubmitService {
                 submitOutput.status,
                 submitOutput.failedTestCase
         );
-        submissionRepository.create(submission);
+        submissionRepository.save(submission);
         return Output.builder()
                 .memory(submitOutput.memory)
                 .runTime(submitOutput.runTime)
