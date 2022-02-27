@@ -19,6 +19,10 @@ public class TestCaseEntity {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
+    @ManyToOne
+    @JoinColumn(name="problem_uuid")
+    private ProblemEntity problem;
+    @Version
     private long version;
     private String input;
     private String expectedOutput;
