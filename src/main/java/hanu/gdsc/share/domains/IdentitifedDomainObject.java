@@ -1,21 +1,21 @@
 package hanu.gdsc.share.domains;
 
-import javax.persistence.Id;
+import java.util.UUID;
 
 public class IdentitifedDomainObject {
-    private ID id;
+    private UUID id;
     private long version;
 
-    public IdentitifedDomainObject(ID id, long version) {
+    public IdentitifedDomainObject(UUID id, long version) {
         this.id = id;
         this.version = version;
     }
 
-    public ID getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(ID id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
