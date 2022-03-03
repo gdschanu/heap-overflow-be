@@ -5,7 +5,7 @@ import hanu.gdsc.share.domains.Id;
 
 import java.util.List;
 
-public interface SearchService {
+public interface SearchContestService {
     public Contest getById(Id contestId);
 
     public List<Contest> search(int page, int perPage);

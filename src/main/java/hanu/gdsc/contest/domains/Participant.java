@@ -2,6 +2,7 @@ package hanu.gdsc.contest.domains;
 
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedDomainObject;
+import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,15 @@ public class Participant extends IdentitifedDomainObject {
         this.problemScores = problemScores;
     }
 
-    public static Participant create(Id coderId, Id contestId) {
+    public static Participant create(Id coderId, Contest contest) {
+        if (!contest.ended()) {
+            throw new BusinessLogicError("Không thể thêm thí sinh, kì thi đã kết thúc.");
+        }
         return new Participant(
                 Id.generateRandom(),
                 0,
                 coderId,
-                contestId,
+                contest.getId(),
                 0,
                 new ArrayList<>()
         );

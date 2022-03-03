@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "test_case")
+@Table(name = "core_problem_test_case")
 @Getter
 @Setter
 @NoArgsConstructor

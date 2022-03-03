@@ -9,7 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import lombok.*;
 
 @Entity
-@Table(name="timeLimit")
+@Table(name="core_problem_time_limit")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter

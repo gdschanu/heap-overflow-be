@@ -1,4 +1,4 @@
-package hanu.gdsc.contest.services.contest;
+package hanu.gdsc.contest.services.participant;
 
 import hanu.gdsc.contest.domains.Contest;
 import hanu.gdsc.contest.domains.Participant;
@@ -9,17 +9,17 @@ import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class AddParticipantServiceImpl implements AddParticipantService {
+public class CreateParticipantServiceImpl implements CreateParticipantService {
     private final ContestRepository contestRepository;
     private final ParticipantRepository participantRepository;
 
     @Override
     public void execute(Id coderId, Id contestId) {
         Contest contest = contestRepository.getById(contestId);
-        if (!contest.canAddParticipant()) {
-            throw new BusinessLogicError("Không thể thêm thí sinh, kì thi đang diễn ra hoặc đã kết thúc.");
+        if (contest == null) {
+            throw new BusinessLogicError("Contest không tồn tại.");
         }
-        Participant participant = Participant.create(coderId, contestId);
-        participantRepository.save(participant);
+        Participant participant = Participant.create(coderId, contest);
+        participantRepository.create(participant);
     }
 }

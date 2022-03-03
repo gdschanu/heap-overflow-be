@@ -9,7 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import lombok.*;
 
 @Entity
-@Table(name="memoryLimit")
+@Table(name="core_problem_memory_limit")
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter

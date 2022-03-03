@@ -6,7 +6,7 @@ import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class CreateServiceImpl implements CreateService {
+public class CreateContestServiceImpl implements CreateContestService {
     private final ContestRepository contestRepository;
 
     @Override
@@ -16,9 +16,9 @@ public class CreateServiceImpl implements CreateService {
                 input.description,
                 input.startAt,
                 input.endAt,
-                input.author
+                input.createdBy
         );
-        contestRepository.save(contest);
+        contestRepository.create(contest);
         return contest.getId();
     }
 }

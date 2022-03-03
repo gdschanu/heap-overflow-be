@@ -3,17 +3,22 @@ package hanu.gdsc.contest.services.contest;
 import hanu.gdsc.contest.domains.Contest;
 import hanu.gdsc.contest.repositories.ContestRepository;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
 
 @AllArgsConstructor
-public class SearchServiceImpl implements SearchService {
+public class SearchContestServiceImpl implements SearchContestService {
     private final ContestRepository contestRepository;
 
     @Override
     public Contest getById(Id contestId) {
-        return contestRepository.getById(contestId);
+        Contest contest = contestRepository.getById(contestId);
+        if (contest == null) {
+            throw new BusinessLogicError("Contest không tồn tại.");
+        }
+        return contest;
     }
 
     @Override

@@ -13,16 +13,16 @@ public class Contest extends IdentitifedDomainObject {
     private String description;
     private DateTime startAt;
     private DateTime endAt;
-    private Id author;
+    private Id createdBy;
     private List<Problem> problems;
 
-    public Contest(Id id, long version, String name, String description, DateTime startAt, DateTime endAt, Id author, List<Problem> problems, List<Participant> participants) {
+    public Contest(Id id, long version, String name, String description, DateTime startAt, DateTime endAt, Id createdBy, List<Problem> problems, List<Participant> participants) {
         super(id, version);
         this.name = name;
         this.description = description;
         this.startAt = startAt;
         this.endAt = endAt;
-        this.author = author;
+        this.createdBy = createdBy;
         this.problems = problems;
     }
 
@@ -46,6 +46,28 @@ public class Contest extends IdentitifedDomainObject {
         );
     }
 
+    public void setStartAtAndEndAt(DateTime startAt, DateTime endAt) {
+        if (started() || ended()) {
+            throw new BusinessLogicError("Kì thi đang diễn ra hoặc đã kết thúc, không được phép update thời gian.");
+        }
+        if (startAt.isBefore(DateTime.now())) {
+            throw new BusinessLogicError("Thời gian bắt đầu phải muộn hơn hiện tại.");
+        }
+        if (endAt.equals(startAt) || endAt.isBefore(startAt)) {
+            throw new BusinessLogicError("Thời gian kết thúc phải muộn hơn thời gian bắt đầu.");
+        }
+        setStartAt(startAt);
+        setEndAt(endAt);
+    }
+
+    private void setStartAt(DateTime startAt) {
+        this.startAt = startAt;
+    }
+
+    private void setEndAt(DateTime endAt) {
+        this.endAt = endAt;
+    }
+
     public boolean started() {
         return startAt.isBefore(DateTime.now());
     }
@@ -54,8 +76,12 @@ public class Contest extends IdentitifedDomainObject {
         return endAt.isBefore(DateTime.now());
     }
 
-    public boolean canAddParticipant() {
-        return !started() && !ended();
+
+    public void setName(String name) {
+        this.name = name;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }

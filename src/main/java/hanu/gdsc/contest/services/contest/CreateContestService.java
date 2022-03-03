@@ -4,16 +4,14 @@ import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import lombok.Builder;
 
-import java.util.Date;
-
-public interface CreateService {
+public interface CreateContestService {
     @Builder
     public static class Input {
         public String name;
         public String description;
         public DateTime startAt;
         public DateTime endAt;
-        public Id author;
+        public Id createdBy;
     }
 
     public Id create(Input input);

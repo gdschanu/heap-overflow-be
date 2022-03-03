@@ -6,7 +6,9 @@ import hanu.gdsc.share.domains.Id;
 import java.util.List;
 
 public interface ContestRepository {
-    public void save(Contest contest);
+    public void create(Contest contest);
+
+    public void update(Contest contest);
 
     public Contest getById(Id id);
 
