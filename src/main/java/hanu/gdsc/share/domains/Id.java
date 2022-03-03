@@ -22,4 +22,8 @@ public class Id {
     public static Id generateRandom() {
         return new Id(UUID.randomUUID());
     }
+
+    public UUID getValue() {
+        return value;
+    }
 }

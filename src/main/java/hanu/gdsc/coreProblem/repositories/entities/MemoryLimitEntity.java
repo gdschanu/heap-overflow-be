@@ -1,6 +1,6 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
-import java.util.List;
+
 import java.util.UUID;
 
 import javax.persistence.*;
@@ -25,7 +25,7 @@ public class MemoryLimitEntity {
     @ManyToOne()
     @JoinColumn(name="problem_uuid")
     private ProblemEntity problem;
-    private List<String> programmingLanguage;
+    private String programmingLanguage;
     private Long memoryLimit;
     @Column(name="version")
     @Version
