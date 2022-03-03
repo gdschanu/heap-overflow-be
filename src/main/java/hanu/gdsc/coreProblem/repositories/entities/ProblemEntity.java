@@ -11,7 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 import lombok.*;
 
 @Entity
-@Table(name = "problem")
+@Table(name = "core_problem_problem")
 @Getter
 @Setter
 @AllArgsConstructor
