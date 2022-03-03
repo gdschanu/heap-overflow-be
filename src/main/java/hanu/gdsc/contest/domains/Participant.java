@@ -9,21 +9,24 @@ import java.util.Objects;
 
 public class Participant extends IdentitifedDomainObject {
     private Id coderId;
+    private Id contestId;
     private int rank;
     private List<ProblemScore> problemScores;
 
-    private Participant(Id id, long version, Id coderId, int rank, List<ProblemScore> problemScores) {
+    public Participant(Id id, long version, Id coderId, Id contestId, int rank, List<ProblemScore> problemScores) {
         super(id, version);
         this.coderId = coderId;
+        this.contestId = contestId;
         this.rank = rank;
         this.problemScores = problemScores;
     }
 
-    public static Participant create(Id coderId) {
+    public static Participant create(Id coderId, Id contestId) {
         return new Participant(
                 Id.generateRandom(),
                 0,
                 coderId,
+                contestId,
                 0,
                 new ArrayList<>()
         );

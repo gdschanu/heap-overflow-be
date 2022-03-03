@@ -15,7 +15,6 @@ public class Contest extends IdentitifedDomainObject {
     private DateTime endAt;
     private Id author;
     private List<Problem> problems;
-    private List<Participant> participants;
 
     public Contest(Id id, long version, String name, String description, DateTime startAt, DateTime endAt, Id author, List<Problem> problems, List<Participant> participants) {
         super(id, version);
@@ -25,7 +24,6 @@ public class Contest extends IdentitifedDomainObject {
         this.endAt = endAt;
         this.author = author;
         this.problems = problems;
-        this.participants = participants;
     }
 
     public static Contest create(String name, String description, DateTime startAt, DateTime endAt, Id authorId) {
@@ -56,13 +54,8 @@ public class Contest extends IdentitifedDomainObject {
         return endAt.isBefore(DateTime.now());
     }
 
-    public void addParticipant(Participant participant) {
-        if (this.started() || this.ended()) {
-            throw new BusinessLogicError("Contest đang diễn ra hoặc đã kết thúc, không thể thêm thí sinh.");
-        }
-        if (!participants.contains(participant)) {
-            participants.add(participant);
-        }
+    public boolean canAddParticipant() {
+        return !started() && !ended();
     }
 
 }
