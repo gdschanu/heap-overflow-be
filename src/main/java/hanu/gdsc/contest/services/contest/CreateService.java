@@ -16,5 +16,5 @@ public interface CreateService {
         public Id author;
     }
 
-    public void create(Input input);
+    public Id create(Input input);
 }
