@@ -2,6 +2,7 @@ package hanu.gdsc.coreProblem.domains;
 
 import java.util.UUID;
 
+import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedDomainObject;
 
 public class TestCase extends IdentitifedDomainObject {
@@ -11,7 +12,7 @@ public class TestCase extends IdentitifedDomainObject {
     private boolean isSample;
     private String description;
 
-    public TestCase(UUID id, long version) {
+    public TestCase(Id id, long version) {
         super(id, version);
     }
 

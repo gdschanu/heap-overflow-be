@@ -1,5 +1,7 @@
 package hanu.gdsc.coreProblem.domains;
 
+import hanu.gdsc.share.domains.DateTime;
+import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedDomainObject;
 
 import java.time.ZonedDateTime;
@@ -10,13 +12,11 @@ public class Submission extends IdentitifedDomainObject {
     private ProgrammingLanguage programmingLanguage;
     private Millisecond runTime;
     private KB memory;
-    private ZonedDateTime submittedAt;
+    private DateTime submittedAt;
     private String code;
     private Status status;
     private TestCase failedTestCase;
-    private Accessibility accessibility;
-
-    public Submission(UUID id, long version, UUID problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, ZonedDateTime submittedAt, String code, Status status, TestCase failedTestCase, Accessibility accessibility) {
+    public Submission(Id id, long version, UUID problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, TestCase failedTestCase) {
         super(id, version);
         this.problemId = problemId;
         this.programmingLanguage = programmingLanguage;
@@ -26,39 +26,6 @@ public class Submission extends IdentitifedDomainObject {
         this.code = code;
         this.status = status;
         this.failedTestCase = failedTestCase;
-        this.accessibility = accessibility;
-    }
-
-    public static Submission createSystemAccessSubmission(UUID problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, String code, Status status, TestCase failedTestCase) {
-        return new Submission(
-                UUID.randomUUID(),
-                0,
-                problemId,
-                programmingLanguage,
-                runTime,
-                memory,
-                ZonedDateTime.now(),
-                code,
-                status,
-                failedTestCase,
-                Accessibility.SYSTEM
-        );
-    }
-
-    public static Submission createCoderAccessSubmission(UUID problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, String code, Status status, TestCase failedTestCase) {
-        return new Submission(
-                UUID.randomUUID(),
-                0,
-                problemId,
-                programmingLanguage,
-                runTime,
-                memory,
-                ZonedDateTime.now(),
-                code,
-                status,
-                failedTestCase,
-                Accessibility.CODER
-        );
     }
 
     public UUID getProblemId() {
@@ -77,7 +44,7 @@ public class Submission extends IdentitifedDomainObject {
         return memory;
     }
 
-    public ZonedDateTime getSubmittedAt() {
+    public DateTime getSubmittedAt() {
         return submittedAt;
     }
 
@@ -91,9 +58,5 @@ public class Submission extends IdentitifedDomainObject {
 
     public TestCase getFailedTestCase() {
         return failedTestCase;
-    }
-
-    public Accessibility getAccessibility() {
-        return accessibility;
     }
 }
