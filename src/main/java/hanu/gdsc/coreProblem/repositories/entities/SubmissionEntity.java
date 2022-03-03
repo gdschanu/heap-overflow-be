@@ -22,6 +22,7 @@ public class SubmissionEntity {
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
+    @Version
     private long version;
     @Column(columnDefinition = "BINARY(16)")
     private UUID problemId;

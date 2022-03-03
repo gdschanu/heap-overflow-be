@@ -25,7 +25,7 @@ public class TimeLimitEntity {
     @JoinColumn(name="problem_uuid")
     private ProblemEntity problem;
     private String programmingLanguage;
-    private double timeLimit;
+    private Long timeLimit;
     @Column(name="version")
     @Version
     private Long version;

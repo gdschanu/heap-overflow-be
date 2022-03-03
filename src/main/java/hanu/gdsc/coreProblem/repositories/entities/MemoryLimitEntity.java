@@ -1,5 +1,6 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
+
 import java.util.UUID;
 
 import javax.persistence.*;
@@ -25,7 +26,7 @@ public class MemoryLimitEntity {
     @JoinColumn(name="problem_uuid")
     private ProblemEntity problem;
     private String programmingLanguage;
-    private double memoryLimit;
+    private Long memoryLimit;
     @Column(name="version")
     @Version
     private Long version;
