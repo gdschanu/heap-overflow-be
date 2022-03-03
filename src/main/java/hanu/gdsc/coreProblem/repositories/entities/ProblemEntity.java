@@ -26,6 +26,7 @@ public class ProblemEntity {
     private String name;
     private String description;
     private String difficulty;
+    private Long ACsCount;
     @OneToMany(mappedBy="problem")
     private List<TestCaseEntity> testCases = new ArrayList<>();
     @OneToMany(mappedBy="problem")

@@ -157,4 +157,44 @@ public class Problem extends IdentitifedDomainObject {
     public List<ProgrammingLanguage> getAllowedProgrammingLanguages() {
         return allowedProgrammingLanguages;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setACsCount(int aCsCount) {
+        ACsCount = aCsCount;
+    }
+
+    public void setSubmissionsCount(int submissionsCount) {
+        this.submissionsCount = submissionsCount;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
+    }
+
+    public void setTestCases(List<TestCase> testCases) {
+        this.testCases = testCases;
+    }
+
+    public void setMemoryLimits(List<MemoryLimit> memoryLimits) {
+        this.memoryLimits = memoryLimits;
+    }
+
+    public void setTimeLimits(List<TimeLimit> timeLimits) {
+        this.timeLimits = timeLimits;
+    }
+
+    public void setAllowedProgrammingLanguages(List<ProgrammingLanguage> allowedProgrammingLanguages) {
+        this.allowedProgrammingLanguages = allowedProgrammingLanguages;
+    }
 }

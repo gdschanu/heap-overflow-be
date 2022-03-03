@@ -1,5 +1,6 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.*;
@@ -24,8 +25,8 @@ public class TimeLimitEntity {
     @ManyToOne
     @JoinColumn(name="problem_uuid")
     private ProblemEntity problem;
-    private String programmingLanguage;
-    private double timeLimit;
+    private List<String> programmingLanguage;
+    private Long timeLimit;
     @Column(name="version")
     @Version
     private Long version;
