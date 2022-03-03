@@ -1,6 +1,7 @@
 package hanu.gdsc.coreProblem.domains;
 
 import hanu.gdsc.coreProblem.services.problem.RunCodeService;
+import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedDomainObject;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.Builder;
@@ -22,18 +23,18 @@ public class Problem extends IdentitifedDomainObject {
     private List<TimeLimit> timeLimits;
     private List<ProgrammingLanguage> allowedProgrammingLanguages;
 
-    public Problem(UUID id, Long version) {
+    public Problem(Id id, Long version) {
         super(id, version);
     }   
 
-    public Problem(UUID id, long version, String name, String description, String author, int aCsCount,
+    public Problem(Id id, long version, String name, String description, String author, int aCsCount,
             int submissionsCount, Difficulty difficulty, List<TestCase> testCases, List<MemoryLimit> memoryLimits,
             List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages) {
         super(id, version);
         this.name = name;
         this.description = description;
         this.author = author;
-        ACsCount = aCsCount;
+        this.ACsCount = aCsCount;
         this.submissionsCount = submissionsCount;
         this.difficulty = difficulty;
         this.testCases = testCases;
