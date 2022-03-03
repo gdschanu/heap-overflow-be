@@ -22,11 +22,11 @@ public class ProblemEntity {
     private String name;
     private String description;
     private String difficulty;
-    @OneToMany(mappedBy="core_problem_problem")
+    @OneToMany(mappedBy="problem")
     private List<TestCaseEntity> testCases = new ArrayList<>();
-    @OneToMany(mappedBy="core_problem_problem")
+    @OneToMany(mappedBy="problem")
     private List<TimeLimitEntity> timeLimits = new ArrayList<>();
-    @OneToMany(mappedBy = "core_problem_problem")
+    @OneToMany(mappedBy = "problem")
     private List<MemoryLimitEntity> memoryLimits = new ArrayList<>();
     @ElementCollection(targetClass = String.class)
     private List<String> allowedProgrammingLanguages = new ArrayList<>();
