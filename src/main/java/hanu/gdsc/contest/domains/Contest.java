@@ -16,7 +16,7 @@ public class Contest extends IdentitifedDomainObject {
     private Id createdBy;
     private List<Problem> problems;
 
-    public Contest(Id id, long version, String name, String description, DateTime startAt, DateTime endAt, Id createdBy, List<Problem> problems, List<Participant> participants) {
+    public Contest(Id id, long version, String name, String description, DateTime startAt, DateTime endAt, Id createdBy, List<Problem> problems) {
         super(id, version);
         this.name = name;
         this.description = description;
@@ -41,7 +41,6 @@ public class Contest extends IdentitifedDomainObject {
                 startAt,
                 endAt,
                 authorId,
-                new ArrayList<>(),
                 new ArrayList<>()
         );
     }
@@ -83,5 +82,29 @@ public class Contest extends IdentitifedDomainObject {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public DateTime getStartAt() {
+        return startAt;
+    }
+
+    public DateTime getEndAt() {
+        return endAt;
+    }
+
+    public Id getCreatedBy() {
+        return createdBy;
+    }
+
+    public List<Problem> getProblems() {
+        return problems;
     }
 }

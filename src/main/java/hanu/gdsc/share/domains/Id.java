@@ -23,7 +23,7 @@ public class Id {
         return new Id(UUID.randomUUID());
     }
 
-    public UUID getValue() {
+    public UUID toUUID() {
         return value;
     }
 }
