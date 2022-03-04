@@ -1,11 +1,10 @@
 package hanu.gdsc.coreProblem.services.problem;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import hanu.gdsc.coreProblem.domains.*;
+import hanu.gdsc.coreProblem.domains.Problem;
 import hanu.gdsc.coreProblem.repositories.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CreateProblemServiceImpl implements CreateProblemService {
@@ -13,18 +12,18 @@ public class CreateProblemServiceImpl implements CreateProblemService {
     private ProblemRepository problemRepository;
 
     @Override
-    public Problem createProblem(Problem problem) {
-        problem.setId(Id.generateRandom());
-        for(TestCase testCase : problem.getTestCases()) {
-            testCase.setId(Id.generateRandom());
-        }
-        for(TimeLimit timeLimit : problem.getTimeLimits()) {
-            timeLimit.setId(Id.generateRandom());
-        }
-        for(MemoryLimit memoryLimit : problem.getMemoryLimits()) {
-            memoryLimit.setId(Id.generateRandom());
-        }
+    public Id execute(Input input) {
+        Problem problem = Problem.create(
+                input.name,
+                input.description,
+                input.author,
+                input.difficulty,
+                input.createTestCaseInputs,
+                input.createMemoryLimitInputs,
+                input.createTimeLimitInputs,
+                input.allowedProgrammingLanguages
+        );
         problemRepository.create(problem);
-        return problemRepository.getById(problem.getId());
+        return problem.getId();
     }
 }

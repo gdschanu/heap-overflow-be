@@ -13,9 +13,9 @@ import java.util.List;
 public class Problem extends IdentitifedDomainObject {
     private String name;
     private String description;
-    private Id author;
-    private long ACsCount;
-    private long submissionsCount;
+    private String author;
+    private int ACsCount;
+    private int submissionsCount;
     private Difficulty difficulty;
     private List<TestCase> testCases;
     private List<MemoryLimit> memoryLimits;
@@ -26,7 +26,7 @@ public class Problem extends IdentitifedDomainObject {
         super(id, version);
     }   
 
-    public Problem(Id id, long version, String name, String description, Id author, int aCsCount,
+    public Problem(Id id, long version, String name, String description, String author, int aCsCount,
             int submissionsCount, Difficulty difficulty, List<TestCase> testCases, List<MemoryLimit> memoryLimits,
             List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages) {
         super(id, version);
@@ -48,24 +48,6 @@ public class Problem extends IdentitifedDomainObject {
         public KB memory;
         public Status status;
         public TestCase failedTestCase;
-    }
-
-    public static Problem create(String name, String description, Id author, Difficulty difficulty, List<TestCase> testCases,
-            List<TimeLimit> timeLimits, List<MemoryLimit> memoryLimits, List<ProgrammingLanguage> allowedProgrammingLanguages) {
-        return new Problem(
-            Id.generateRandom(),
-            0,
-            name,
-            description,
-            author,
-            0,
-            0,
-            difficulty,
-            testCases,
-            memoryLimits,
-            timeLimits,
-            allowedProgrammingLanguages);
-      
     }
 
     public SubmitOutput submit(String code, ProgrammingLanguage programmingLanguage, RunCodeService runCodeService) {
@@ -144,15 +126,15 @@ public class Problem extends IdentitifedDomainObject {
         return description;
     }
 
-    public Id getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public long getACsCount() {
+    public int getACsCount() {
         return ACsCount;
     }
 
-    public long getSubmissionsCount() {
+    public int getSubmissionsCount() {
         return submissionsCount;
     }
 
@@ -184,7 +166,7 @@ public class Problem extends IdentitifedDomainObject {
         this.description = description;
     }
 
-    public void setAuthor(Id author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 

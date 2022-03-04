@@ -48,4 +48,20 @@ public class Participant extends IdentitifedDomainObject {
     public int hashCode() {
         return Objects.hash(coderId);
     }
+
+    public Id getCoderId() {
+        return coderId;
+    }
+
+    public Id getContestId() {
+        return contestId;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public List<ProblemScore> getProblemScores() {
+        return problemScores;
+    }
 }

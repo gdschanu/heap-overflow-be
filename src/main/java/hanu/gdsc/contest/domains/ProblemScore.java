@@ -11,4 +11,16 @@ public class ProblemScore extends IdentitifedDomainObject {
     public ProblemScore(Id id, long version) {
         super(id, version);
     }
+
+    public Id getProblemId() {
+        return problemId;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getTryCount() {
+        return tryCount;
+    }
 }

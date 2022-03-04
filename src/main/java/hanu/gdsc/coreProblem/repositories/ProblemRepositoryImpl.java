@@ -17,7 +17,7 @@ public class ProblemRepositoryImpl implements ProblemRepository{
     
     @Override
     public Problem getById(Id id) {
-        ProblemEntity problemEntity = problemJPARepository.getById(id.getValue());
+        ProblemEntity problemEntity = problemJPARepository.getById(id.toUUID());
         Problem problem = new Problem(new Id(problemEntity.getId()), problemEntity.getVersion());
         String difficultyValue = problemEntity.getDifficulty().toUpperCase();
         Difficulty difficulty = Difficulty.valueOf(difficultyValue);
@@ -77,7 +77,7 @@ public class ProblemRepositoryImpl implements ProblemRepository{
         for(TestCase testCase : problem.getTestCases()) {
             testCasesEntity.add(
                 TestCaseEntity.builder()
-                .id(testCase.getId().getValue())
+                .id(testCase.getId().toUUID())
                 .input(testCase.getInput())
                 .expectedOutput(testCase.getExpectedOutput())
                 .ordinal(testCase.getOrdinal())
@@ -89,7 +89,7 @@ public class ProblemRepositoryImpl implements ProblemRepository{
         for(MemoryLimit memoryLimit : problem.getMemoryLimits()) {
             memoryLimitsEntity.add(
                 MemoryLimitEntity.builder()
-                    .id(memoryLimit.getId().getValue())
+                    .id(memoryLimit.getId().toUUID())
                     .programmingLanguage(memoryLimit.getProgrammingLanguage().toString())
                     .memoryLimit(memoryLimit.getMemoryLimit().getValue())
                     .build()
@@ -98,7 +98,7 @@ public class ProblemRepositoryImpl implements ProblemRepository{
         for(TimeLimit timeLimit : problem.getTimeLimits()) {
             timeLimitsEntity.add(
                 TimeLimitEntity.builder()
-                    .id(timeLimit.getId().getValue())
+                    .id(timeLimit.getId().toUUID())
                     .programmingLanguage(timeLimit.getProgrammingLanguage().toString())
                     .timeLimit(timeLimit.getTimeLimit().getValue())
                     .build()
@@ -111,7 +111,7 @@ public class ProblemRepositoryImpl implements ProblemRepository{
         }
         problemJPARepository.save(
             ProblemEntity.builder()
-            .id(problem.getId().getValue())
+            .id(problem.getId().toUUID())
             .name(problem.getName())
             .description(problem.getDescription())
             .ACsCount(problem.getACsCount())
