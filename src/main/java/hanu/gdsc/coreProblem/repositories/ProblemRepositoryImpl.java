@@ -114,6 +114,8 @@ public class ProblemRepositoryImpl implements ProblemRepository{
             .id(problem.getId().getValue())
             .name(problem.getName())
             .description(problem.getDescription())
+            .ACsCount(problem.getACsCount())
+            .submissionsCount(problem.getSubmissionsCount())
             .testCases(testCasesEntity)
             .timeLimits(timeLimitsEntity)
             .memoryLimits(memoryLimitsEntity)
