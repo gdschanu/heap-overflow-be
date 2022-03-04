@@ -1,11 +1,15 @@
 package hanu.gdsc.coreProblem.domains;
 
-public class TimeLimit {
+import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.domains.IdentitifedDomainObject;
+
+public class TimeLimit extends IdentitifedDomainObject{
 
     private ProgrammingLanguage programmingLanguage;
     private Millisecond timeLimit;
 
-    public TimeLimit(ProgrammingLanguage programmingLanguage, Millisecond timeLimit) {
+    public TimeLimit(Id id, long version, ProgrammingLanguage programmingLanguage, Millisecond timeLimit) {
+        super(id, version);
         this.programmingLanguage = programmingLanguage;
         this.timeLimit = timeLimit;
     }

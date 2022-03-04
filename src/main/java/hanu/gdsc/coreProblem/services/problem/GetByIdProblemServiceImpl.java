@@ -14,7 +14,7 @@ public class GetByIdProblemServiceImpl implements GetByIdProblemService  {
 
     @Override
     public Problem getById(Id id) {
-        Problem problem = problemRepository.getById(id.getValue());
+        Problem problem = problemRepository.getById(id);
         return problem;
     }
 }

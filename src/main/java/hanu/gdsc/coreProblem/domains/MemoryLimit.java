@@ -1,10 +1,15 @@
 package hanu.gdsc.coreProblem.domains;
 
-public class MemoryLimit {
+
+import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.domains.IdentitifedDomainObject;
+
+public class MemoryLimit extends IdentitifedDomainObject{
     private ProgrammingLanguage programmingLanguage;
     private KB memoryLimit;
 
-    public MemoryLimit(ProgrammingLanguage programmingLanguage, KB memoryLimit) {
+    public MemoryLimit(Id id, long version, ProgrammingLanguage programmingLanguage, KB memoryLimit) {
+        super(id, version);
         this.programmingLanguage = programmingLanguage;
         this.memoryLimit = memoryLimit;
     }
