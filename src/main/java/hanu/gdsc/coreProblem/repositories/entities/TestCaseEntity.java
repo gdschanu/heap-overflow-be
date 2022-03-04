@@ -1,7 +1,6 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -15,8 +14,6 @@ import java.util.UUID;
 @Builder
 public class TestCaseEntity {
     @Id
-    @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
     @ManyToOne

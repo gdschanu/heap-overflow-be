@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coreProblem.domains.Problem;
 import hanu.gdsc.coreProblem.repositories.ProblemRepository;
+import hanu.gdsc.share.domains.Id;
 
 @AllArgsConstructor
 @Service
@@ -14,7 +15,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Output submit(Input input) {
-        Problem problem = problemRepository.getById(input.problemId);
+        Problem problem = problemRepository.getById(new Id(input.problemId));
         Problem.SubmitOutput submitOutput = problem.submit(input.code, input.programmingLanguage, runCodeService);
         return Output.builder()
                 .memory(submitOutput.memory)

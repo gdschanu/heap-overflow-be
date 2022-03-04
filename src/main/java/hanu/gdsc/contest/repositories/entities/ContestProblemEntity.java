@@ -6,16 +6,16 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.UUID;
+
 
 @Entity
-@Table(name = "contest_contest")
+@Table(name = "contest_problem")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProblemEntity {
+public class ContestProblemEntity {
     @Id
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
@@ -24,4 +24,7 @@ public class ProblemEntity {
     @Column(columnDefinition = "BINARY(16)")
     private UUID coreProblemId;
     private int score;
+    @ManyToOne
+    @JoinColumn(name = "contest_uuid")
+    private ContestEntity contest;
 }

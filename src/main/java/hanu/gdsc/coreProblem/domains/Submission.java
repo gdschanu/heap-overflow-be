@@ -4,7 +4,6 @@ import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedDomainObject;
 
-import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class Submission extends IdentitifedDomainObject {

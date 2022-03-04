@@ -24,6 +24,6 @@ public class ContestEntity {
     private String startAt;
     private String endAt;
     private UUID createdBy;
-    @OneToMany(mappedBy = "contest_contest")
-    private List<ProblemEntity> problems;
+    @OneToMany(mappedBy = "contest")
+    private List<ContestProblemEntity> problems;
 }

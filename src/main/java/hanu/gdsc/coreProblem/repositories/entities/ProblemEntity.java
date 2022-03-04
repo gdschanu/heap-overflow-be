@@ -1,7 +1,6 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,11 +21,13 @@ public class ProblemEntity {
     private String name;
     private String description;
     private String difficulty;
-    @OneToMany(mappedBy="core_problem_problem")
+    private long ACsCount;
+    private long submissionsCount;
+    @OneToMany(mappedBy="problem")
     private List<TestCaseEntity> testCases = new ArrayList<>();
-    @OneToMany(mappedBy="core_problem_problem")
+    @OneToMany(mappedBy="problem")
     private List<TimeLimitEntity> timeLimits = new ArrayList<>();
-    @OneToMany(mappedBy = "core_problem_problem")
+    @OneToMany(mappedBy = "problem")
     private List<MemoryLimitEntity> memoryLimits = new ArrayList<>();
     @ElementCollection(targetClass = String.class)
     private List<String> allowedProgrammingLanguages = new ArrayList<>();

@@ -16,4 +16,12 @@ public class IdentitifedDomainObject {
     public long getVersion() {
         return version;
     }
+
+    public void setId(Id id) {
+        this.id = id;
+    }
+
+    public void setVersion(long version) {
+        this.version = version;
+    }
 }
