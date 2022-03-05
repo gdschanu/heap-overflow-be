@@ -1,4 +1,4 @@
-package hanu.gdsc.coder;
+package hanu.gdsc.coder.CoderRepositories;
 
 import java.util.List;
 

@@ -3,7 +3,6 @@ package hanu.gdsc.share.domains;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.Objects;
 
 public class DateTime {
@@ -45,4 +44,9 @@ public class DateTime {
     public static DateTime now() {
         return new DateTime(ZonedDateTime.now());
     }
+
+    public DateTime plusMinutes(int i) {
+        return new DateTime(value.plusMinutes(15));
+    }
+
 }

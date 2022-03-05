@@ -1,20 +1,21 @@
-package hanu.gdsc.coder;
+package hanu.gdsc.coder.CoderServices;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import hanu.gdsc.coder.CoderRepositories.CoderRepository;
 import hanu.gdsc.coder.Domains.Coder;
 import hanu.gdsc.share.domains.Id;
 
 @Service
-public class Services {
+public class CoderService {
     @Autowired
     private CoderRepository repository;
 
     public void createCoder() {
-
+        
     }
 
     public void updateCoder() {

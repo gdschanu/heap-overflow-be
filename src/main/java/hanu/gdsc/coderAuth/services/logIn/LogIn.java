@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coderAuth.domains.User;
-import hanu.gdsc.coderAuth.repositories.UserRepository;
+import hanu.gdsc.coderAuth.repositories.JPA.UserRepository;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 @Service

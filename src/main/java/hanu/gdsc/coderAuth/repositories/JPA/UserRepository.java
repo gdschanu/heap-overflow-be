@@ -1,4 +1,4 @@
-package hanu.gdsc.coderAuth.repositories;
+package hanu.gdsc.coderAuth.repositories.JPA;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
