@@ -8,7 +8,22 @@ public class Problem extends IdentitifedDomainObject {
     private Id coreProblemId;
     private int score;
 
-    public Problem(Id id, long version) {
+    public Problem(Id id, long version, int ordinal, Id coreProblemId, int score) {
         super(id, version);
+        this.ordinal = ordinal;
+        this.coreProblemId = coreProblemId;
+        this.score = score;
+    }
+
+    public int getOrdinal() {
+        return ordinal;
+    }
+
+    public Id getCoreProblemId() {
+        return coreProblemId;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

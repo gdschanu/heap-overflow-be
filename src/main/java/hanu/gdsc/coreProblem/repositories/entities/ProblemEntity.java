@@ -21,6 +21,7 @@ public class ProblemEntity {
     private String name;
     private String description;
     private String difficulty;
+    private UUID authorId;
     private long ACsCount;
     private long submissionsCount;
     @OneToMany(mappedBy="problem")

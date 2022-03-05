@@ -1,10 +1,8 @@
 package hanu.gdsc.coreProblem.domains;
 
-import hanu.gdsc.coreProblem.services.problem.RunCodeService;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedDomainObject;
 import hanu.gdsc.share.error.BusinessLogicError;
-import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -13,7 +11,7 @@ import java.util.List;
 public class Problem extends IdentitifedDomainObject {
     private String name;
     private String description;
-    private String author;
+    private Id author;
     private int ACsCount;
     private int submissionsCount;
     private Difficulty difficulty;
@@ -22,13 +20,13 @@ public class Problem extends IdentitifedDomainObject {
     private List<TimeLimit> timeLimits;
     private List<ProgrammingLanguage> allowedProgrammingLanguages;
 
-    public Problem(Id id, Long version) {
+    public Problem(Id id, long version) {
         super(id, version);
-    }   
+    }
 
-    public Problem(Id id, long version, String name, String description, String author, int aCsCount,
-            int submissionsCount, Difficulty difficulty, List<TestCase> testCases, List<MemoryLimit> memoryLimits,
-            List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages) {
+    public Problem(Id id, long version, String name, String description, Id author, int aCsCount,
+                   int submissionsCount, Difficulty difficulty, List<TestCase> testCases, List<MemoryLimit> memoryLimits,
+                   List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages) {
         super(id, version);
         this.name = name;
         this.description = description;
@@ -42,65 +40,62 @@ public class Problem extends IdentitifedDomainObject {
         this.allowedProgrammingLanguages = allowedProgrammingLanguages;
     }
 
-    @Builder
-    public static class SubmitOutput {
-        public Millisecond runTime;
-        public KB memory;
-        public Status status;
-        public TestCase failedTestCase;
-    }
-
-    public SubmitOutput submit(String code, ProgrammingLanguage programmingLanguage, RunCodeService runCodeService) {
-        if (!getAllowedProgrammingLanguages().contains(programmingLanguage)) {
-            throw new BusinessLogicError("Bài tập không hỗ trợ ngôn ngữ lập trình " + programmingLanguage);
-        }
-        for (TestCase testCase : getSortedByOrdinalTestCases()) {
-            RunCodeService.Output runCodeServiceOutput = runCodeService.execute(code, testCase.getInput(), programmingLanguage);
-            // Check time limit
-            TimeLimit timeLimit = getTimeLimitByProgrammingLanguage(programmingLanguage);
-            if (runCodeServiceOutput.runTime.greaterThan(timeLimit.getTimeLimit())) {
-                return SubmitOutput.builder()
-                        .runTime(runCodeServiceOutput.runTime)
-                        .memory(runCodeServiceOutput.memory)
-                        .status(Status.TLE)
-                        .failedTestCase(null)
-                        .build();
-            }
-            // Check memory limit
-            MemoryLimit memoryLimit = getMemoryLimitByProgrammingLanguage(programmingLanguage);
-            if (runCodeServiceOutput.memory.greaterThan(memoryLimit.getMemoryLimit())) {
-                return SubmitOutput.builder()
-                        .runTime(runCodeServiceOutput.runTime)
-                        .memory(runCodeServiceOutput.memory)
-                        .status(Status.MLE)
-                        .failedTestCase(null)
-                        .build();
-            }
-            // Check answer
-            if (runCodeServiceOutput.output.equals(testCase.getExpectedOutput())) {
-                return SubmitOutput.builder()
-                        .runTime(runCodeServiceOutput.runTime)
-                        .memory(runCodeServiceOutput.memory)
-                        .status(Status.WA)
-                        .failedTestCase(testCase)
-                        .build();
+    public static Problem create(String name, String description, Id author, Difficulty difficulty,
+                                 List<TestCase.CreateInput> createTestCaseInputs,
+                                 List<MemoryLimit.CreateInput> createMemoryLimitInputs,
+                                 List<TimeLimit.CreateInput> createTimeLimitInputs,
+                                 List<ProgrammingLanguage> allowedProgrammingLanguages) {
+        for (MemoryLimit.CreateInput first : createMemoryLimitInputs) {
+            for (MemoryLimit.CreateInput second : createMemoryLimitInputs) {
+                if (first.programmingLanguage.equals(second.programmingLanguage)
+                        && !first.equals(second)) {
+                    throw new BusinessLogicError("Có 2 giới hạn bộ nhớ trùng nhau.");
+                }
             }
         }
-        return SubmitOutput.builder()
-                .runTime(null) // TODO: calculate average runTime & average memory
-                .memory(null)
-                .status(Status.AC)
-                .failedTestCase(null)
-                .build();
+        for (TimeLimit.CreateInput first : createTimeLimitInputs) {
+            for (TimeLimit.CreateInput second : createTimeLimitInputs) {
+                if (first.programmingLanguage.equals(second.programmingLanguage)
+                        && !first.equals(second)) {
+                    throw new BusinessLogicError("Có 2 giới hạn thời gian trùng nhau.");
+                }
+            }
+        }
+        List<TestCase> testCases = new ArrayList<>();
+        for (TestCase.CreateInput createTestCaseInp : createTestCaseInputs) {
+            testCases.add(TestCase.create(createTestCaseInp));
+        }
+        List<MemoryLimit> memoryLimits = new ArrayList<>();
+        for (MemoryLimit.CreateInput createMemLimitInp : createMemoryLimitInputs) {
+            memoryLimits.add(MemoryLimit.create(createMemLimitInp));
+        }
+        List<TimeLimit> timeLimits = new ArrayList<>();
+        for (TimeLimit.CreateInput createTimeLimitInp : createTimeLimitInputs) {
+            timeLimits.add(TimeLimit.create(createTimeLimitInp));
+        }
+        return new Problem(
+                Id.generateRandom(),
+                0,
+                name,
+                description,
+                author,
+                0,
+                0,
+                difficulty,
+                testCases,
+                memoryLimits,
+                timeLimits,
+                allowedProgrammingLanguages
+        );
     }
 
-    private List<TestCase> getSortedByOrdinalTestCases() {
+    public List<TestCase> getSortedByOrdinalTestCases() {
         List<TestCase> res = new ArrayList<>(getTestCases());
         res.sort(Comparator.comparingInt(tc -> tc.getOrdinal()));
         return res;
     }
 
-    private MemoryLimit getMemoryLimitByProgrammingLanguage(ProgrammingLanguage programmingLanguage) {
+    public MemoryLimit getMemoryLimitByProgrammingLanguage(ProgrammingLanguage programmingLanguage) {
         for (MemoryLimit memoryLimit : getMemoryLimits()) {
             if (memoryLimit.getProgrammingLanguage().equals(programmingLanguage)) {
                 return memoryLimit;
@@ -109,7 +104,7 @@ public class Problem extends IdentitifedDomainObject {
         return null;
     }
 
-    private TimeLimit getTimeLimitByProgrammingLanguage(ProgrammingLanguage programmingLanguage) {
+    public TimeLimit getTimeLimitByProgrammingLanguage(ProgrammingLanguage programmingLanguage) {
         for (TimeLimit timeLimit : getTimeLimits()) {
             if (timeLimit.getProgrammingLanguage().equals(programmingLanguage)) {
                 return timeLimit;
@@ -126,7 +121,7 @@ public class Problem extends IdentitifedDomainObject {
         return description;
     }
 
-    public String getAuthor() {
+    public Id getAuthor() {
         return author;
     }
 
@@ -166,12 +161,12 @@ public class Problem extends IdentitifedDomainObject {
         this.description = description;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Id author) {
         this.author = author;
     }
 
-    public void setACsCount(int aCsCount) {
-        ACsCount = aCsCount;
+    public void setACsCount(int ACsCount) {
+        this.ACsCount = ACsCount;
     }
 
     public void setSubmissionsCount(int submissionsCount) {
