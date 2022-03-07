@@ -1,17 +1,17 @@
 package hanu.gdsc.coreProblem.domains;
 
 public class Millisecond {
-    private Long value;
+    private long value;
 
     public Millisecond(Long millisecond) {
         this.value = millisecond;
     }
     
-    public Long getValue() {
+    public long getValue() {
         return value;
     }
 
-    public void setValue(Long value) {
+    public void setValue(long value) {
         this.value = value;
     }
 
