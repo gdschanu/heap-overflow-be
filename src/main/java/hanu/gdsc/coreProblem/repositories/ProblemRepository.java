@@ -15,4 +15,6 @@ public interface ProblemRepository {
     public void deleteById(Id id);
 
     public List<Problem> search(Pageable pageable);
+
+    public long count();
 }

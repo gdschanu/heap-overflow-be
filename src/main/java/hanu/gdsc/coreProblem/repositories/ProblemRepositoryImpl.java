@@ -1,6 +1,7 @@
 package hanu.gdsc.coreProblem.repositories;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -39,6 +40,15 @@ public class ProblemRepositoryImpl implements ProblemRepository{
     @Override
     public List<Problem> search (Pageable pageable) {
         List<ProblemEntity> problemsEntity = problemJPARepository.findAll(pageable).getContent();
-        return null;
+        return problemsEntity.stream()
+                        .map(problemEntity -> ProblemEntity.toDomain(problemEntity))
+                        .collect(Collectors.toList());
     }
+
+    @Override
+    public long count() {
+        return problemJPARepository.count();
+    }
+
+    
 }

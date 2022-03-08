@@ -6,20 +6,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
-import hanu.gdsc.coreProblem.services.problem.GetByIdProblemService;
+import hanu.gdsc.coreProblem.services.problem.SearchProblemService;
 import hanu.gdsc.share.domains.Id;
 
 @RestController
 public class GetByIdProblemApi {
     @Autowired
-    private GetByIdProblemService getByIdProblemService;
+    private SearchProblemService searchProblemService;
 
     @GetMapping("/problem/{uuid}")
     public ResponseEntity<?> getById(@PathVariable("uuid") String id) {
         try {
             return new ResponseEntity<>(
-                getByIdProblemService.getById(new Id(id)),
+                searchProblemService.getById(new Id(id)),
                 HttpStatus.OK
             );
         } catch (Exception e) {
