@@ -14,7 +14,7 @@ public class GetByIdProblemApi {
     @Autowired
     private SearchProblemService searchProblemService;
 
-    @GetMapping("/problem/{uuid}")
+    @GetMapping("/problem")
     public ResponseEntity<?> getById(@PathVariable("uuid") String id) {
         try {
             return new ResponseEntity<>(
