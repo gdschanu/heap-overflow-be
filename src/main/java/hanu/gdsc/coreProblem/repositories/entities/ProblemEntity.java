@@ -3,9 +3,15 @@ package hanu.gdsc.coreProblem.repositories.entities;
 import lombok.*;
 
 import javax.persistence.*;
+
+import hanu.gdsc.coreProblem.domains.Difficulty;
+import hanu.gdsc.coreProblem.domains.Problem;
+import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "core_problem_problem")
@@ -35,4 +41,48 @@ public class ProblemEntity {
     @Column(name = "version")
     @Version
     private Long version;
+
+    public static ProblemEntity toEntity(Problem problem) {
+        return ProblemEntity.builder()
+            .id(problem.getId().toUUID())
+            .version(problem.getVersion())
+            .name(problem.getName())
+            .description(problem.getDescription())
+            .difficulty(problem.getDifficulty().toString())
+            .authorId(problem.getAuthor().toUUID())
+            .testCases(problem.getTestCases().stream()
+                    .map(testCase -> TestCaseEntity.toEntity(testCase))
+                    .collect(Collectors.toList()))
+            .timeLimits(problem.getTimeLimits().stream()
+                    .map(timeLimit -> TimeLimitEntity.toEntity(timeLimit))
+                    .collect(Collectors.toList()))
+            .memoryLimits(problem.getMemoryLimits().stream()
+                    .map(memoryLimit -> MemoryLimitEntity.toEntity(memoryLimit))
+                    .collect(Collectors.toList()))
+            .allowedProgrammingLanguages(problem.getAllowedProgrammingLanguages().stream()
+                    .map(allowedProgrammingLanguage -> allowedProgrammingLanguage.toString())
+                    .collect(Collectors.toList()))
+            .build();
+    }
+
+    public static Problem toDomain(ProblemEntity problemEntity){
+        Problem problem = new Problem(new hanu.gdsc.share.domains.Id(problemEntity.getId()), problemEntity.getVersion());
+        problem.setName(problemEntity.getName());
+        problem.setDescription(problemEntity.getDescription());
+        problem.setDifficulty(Difficulty.valueOf(problemEntity.getDifficulty()));
+        problem.setAuthor(new hanu.gdsc.share.domains.Id(problemEntity.getAuthorId()));
+        problem.setTestCases(problemEntity.getTestCases().stream()
+                .map(testCaseEntity -> TestCaseEntity.toDomain(testCaseEntity))
+                .collect(Collectors.toList()));
+        problem.setMemoryLimits(problemEntity.getMemoryLimits().stream()
+                .map(memoryLimitEntity -> MemoryLimitEntity.toDomain(memoryLimitEntity))
+                .collect(Collectors.toList()));
+        problem.setTimeLimits(problemEntity.getTimeLimits().stream()
+                .map(timeLimitEntity -> TimeLimitEntity.toDomain(timeLimitEntity))
+                .collect(Collectors.toList()));
+        problem.setAllowedProgrammingLanguages(problemEntity.getAllowedProgrammingLanguages().stream()
+                .map(allowedProgrammingLanguagesEntity -> ProgrammingLanguage.valueOf(allowedProgrammingLanguagesEntity))
+                .collect(Collectors.toList()));
+        return problem;
+    }
 }

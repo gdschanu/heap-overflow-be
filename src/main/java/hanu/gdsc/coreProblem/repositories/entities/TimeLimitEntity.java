@@ -4,6 +4,9 @@ import java.util.UUID;
 
 import javax.persistence.*;
 
+import hanu.gdsc.coreProblem.domains.Millisecond;
+import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
+import hanu.gdsc.coreProblem.domains.TimeLimit;
 import lombok.*;
 
 @Entity
@@ -25,4 +28,22 @@ public class TimeLimitEntity {
     @Column(name="version")
     @Version
     private long version;
+
+    public static TimeLimitEntity toEntity(TimeLimit timeLimitDomain) {
+        return TimeLimitEntity.builder()
+                .id(timeLimitDomain.getId().toUUID())
+                .version(timeLimitDomain.getVersion())
+                .programmingLanguage(timeLimitDomain.getProgrammingLanguage().toString())
+                .timeLimit(timeLimitDomain.getTimeLimit().getValue())
+                .build();
+    }
+
+    public static TimeLimit toDomain(TimeLimitEntity timeLimitEntity) {
+        return new TimeLimit(
+            new hanu.gdsc.share.domains.Id(timeLimitEntity.getId()),
+            timeLimitEntity.getVersion(),
+            ProgrammingLanguage.valueOf(timeLimitEntity.getProgrammingLanguage()),
+            new Millisecond(timeLimitEntity.getTimeLimit())
+        );
+    }
 }
