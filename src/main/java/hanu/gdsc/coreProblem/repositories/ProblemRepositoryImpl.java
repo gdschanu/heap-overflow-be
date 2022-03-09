@@ -32,9 +32,10 @@ public class ProblemRepositoryImpl implements ProblemRepository{
     }
 
     @Override
-    public void deleteById(Id id) {
-        // TODO Auto-generated method stub
-        
+    public void deleteAllById(List<Id> ids) {
+        problemJPARepository.deleteAllById(ids.stream()
+                                        .map(id -> id.toUUID())
+                                        .collect(Collectors.toList()));        
     }
 
     @Override

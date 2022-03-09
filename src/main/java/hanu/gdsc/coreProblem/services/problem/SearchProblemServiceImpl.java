@@ -4,11 +4,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coreProblem.domains.Problem;
 import hanu.gdsc.coreProblem.repositories.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 
+@Service
 public class SearchProblemServiceImpl implements SearchProblemService{
     @Autowired
     private ProblemRepository problemRepository;

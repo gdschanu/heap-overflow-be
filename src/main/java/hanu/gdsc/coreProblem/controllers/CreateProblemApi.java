@@ -22,7 +22,7 @@ public class CreateProblemApi {
         public Id id;
     }
 
-    @PostMapping("/problem/create")
+    @PostMapping("/problem")
     public ResponseEntity<?> createProblem(@RequestBody CreateProblemService.Input input) {
         try {
             Id id = createProblemService.execute(input);

@@ -8,7 +8,6 @@ import javax.persistence.*;
 import hanu.gdsc.coreProblem.domains.KB;
 import hanu.gdsc.coreProblem.domains.MemoryLimit;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
-import hanu.gdsc.coreProblem.repositories.entities.TimeLimitEntity.TimeLimitEntityBuilder;
 import lombok.*;
 
 @Entity
