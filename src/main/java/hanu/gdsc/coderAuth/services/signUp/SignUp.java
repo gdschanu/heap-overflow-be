@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import hanu.gdsc.coderAuth.domains.User;
-import hanu.gdsc.coderAuth.repositories.UserRepository;
+import hanu.gdsc.coderAuth.repositories.JPA.UserRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 
@@ -19,6 +19,10 @@ public class SignUp {
             User user= new User(username, email, password, coderId);
             BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
     		user.setPassword(encoder.encode(user.getPassword()));
+
+            new Password(password);
+            new Username(username);
+
             user.setRegistrationConfirmed(false);
             repository.save(user);
         } else{
