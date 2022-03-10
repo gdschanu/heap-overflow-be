@@ -12,6 +12,8 @@ public interface ProblemRepository {
 
     public void create(Problem problem);
 
+    public void update(Problem problem);
+
     public void deleteAllById(List<Id> ids);
 
     public List<Problem> search(Pageable pageable);

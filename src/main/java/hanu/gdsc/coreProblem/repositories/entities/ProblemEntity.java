@@ -30,15 +30,15 @@ public class ProblemEntity {
     private UUID authorId;
     private long ACsCount;
     private long submissionsCount;
-    @OneToMany(mappedBy="problem")
+    @OneToMany(mappedBy="problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TestCaseEntity> testCases = new ArrayList<>();
-    @OneToMany(mappedBy="problem")
+    @OneToMany(mappedBy="problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TimeLimitEntity> timeLimits = new ArrayList<>();
-    @OneToMany(mappedBy = "problem")
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<MemoryLimitEntity> memoryLimits = new ArrayList<>();
     @ElementCollection(targetClass = String.class)
     private List<String> allowedProgrammingLanguages = new ArrayList<>();
-    @Column(name = "version")
+    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
     @Version
     private Long version;
 

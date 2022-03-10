@@ -19,10 +19,11 @@ public class TestCaseEntity {
     @Id
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="problem_uuid")
     private ProblemEntity problem;
     @Version
+    @Column(columnDefinition = "integer DEFAULT 0", nullable = false)
     private long version;
     private String input;
     private String expectedOutput;
