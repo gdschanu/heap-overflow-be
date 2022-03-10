@@ -21,12 +21,12 @@ public class MemoryLimitEntity {
     @Id
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="problem_uuid")
     private ProblemEntity problem;
     private String programmingLanguage;
     private long memoryLimit;
-    @Column(name="version")
+    @Column(name="version", columnDefinition = "integer DEFAULT 0", nullable = false)
     @Version
     private long version;
 

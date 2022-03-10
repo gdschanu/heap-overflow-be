@@ -20,13 +20,13 @@ public class TimeLimitEntity {
     @Id
     @Column(columnDefinition = "BINARY(16)")
     private UUID id;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="problem_uuid")
     private ProblemEntity problem;
     private String programmingLanguage;
     private long timeLimit;
-    @Column(name="version")
     @Version
+    @Column(name="version", columnDefinition = "integer DEFAULT 0", nullable = false)
     private long version;
 
     public static TimeLimitEntity toEntity(TimeLimit timeLimitDomain) {

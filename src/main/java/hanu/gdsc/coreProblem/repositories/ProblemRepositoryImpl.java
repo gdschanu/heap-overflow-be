@@ -32,6 +32,11 @@ public class ProblemRepositoryImpl implements ProblemRepository{
     }
 
     @Override
+    public void update(Problem problem) {
+        problemJPARepository.save(ProblemEntity.toEntity(problem));
+    }
+
+    @Override
     public void deleteAllById(List<Id> ids) {
         problemJPARepository.deleteAllById(ids.stream()
                                         .map(id -> id.toUUID())
