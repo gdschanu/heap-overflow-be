@@ -37,4 +37,15 @@ public class PracticeProblemEntity {
             .category(CategoryEntity.toEntity(problem.getCategory()))
             .build();
     }
+
+    public static Problem toDomain(PracticeProblemEntity practiceProblemEntity) {
+        return new Problem(
+            new hanu.gdsc.share.domains.Id(practiceProblemEntity.getId()),
+            practiceProblemEntity.getVersion(),
+            new hanu.gdsc.share.domains.Id(practiceProblemEntity.getCoreProblemId()),
+            practiceProblemEntity.getLikeCount(),
+            practiceProblemEntity.getDislikeCount(),
+            CategoryEntity.toDomain(practiceProblemEntity.getCategory())
+        );
+    }
 }

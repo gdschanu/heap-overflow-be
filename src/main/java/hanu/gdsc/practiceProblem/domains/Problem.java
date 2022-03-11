@@ -9,7 +9,7 @@ public class Problem extends IdentitifedDomainObject {
     private long dislikeCount;
     private Category category;
 
-    private Problem(Id id, long version, Id coreProlemId, long likeCount, long dislikeCount, Category category) {
+    public Problem(Id id, long version, Id coreProlemId, long likeCount, long dislikeCount, Category category) {
         super(id, version);
         this.coreProlemId = coreProlemId;
         this.likeCount = likeCount;

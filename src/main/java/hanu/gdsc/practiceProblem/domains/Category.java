@@ -6,7 +6,7 @@ import hanu.gdsc.share.domains.IdentitifedDomainObject;
 public class Category extends IdentitifedDomainObject {
     private String name;
 
-    private Category(Id id, long version, String name) {
+    public Category(Id id, long version, String name) {
         super(id, version);
         this.name = name;
     }

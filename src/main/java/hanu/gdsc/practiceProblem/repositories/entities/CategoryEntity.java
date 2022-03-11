@@ -32,4 +32,12 @@ public class CategoryEntity {
                     .name(category.getName())
                     .build();
     }
+
+    public static Category toDomain(CategoryEntity categoryEntity) {
+        return new Category(
+            new hanu.gdsc.share.domains.Id(categoryEntity.getId()),
+            categoryEntity.getVersion(),
+            categoryEntity.getName()
+        );
+    }
 }
