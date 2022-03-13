@@ -1,10 +1,14 @@
 package hanu.gdsc.coderAuth.repositories.Entities;
 
-import javax.persistence.Entity;
+import java.util.UUID;
 
-import hanu.gdsc.share.domains.DateTime;
-import hanu.gdsc.share.domains.Id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+import hanu.gdsc.coderAuth.domains.Session;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,10 +16,21 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SessionEntity {
-    private Id id;
-    private Id coderId;
-    private DateTime expiredAt;    
+    @Id
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
+    private UUID coderId;
+    private String expiredAt;    
+
+    public static SessionEntity toEntity(Session session) {
+        return SessionEntity.builder()
+        .id(session.getId().toUUID())
+        .coderId(session.getCoderId().toUUID())
+        .expiredAt(session.getExpiredAt().toZonedDateTime().toString())
+        .build();
+    }
 }

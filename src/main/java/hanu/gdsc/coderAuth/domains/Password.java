@@ -1,4 +1,4 @@
-package hanu.gdsc.coderAuth.services.signUp;
+package hanu.gdsc.coderAuth.domains;
 
 import hanu.gdsc.share.error.BusinessLogicError;
 
@@ -6,6 +6,7 @@ public class Password {
     private String value;
 
     public Password(String value) {
+        this.value = value;
         if (value.length() < 8) {
             throw new BusinessLogicError("Password cần tối thiểu 8 kí tự");
         }
@@ -18,7 +19,7 @@ public class Password {
         int count = 0;
         for (int i = 0; i < value.length(); i++) {
             char c = value.charAt(i);
-            if (c <= 9 && c >= 0) {
+            if (c <= '9' && c >= '0') {
                 count++;
             }
         }
@@ -43,4 +44,10 @@ public class Password {
             return true;
         }
     }
+
+    @Override
+    public String toString() {
+        return value;
+    }  
+    
 }
