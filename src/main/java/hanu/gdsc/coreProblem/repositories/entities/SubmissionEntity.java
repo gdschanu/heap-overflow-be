@@ -1,12 +1,16 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
 import lombok.*;
-
+import hanu.gdsc.coreProblem.domains.KB;
+import hanu.gdsc.coreProblem.domains.Millisecond;
+import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
+import hanu.gdsc.coreProblem.domains.Status;
 import hanu.gdsc.coreProblem.domains.Submission;
+import hanu.gdsc.coreProblem.domains.TestCase;
+import hanu.gdsc.share.domains.DateTime;
 
 import javax.persistence.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,12 +30,12 @@ public class SubmissionEntity {
     private UUID problemId;
     private String programmingLanguage;
     private long runTimeInMillis;
-    private double memoryInKB;
+    private long memoryInKB;
     private String submittedAtInZonedDateTime;
     private String code;
     private String status;
     @Column(columnDefinition = "BINARY(16)")
-    private UUID failedTestCasesId;
+    private TestCase failedTestCases;
 
     public static SubmissionEntity toEntity(Submission submission) {
         return SubmissionEntity.builder()
@@ -44,7 +48,22 @@ public class SubmissionEntity {
                     .submittedAtInZonedDateTime(submission.getSubmittedAt().toZonedDateTime().toString())
                     .code(submission.getCode())
                     .status(submission.getStatus().toString())
-                    .failedTestCasesId(submission.getFailedTestCase().getId().toUUID())
+                    .failedTestCases(submission.getFailedTestCase())
                     .build();
+    }  
+
+    public static Submission toDomain(SubmissionEntity submissionEntity) {
+        return new Submission(
+            new hanu.gdsc.share.domains.Id(submissionEntity.getId()),
+            submissionEntity.getVersion(),
+            new hanu.gdsc.share.domains.Id(submissionEntity.getProblemId()), 
+            ProgrammingLanguage.valueOf(submissionEntity.getProgrammingLanguage()),
+            new Millisecond(submissionEntity.getRunTimeInMillis()),
+            new KB(submissionEntity.getMemoryInKB()),
+            new DateTime(submissionEntity.getSubmittedAtInZonedDateTime()),
+            submissionEntity.getCode(),
+            Status.valueOf(submissionEntity.getStatus()),
+            submissionEntity.getFailedTestCases()
+        );
     }
 }

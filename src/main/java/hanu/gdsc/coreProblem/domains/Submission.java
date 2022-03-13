@@ -1,7 +1,5 @@
 package hanu.gdsc.coreProblem.domains;
 
-import java.util.List;
-
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedDomainObject;
