@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coreProblem.repositories.ProblemRepository;
-import hanu.gdsc.share.domains.Id;
 
 @AllArgsConstructor
 @Service
@@ -16,7 +15,7 @@ public class SubmitServiceImpl implements SubmitService {
 
     @Override
     public Output submit(Input input) {
-        Problem problem = problemRepository.getById(new Id(input.problemId));
+        Problem problem = problemRepository.getById(input.problemId);
         if (!problem.getAllowedProgrammingLanguages().contains(input.programmingLanguage)) {
             throw new BusinessLogicError("Bài tập không hỗ trợ ngôn ngữ lập trình " + input.programmingLanguage);
         }
@@ -43,7 +42,7 @@ public class SubmitServiceImpl implements SubmitService {
                         .build();
             }
             // Check answer
-            if (runCodeServiceOutput.output.equals(testCase.getExpectedOutput())) {
+            if (!runCodeServiceOutput.output.getOutput().equals(testCase.getExpectedOutput())) {
                 return Output.builder()
                         .runTime(runCodeServiceOutput.runTime)
                         .memory(runCodeServiceOutput.memory)

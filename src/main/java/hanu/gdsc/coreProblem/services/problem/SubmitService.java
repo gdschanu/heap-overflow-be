@@ -1,15 +1,14 @@
 package hanu.gdsc.coreProblem.services.problem;
 
-import java.util.UUID;
-
 import hanu.gdsc.coreProblem.domains.*;
+import hanu.gdsc.share.domains.Id;
 import lombok.Builder;
 
 public interface SubmitService {
     @Builder
     public static class Input {
-        public UUID coderId;
-        public UUID problemId;
+        public Id coderId;
+        public Id problemId;
         public String code;
         public ProgrammingLanguage programmingLanguage;
     }
