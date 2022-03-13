@@ -1,13 +1,13 @@
 package hanu.gdsc.coreProblem.domains;
 
+import java.util.List;
+
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedDomainObject;
 
-import java.util.UUID;
-
 public class Submission extends IdentitifedDomainObject {
-    private UUID problemId;
+    private Id problemId;
     private ProgrammingLanguage programmingLanguage;
     private Millisecond runTime;
     private KB memory;
@@ -15,7 +15,7 @@ public class Submission extends IdentitifedDomainObject {
     private String code;
     private Status status;
     private TestCase failedTestCase;
-    public Submission(Id id, long version, UUID problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, TestCase failedTestCase) {
+    public Submission(Id id, long version, Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, TestCase failedTestCase) {
         super(id, version);
         this.problemId = problemId;
         this.programmingLanguage = programmingLanguage;
@@ -27,7 +27,23 @@ public class Submission extends IdentitifedDomainObject {
         this.failedTestCase = failedTestCase;
     }
 
-    public UUID getProblemId() {
+    public static Submission create(Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory,
+                    DateTime submittedAt, String code, Status status, TestCase failedTestCases) {
+        return new Submission(
+            Id.generateRandom(),
+            0,
+            problemId,
+            programmingLanguage,
+            runTime,
+            memory,
+            submittedAt,
+            code,
+            status,
+            failedTestCases
+        );
+    }
+
+    public Id getProblemId() {
         return problemId;
     }
 
