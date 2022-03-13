@@ -1,4 +1,4 @@
-package hanu.gdsc.coderAuth.Controllers;
+package hanu.gdsc.coderAuth.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
