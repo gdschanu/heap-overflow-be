@@ -9,7 +9,9 @@ import hanu.gdsc.coreProblem.domains.Problem;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -30,12 +32,12 @@ public class ProblemEntity {
     private UUID authorId;
     private long ACsCount;
     private long submissionsCount;
-    @OneToMany(mappedBy="problem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TestCaseEntity> testCases = new ArrayList<>();
-    @OneToMany(mappedBy="problem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TimeLimitEntity> timeLimits = new ArrayList<>();
-    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<MemoryLimitEntity> memoryLimits = new ArrayList<>();
+    @OneToMany(mappedBy="problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<TestCaseEntity> testCases = new HashSet<>();
+    @OneToMany(mappedBy="problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<TimeLimitEntity> timeLimits = new HashSet<>();
+    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<MemoryLimitEntity> memoryLimits = new HashSet<>();
     @ElementCollection(targetClass = String.class)
     private List<String> allowedProgrammingLanguages = new ArrayList<>();
     @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
@@ -52,13 +54,13 @@ public class ProblemEntity {
             .authorId(problem.getAuthor().toUUID())
             .testCases(problem.getTestCases().stream()
                     .map(testCase -> TestCaseEntity.toEntity(testCase))
-                    .collect(Collectors.toList()))
+                    .collect(Collectors.toSet()))
             .timeLimits(problem.getTimeLimits().stream()
                     .map(timeLimit -> TimeLimitEntity.toEntity(timeLimit))
-                    .collect(Collectors.toList()))
+                    .collect(Collectors.toSet()))
             .memoryLimits(problem.getMemoryLimits().stream()
                     .map(memoryLimit -> MemoryLimitEntity.toEntity(memoryLimit))
-                    .collect(Collectors.toList()))
+                    .collect(Collectors.toSet()))
             .allowedProgrammingLanguages(problem.getAllowedProgrammingLanguages().stream()
                     .map(allowedProgrammingLanguage -> allowedProgrammingLanguage.toString())
                     .collect(Collectors.toList()))
