@@ -27,7 +27,7 @@ public class ContestEntity {
     private String startAt;
     private String endAt;
     private UUID createdBy;
-    @OneToMany(mappedBy = "contest")
+    @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL)
     private List<ContestProblemEntity> problems;
 
     public static ContestEntity fromDomain(Contest contest) {
