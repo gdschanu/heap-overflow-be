@@ -1,11 +1,13 @@
 package hanu.gdsc.coder.CoderRepositories.Entities;
 
 import java.sql.Blob;
+import java.util.UUID;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.Id;
 import hanu.gdsc.coder.Domains.Gender;
-import hanu.gdsc.share.domains.Id;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +19,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CoderEntity {
-    private Id id;
+    @Id
+    @Column(columnDefinition = "BINARY(16)")
+    private UUID id;
     private String username;
     private Blob avatar;
     private String email;

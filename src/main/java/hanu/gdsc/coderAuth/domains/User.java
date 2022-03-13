@@ -4,102 +4,67 @@ import hanu.gdsc.share.domains.Id;
 
 public class User {
     private Id id;
-    private String email;
-    private String username;
-    private String password;
+    private Email email;
+    private Username username;
+    private Password password;
     private Id coderId;
     private boolean registrationConfirmed;
 
-    public User(String username, String email, String password, Id coderId) {
-        this.username=username;
-        this.email=email;
-        this.password=password;
-        this.coderId=coderId;
+    public User(Id id, Email email, Username username, Password password, Id coderId, boolean registrationConfirmed) {
+        this.id = id;
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.coderId = coderId;
+        this.registrationConfirmed = registrationConfirmed;
     }
-    
 
-    /**
-     * @return Id return the id
-     */
     public Id getId() {
         return id;
     }
 
-    /**
-     * @param id the id to set
-     */
     public void setId(Id id) {
         this.id = id;
     }
 
-    /**
-     * @return String return the email
-     */
-    public String getEmail() {
+    public Email getEmail() {
         return email;
     }
 
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
+    public void setEmail(Email email) {
         this.email = email;
     }
 
-    /**
-     * @return String return the username
-     */
-    public String getUsername() {
+    public Username getUsername() {
         return username;
     }
 
-    /**
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
+    public void setUsername(Username username) {
         this.username = username;
     }
 
-    /**
-     * @return String return the password
-     */
-    public String getPassword() {
+    public Password getPassword() {
         return password;
     }
 
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
+    public void setPassword(Password password) {
         this.password = password;
     }
 
-    /**
-     * @return Id return the coderId
-     */
     public Id getCoderId() {
         return coderId;
     }
 
-    /**
-     * @param coderId the coderId to set
-     */
     public void setCoderId(Id coderId) {
         this.coderId = coderId;
     }
 
-    /**
-     * @return boolean return the registrationConfirmed
-     */
     public boolean isRegistrationConfirmed() {
         return registrationConfirmed;
     }
 
-    /**
-     * @param registrationConfirmed the registrationConfirmed to set
-     */
     public void setRegistrationConfirmed(boolean registrationConfirmed) {
         this.registrationConfirmed = registrationConfirmed;
     }
-
+    
 }
