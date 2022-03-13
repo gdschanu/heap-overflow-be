@@ -27,7 +27,7 @@ public class ContestEntity {
     private String startAt;
     private String endAt;
     private UUID createdBy;
-    @OneToMany(mappedBy = "contest_contest")
+    @OneToMany(mappedBy = "contest")
     private List<ContestProblemEntity> problems;
 
     public static ContestEntity fromDomain(Contest contest) {
