@@ -4,7 +4,6 @@ import java.util.Base64;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coderAuth.domains.Email;
@@ -29,9 +28,15 @@ public class LogInServiceImpl implements LogInService{
    private SessionRepository sessionRepository;
    
    @Override
-   public String checkUserInformation(Email usernameOrEmail, Password password) {
-      User user = null;
-      user = userRepository.getByEmail(usernameOrEmail);
+   public String checkUserInformation(Object usernameOrEmail, Password password) {
+      User user;
+      if(Email.isValidEmail(usernameOrEmail.toString())) {
+         Email email = (Email)usernameOrEmail;
+         user = userRepository.getByEmail(email);
+      } else {
+         Username username = (Username)usernameOrEmail;
+         user = userRepository.getByUsername(username);
+      }
 
       Id coderId = user.getCoderId();
       if (BCrypt.checkpw(password.toString(), user.getPassword().toString())) {
@@ -41,18 +46,6 @@ public class LogInServiceImpl implements LogInService{
       }
    }
 
-   @Override
-   public String checkUserInformation(Username usernameOrEmail, Password password) {
-      User user = null;
-      user = userRepository.getByUsername(usernameOrEmail);
-
-      Id coderId = user.getCoderId();
-      if (BCrypt.checkpw(password.toString(), user.getPassword().toString())) {
-         return createToken(coderId);
-      } else {
-         throw new BusinessLogicError("Sai mật khẩu.");
-      }
-   }
    @Override
    public String createToken(Id coderId) {
       Session session = new Session(Id.generateRandom(), coderId, DateTime.now().plusMinutes(15));
@@ -62,5 +55,14 @@ public class LogInServiceImpl implements LogInService{
               .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encode("Hanuoj<Secretkey>".getBytes()))
               .compact(); 
   }
+
+   @Override
+   public Object usernameOrEmail(User user) {    
+      if(user.getUsername() != null) {
+         return user.getUsername();
+      } else {
+         return user.getEmail();
+      }
+   }
 
 }
