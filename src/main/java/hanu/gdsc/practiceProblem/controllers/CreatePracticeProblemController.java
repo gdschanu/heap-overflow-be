@@ -16,7 +16,7 @@ public class CreatePracticeProblemController {
     @Autowired
     private CreatePracticeProblemService createPracticeProblemService;
 
-    @PostMapping("/practiceProblem")
+    @PostMapping("/practiceProblem/createPracticeProblem")
     public ResponseEntity<?> create(@RequestBody CreatePracticeProblemService.Input input) {
         try{
             Id problemId = createPracticeProblemService.create(input);

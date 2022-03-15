@@ -23,7 +23,7 @@ public class TestCase extends IdentitifedDomainObject {
 
     @Builder
     public static class CreateInput {
-        private String input;
+        private String input;   
         private String expectedOutput;
         private int ordinal;
         private boolean isSample;
