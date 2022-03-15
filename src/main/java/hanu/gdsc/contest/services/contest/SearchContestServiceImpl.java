@@ -5,9 +5,11 @@ import hanu.gdsc.contest.repositories.ContestRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 @AllArgsConstructor
 public class SearchContestServiceImpl implements SearchContestService {
     private final ContestRepository contestRepository;

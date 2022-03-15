@@ -1,4 +1,4 @@
-package hanu.gdsc.coder.CoderControllers;
+package hanu.gdsc.coder.controllers;
 
 import org.springframework.stereotype.Controller;
 

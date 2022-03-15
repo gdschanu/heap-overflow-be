@@ -25,7 +25,7 @@ public class ParticipantEntity {
     private UUID coderId;
     @Column(columnDefinition = "BINARY(16)")
     private UUID contestId;
-    private int participantRank; // "rank'
+    private int participantRank; // "rank" trùng với từ khóa của SQL
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
     private List<ProblemScoreEntity> problemScores;
 

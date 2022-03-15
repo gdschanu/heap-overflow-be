@@ -22,7 +22,7 @@ public class SignUpServiceImpl implements SignUpService{
         if(repository.getByUsername(username)==null && repository.getByEmail(email)==null){
             boolean registrationConfirmed = false;
             User user = new User(Id.generateRandom(), email, username, 
-            password, Id.generateRandom(), registrationConfirmed);
+                password, Id.generateRandom(), registrationConfirmed);
 
             BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
     		user.setPassword(new Password(encoder.encode(password.toString()))); 
