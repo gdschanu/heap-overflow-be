@@ -26,7 +26,7 @@ public class SearchSubmissionServiceImpl implements SearchSubmissionService {
     public List<Submission> getAllByProblemId(Id problemId) {
         List<Submission> submissions = submissionRepository.getAllByProblemId(problemId);
         if (submissions == null) {
-            throw new BusinessLogicError("Không tìm thấy submission");
+            throw new BusinessLogicError("Không tìm thấy submission", "NOT_FOUND");
         }
         return submissions;
     }

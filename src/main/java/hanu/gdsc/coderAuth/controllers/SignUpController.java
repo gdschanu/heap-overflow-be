@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.services.SignUpService;
 import hanu.gdsc.share.controller.ResponseBody;
+import hanu.gdsc.share.error.BusinessLogicError;
 
 @Controller
 public class SignUpController {
@@ -24,12 +25,12 @@ public class SignUpController {
             return new ResponseEntity<>(
                     new ResponseBody("Đăng kí thành công.",signUpSuccess),
                     HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            if(e.getClass().equals(BusinessLogicError.class)) {
+                e.printStackTrace();
+                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (Error e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
+        } 
     }
 }

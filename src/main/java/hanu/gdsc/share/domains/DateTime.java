@@ -16,7 +16,7 @@ public class DateTime {
         try {
             this.value = ZonedDateTime.parse(value);
         } catch (Exception e) {
-            throw new BusinessLogicError("Thời gian không hợp lệ: '" + value + "'");
+            throw new BusinessLogicError("Thời gian không hợp lệ: '" + value + "'", "NOT_VALID_DATE");
         }
     }
 

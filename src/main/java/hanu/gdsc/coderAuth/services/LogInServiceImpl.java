@@ -42,7 +42,7 @@ public class LogInServiceImpl implements LogInService{
       if (BCrypt.checkpw(password.toString(), user.getPassword().toString())) {
          return createToken(coderId);
       } else {
-         throw new BusinessLogicError("Sai mật khẩu.");
+         throw new BusinessLogicError("Sai mật khẩu.", "WRONG_PASSWORD");
       }
    }
 

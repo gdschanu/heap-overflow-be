@@ -13,6 +13,7 @@ import hanu.gdsc.coreProblem.domains.Submission;
 import hanu.gdsc.coreProblem.services.submission.SearchSubmissionService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.error.BusinessLogicError;
 
 @RestController
 public class SearchSubmissionController {
@@ -26,12 +27,12 @@ public class SearchSubmissionController {
             return new ResponseEntity<>(
                 new ResponseBody("Lấy ra submissions thành công", submissions), HttpStatus.OK
                 );
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            if(e.getClass().equals(BusinessLogicError.class)) {
+                e.printStackTrace();
+                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (Error e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
+        } 
     }
 }

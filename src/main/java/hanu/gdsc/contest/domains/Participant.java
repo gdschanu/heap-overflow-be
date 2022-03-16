@@ -24,7 +24,7 @@ public class Participant extends IdentitifedDomainObject {
 
     public static Participant create(Id coderId, Contest contest) {
         if (!contest.ended()) {
-            throw new BusinessLogicError("Không thể thêm thí sinh, kì thi đã kết thúc.");
+            throw new BusinessLogicError("Không thể thêm thí sinh, kì thi đã kết thúc.", "CAN_NOT_CREATE");
         }
         return new Participant(
                 Id.generateRandom(),

@@ -17,7 +17,7 @@ public class SubmitServiceImpl implements SubmitService {
     public Output submit(Input input) {
         Problem problem = problemRepository.getById(input.problemId);
         if (!problem.getAllowedProgrammingLanguages().contains(input.programmingLanguage)) {
-            throw new BusinessLogicError("Bài tập không hỗ trợ ngôn ngữ lập trình " + input.programmingLanguage);
+            throw new BusinessLogicError("Bài tập không hỗ trợ ngôn ngữ lập trình " + input.programmingLanguage, "LANGUAGE_NOT_SUPPORTED");
         }
         for (TestCase testCase : problem.getSortedByOrdinalTestCases()) {
             RunCodeService.Output runCodeServiceOutput = runCodeService.execute(input.code, testCase.getInput(), input.programmingLanguage);

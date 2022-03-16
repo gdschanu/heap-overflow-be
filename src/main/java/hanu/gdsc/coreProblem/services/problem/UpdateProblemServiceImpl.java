@@ -17,7 +17,7 @@ public class UpdateProblemServiceImpl implements UpdateProblemService{
     public Id update(Input input) {
         Problem problem = problemRepository.getById(input.id);
         if(problem == null) {
-            throw new BusinessLogicError("Bài toán không tồn tại");
+            throw new BusinessLogicError("Bài toán không tồn tại", "NOT_FOUND");
         }
         problem.setName(input.name);
         problem.setDescription(input.description);

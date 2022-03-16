@@ -3,6 +3,7 @@ package hanu.gdsc.contest.controllers.contest;
 import hanu.gdsc.contest.services.contest.CreateContestService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,12 +28,12 @@ public class CreateContestController {
                     new ResponseBody("Tạo kì thi thành công.", new Output(id)),
                     HttpStatus.OK
             );
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            if(e.getClass().equals(BusinessLogicError.class)) {
+                e.printStackTrace();
+                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (Error e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.BAD_REQUEST);
-        }
+        } 
     }
 }

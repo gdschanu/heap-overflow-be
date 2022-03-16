@@ -29,7 +29,7 @@ public class SignUpServiceImpl implements SignUpService{
             repository.save(user);
             return true;
         } else{
-            throw new BusinessLogicError("Username/email đã tồn tại");
+            throw new BusinessLogicError("Username/email đã tồn tại", "EXISTED");
         }
         
     }

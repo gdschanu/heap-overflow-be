@@ -17,7 +17,7 @@ public class CreateParticipantServiceImpl implements CreateParticipantService {
     public void execute(Id coderId, Id contestId) {
         Contest contest = contestRepository.getById(contestId);
         if (contest == null) {
-            throw new BusinessLogicError("Contest không tồn tại.");
+            throw new BusinessLogicError("Contest không tồn tại.", "NOT_FOUND");
         }
         Participant participant = Participant.create(coderId, contest);
         participantRepository.create(participant);

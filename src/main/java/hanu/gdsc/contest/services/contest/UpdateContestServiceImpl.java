@@ -13,7 +13,7 @@ public class UpdateContestServiceImpl implements UpdateContestService {
     public void execute(Input input) {
         Contest contest = contestRepository.getById(input.contestId);
         if (contest == null) {
-            throw new BusinessLogicError("Contest không tồn tại.");
+            throw new BusinessLogicError("Contest không tồn tại.", "NOT_FOUND");
         }
         if (input.name != null) {
             contest.setName(input.name);

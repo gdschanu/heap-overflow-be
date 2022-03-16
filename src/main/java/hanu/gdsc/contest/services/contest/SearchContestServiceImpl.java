@@ -18,7 +18,7 @@ public class SearchContestServiceImpl implements SearchContestService {
     public Contest getById(Id contestId) {
         Contest contest = contestRepository.getById(contestId);
         if (contest == null) {
-            throw new BusinessLogicError("Contest không tồn tại.");
+            throw new BusinessLogicError("Contest không tồn tại.", "NOT_FOUND");
         }
         return contest;
     }

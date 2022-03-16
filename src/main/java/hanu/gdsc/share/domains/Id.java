@@ -15,7 +15,7 @@ public class Id {
         try {
             this.value = UUID.fromString(value);
         } catch (Exception e) {
-            throw new BusinessLogicError("Id không hợp lệ: '" + value + "'.");
+            throw new BusinessLogicError("Id không hợp lệ: '" + value + "'.", "NOT_VALID_ID");
         }
     }
 

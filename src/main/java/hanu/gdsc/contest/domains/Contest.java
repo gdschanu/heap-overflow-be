@@ -28,10 +28,10 @@ public class Contest extends IdentitifedDomainObject {
 
     public static Contest create(String name, String description, DateTime startAt, DateTime endAt, Id authorId) {
         if (startAt.isBefore(DateTime.now())) {
-            throw new BusinessLogicError("Thời gian bắt đầu phải muộn hơn hiện tại.");
+            throw new BusinessLogicError("Thời gian bắt đầu phải muộn hơn hiện tại.", "INVALID_STARTDATE");
         }
         if (endAt.isBefore(startAt) || endAt.equals(startAt)) {
-            throw new BusinessLogicError("Thời gian kết thúc phải muộn hơn thời gian bắt đầu.");
+            throw new BusinessLogicError("Thời gian kết thúc phải muộn hơn thời gian bắt đầu.", "INVALID_ENDDATE");
         }
         return new Contest(
                 Id.generateRandom(),
@@ -47,13 +47,13 @@ public class Contest extends IdentitifedDomainObject {
 
     public void setStartAtAndEndAt(DateTime startAt, DateTime endAt) {
         if (started() || ended()) {
-            throw new BusinessLogicError("Kì thi đang diễn ra hoặc đã kết thúc, không được phép update thời gian.");
+            throw new BusinessLogicError("Kì thi đang diễn ra hoặc đã kết thúc, không được phép update thời gian.", "CAN_NOT_UPDATE");
         }
         if (startAt.isBefore(DateTime.now())) {
-            throw new BusinessLogicError("Thời gian bắt đầu phải muộn hơn hiện tại.");
+            throw new BusinessLogicError("Thời gian bắt đầu phải muộn hơn hiện tại.", "INVALID_STARTDATE");
         }
         if (endAt.equals(startAt) || endAt.isBefore(startAt)) {
-            throw new BusinessLogicError("Thời gian kết thúc phải muộn hơn thời gian bắt đầu.");
+            throw new BusinessLogicError("Thời gian kết thúc phải muộn hơn thời gian bắt đầu.", "INVALID_ENDDATE");
         }
         setStartAt(startAt);
         setEndAt(endAt);

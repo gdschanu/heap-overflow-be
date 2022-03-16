@@ -8,7 +8,7 @@ public class Username {
     public Username(String value) {
         this.value = value;
         if(value.length() < 8) {
-            throw new BusinessLogicError("username cần tối thiểu 8 kí tự");
+            throw new BusinessLogicError("username cần tối thiểu 8 kí tự", "INVALID_USERNAME");
         }
     }
     @Override
