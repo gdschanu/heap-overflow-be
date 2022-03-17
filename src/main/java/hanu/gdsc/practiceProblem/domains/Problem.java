@@ -17,15 +17,14 @@ public class Problem extends IdentitifedDomainObject {
         this.category = category;
     }
 
-    public static Problem create(Id coreProlemId, String nameCategory) {
+    public static Problem create(Id coreProlemId) {
         return new Problem(
             Id.generateRandom(),
             0,
             coreProlemId,
             0,
             0,
-            Category.create(nameCategory)
-        );
+            null);
     }
 
     public Id getCoreProlemId() {

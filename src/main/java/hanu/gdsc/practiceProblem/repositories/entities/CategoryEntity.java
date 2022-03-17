@@ -24,7 +24,7 @@ public class CategoryEntity {
     private String name;
     @OneToMany(mappedBy = "category")
     private List<PracticeProblemEntity> practiceProblems;
-
+    
     public static CategoryEntity toEntity(Category category) {
         return CategoryEntity.builder()
                     .id(category.getId().toUUID())

@@ -8,7 +8,7 @@ public interface CreatePracticeProblemService {
     @Builder
     public static class Input {
         public CreateProblemService.Input inputProblem;
-        public String nameCategory;
+        public String name;
     }
     public Id create(Input input);
 }

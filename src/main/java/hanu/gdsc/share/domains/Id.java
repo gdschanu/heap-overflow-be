@@ -7,6 +7,8 @@ import java.util.UUID;
 public class Id {
     private UUID value;
 
+    public Id() {}
+
     public Id(UUID value) {
         this.value = value;
     }
@@ -25,5 +27,17 @@ public class Id {
 
     public UUID toUUID() {
         return value;
+    }
+
+    public String toString() {
+        return value.toString();
+    }
+
+    public UUID getValue() {
+        return value;
+    }
+
+    public void setValue(UUID value) {
+        this.value = value;
     }
 }

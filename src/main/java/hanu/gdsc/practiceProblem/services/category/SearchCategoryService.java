@@ -1,10 +1,9 @@
-package hanu.gdsc.practiceProblem.repositories;
+package hanu.gdsc.practiceProblem.services.category;
 
 import hanu.gdsc.practiceProblem.domains.Category;
 import hanu.gdsc.share.domains.Id;
 
-public interface CategoryRepository {
-    public void create(Category category);
+public interface SearchCategoryService {
     public Category getById(Id id);
     public Category getByName(String name);
 }

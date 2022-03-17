@@ -2,7 +2,9 @@ package hanu.gdsc.coreProblem.domains;
 
 public class Millisecond {
     private long value;
-
+    
+    public Millisecond() {}
+    
     public Millisecond(Long millisecond) {
         this.value = millisecond;
     }

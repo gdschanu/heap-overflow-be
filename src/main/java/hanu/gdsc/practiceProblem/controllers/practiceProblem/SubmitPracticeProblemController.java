@@ -1,29 +1,27 @@
-package hanu.gdsc.practiceProblem.controllers;
+package hanu.gdsc.practiceProblem.controllers.practiceProblem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import hanu.gdsc.practiceProblem.services.practiceProblem.SearchPracticeProblemService;
+import hanu.gdsc.practiceProblem.services.practiceProblem.SubmitPracticeProblemService;
 import hanu.gdsc.share.controller.ResponseBody;
-import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 
-
 @RestController
-public class SearchPracticeProblemController {
+public class SubmitPracticeProblemController {
     @Autowired
-    private SearchPracticeProblemService servicePracticeProblemService;
-    
-    @GetMapping("/practiceProblem/practiceProblemDetail")
-    public ResponseEntity<?> getById(@RequestParam String practiceProblemId){
+    private SubmitPracticeProblemService submitPracticeProblemService;
+
+    @PostMapping("/practiceProblem")
+    public ResponseEntity<?> submit(@RequestBody SubmitPracticeProblemService.Input input) {
         try {
-            SearchPracticeProblemService.Output output = servicePracticeProblemService.getById(new Id(practiceProblemId));
+            SubmitPracticeProblemService.Output output = submitPracticeProblemService.submit(input);
             return new ResponseEntity<>(
-                new ResponseBody("Tìm kiếm bài toán thành công", output), HttpStatus.OK
+                new ResponseBody("Submit bài thành công", output), HttpStatus.OK
             );
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {
