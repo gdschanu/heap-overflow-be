@@ -3,10 +3,8 @@ package hanu.gdsc.coreProblem.repositories.entities;
 import hanu.gdsc.coreProblem.domains.*;
 import hanu.gdsc.share.domains.DateTime;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "core_problem_submission")

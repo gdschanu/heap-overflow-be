@@ -1,13 +1,11 @@
 package hanu.gdsc.practiceProblem.repositories.entities;
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.*;
 
 import hanu.gdsc.practiceProblem.domains.Category;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "practice_problem_category")

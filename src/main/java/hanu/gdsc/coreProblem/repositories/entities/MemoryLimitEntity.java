@@ -1,15 +1,11 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
-
-import java.util.UUID;
-
 import javax.persistence.*;
 
 import hanu.gdsc.coreProblem.domains.KB;
 import hanu.gdsc.coreProblem.domains.MemoryLimit;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="core_problem_memory_limit")

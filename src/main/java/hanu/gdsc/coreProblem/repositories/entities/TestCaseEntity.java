@@ -5,9 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 
 import hanu.gdsc.coreProblem.domains.TestCase;
-import org.hibernate.annotations.GenericGenerator;
-
-import java.util.UUID;
 
 @Entity
 @Table(name = "core_problem_test_case")

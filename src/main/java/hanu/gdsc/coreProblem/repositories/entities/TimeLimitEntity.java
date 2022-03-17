@@ -1,14 +1,11 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
-import java.util.UUID;
-
 import javax.persistence.*;
 
 import hanu.gdsc.coreProblem.domains.Millisecond;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 import hanu.gdsc.coreProblem.domains.TimeLimit;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name="core_problem_time_limit")

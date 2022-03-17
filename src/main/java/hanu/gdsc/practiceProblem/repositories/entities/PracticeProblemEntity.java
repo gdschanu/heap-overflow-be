@@ -1,12 +1,9 @@
 package hanu.gdsc.practiceProblem.repositories.entities;
 
-import java.util.UUID;
-
 import javax.persistence.*;
 
 import hanu.gdsc.practiceProblem.domains.Problem;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "practice_problem_problem")
