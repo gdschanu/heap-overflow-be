@@ -49,4 +49,8 @@ public class DateTime {
         return new DateTime(value.plusMinutes(15));
     }
 
+    @Override
+    public String toString() {
+        return value.toString();
+    }
 }
