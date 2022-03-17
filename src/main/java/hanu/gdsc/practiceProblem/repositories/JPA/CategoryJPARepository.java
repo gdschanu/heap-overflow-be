@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import hanu.gdsc.practiceProblem.repositories.entities.CategoryEntity;
 
-public interface CategoryJPARepository extends JpaRepository<CategoryEntity, UUID>{
+public interface CategoryJPARepository extends JpaRepository<CategoryEntity, String>{
     @Query(value = "SELECT * FROM practice_problem_category c WHERE c.name = :name", nativeQuery = true)
     public CategoryEntity getByName(String name);
 }

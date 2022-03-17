@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import hanu.gdsc.coreProblem.repositories.entities.TestCaseEntity;
 
-public interface TestCaseJPARepository extends JpaRepository<TestCaseEntity, UUID> {
+public interface TestCaseJPARepository extends JpaRepository<TestCaseEntity, String> {
     
 }

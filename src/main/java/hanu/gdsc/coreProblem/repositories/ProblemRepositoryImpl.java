@@ -19,7 +19,7 @@ public class ProblemRepositoryImpl implements ProblemRepository{
     
     @Override
     public Problem getById(Id id) {
-        ProblemEntity problemEntity = problemJPARepository.getById(id.toUUID());
+        ProblemEntity problemEntity = problemJPARepository.getById(id.toString());
         if(problemEntity == null) {
             return null;
         }
@@ -39,7 +39,7 @@ public class ProblemRepositoryImpl implements ProblemRepository{
     @Override
     public void deleteAllById(List<Id> ids) {
         problemJPARepository.deleteAllById(ids.stream()
-                                        .map(id -> id.toUUID())
+                                        .map(id -> id.toString())
                                         .collect(Collectors.toList()));        
     }
 

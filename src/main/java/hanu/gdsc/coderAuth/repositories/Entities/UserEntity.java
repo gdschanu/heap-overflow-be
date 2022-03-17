@@ -2,10 +2,7 @@ package hanu.gdsc.coderAuth.repositories.Entities;
 
 import java.util.UUID;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import hanu.gdsc.coderAuth.domains.Email;
 import hanu.gdsc.coderAuth.domains.Password;
@@ -16,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "coder_auth_user")
@@ -26,21 +24,22 @@ import lombok.Setter;
 @Builder
 public class UserEntity {
     @Id
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    @Column(columnDefinition = "VARCHAR(30)")
+    private String id;
     private String email;
     private String username;
     private String password;
-    private UUID coderId;
+    @Column(columnDefinition = "VARCHAR(30)")
+    private String coderId;
     private boolean registrationConfirmed;
 
     public static UserEntity toEntity(User user) {
         return UserEntity.builder()
-        .id(user.getId().toUUID())
+        .id(user.getId().toString())
         .email(user.getEmail().toString())
         .username(user.getUsername().toString())
         .password(user.getPassword().toString())
-        .coderId(user.getCoderId().toUUID())
+        .coderId(user.getCoderId().toString())
         .registrationConfirmed(user.isRegistrationConfirmed())
         .build();
     }

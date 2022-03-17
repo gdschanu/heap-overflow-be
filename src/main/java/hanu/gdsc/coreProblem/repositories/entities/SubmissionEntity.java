@@ -3,6 +3,7 @@ package hanu.gdsc.coreProblem.repositories.entities;
 import hanu.gdsc.coreProblem.domains.*;
 import hanu.gdsc.share.domains.DateTime;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -16,12 +17,12 @@ import java.util.UUID;
 @Builder
 public class SubmissionEntity {
     @Id
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    @Column(columnDefinition = "VARCHAR(30)")
+    private String id;
     @Version
     private long version;
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID problemId;
+    @Column(columnDefinition = "VARCHAR(30)")
+    private String problemId;
     private String programmingLanguage;
     private long runTimeInMillis;
     private long memoryInKB;
@@ -29,14 +30,14 @@ public class SubmissionEntity {
     private String code;
     private String status;
     @OneToOne
-    @JoinColumn(name = "failed_test_case_id", referencedColumnName = "id")
+    @JoinColumn(name = "failed_test_case_id", referencedColumnName = "id", columnDefinition = "VARCHAR(30)")
     private TestCaseEntity failedTestCases;
 
     public static SubmissionEntity toEntity(Submission submission) {
         return SubmissionEntity.builder()
-                .id(submission.getId().toUUID())
+                .id(submission.getId().toString())
                 .version(submission.getVersion())
-                .problemId(submission.getProblemId().toUUID())
+                .problemId(submission.getProblemId().toString())
                 .programmingLanguage(submission.getProgrammingLanguage().toString())
                 .runTimeInMillis(submission.getRunTime().getValue())
                 .memoryInKB(submission.getMemory().getValue())

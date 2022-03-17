@@ -23,7 +23,7 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
 
     @Override
     public List<Submission> getAllByProblemId(Id problemId) {
-        return submissionJPARepository.getAllByProblemId(problemId.toUUID()).stream()  
+        return submissionJPARepository.getAllByProblemId(problemId.toString()).stream()
                         .map(submissionEntity -> SubmissionEntity.toDomain(submissionEntity))
                         .collect(Collectors.toList());
     }

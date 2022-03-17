@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 import hanu.gdsc.practiceProblem.domains.Problem;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+
 @Entity
 @Table(name = "practice_problem_problem")
 @Getter
@@ -15,23 +17,24 @@ import lombok.*;
 @Builder
 public class PracticeProblemEntity {
     @Id
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    @Column(columnDefinition = "VARCHAR(30)")
+    private String id;
     @Version
     @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
     private long version;
-    private UUID coreProblemId;
+    @Column(columnDefinition = "VARCHAR(30)")
+    private String coreProblemId;
     private long likeCount;
     private long dislikeCount;
     @ManyToOne()
-    @JoinColumn(name = "category_uuid")
+    @JoinColumn(name = "category_id", columnDefinition = "VARCHAR(30)")
     private CategoryEntity category;
 
     public static PracticeProblemEntity toEntity(Problem problem) {
         return PracticeProblemEntity.builder()
-            .id(problem.getId().toUUID())
+            .id(problem.getId().toString())
             .version(problem.getVersion())
-            .coreProblemId(problem.getCoreProlemId().toUUID())
+            .coreProblemId(problem.getCoreProlemId().toString())
             .likeCount(problem.getLikeCount())
             .dislikeCount(problem.getDislikeCount())
             .category(CategoryEntity.toEntity(problem.getCategory()))

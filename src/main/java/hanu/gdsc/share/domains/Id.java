@@ -1,43 +1,27 @@
 package hanu.gdsc.share.domains;
 
 import hanu.gdsc.share.error.BusinessLogicError;
-
-import java.util.UUID;
+import org.bson.types.ObjectId;
 
 public class Id {
-    private UUID value;
+    private String value;
 
-    public Id() {}
-
-    public Id(UUID value) {
-        this.value = value;
+    public Id() {
     }
 
+
     public Id(String value) {
-        try {
-            this.value = UUID.fromString(value);
-        } catch (Exception e) {
-            throw new BusinessLogicError("Id không hợp lệ: '" + value + "'.", "NOT_VALID_ID");
+        if (!ObjectId.isValid(value)) {
+            throw new BusinessLogicError("Id không hợp lệ: '" + value + "'.", "INVALID_ID");
         }
+        this.value = value;
     }
 
     public static Id generateRandom() {
-        return new Id(UUID.randomUUID());
-    }
-
-    public UUID toUUID() {
-        return value;
+        return new Id(new ObjectId().toString());
     }
 
     public String toString() {
-        return value.toString();
-    }
-
-    public UUID getValue() {
         return value;
-    }
-
-    public void setValue(UUID value) {
-        this.value = value;
     }
 }

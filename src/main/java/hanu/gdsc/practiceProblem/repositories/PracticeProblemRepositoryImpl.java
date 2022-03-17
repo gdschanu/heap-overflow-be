@@ -20,7 +20,7 @@ public class PracticeProblemRepositoryImpl implements PracticeProblemRepository{
 
     @Override
     public Problem getById(Id id) {
-        PracticeProblemEntity practiceProblemEntity = practiceProblemJpaRepository.getById(id.toUUID());
+        PracticeProblemEntity practiceProblemEntity = practiceProblemJpaRepository.getById(id.toString());
         return PracticeProblemEntity.toDomain(practiceProblemEntity);
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import hanu.gdsc.coderAuth.repositories.Entities.UserEntity;
 
-public interface UserJPARepository extends JpaRepository<UserEntity,UUID> {
+public interface UserJPARepository extends JpaRepository<UserEntity,String> {
 
     UserEntity getByEmail(String email);
 
