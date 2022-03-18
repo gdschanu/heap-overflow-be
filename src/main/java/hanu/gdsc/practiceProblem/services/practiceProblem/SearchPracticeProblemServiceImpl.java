@@ -7,6 +7,7 @@ import hanu.gdsc.coreProblem.services.problem.SearchProblemService;
 import hanu.gdsc.practiceProblem.domains.Problem;
 import hanu.gdsc.practiceProblem.repositories.PracticeProblemRepository;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.error.BusinessLogicError;
 
 @Service
 public class SearchPracticeProblemServiceImpl implements SearchPracticeProblemService{
@@ -19,11 +20,13 @@ public class SearchPracticeProblemServiceImpl implements SearchPracticeProblemSe
     public Output getById(Id practiceProblemId) {
         Problem practiceProblem = practiceProblemRepository.getById(practiceProblemId);
         hanu.gdsc.coreProblem.domains.Problem coreProblem = searchProblemService.getById(practiceProblem.getCoreProlemId());
-        Output.builder()
+        if (practiceProblem == null || coreProblem == null) {
+            throw new BusinessLogicError("Không tìm thấy bài toán phù hợp", "NOT_FOUND");
+        }
+        return Output.builder()
             .practiceProblem(practiceProblem)
             .coreProblem(coreProblem)
             .build();
-        return null;
     }
     
 }

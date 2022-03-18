@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import hanu.gdsc.coreProblem.domains.Problem;
 import hanu.gdsc.coreProblem.repositories.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.error.BusinessLogicError;
 
 @Service
 public class SearchProblemServiceImpl implements SearchProblemService{
@@ -23,7 +24,10 @@ public class SearchProblemServiceImpl implements SearchProblemService{
 
     @Override
     public Problem getById(Id id) {
-        Problem problem = problemRepository.getById(id);
+        Problem problem = problemRepository.getById(id);   
+        if(problem == null) {
+            throw new BusinessLogicError("Không tìm thấy bài toán", "NOT_FOUND");
+        }
         return problem;
     }
 
