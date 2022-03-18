@@ -21,7 +21,7 @@ public class CreateCategoryController {
     public ResponseEntity<?> create(@RequestBody CreateCategoryService.Input input) {
         try {
             Id category = createCategoryService.create(input);
-            return new ResponseEntity<>(new ResponseBody("Create successfully category", category), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseBody("Create successfully category", category.toString()), HttpStatus.OK);
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {
                 e.printStackTrace();

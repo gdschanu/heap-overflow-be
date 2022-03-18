@@ -49,7 +49,7 @@ public class ProblemEntity {
                 .stream()
                 .map(x -> x.toString())
                 .collect(Collectors.toList());
-        return ProblemEntity.builder()
+        ProblemEntity problemEntity = ProblemEntity.builder()
                 .id(problem.getId().toString())
                 .version(problem.getVersion())
                 .name(problem.getName())
@@ -67,6 +67,16 @@ public class ProblemEntity {
                         .collect(Collectors.toSet()))
                 .allowedProgrammingLanguages(gson.toJson(programmingLangs))
                 .build();
+        for(TestCaseEntity testCaseEntity : problemEntity.getTestCases()) {
+                testCaseEntity.setProblem(problemEntity);
+        }     
+        for(TimeLimitEntity timeLimitEntity : problemEntity.getTimeLimits()) {
+                timeLimitEntity.setProblem(problemEntity);
+        }  
+        for(MemoryLimitEntity memoryLimitEntity : problemEntity.getMemoryLimits()) {
+                memoryLimitEntity.setProblem(problemEntity);
+        }
+        return problemEntity;           
     }
 
     public static Problem toDomain(ProblemEntity problemEntity) {
