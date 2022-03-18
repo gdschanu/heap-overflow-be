@@ -38,7 +38,7 @@ public class CoderEntity {
 
     public static CoderEntity fromDomains(Coder coder) {  
         return CoderEntity.builder()
-        .id(coder.getId().toUUID())
+        .id(coder.getId())
         .name(coder.getName())
         .avatar(coder.getAvatar() == null ? null : coder.getAvatar().toString())
         .phone(coder.getPhone() == null ? null : coder.getPhone().toString())
