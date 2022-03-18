@@ -17,7 +17,8 @@ public class ContestRepositoryImpl implements ContestRepository {
 
     @Override
     public void create(Contest contest) {
-        contestJPARepository.save(ContestEntity.fromDomain(contest));
+        ContestEntity e = ContestEntity.fromDomain(contest);
+        contestJPARepository.save(e);
     }
 
     @Override
@@ -28,7 +29,7 @@ public class ContestRepositoryImpl implements ContestRepository {
 
     @Override
     public Contest getById(Id id) {
-        Optional<ContestEntity> entity = contestJPARepository.findById(id.toUUID());
+        Optional<ContestEntity> entity = contestJPARepository.findById(id.toString());
         if (entity.isEmpty()) {
             return null;
         }

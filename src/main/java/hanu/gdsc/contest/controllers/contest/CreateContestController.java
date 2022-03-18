@@ -2,9 +2,11 @@ package hanu.gdsc.contest.controllers.contest;
 
 import hanu.gdsc.contest.services.contest.CreateContestService;
 import hanu.gdsc.share.controller.ResponseBody;
+import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,27 +15,43 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class CreateContestController {
+    @Autowired
     private CreateContestService createContestService;
+
+    public static class Input {
+        public String name;
+        public String description;
+        public String startAt;
+        public String endAt;
+    }
 
     @AllArgsConstructor
     public static class Output {
-        public Id id;
+        public String id;
     }
 
-    @PostMapping("/contest")
-    public ResponseEntity<?> createContest(@RequestBody CreateContestService.Input input) {
+    @PostMapping("/contest/contest")
+    public ResponseEntity<?> createContest(@RequestBody Input input) {
         try {
-            Id id = createContestService.create(input);
+            Id id = createContestService.create(CreateContestService.Input.builder()
+                    .name(input.name)
+                    .description(input.description)
+                    .startAt(new DateTime(input.startAt))
+                    .endAt(new DateTime(input.endAt))
+                    // TODO: set createdBy = coderId after authorzing
+                    .createdBy(Id.generateRandom())
+                    .build());
             return new ResponseEntity<>(
-                    new ResponseBody("Tạo kì thi thành công.", new Output(id)),
+                    new ResponseBody("Tạo kì thi thành công.", new Output(id.toString())),
                     HttpStatus.OK
             );
         } catch (Throwable e) {
-            if(e.getClass().equals(BusinessLogicError.class)) {
+            if (e.getClass().equals(BusinessLogicError.class)) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
             }
+            e.printStackTrace();
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        } 
+        }
     }
 }

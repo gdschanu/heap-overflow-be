@@ -1,8 +1,5 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
-
-import java.util.UUID;
-
 import javax.persistence.*;
 
 import hanu.gdsc.coreProblem.domains.KB;
@@ -19,10 +16,10 @@ import lombok.*;
 @Builder
 public class MemoryLimitEntity {
     @Id
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    @Column(columnDefinition = "VARCHAR(30)")
+    private String id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="problem_uuid")
+    @JoinColumn(name="problem_id", columnDefinition = "VARCHAR(30)")
     private ProblemEntity problem;
     private String programmingLanguage;
     private long memoryLimit;
@@ -32,7 +29,7 @@ public class MemoryLimitEntity {
 
     public static MemoryLimitEntity toEntity(MemoryLimit memoryLimitDomain) {
         return MemoryLimitEntity.builder()
-                .id(memoryLimitDomain.getId().toUUID())
+                .id(memoryLimitDomain.getId().toString())
                 .version(memoryLimitDomain.getVersion())
                 .programmingLanguage(memoryLimitDomain.getProgrammingLanguage().toString())
                 .memoryLimit(memoryLimitDomain.getMemoryLimit().getValue())

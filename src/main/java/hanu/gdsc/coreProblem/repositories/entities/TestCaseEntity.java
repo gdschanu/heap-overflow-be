@@ -6,8 +6,6 @@ import javax.persistence.*;
 
 import hanu.gdsc.coreProblem.domains.TestCase;
 
-import java.util.UUID;
-
 @Entity
 @Table(name = "core_problem_test_case")
 @Getter
@@ -17,10 +15,10 @@ import java.util.UUID;
 @Builder
 public class TestCaseEntity {
     @Id
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    @Column(columnDefinition = "VARCHAR(30)")
+    private String id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="problem_uuid")
+    @JoinColumn(name="problem_id", columnDefinition = "VARCHAR(30)")
     private ProblemEntity problem;
     @Version
     @Column(columnDefinition = "integer DEFAULT 0", nullable = false)
@@ -33,7 +31,7 @@ public class TestCaseEntity {
 
     public static TestCaseEntity toEntity(TestCase testCase) {
         return TestCaseEntity.builder()
-            .id(testCase.getId().toUUID())
+            .id(testCase.getId().toString())
             .version(testCase.getVersion())
             .input(testCase.getInput())
             .expectedOutput(testCase.getExpectedOutput())

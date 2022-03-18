@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import hanu.gdsc.coderAuth.repositories.Entities.SessionEntity;
 
-public interface SessionJPARepository extends JpaRepository<SessionEntity, UUID>{
+public interface SessionJPARepository extends JpaRepository<SessionEntity, String>{
     
 }

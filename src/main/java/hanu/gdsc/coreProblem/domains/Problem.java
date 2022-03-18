@@ -125,14 +125,6 @@ public class Problem extends IdentitifedDomainObject {
         return author;
     }
 
-    public int getACsCount() {
-        return ACsCount;
-    }
-
-    public int getSubmissionsCount() {
-        return submissionsCount;
-    }
-
     public Difficulty getDifficulty() {
         return difficulty;
     }

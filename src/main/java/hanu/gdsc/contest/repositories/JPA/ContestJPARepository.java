@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface ContestJPARepository extends JpaRepository<ContestEntity, UUID> {
+public interface ContestJPARepository extends JpaRepository<ContestEntity, String> {
 }

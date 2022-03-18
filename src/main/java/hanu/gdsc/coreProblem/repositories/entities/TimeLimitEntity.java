@@ -1,7 +1,5 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
-import java.util.UUID;
-
 import javax.persistence.*;
 
 import hanu.gdsc.coreProblem.domains.Millisecond;
@@ -18,10 +16,10 @@ import lombok.*;
 @Builder
 public class TimeLimitEntity {
     @Id
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    @Column(columnDefinition = "VARCHAR(30)")
+    private String id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="problem_uuid")
+    @JoinColumn(name="problem_id", columnDefinition = "VARCHAR(30)")
     private ProblemEntity problem;
     private String programmingLanguage;
     private long timeLimit;
@@ -31,7 +29,7 @@ public class TimeLimitEntity {
 
     public static TimeLimitEntity toEntity(TimeLimit timeLimitDomain) {
         return TimeLimitEntity.builder()
-                .id(timeLimitDomain.getId().toUUID())
+                .id(timeLimitDomain.getId().toString())
                 .version(timeLimitDomain.getVersion())
                 .programmingLanguage(timeLimitDomain.getProgrammingLanguage().toString())
                 .timeLimit(timeLimitDomain.getTimeLimit().getValue())

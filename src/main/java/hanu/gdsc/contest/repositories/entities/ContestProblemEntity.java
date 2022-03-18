@@ -2,6 +2,7 @@ package hanu.gdsc.contest.repositories.entities;
 
 import hanu.gdsc.contest.domains.Problem;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -16,23 +17,22 @@ import java.util.UUID;
 @Builder
 public class ContestProblemEntity {
     @Id
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID id;
+    @Column(columnDefinition = "VARCHAR(30)")
+    private String id;
     private long version;
     private int ordinal;
-    @Column(columnDefinition = "BINARY(16)")
-    private UUID coreProblemId;
+    private String coreProblemId;
     private int score;
     @ManyToOne
-    @JoinColumn(name = "contest_id")
+    @JoinColumn(name = "contest_id", columnDefinition = "VARCHAR(30)")
     private ContestEntity contest;
 
     public static ContestProblemEntity fromDomain(Problem problem) {
         return ContestProblemEntity.builder()
-                .id(problem.getId().toUUID())
+                .id(problem.getId().toString())
                 .version(problem.getVersion())
                 .ordinal(problem.getOrdinal())
-                .coreProblemId(problem.getCoreProblemId().toUUID())
+                .coreProblemId(problem.getCoreProblemId().toString())
                 .score(problem.getScore())
                 .build();
     }
