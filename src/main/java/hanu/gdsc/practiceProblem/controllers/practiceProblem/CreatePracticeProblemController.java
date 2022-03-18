@@ -22,7 +22,7 @@ public class CreatePracticeProblemController {
         try{
             Id problemId = createPracticeProblemService.create(input);
             return new ResponseEntity<>(
-                new ResponseBody("Tạo bài toán thành công", problemId), HttpStatus.OK
+                new ResponseBody("Tạo bài toán thành công", problemId.toString()), HttpStatus.OK
             );
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {
