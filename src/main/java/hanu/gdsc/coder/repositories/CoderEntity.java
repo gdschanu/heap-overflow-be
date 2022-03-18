@@ -1,21 +1,23 @@
 package hanu.gdsc.coder.repositories;
 
-import java.sql.Blob;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import hanu.gdsc.coder.domains.Coder;
-import hanu.gdsc.coder.domains.Gender;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "coder_coder")
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,10 +31,19 @@ public class CoderEntity {
     private String phone;
     private String university;
     private String slogan;
-    private Gender gender;
+    private String gender;
     private String address;
 
-    public static CoderEntity fromDomains(Coder coder) {
-        throw new Error("Unimplemented");
+    public static CoderEntity fromDomains(Coder coder) {  
+        return CoderEntity.builder()
+        .id(coder.getId().toUUID())
+        .name(coder.getName())
+        .avatar(coder.getAvatar() == null ? null : coder.getAvatar().toString())
+        .phone(coder.getPhone() == null ? null : coder.getPhone().toString())
+        .university(coder.getUniversity())
+        .slogan(coder.getSlogan())
+        .gender(coder.getGender() == null ? null : coder.getGender().toString())
+        .address(coder.getAddress())
+        .build();
     }
 }

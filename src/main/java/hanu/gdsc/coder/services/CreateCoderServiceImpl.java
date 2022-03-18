@@ -1,12 +1,15 @@
 package hanu.gdsc.coder.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import hanu.gdsc.coder.domains.Coder;
 import hanu.gdsc.coder.repositories.CoderRepository;
 import hanu.gdsc.share.domains.Id;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
+@Service
 public class CreateCoderServiceImpl implements CreateCoderService {
+    @Autowired
     private CoderRepository coderRepository;
 
     @Override
