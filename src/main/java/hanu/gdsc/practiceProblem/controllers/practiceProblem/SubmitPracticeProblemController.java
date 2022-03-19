@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import hanu.gdsc.coreProblem.services.problem.SubmitService;
 import hanu.gdsc.practiceProblem.services.practiceProblem.SubmitPracticeProblemService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -19,7 +20,7 @@ public class SubmitPracticeProblemController {
     @PostMapping("/practiceProblem")
     public ResponseEntity<?> submit(@RequestBody SubmitPracticeProblemService.Input input) {
         try {
-            SubmitPracticeProblemService.Output output = submitPracticeProblemService.submit(input);
+            SubmitService.Output output = submitPracticeProblemService.submit(input);
             return new ResponseEntity<>(
                 new ResponseBody("Submit bài thành công", output), HttpStatus.OK
             );

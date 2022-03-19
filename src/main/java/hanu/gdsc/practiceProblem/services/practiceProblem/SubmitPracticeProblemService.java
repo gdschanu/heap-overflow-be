@@ -10,11 +10,6 @@ public interface SubmitPracticeProblemService {
         public Id practiceProblemId;
         public SubmitService.Input inputService;
     }
-
-    @Builder
-    public static class Output {
-        public SubmitService.Output outputService;
-    }
     
-    public Output submit(Input input);
+    public SubmitService.Output submit(Input input);
 }

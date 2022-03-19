@@ -15,20 +15,18 @@ public class SubmitPracticeProblemServiceImpl implements SubmitPracticeProblemSe
     private CreateSubmissionService createSubmissionService;
 
     @Override
-    public Output submit(Input input) {
-        Output output = Output.builder()
-            .outputService(submitService.submit(input.inputService))
-            .build();
+    public SubmitService.Output submit(Input input) {
+        SubmitService.Output output = submitService.submit(input.inputService);
         createSubmissionService.create(
             CreateSubmissionService.Input.builder()
             .problemId(input.inputService.problemId)
             .programmingLanguage(input.inputService.programmingLanguage)
-            .runTime(output.outputService.runTime)
-            .memory(output.outputService.memory)
+            .runTime(output.runTime)
+            .memory(output.memory)
             .submittedAt(DateTime.now())
             .code(input.inputService.code)
-            .status(output.outputService.status)
-            .failedTestCase(output.outputService.failedTestCase)
+            .status(output.status)
+            .failedTestCase(output.failedTestCase)
             .build() 
         );
         return output;
