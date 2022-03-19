@@ -11,7 +11,7 @@ public interface CreatePracticeProblemService {
     @Builder
     public static class Input {
         public CreateProblemService.Input inputProblem;
-        public List<String> categorys;
+        public List<String> categories;
         public Difficulty difficulty;
     }
     public Id create(Input input);

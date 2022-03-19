@@ -27,7 +27,7 @@ public class CreatePracticeProblemServiceImpl implements CreatePracticeProblemSe
         input.inputProblem.serviceToCreate = "CreatePracticeProblemService";
         Id coreProblemId = createProblemService.execute(input.inputProblem);
         List<Id> categoryIds = new ArrayList<>();
-        for(String categoryName : input.categorys ) {
+        for(String categoryName : input.categories) {
             Category category = searchCategoryService.getByName(categoryName);
             categoryIds.add(category.getId());
         }
