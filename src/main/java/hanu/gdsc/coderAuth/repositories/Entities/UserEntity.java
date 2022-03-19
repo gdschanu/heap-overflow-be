@@ -1,7 +1,5 @@
 package hanu.gdsc.coderAuth.repositories.Entities;
 
-import java.util.UUID;
-
 import javax.persistence.*;
 
 import hanu.gdsc.coderAuth.domains.Email;
@@ -13,7 +11,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "coder_auth_user")

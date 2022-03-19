@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.services.SignUpService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -17,13 +16,18 @@ public class SignUpController {
     @Autowired
     private SignUpService signUpService;
 
+    public static class Input {
+        public String email;
+        public String username;
+        public String password;
+    }
+
     @PostMapping("/signup")
-    public ResponseEntity<?> signUp(@RequestBody User user) {
+    public ResponseEntity<?> signUp(@RequestBody Input input) {
         try {
-            boolean signUpSuccess = signUpService.signUp(user.getEmail(),
-            user.getUsername(), user.getPassword());
+            signUpService.signUpService(input.email, input.username, input.password);
             return new ResponseEntity<>(
-                    new ResponseBody("Đăng kí thành công.",signUpSuccess),
+                    new ResponseBody("Đăng kí thành công."),
                     HttpStatus.OK);
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {

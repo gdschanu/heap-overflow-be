@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.services.LogInService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -17,11 +16,15 @@ public class LogInController {
     @Autowired
     private LogInService logInService;
 
+    public static class Input {
+        public String usernameOrEmail;
+        public String password;
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<?> logIn(@RequestBody User user) {
+    public ResponseEntity<?> logIn(@RequestBody Input input) {
         try {
-            String token = logInService.checkUserInformation(logInService.usernameOrEmail(user), 
-            user.getPassword());
+            String token = logInService.logInService(input.usernameOrEmail, input.password);
             return new ResponseEntity<>(
                     new ResponseBody("Đăng nhập thành công.", token),
                     HttpStatus.OK);

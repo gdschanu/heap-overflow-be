@@ -22,16 +22,19 @@ public class SignUpServiceImpl implements SignUpService{
     private CreateCoderService createCoderService;
 
     @Override
-    public boolean signUp(Email email, Username username, Password password) {
-        if(userRepository.getByUsername(username)==null && userRepository.getByEmail(email)==null){
+    public void signUpService(String email, String username, String password) {
+        Email newEmail = new Email(email);
+        Username newUsername = new Username(username);
+        Password newPassword = new Password(password);
+        if(userRepository.getByUsername(new Username(username))==null && 
+        userRepository.getByEmail(new Email(email))==null){
             boolean registrationConfirmed = false;
-            User user = new User(Id.generateRandom(), email, username, 
-                password, createCoderService.create(), registrationConfirmed);
+            User user = new User(Id.generateRandom(), newEmail, newUsername, 
+                newPassword, createCoderService.create(), registrationConfirmed);
 
             BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
     		user.setPassword(new Password(encoder.encode(password.toString()))); 
             userRepository.save(user);
-            return true;
         } else{
             throw new BusinessLogicError("Username/email đã tồn tại", "EXISTED");
         }
