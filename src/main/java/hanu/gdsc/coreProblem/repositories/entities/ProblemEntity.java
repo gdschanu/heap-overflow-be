@@ -65,6 +65,7 @@ public class ProblemEntity {
                         .map(memoryLimit -> MemoryLimitEntity.toEntity(memoryLimit))
                         .collect(Collectors.toSet()))
                 .allowedProgrammingLanguages(gson.toJson(programmingLangs))
+                .serviceToCreate(problem.getServiceToCreate())
                 .build();
         for (TestCaseEntity testCaseEntity : problemEntity.getTestCases()) {
             testCaseEntity.setProblem(problemEntity);
@@ -84,12 +85,12 @@ public class ProblemEntity {
         List<String> allowedLangs = gson.fromJson(problemEntity.getAllowedProgrammingLanguages(), List.class);
         Problem problem = new Problem(
                 new hanu.gdsc.share.domains.Id(problemEntity.getId()),
-                problemEntity.version,
-                problemEntity.name,
-                problemEntity.description,
-                new hanu.gdsc.share.domains.Id(problemEntity.authorId),
-                problemEntity.ACsCount,
-                problemEntity.submissionsCount,
+                problemEntity.getVersion(),
+                problemEntity.getName(),
+                problemEntity.getDescription(),
+                new hanu.gdsc.share.domains.Id(problemEntity.getAuthorId()),
+                problemEntity.getACsCount(),
+                problemEntity.getSubmissionsCount(),
                 problemEntity.getTestCases().stream()
                         .map(testCaseEntity -> TestCaseEntity.toDomain(testCaseEntity))
                         .collect(Collectors.toList()),
@@ -105,8 +106,9 @@ public class ProblemEntity {
                                 x -> ProgrammingLanguage.valueOf(x)
                         )
                         .collect(Collectors.toList()),
-                problemEntity.serviceToCreate
+                problemEntity.getServiceToCreate()
         );
+        System.out.println("-------------------" + problem.getVersion() + "-------------");
         return problem;
     }
 }

@@ -20,9 +20,6 @@ public class TestCaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="problem_id", columnDefinition = "VARCHAR(30)")
     private ProblemEntity problem;
-    @Version
-    @Column(columnDefinition = "integer DEFAULT 0", nullable = false)
-    private long version;
     private String input;
     private String expectedOutput;
     private int ordinal;

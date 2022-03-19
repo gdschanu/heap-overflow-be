@@ -1,7 +1,13 @@
 package hanu.gdsc.practiceProblem.repositories.entities;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.*;
 
+import hanu.gdsc.practiceProblem.domains.Difficulty;
 import hanu.gdsc.practiceProblem.domains.Problem;
 import lombok.*;
 
@@ -23,9 +29,11 @@ public class PracticeProblemEntity {
     private String coreProblemId;
     private long likeCount;
     private long dislikeCount;
-    @ManyToOne()
-    @JoinColumn(name = "category_id", columnDefinition = "VARCHAR(30)")
-    private CategoryEntity category;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "practice_problem_problem_category", joinColumns = @JoinColumn(name="practice_problem_id"),
+            inverseJoinColumns = @JoinColumn(name="category_id"))
+    private Set<CategoryEntity> category = new HashSet<>();
+    private String difficulty;
 
     public static PracticeProblemEntity toEntity(Problem problem) {
         return PracticeProblemEntity.builder()
@@ -34,18 +42,23 @@ public class PracticeProblemEntity {
             .coreProblemId(problem.getCoreProlemId().toString())
             .likeCount(problem.getLikeCount())
             .dislikeCount(problem.getDislikeCount())
-            .category(CategoryEntity.toEntity(problem.getCategory()))
+            .difficulty(problem.getDifficulty().toString())
             .build();
     }
 
     public static Problem toDomain(PracticeProblemEntity practiceProblemEntity) {
+        List<hanu.gdsc.share.domains.Id> categoryIds = new ArrayList<>();
+        for(CategoryEntity category : practiceProblemEntity.getCategory()) {
+            categoryIds.add(new hanu.gdsc.share.domains.Id(category.getId()));
+        }
         return new Problem(
             new hanu.gdsc.share.domains.Id(practiceProblemEntity.getId()),
             practiceProblemEntity.getVersion(),
             new hanu.gdsc.share.domains.Id(practiceProblemEntity.getCoreProblemId()),
             practiceProblemEntity.getLikeCount(),
             practiceProblemEntity.getDislikeCount(),
-            CategoryEntity.toDomain(practiceProblemEntity.getCategory())
+            categoryIds,
+            Difficulty.valueOf(practiceProblemEntity.getDifficulty())
         );
     }
 }

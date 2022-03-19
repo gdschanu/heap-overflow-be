@@ -3,7 +3,6 @@ package hanu.gdsc.coreProblem.domains;
 
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
-import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 import lombok.Builder;
 
 public class MemoryLimit extends IdentifiedDomainObject {

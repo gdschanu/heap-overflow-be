@@ -1,5 +1,8 @@
 package hanu.gdsc.practiceProblem.services.practiceProblem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,12 +24,16 @@ public class CreatePracticeProblemServiceImpl implements CreatePracticeProblemSe
 
     @Override
     public Id create(Input input) {
+        input.inputProblem.serviceToCreate = "CreatePracticeProblemService";
         Id coreProblemId = createProblemService.execute(input.inputProblem);
-        Problem practiceProblem = Problem.create(coreProblemId);
-        Category category = searchCategoryService.getByName(input.name);
-        practiceProblem.setCategory(category);
+        List<Id> categoryIds = new ArrayList<>();
+        for(String categoryName : input.categories) {
+            Category category = searchCategoryService.getByName(categoryName);
+            categoryIds.add(category.getId());
+        }
+        Problem practiceProblem = Problem.create(coreProblemId, categoryIds, input.difficulty);
         practiceProblemRepository.create(practiceProblem);
         return practiceProblem.getId();
     }
 }
- 
+    

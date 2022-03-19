@@ -23,9 +23,6 @@ public class TimeLimitEntity {
     private ProblemEntity problem;
     private String programmingLanguage;
     private long timeLimit;
-    @Version
-    @Column(name="version", columnDefinition = "integer DEFAULT 0", nullable = false)
-    private long version;
 
     public static TimeLimitEntity toEntity(TimeLimit timeLimitDomain) {
         return TimeLimitEntity.builder()

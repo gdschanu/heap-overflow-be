@@ -167,4 +167,8 @@ public class Problem extends IdentitifedVersioningDomainObject {
     public void setAllowedProgrammingLanguages(List<ProgrammingLanguage> allowedProgrammingLanguages) {
         this.allowedProgrammingLanguages = allowedProgrammingLanguages;
     }
+
+    public String getServiceToCreate() {
+        return serviceToCreate;
+    }
 }

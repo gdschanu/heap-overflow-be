@@ -35,6 +35,7 @@ public class SearchPracticeProblemServiceImpl implements SearchPracticeProblemSe
         }
         List<OutputTestCase> outputTestCases = new ArrayList<>();
         for(TestCase testCase : coreProblem.getTestCases()) {
+            if(testCase.isSample() == true) {
             outputTestCases.add(
                 OutputTestCase.builder()
                     .input(testCase.getInput())
@@ -44,6 +45,7 @@ public class SearchPracticeProblemServiceImpl implements SearchPracticeProblemSe
                     .description(testCase.getDescription())
                     .build()
             );
+            }
         }
         List<OutputMemoryLimit> outputMemoryLimits = new ArrayList<>();
         for(MemoryLimit memoryLimit : coreProblem.getMemoryLimits()) {
@@ -71,7 +73,7 @@ public class SearchPracticeProblemServiceImpl implements SearchPracticeProblemSe
                         .coreProlemId(practiceProblem.getCoreProlemId().toString())
                         .likeCount(practiceProblem.getLikeCount())
                         .dislikeCount(practiceProblem.getDislikeCount())
-                        .category(practiceProblem.getCategory().getName())
+                        .difficulty(practiceProblem.getDifficulty().toString())
                         .build()
                 )
                 .coreProblem(

@@ -16,7 +16,7 @@ public interface SearchPracticeProblemService {
         public String coreProlemId;
         public long likeCount;
         public long dislikeCount;
-        public String category;
+        public String difficulty;
     }
     
     @AllArgsConstructor
