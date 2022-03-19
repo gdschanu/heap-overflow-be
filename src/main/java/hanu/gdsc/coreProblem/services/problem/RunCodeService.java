@@ -12,6 +12,12 @@ public interface RunCodeService {
         public Millisecond runTime;
         public KB memory;
         public RunCodeOutput output;
+
+        public boolean compilationError;
+        public String compilationMessage;
+
+        public boolean stdError;
+        public String stdMessage;
     }
 
     public Output execute(String code, String input, ProgrammingLanguage programmingLanguage);

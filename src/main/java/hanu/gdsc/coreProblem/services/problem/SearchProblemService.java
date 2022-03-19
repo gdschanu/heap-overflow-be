@@ -26,7 +26,7 @@ public interface SearchProblemService {
     @Builder
     public static class OutputMemoryLimit {
         public ProgrammingLanguage programmingLanguage;
-        public long memoryLimit;
+        public float memoryLimit;
     }
 
     @Builder

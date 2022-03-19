@@ -1,23 +1,21 @@
 package hanu.gdsc.coreProblem.domains;
 
 public class KB {
-    private long value;
-
-    public KB() {}
+    private float value;
 
     public KB(long value) {
         this.value = value;
     }
 
-    public boolean greaterThan(KB kb) {
-        return true;
+    public KB(float value) {
+        this.value = value;
     }
 
-    public long getValue() {
-        return value;
+    public boolean greaterThan(KB kb) {
+        throw new Error("Unimplemented");
     }
-    
-    public void setValue(long value) {
-        this.value = value;
+
+    public float getValue() {
+        return value;
     }
 }
