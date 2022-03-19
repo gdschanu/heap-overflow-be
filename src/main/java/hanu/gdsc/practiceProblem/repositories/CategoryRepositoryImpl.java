@@ -29,8 +29,11 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public Category getById(Id id) {
-        // TODO Auto-generated method stub
-        return null;
+        CategoryEntity categoryEntity = categoryJpaRepository.getById(id.toString());
+        if(categoryEntity == null) {
+            return null;
+        }
+        return CategoryEntity.toDomain(categoryEntity);
     }
     
 }

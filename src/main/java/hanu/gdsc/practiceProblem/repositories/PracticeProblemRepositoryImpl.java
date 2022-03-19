@@ -1,10 +1,15 @@
 package hanu.gdsc.practiceProblem.repositories;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import hanu.gdsc.practiceProblem.domains.Category;
 import hanu.gdsc.practiceProblem.domains.Problem;
 import hanu.gdsc.practiceProblem.repositories.JPA.PracticeProblemJPARepository;
+import hanu.gdsc.practiceProblem.repositories.entities.CategoryEntity;
 import hanu.gdsc.practiceProblem.repositories.entities.PracticeProblemEntity;
 import hanu.gdsc.share.domains.Id;
 
@@ -12,10 +17,19 @@ import hanu.gdsc.share.domains.Id;
 public class PracticeProblemRepositoryImpl implements PracticeProblemRepository{
     @Autowired
     private PracticeProblemJPARepository practiceProblemJpaRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Override
     public void create(Problem practiceProblem) {
-        practiceProblemJpaRepository.save(PracticeProblemEntity.toEntity(practiceProblem));
+        PracticeProblemEntity practiceProblemEntity = PracticeProblemEntity.toEntity(practiceProblem);
+        Set<CategoryEntity> categoriesEntity = new HashSet<>();
+        for(Id categoryId : practiceProblem.getCategoryIds()) {
+            Category category = categoryRepository.getById(categoryId);
+            categoriesEntity.add(CategoryEntity.toEntity(category));
+        }
+        practiceProblemEntity.setCategory(categoriesEntity);
+        practiceProblemJpaRepository.save(practiceProblemEntity);
     }
 
     @Override

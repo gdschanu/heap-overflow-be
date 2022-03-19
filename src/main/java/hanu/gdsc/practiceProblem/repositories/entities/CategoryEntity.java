@@ -1,6 +1,7 @@
 package hanu.gdsc.practiceProblem.repositories.entities;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -22,8 +23,8 @@ public class CategoryEntity {
     @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
     private long version;
     private String name;
-    @OneToMany(mappedBy = "category")
-    private List<PracticeProblemEntity> practiceProblems;
+    @ManyToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private Set<PracticeProblemEntity> practiceProblem = new HashSet<>();
     
     public static CategoryEntity toEntity(Category category) {
         return CategoryEntity.builder()

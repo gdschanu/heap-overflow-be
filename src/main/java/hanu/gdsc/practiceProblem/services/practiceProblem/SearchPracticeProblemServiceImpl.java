@@ -73,7 +73,7 @@ public class SearchPracticeProblemServiceImpl implements SearchPracticeProblemSe
                         .coreProlemId(practiceProblem.getCoreProlemId().toString())
                         .likeCount(practiceProblem.getLikeCount())
                         .dislikeCount(practiceProblem.getDislikeCount())
-                        .category(practiceProblem.getCategory().getName())
+                        .difficulty(practiceProblem.getDifficulty().toString())
                         .build()
                 )
                 .coreProblem(

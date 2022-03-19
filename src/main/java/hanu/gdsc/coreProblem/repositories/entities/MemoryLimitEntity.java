@@ -23,7 +23,6 @@ public class MemoryLimitEntity {
     private ProblemEntity problem;
     private String programmingLanguage;
     private long memoryLimit;
-    @Column(name="version", columnDefinition = "integer DEFAULT 0", nullable = false)
 
     public static MemoryLimitEntity toEntity(MemoryLimit memoryLimitDomain) {
         return MemoryLimitEntity.builder()
