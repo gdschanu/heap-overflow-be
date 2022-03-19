@@ -1,7 +1,5 @@
 package hanu.gdsc.practiceProblem.controllers.practiceProblem;
 
-import java.util.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +22,8 @@ public class SearchPracticeProblemController {
     public ResponseEntity<?> getById(@RequestParam String practiceProblemId){
         try {
             SearchPracticeProblemService.Output output = servicePracticeProblemService.getById(new Id(practiceProblemId));
-            List<Object> data = new ArrayList<>();
-            data.add(output.coreProblem);
-            data.add(output.practiceProblem);
             return new ResponseEntity<>(
-                new ResponseBody("Tìm kiếm bài toán thành công", data), HttpStatus.OK
+                new ResponseBody("Tìm kiếm bài toán thành công", output), HttpStatus.OK
             );
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {

@@ -2,9 +2,13 @@ package hanu.gdsc.practiceProblem.services.practiceProblem;
 
 import hanu.gdsc.coreProblem.services.problem.SearchProblemService.OutputCoreProblem;
 import hanu.gdsc.share.domains.Id;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 public interface SearchPracticeProblemService {
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Builder
     public static class OutputPraticeProblem {
         public String id;
@@ -14,6 +18,9 @@ public interface SearchPracticeProblemService {
         public long dislikeCount;
         public String category;
     }
+    
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Builder
     public static class Output {
         public OutputPraticeProblem practiceProblem;

@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 import hanu.gdsc.coreProblem.domains.Problem;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 import hanu.gdsc.share.domains.Id;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 
 public interface SearchProblemService {
@@ -32,7 +34,9 @@ public interface SearchProblemService {
         public ProgrammingLanguage programmingLanguage;
         public long timeLimit;
     }
-
+    
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Builder
     public static class OutputCoreProblem {
         public String id;
