@@ -32,7 +32,6 @@ public class TestCaseEntity {
     public static TestCaseEntity toEntity(TestCase testCase) {
         return TestCaseEntity.builder()
             .id(testCase.getId().toString())
-            .version(testCase.getVersion())
             .input(testCase.getInput())
             .expectedOutput(testCase.getExpectedOutput())
             .ordinal(testCase.getOrdinal())
@@ -44,7 +43,6 @@ public class TestCaseEntity {
     public static TestCase toDomain(TestCaseEntity testCaseEntity) {
         return new TestCase(
             new hanu.gdsc.share.domains.Id(testCaseEntity.getId()),
-            testCaseEntity.getVersion(),
             testCaseEntity.getInput(),
             testCaseEntity.getExpectedOutput(),
             testCaseEntity.getOrdinal(),

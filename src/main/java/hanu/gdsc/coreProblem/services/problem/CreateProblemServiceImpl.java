@@ -17,11 +17,11 @@ public class CreateProblemServiceImpl implements CreateProblemService {
                 input.name,
                 input.description,
                 input.author,
-                input.difficulty,
                 input.createTestCaseInputs,
                 input.createMemoryLimitInputs,
                 input.createTimeLimitInputs,
-                input.allowedProgrammingLanguages
+                input.allowedProgrammingLanguages,
+                input.serviceToCreate
         );
         problemRepository.create(problem);
         return problem.getId();

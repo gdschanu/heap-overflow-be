@@ -1,50 +1,46 @@
 package hanu.gdsc.coreProblem.domains;
 
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Problem extends IdentitifedDomainObject {
+public class Problem extends IdentitifedVersioningDomainObject {
     private String name;
     private String description;
     private Id author;
     private int ACsCount;
     private int submissionsCount;
-    private Difficulty difficulty;
     private List<TestCase> testCases;
     private List<MemoryLimit> memoryLimits;
     private List<TimeLimit> timeLimits;
     private List<ProgrammingLanguage> allowedProgrammingLanguages;
+    private String serviceToCreate;
 
-    public Problem(Id id, long version) {
-        super(id, version);
-    }
 
-    public Problem(Id id, long version, String name, String description, Id author, int aCsCount,
-                   int submissionsCount, Difficulty difficulty, List<TestCase> testCases, List<MemoryLimit> memoryLimits,
-                   List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages) {
+    public Problem(Id id, long version, String name, String description, Id author, int ACsCount, int submissionsCount, List<TestCase> testCases, List<MemoryLimit> memoryLimits, List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages, String serviceToCreate) {
         super(id, version);
         this.name = name;
         this.description = description;
         this.author = author;
-        this.ACsCount = aCsCount;
+        this.ACsCount = ACsCount;
         this.submissionsCount = submissionsCount;
-        this.difficulty = difficulty;
         this.testCases = testCases;
         this.memoryLimits = memoryLimits;
         this.timeLimits = timeLimits;
         this.allowedProgrammingLanguages = allowedProgrammingLanguages;
+        this.serviceToCreate = serviceToCreate;
     }
 
-    public static Problem create(String name, String description, Id author, Difficulty difficulty,
+    public static Problem create(String name, String description, Id author,
                                  List<TestCase.CreateInput> createTestCaseInputs,
                                  List<MemoryLimit.CreateInput> createMemoryLimitInputs,
                                  List<TimeLimit.CreateInput> createTimeLimitInputs,
-                                 List<ProgrammingLanguage> allowedProgrammingLanguages) {
+                                 List<ProgrammingLanguage> allowedProgrammingLanguages,
+                                 String serviceToCreate) {
         for (MemoryLimit.CreateInput first : createMemoryLimitInputs) {
             for (MemoryLimit.CreateInput second : createMemoryLimitInputs) {
                 if (first.programmingLanguage.equals(second.programmingLanguage)
@@ -81,11 +77,11 @@ public class Problem extends IdentitifedDomainObject {
                 author,
                 0,
                 0,
-                difficulty,
                 testCases,
                 memoryLimits,
                 timeLimits,
-                allowedProgrammingLanguages
+                allowedProgrammingLanguages,
+                serviceToCreate
         );
     }
 
@@ -125,9 +121,6 @@ public class Problem extends IdentitifedDomainObject {
         return author;
     }
 
-    public Difficulty getDifficulty() {
-        return difficulty;
-    }
 
     public List<TestCase> getTestCases() {
         return testCases;
@@ -153,21 +146,11 @@ public class Problem extends IdentitifedDomainObject {
         this.description = description;
     }
 
-    public void setAuthor(Id author) {
-        this.author = author;
-    }
-
-    public void setACsCount(int ACsCount) {
-        this.ACsCount = ACsCount;
-    }
 
     public void setSubmissionsCount(int submissionsCount) {
         this.submissionsCount = submissionsCount;
     }
 
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
 
     public void setTestCases(List<TestCase> testCases) {
         this.testCases = testCases;

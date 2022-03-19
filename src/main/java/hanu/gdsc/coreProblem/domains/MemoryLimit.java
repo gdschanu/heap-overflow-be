@@ -2,15 +2,16 @@ package hanu.gdsc.coreProblem.domains;
 
 
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedDomainObject;
+import hanu.gdsc.share.domains.IdentifiedDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 import lombok.Builder;
 
-public class MemoryLimit extends IdentitifedDomainObject {
+public class MemoryLimit extends IdentifiedDomainObject {
     private ProgrammingLanguage programmingLanguage;
     private KB memoryLimit;
 
-    public MemoryLimit(Id id, long version, ProgrammingLanguage programmingLanguage, KB memoryLimit) {
-        super(id, version);
+    public MemoryLimit(Id id, ProgrammingLanguage programmingLanguage, KB memoryLimit) {
+        super(id);
         this.programmingLanguage = programmingLanguage;
         this.memoryLimit = memoryLimit;
     }
@@ -24,7 +25,6 @@ public class MemoryLimit extends IdentitifedDomainObject {
     public static MemoryLimit create(CreateInput input) {
         return new MemoryLimit(
                 Id.generateRandom(),
-                0,
                 input.programmingLanguage,
                 input.memoryLimit
         );

@@ -1,9 +1,9 @@
 package hanu.gdsc.contest.domains;
 
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 
-public class ProblemScore extends IdentitifedDomainObject {
+public class ProblemScore extends IdentitifedVersioningDomainObject {
     private Id problemId;
     private int score;
     private int tryCount;

@@ -11,6 +11,7 @@ public interface SubmitService {
         public Id problemId;
         public String code;
         public ProgrammingLanguage programmingLanguage;
+        public String serviceName;
     }
 
     @Builder
@@ -19,6 +20,7 @@ public interface SubmitService {
         public KB memory;
         public Status status;
         public TestCase failedTestCase;
+        public String actualOutput;
     }
 
     public Output submit(Input input);

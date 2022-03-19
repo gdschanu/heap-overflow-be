@@ -1,9 +1,9 @@
 package hanu.gdsc.practiceProblem.domains;
 
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 
-public class Problem extends IdentitifedDomainObject {
+public class Problem extends IdentitifedVersioningDomainObject {
     private Id coreProlemId;
     private long likeCount;
     private long dislikeCount;

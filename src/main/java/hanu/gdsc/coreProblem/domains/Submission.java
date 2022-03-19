@@ -2,9 +2,9 @@ package hanu.gdsc.coreProblem.domains;
 
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 
-public class Submission extends IdentitifedDomainObject {
+public class Submission extends IdentitifedVersioningDomainObject {
     private Id problemId;
     private ProgrammingLanguage programmingLanguage;
     private Millisecond runTime;
@@ -12,8 +12,10 @@ public class Submission extends IdentitifedDomainObject {
     private DateTime submittedAt;
     private String code;
     private Status status;
-    private TestCase failedTestCase;
-    public Submission(Id id, long version, Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, TestCase failedTestCase) {
+    private FailedTestCaseDetail failedTestCaseDetail;
+    private String serviceToCreate;
+
+    public Submission(Id id, long version, Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, FailedTestCaseDetail failedTestCaseDetail, String serviceToCreate) {
         super(id, version);
         this.problemId = problemId;
         this.programmingLanguage = programmingLanguage;
@@ -22,22 +24,25 @@ public class Submission extends IdentitifedDomainObject {
         this.submittedAt = submittedAt;
         this.code = code;
         this.status = status;
-        this.failedTestCase = failedTestCase;
+        this.failedTestCaseDetail = failedTestCaseDetail;
+        this.serviceToCreate = serviceToCreate;
     }
 
     public static Submission create(Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory,
-                    DateTime submittedAt, String code, Status status, TestCase failedTestCases) {
+                                    String code, Status status, FailedTestCaseDetail failedTestCaseDetail,
+                                    String serviceToCreate) {
         return new Submission(
-            Id.generateRandom(),
-            0,
-            problemId,
-            programmingLanguage,
-            runTime,
-            memory,
-            submittedAt,
-            code,
-            status,
-            failedTestCases
+                Id.generateRandom(),
+                0,
+                problemId,
+                programmingLanguage,
+                runTime,
+                memory,
+                DateTime.now(),
+                code,
+                status,
+                failedTestCaseDetail,
+                serviceToCreate
         );
     }
 
@@ -69,7 +74,11 @@ public class Submission extends IdentitifedDomainObject {
         return status;
     }
 
-    public TestCase getFailedTestCase() {
-        return failedTestCase;
+    public FailedTestCaseDetail getFailedTestCaseDetail() {
+        return failedTestCaseDetail;
+    }
+
+    public String getServiceToCreate() {
+        return serviceToCreate;
     }
 }
