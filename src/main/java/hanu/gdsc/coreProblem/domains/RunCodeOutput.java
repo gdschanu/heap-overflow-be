@@ -9,15 +9,20 @@ public class RunCodeOutput {
 
     @Override
     public boolean equals(Object obj) {
+        /*
+        Thực hiện so sánh equal với string tại đây
+        vì một số trường hợp thừa cách / xuống dòng
+        ở cuối vẫn là hợp lệ
+        Ko đc thêm get set attribute output của class này
+         */
         // TODO: implement this
         return super.equals(obj);
     }
 
-    public String getOutput() {
-        return output;
-    }
-
-    public void setOutput(String output) {
-        this.output = output;
+    @Override
+    public String toString() {
+        return "RunCodeOutput{" +
+                "output='" + output + '\'' +
+                '}';
     }
 }

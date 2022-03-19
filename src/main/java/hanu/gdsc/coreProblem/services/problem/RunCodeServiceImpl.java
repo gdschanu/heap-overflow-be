@@ -12,6 +12,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Base64;
 
 @Service
 public class RunCodeServiceImpl implements RunCodeService {
@@ -23,19 +24,39 @@ public class RunCodeServiceImpl implements RunCodeService {
             if (submission.compilationError()) {
                 return Output.builder()
                         .compilationError(true)
-                        .compilationMessage(submission.compileOutput)
+                        .compilationMessage(
+                                new String(
+                                        Base64.getDecoder().decode(
+                                                submission.compile_output.replace("\n", "")
+                                        )
+                                )
+                        )
                         .build();
             }
             if (submission.stderr()) {
                 return Output.builder()
                         .stdError(true)
-                        .stdMessage(submission.stderr)
+                        .stdMessage(
+                                new String(
+                                        Base64.getDecoder().decode(
+                                                submission.stderr.replace("\n", "")
+                                        )
+                                )
+                        )
                         .build();
             }
             return Output.builder()
                     .runTime(Millisecond.fromSecond(Float.parseFloat(submission.time)))
                     .memory(new KB(Float.parseFloat(submission.memory)))
-                    .output(new RunCodeOutput(submission.stdout))
+                    .output(
+                            new RunCodeOutput(
+                                    new String(
+                                            Base64.getDecoder().decode(
+                                                    submission.stdout.replace("\n", "")
+                                            )
+                                    )
+                            )
+                    )
                     .compilationError(false)
                     .stdError(false)
                     .build();
@@ -45,29 +66,62 @@ public class RunCodeServiceImpl implements RunCodeService {
         }
     }
 
+    private static class CreateSubmissionRequest {
+        public int language_id;
+        public String source_code;
+        public String stdin;
+    }
+
+    private static class CreateSubmissionResponse {
+        public String token;
+    }
+
     private String createSubmission(String code, String input, ProgrammingLanguage programmingLanguage) throws Exception {
-        HttpRequest request = HttpRequest.newBuilder()
+        CreateSubmissionRequest request = new CreateSubmissionRequest();
+        request.language_id = getJudge0ProgrammingLanguageId(programmingLanguage);
+        request.source_code = new String(Base64.getEncoder().encode(code.getBytes()));
+        request.stdin = new String(Base64.getEncoder().encode(input.getBytes()));
+        Gson gson = new GsonBuilder().create();
+        String requestString = gson.toJson(request);
+        HttpRequest httpReq = HttpRequest.newBuilder()
                 .uri(URI.create("https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&fields=*"))
                 .header("content-type", "application/json")
                 .header("x-rapidapi-host", "judge0-ce.p.rapidapi.com")
                 .header("x-rapidapi-key", "f803e60e33msh9bba8830c9044abp1f5592jsn0abe369e6307")
-                .method("POST", HttpRequest.BodyPublishers.ofString("{\n    \"language_id\": 52,\n    \"source_code\": \"I2luY2x1ZGUgPHN0ZGlvLmg+CgppbnQgbWFpbih2b2lkKSB7CiAgY2hhciBuYW1lWzEwXTsKICBzY2FuZigiJXMiLCBuYW1lKTsKICBwcmludGYoImhlbGxvLCAlc1xuIiwgbmFtZSk7CiAgcmV0dXJuIDA7Cn0=\",\n    \"stdin\": \"SnVkZ2Uw\"\n}"))
+                .method("POST", HttpRequest.BodyPublishers.ofString(requestString))
                 .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body();
+        HttpResponse<String> response = HttpClient.newHttpClient().send(httpReq, HttpResponse.BodyHandlers.ofString());
+        CreateSubmissionResponse resp = gson.fromJson(response.body(), CreateSubmissionResponse.class);
+        return resp.token;
+    }
+
+
+    private int getJudge0ProgrammingLanguageId(ProgrammingLanguage programmingLanguage) {
+        switch (programmingLanguage) {
+            case JAVA:
+                return 62;
+            case PYTHON:
+                return 71;
+            case CPLUSPLUS:
+                return 54;
+            case JAVASCRIPT:
+                return 63;
+        }
+        // cannot reach
+        return 0;
     }
 
     private static class Judge0Submission {
         public String stdout;
-        private String time;
-        private String memory;
+        public String time;
+        public String memory;
         public String stderr;
         public String token;
-        public String compileOutput;
+        public String compile_output;
         public String message;
 
         boolean compilationError() {
-            return compileOutput != null;
+            return compile_output != null;
         }
 
         boolean stderr() {
@@ -77,7 +131,7 @@ public class RunCodeServiceImpl implements RunCodeService {
 
     private Judge0Submission getSubmission(String submissonToken) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://judge0-ce.p.rapidapi.com/submissions/9cec3d91-8596-43c4-8747-ed61f0a7011b?base64_encoded=true&fields=*"))
+                .uri(URI.create("https://judge0-ce.p.rapidapi.com/submissions/" + submissonToken + "?base64_encoded=true&fields=*"))
                 .header("x-rapidapi-host", "judge0-ce.p.rapidapi.com")
                 .header("x-rapidapi-key", "f803e60e33msh9bba8830c9044abp1f5592jsn0abe369e6307")
                 .method("GET", HttpRequest.BodyPublishers.noBody())

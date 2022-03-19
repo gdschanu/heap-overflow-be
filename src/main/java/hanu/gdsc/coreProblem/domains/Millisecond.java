@@ -8,7 +8,8 @@ public class Millisecond {
     }
 
     public static Millisecond fromSecond(Float val) {
-        return null;
+        long m = (long) (val * 1000);
+        return new Millisecond(m);
     }
 
     public boolean greaterThan(Millisecond millisecond) {
@@ -17,5 +18,12 @@ public class Millisecond {
 
     public long getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return "Millisecond{" +
+                "value=" + value +
+                '}';
     }
 }

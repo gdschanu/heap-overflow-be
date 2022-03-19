@@ -18,4 +18,11 @@ public class KB {
     public float getValue() {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "KB{" +
+                "value=" + value +
+                '}';
+    }
 }

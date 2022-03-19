@@ -65,7 +65,7 @@ public class SubmitServiceImpl implements SubmitService {
                         .build();
             }
             // Check answer
-            if (!runCodeServiceOutput.output.getOutput().equals(testCase.getExpectedOutput())) {
+            if (!runCodeServiceOutput.output.equals(testCase.getExpectedOutput())) {
                 return Output.builder()
                         .runTime(runCodeServiceOutput.runTime)
                         .memory(runCodeServiceOutput.memory)

@@ -18,6 +18,19 @@ public interface RunCodeService {
 
         public boolean stdError;
         public String stdMessage;
+
+        @Override
+        public String toString() {
+            return "Output{" +
+                    "runTime=" + runTime +
+                    ", memory=" + memory +
+                    ", output=" + output +
+                    ", compilationError=" + compilationError +
+                    ", compilationMessage='" + compilationMessage + '\'' +
+                    ", stdError=" + stdError +
+                    ", stdMessage='" + stdMessage + '\'' +
+                    '}';
+        }
     }
 
     public Output execute(String code, String input, ProgrammingLanguage programmingLanguage);
