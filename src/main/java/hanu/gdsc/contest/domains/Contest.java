@@ -2,13 +2,13 @@ package hanu.gdsc.contest.domains;
 
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Contest extends IdentitifedDomainObject {
+public class Contest extends IdentitifedVersioningDomainObject {
     private String name;
     private String description;
     private DateTime startAt;

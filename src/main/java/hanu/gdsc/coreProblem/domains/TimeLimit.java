@@ -1,16 +1,17 @@
 package hanu.gdsc.coreProblem.domains;
 
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedDomainObject;
+import hanu.gdsc.share.domains.IdentifiedDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 import lombok.Builder;
 
-public class TimeLimit extends IdentitifedDomainObject{
+public class TimeLimit extends IdentifiedDomainObject {
 
     private ProgrammingLanguage programmingLanguage;
     private Millisecond timeLimit;
 
-    public TimeLimit(Id id, long version, ProgrammingLanguage programmingLanguage, Millisecond timeLimit) {
-        super(id, version);
+    public TimeLimit(Id id, ProgrammingLanguage programmingLanguage, Millisecond timeLimit) {
+        super(id);
         this.programmingLanguage = programmingLanguage;
         this.timeLimit = timeLimit;
     }
@@ -24,7 +25,6 @@ public class TimeLimit extends IdentitifedDomainObject{
     public static TimeLimit create(CreateInput input) {
         return new TimeLimit(
                 Id.generateRandom(),
-                0,
                 input.programmingLanguage,
                 input.timeLimit
         );

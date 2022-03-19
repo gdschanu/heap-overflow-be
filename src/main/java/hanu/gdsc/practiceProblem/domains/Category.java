@@ -1,9 +1,9 @@
 package hanu.gdsc.practiceProblem.domains;
 
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 
-public class Category extends IdentitifedDomainObject {
+public class Category extends IdentitifedVersioningDomainObject {
     private String name;
 
     public Category(Id id, long version, String name) {

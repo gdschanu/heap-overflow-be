@@ -1,14 +1,14 @@
 package hanu.gdsc.contest.domains;
 
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Participant extends IdentitifedDomainObject {
+public class Participant extends IdentitifedVersioningDomainObject {
     private Id coderId;
     private Id contestId;
     private int rank;

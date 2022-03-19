@@ -28,8 +28,9 @@ public class SubmissionEntity {
     private String code;
     private String status;
     @OneToOne
-    @JoinColumn(name = "failed_test_case_id", referencedColumnName = "id", columnDefinition = "VARCHAR(30)")
-    private TestCaseEntity failedTestCases;
+    @JoinColumn(name = "failed_test_case_detail_id", referencedColumnName = "id", columnDefinition = "VARCHAR(30)")
+    private FailedTestCaseDetailEntity failedTestCaseDetail;
+    private String serviceToCreate;
 
     public static SubmissionEntity toEntity(Submission submission) {
         return SubmissionEntity.builder()
@@ -42,7 +43,8 @@ public class SubmissionEntity {
                 .submittedAtInZonedDateTime(submission.getSubmittedAt().toZonedDateTime().toString())
                 .code(submission.getCode())
                 .status(submission.getStatus().toString())
-                .failedTestCases(TestCaseEntity.toEntity(submission.getFailedTestCase()))
+                .failedTestCaseDetail(FailedTestCaseDetailEntity.fromDomain(submission.getFailedTestCaseDetail()))
+                .serviceToCreate(submission.getServiceToCreate())
                 .build();
     }
 
@@ -57,7 +59,8 @@ public class SubmissionEntity {
                 new DateTime(submissionEntity.getSubmittedAtInZonedDateTime()),
                 submissionEntity.getCode(),
                 Status.valueOf(submissionEntity.getStatus()),
-                TestCaseEntity.toDomain(submissionEntity.getFailedTestCases())
+                submissionEntity.getFailedTestCaseDetail().toDomain(),
+                submissionEntity.getServiceToCreate()
         );
     }
 }

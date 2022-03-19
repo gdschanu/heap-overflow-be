@@ -1,19 +1,20 @@
 package hanu.gdsc.coreProblem.domains;
 
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedDomainObject;
+import hanu.gdsc.share.domains.IdentifiedDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 import lombok.Builder;
 
-public class TestCase extends IdentitifedDomainObject {
+public class TestCase extends IdentifiedDomainObject {
     private String input;
     private String expectedOutput;
     private int ordinal;
     private boolean isSample;
     private String description;
 
-    public TestCase(Id id, long version, String input, String expectedOutput, int ordinal, boolean isSample,
+    public TestCase(Id id, String input, String expectedOutput, int ordinal, boolean isSample,
                     String description) {
-        super(id, version);
+        super(id);
         this.input = input;
         this.expectedOutput = expectedOutput;
         this.ordinal = ordinal;
@@ -33,17 +34,12 @@ public class TestCase extends IdentitifedDomainObject {
     public static TestCase create(CreateInput input) {
         return new TestCase(
                 Id.generateRandom(),
-                0,
                 input.input,
                 input.expectedOutput,
                 input.ordinal,
                 input.isSample,
                 input.description
         );
-    }
-
-    public TestCase(Id id, long version) {
-        super(id, version);
     }
 
     public String getInput() {

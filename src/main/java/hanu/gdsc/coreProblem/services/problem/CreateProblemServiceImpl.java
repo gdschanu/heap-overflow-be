@@ -21,7 +21,8 @@ public class CreateProblemServiceImpl implements CreateProblemService {
                 input.createTestCaseInputs,
                 input.createMemoryLimitInputs,
                 input.createTimeLimitInputs,
-                input.allowedProgrammingLanguages
+                input.allowedProgrammingLanguages,
+                input.serviceToCreate
         );
         problemRepository.create(problem);
         return problem.getId();

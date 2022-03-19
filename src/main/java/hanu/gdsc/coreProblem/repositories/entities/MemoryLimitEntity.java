@@ -24,13 +24,10 @@ public class MemoryLimitEntity {
     private String programmingLanguage;
     private long memoryLimit;
     @Column(name="version", columnDefinition = "integer DEFAULT 0", nullable = false)
-    @Version
-    private long version;
 
     public static MemoryLimitEntity toEntity(MemoryLimit memoryLimitDomain) {
         return MemoryLimitEntity.builder()
                 .id(memoryLimitDomain.getId().toString())
-                .version(memoryLimitDomain.getVersion())
                 .programmingLanguage(memoryLimitDomain.getProgrammingLanguage().toString())
                 .memoryLimit(memoryLimitDomain.getMemoryLimit().getValue())
                 .build();
@@ -39,7 +36,6 @@ public class MemoryLimitEntity {
     public static MemoryLimit toDomain(MemoryLimitEntity memoryLimitEntity) {
         return new MemoryLimit(
             new hanu.gdsc.share.domains.Id(memoryLimitEntity.getId()),
-            memoryLimitEntity.getVersion(),
             ProgrammingLanguage.valueOf(memoryLimitEntity.getProgrammingLanguage()),
             new KB(memoryLimitEntity.getMemoryLimit())
         );

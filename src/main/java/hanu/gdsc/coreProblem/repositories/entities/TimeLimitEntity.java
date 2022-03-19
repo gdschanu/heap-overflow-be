@@ -30,7 +30,6 @@ public class TimeLimitEntity {
     public static TimeLimitEntity toEntity(TimeLimit timeLimitDomain) {
         return TimeLimitEntity.builder()
                 .id(timeLimitDomain.getId().toString())
-                .version(timeLimitDomain.getVersion())
                 .programmingLanguage(timeLimitDomain.getProgrammingLanguage().toString())
                 .timeLimit(timeLimitDomain.getTimeLimit().getValue())
                 .build();
@@ -39,7 +38,6 @@ public class TimeLimitEntity {
     public static TimeLimit toDomain(TimeLimitEntity timeLimitEntity) {
         return new TimeLimit(
             new hanu.gdsc.share.domains.Id(timeLimitEntity.getId()),
-            timeLimitEntity.getVersion(),
             ProgrammingLanguage.valueOf(timeLimitEntity.getProgrammingLanguage()),
             new Millisecond(timeLimitEntity.getTimeLimit())
         );

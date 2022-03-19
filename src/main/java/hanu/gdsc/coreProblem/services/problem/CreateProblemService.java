@@ -17,6 +17,7 @@ public interface CreateProblemService {
         List<MemoryLimit.CreateInput> createMemoryLimitInputs;
         List<TimeLimit.CreateInput> createTimeLimitInputs;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
+        public String serviceToCreate;
     }
 
     public Id execute(Input input);

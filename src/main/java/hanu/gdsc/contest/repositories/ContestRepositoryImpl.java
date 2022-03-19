@@ -24,7 +24,6 @@ public class ContestRepositoryImpl implements ContestRepository {
     @Override
     public void update(Contest contest) {
         contestJPARepository.save(ContestEntity.fromDomain(contest));
-        contest.increaseVersion();
     }
 
     @Override

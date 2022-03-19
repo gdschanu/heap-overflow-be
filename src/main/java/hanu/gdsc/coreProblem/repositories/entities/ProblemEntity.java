@@ -29,8 +29,8 @@ public class ProblemEntity {
     private String difficulty;
     @Column(columnDefinition = "VARCHAR(30)")
     private String authorId;
-    private long ACsCount;
-    private long submissionsCount;
+    private int ACsCount;
+    private int submissionsCount;
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<TestCaseEntity> testCases = new HashSet<>();
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -41,6 +41,7 @@ public class ProblemEntity {
     @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
     @Version
     private Long version;
+    private String serviceToCreate;
 
     public static ProblemEntity toEntity(Problem problem) {
         GsonBuilder builder = new GsonBuilder();
@@ -67,43 +68,47 @@ public class ProblemEntity {
                         .collect(Collectors.toSet()))
                 .allowedProgrammingLanguages(gson.toJson(programmingLangs))
                 .build();
-        for(TestCaseEntity testCaseEntity : problemEntity.getTestCases()) {
-                testCaseEntity.setProblem(problemEntity);
-        }     
-        for(TimeLimitEntity timeLimitEntity : problemEntity.getTimeLimits()) {
-                timeLimitEntity.setProblem(problemEntity);
-        }  
-        for(MemoryLimitEntity memoryLimitEntity : problemEntity.getMemoryLimits()) {
-                memoryLimitEntity.setProblem(problemEntity);
+        for (TestCaseEntity testCaseEntity : problemEntity.getTestCases()) {
+            testCaseEntity.setProblem(problemEntity);
         }
-        return problemEntity;           
+        for (TimeLimitEntity timeLimitEntity : problemEntity.getTimeLimits()) {
+            timeLimitEntity.setProblem(problemEntity);
+        }
+        for (MemoryLimitEntity memoryLimitEntity : problemEntity.getMemoryLimits()) {
+            memoryLimitEntity.setProblem(problemEntity);
+        }
+        return problemEntity;
     }
 
     public static Problem toDomain(ProblemEntity problemEntity) {
-        Problem problem = new Problem(new hanu.gdsc.share.domains.Id(problemEntity.getId()), problemEntity.getVersion());
-        problem.setName(problemEntity.getName());
-        problem.setDescription(problemEntity.getDescription());
-        problem.setDifficulty(Difficulty.valueOf(problemEntity.getDifficulty()));
-        problem.setAuthor(new hanu.gdsc.share.domains.Id(problemEntity.getAuthorId()));
-        problem.setTestCases(problemEntity.getTestCases().stream()
-                .map(testCaseEntity -> TestCaseEntity.toDomain(testCaseEntity))
-                .collect(Collectors.toList()));
-        problem.setMemoryLimits(problemEntity.getMemoryLimits().stream()
-                .map(memoryLimitEntity -> MemoryLimitEntity.toDomain(memoryLimitEntity))
-                .collect(Collectors.toList()));
-        problem.setTimeLimits(problemEntity.getTimeLimits().stream()
-                .map(timeLimitEntity -> TimeLimitEntity.toDomain(timeLimitEntity))
-                .collect(Collectors.toList()));
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         List<String> allowedLangs = gson.fromJson(problemEntity.getAllowedProgrammingLanguages(), List.class);
-        problem.setAllowedProgrammingLanguages(
+        Problem problem = new Problem(
+                new hanu.gdsc.share.domains.Id(problemEntity.getId()),
+                problemEntity.version,
+                problemEntity.name,
+                problemEntity.description,
+                new hanu.gdsc.share.domains.Id(problemEntity.authorId),
+                problemEntity.ACsCount,
+                problemEntity.submissionsCount,
+                Difficulty.valueOf(problemEntity.getDifficulty()),
+                problemEntity.getTestCases().stream()
+                        .map(testCaseEntity -> TestCaseEntity.toDomain(testCaseEntity))
+                        .collect(Collectors.toList()),
+                problemEntity.getMemoryLimits().stream()
+                        .map(memoryLimitEntity -> MemoryLimitEntity.toDomain(memoryLimitEntity))
+                        .collect(Collectors.toList()),
+                problemEntity.getTimeLimits().stream()
+                        .map(timeLimitEntity -> TimeLimitEntity.toDomain(timeLimitEntity))
+                        .collect(Collectors.toList()),
                 allowedLangs
                         .stream()
                         .map(
                                 x -> ProgrammingLanguage.valueOf(x)
                         )
-                        .collect(Collectors.toList())
+                        .collect(Collectors.toList()),
+                problemEntity.serviceToCreate
         );
         return problem;
     }
