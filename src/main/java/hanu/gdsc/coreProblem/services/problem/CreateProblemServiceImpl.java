@@ -17,7 +17,6 @@ public class CreateProblemServiceImpl implements CreateProblemService {
                 input.name,
                 input.description,
                 input.author,
-                input.difficulty,
                 input.createTestCaseInputs,
                 input.createMemoryLimitInputs,
                 input.createTimeLimitInputs,

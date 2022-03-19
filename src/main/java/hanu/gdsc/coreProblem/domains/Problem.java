@@ -14,7 +14,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
     private Id author;
     private int ACsCount;
     private int submissionsCount;
-    private Difficulty difficulty;
     private List<TestCase> testCases;
     private List<MemoryLimit> memoryLimits;
     private List<TimeLimit> timeLimits;
@@ -22,14 +21,13 @@ public class Problem extends IdentitifedVersioningDomainObject {
     private String serviceToCreate;
 
 
-    public Problem(Id id, long version, String name, String description, Id author, int ACsCount, int submissionsCount, Difficulty difficulty, List<TestCase> testCases, List<MemoryLimit> memoryLimits, List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages, String serviceToCreate) {
+    public Problem(Id id, long version, String name, String description, Id author, int ACsCount, int submissionsCount, List<TestCase> testCases, List<MemoryLimit> memoryLimits, List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages, String serviceToCreate) {
         super(id, version);
         this.name = name;
         this.description = description;
         this.author = author;
         this.ACsCount = ACsCount;
         this.submissionsCount = submissionsCount;
-        this.difficulty = difficulty;
         this.testCases = testCases;
         this.memoryLimits = memoryLimits;
         this.timeLimits = timeLimits;
@@ -37,7 +35,7 @@ public class Problem extends IdentitifedVersioningDomainObject {
         this.serviceToCreate = serviceToCreate;
     }
 
-    public static Problem create(String name, String description, Id author, Difficulty difficulty,
+    public static Problem create(String name, String description, Id author,
                                  List<TestCase.CreateInput> createTestCaseInputs,
                                  List<MemoryLimit.CreateInput> createMemoryLimitInputs,
                                  List<TimeLimit.CreateInput> createTimeLimitInputs,
@@ -79,7 +77,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
                 author,
                 0,
                 0,
-                difficulty,
                 testCases,
                 memoryLimits,
                 timeLimits,
@@ -124,9 +121,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
         return author;
     }
 
-    public Difficulty getDifficulty() {
-        return difficulty;
-    }
 
     public List<TestCase> getTestCases() {
         return testCases;
@@ -157,9 +151,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
         this.submissionsCount = submissionsCount;
     }
 
-    public void setDifficulty(Difficulty difficulty) {
-        this.difficulty = difficulty;
-    }
 
     public void setTestCases(List<TestCase> testCases) {
         this.testCases = testCases;

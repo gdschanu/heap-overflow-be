@@ -2,7 +2,6 @@ package hanu.gdsc.coreProblem.repositories.entities;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import hanu.gdsc.coreProblem.domains.Difficulty;
 import hanu.gdsc.coreProblem.domains.Problem;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 import lombok.*;
@@ -55,7 +54,6 @@ public class ProblemEntity {
                 .version(problem.getVersion())
                 .name(problem.getName())
                 .description(problem.getDescription())
-                .difficulty(problem.getDifficulty().toString())
                 .authorId(problem.getAuthor().toString())
                 .testCases(problem.getTestCases().stream()
                         .map(testCase -> TestCaseEntity.toEntity(testCase))
@@ -92,7 +90,6 @@ public class ProblemEntity {
                 new hanu.gdsc.share.domains.Id(problemEntity.authorId),
                 problemEntity.ACsCount,
                 problemEntity.submissionsCount,
-                Difficulty.valueOf(problemEntity.getDifficulty()),
                 problemEntity.getTestCases().stream()
                         .map(testCaseEntity -> TestCaseEntity.toDomain(testCaseEntity))
                         .collect(Collectors.toList()),

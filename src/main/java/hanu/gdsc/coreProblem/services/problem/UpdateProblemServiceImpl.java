@@ -21,7 +21,6 @@ public class UpdateProblemServiceImpl implements UpdateProblemService{
         }
         problem.setName(input.name);
         problem.setDescription(input.description);
-        problem.setDifficulty(input.difficulty);
         problem.setTestCases(input.testCases);
         problem.setTimeLimits(input.timeLimits);
         problem.setMemoryLimits(input.memoryLimits);
