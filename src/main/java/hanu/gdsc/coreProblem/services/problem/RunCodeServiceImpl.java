@@ -116,9 +116,7 @@ public class RunCodeServiceImpl implements RunCodeService {
         public String time;
         public String memory;
         public String stderr;
-        public String token;
         public String compile_output;
-        public String message;
 
         boolean compilationError() {
             return compile_output != null;

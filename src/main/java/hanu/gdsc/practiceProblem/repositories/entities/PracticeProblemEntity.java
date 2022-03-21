@@ -39,7 +39,7 @@ public class PracticeProblemEntity {
         return PracticeProblemEntity.builder()
             .id(problem.getId().toString())
             .version(problem.getVersion())
-            .coreProblemId(problem.getCoreProlemId().toString())
+            .coreProblemId(problem.getCoreProblemId().toString())
             .likeCount(problem.getLikeCount())
             .dislikeCount(problem.getDislikeCount())
             .difficulty(problem.getDifficulty().toString())

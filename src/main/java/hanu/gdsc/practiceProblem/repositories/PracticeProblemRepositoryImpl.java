@@ -1,6 +1,7 @@
 package hanu.gdsc.practiceProblem.repositories;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +38,11 @@ public class PracticeProblemRepositoryImpl implements PracticeProblemRepository{
         PracticeProblemEntity practiceProblemEntity = practiceProblemJpaRepository.getById(id.toString());
         return PracticeProblemEntity.toDomain(practiceProblemEntity);
     }
+
+    @Override
+    public List<Problem> get(int skip, int limit) {
+        return null;
+    }
+
+
 }

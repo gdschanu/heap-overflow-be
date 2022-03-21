@@ -1,8 +1,10 @@
 package hanu.gdsc.coreProblem.domains;
 
+import java.util.Scanner;
+
 public class RunCodeOutput {
     private String output;
-    
+
     public RunCodeOutput(String output) {
         this.output = output;
     }
@@ -16,7 +18,43 @@ public class RunCodeOutput {
         Ko đc thêm get set attribute output của class này
          */
         // TODO: implement this
-        return super.equals(obj);
+        if (obj.getClass() != String.class) {
+            throw new Error("RunCodeOutput.equal(...) argument must be String.");
+        }
+        Scanner actualOutput = new Scanner(output);
+        Scanner correctOutput = new Scanner((String) output);
+        while (correctOutput.hasNextLine()) {
+            if (!actualOutput.hasNextLine()) {
+                return false;
+            }
+            String correctLine = correctOutput.nextLine();
+            String actualLine = actualOutput.nextLine();
+            if (!correctLine.trim().equals(actualLine.trim())) {
+                return false;
+            }
+        }
+        while (actualOutput.hasNextLine()) {
+            String actualLine = actualOutput.nextLine();
+            if (!containsOnlyChars(actualLine, '\n', ' ')) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean containsOnlyChars(String s, char... chars) {
+        for (int i = 0; i < s.length(); i++) {
+            boolean ok = false;
+            for (int j = 0; j < chars.length; j++) {
+                if (chars[j] == s.charAt(i)) {
+                    ok = true;
+                }
+            }
+            if (!ok) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

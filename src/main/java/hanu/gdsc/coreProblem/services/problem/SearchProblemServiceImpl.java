@@ -17,12 +17,6 @@ public class SearchProblemServiceImpl implements SearchProblemService{
     private ProblemRepository problemRepository;
 
     @Override
-    public List<Problem> search(Pageable pageable) {
-        List<Problem> problems = problemRepository.search(pageable);
-        return problems;
-    }
-
-    @Override
     public Problem getById(Id id) {
         Problem problem = problemRepository.getById(id);   
         if(problem == null) {
@@ -35,5 +29,10 @@ public class SearchProblemServiceImpl implements SearchProblemService{
     public long count(){
         return problemRepository.count();
     }
-    
+
+    @Override
+    public List<Problem> getByIds(List<Id> ids) {
+        return null;
+    }
+
 }

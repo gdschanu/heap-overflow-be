@@ -13,47 +13,9 @@ import lombok.NoArgsConstructor;
 
 
 public interface SearchProblemService {
-
-    @Builder
-    public static class OutputTestCase {
-        public String input;
-        public String expectedOutput;
-        public int ordinal;
-        public boolean isSample;
-        public String description;
-    }
-
-    @Builder
-    public static class OutputMemoryLimit {
-        public ProgrammingLanguage programmingLanguage;
-        public float memoryLimit;
-    }
-
-    @Builder
-    public static class OutputTimeLimit {
-        public ProgrammingLanguage programmingLanguage;
-        public long timeLimit;
-    }
-    
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class OutputCoreProblem {
-        public String id;
-        public long version;
-        public String name;
-        public String description;
-        public String author;
-        public String difficulty;
-        public List<OutputTestCase> testCases;
-        public List<OutputMemoryLimit> memoryLimits;
-        public List<OutputTimeLimit> timeLimits;
-        public List<ProgrammingLanguage> allowedProgrammingLanguages;
-    }
-
     public Problem getById(Id id);
     
-    public List<Problem> search (Pageable pageable);
-
     public long count();
+
+    public List<Problem> getByIds(List<Id> ids);
 }
