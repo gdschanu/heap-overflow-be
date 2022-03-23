@@ -19,9 +19,9 @@ public class SearchPracticeProblemController {
     private SearchPracticeProblemService servicePracticeProblemService;
 
     @GetMapping("/practiceProblem/practiceProblemDetail")
-    public ResponseEntity<?> getById(@RequestParam String practiceProblemId){
+    public ResponseEntity<?> getById(@RequestParam String id){
         try {
-            SearchPracticeProblemService.Output output = servicePracticeProblemService.getById(new Id(practiceProblemId));
+            SearchPracticeProblemService.Output output = servicePracticeProblemService.getById(new Id(id));
             return new ResponseEntity<>(
                 new ResponseBody("Tìm kiếm bài toán thành công", output), HttpStatus.OK
             );
