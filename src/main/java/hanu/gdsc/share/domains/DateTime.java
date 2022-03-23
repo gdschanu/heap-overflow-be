@@ -1,12 +1,16 @@
 package hanu.gdsc.share.domains;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import hanu.gdsc.share.controller.jackson.DateTimeDeserializer;
+import hanu.gdsc.share.controller.jackson.DateTimeSerializer;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-@JsonSerialize
+@JsonSerialize(using = DateTimeSerializer.class)
+@JsonDeserialize(using = DateTimeDeserializer.class)
 public class DateTime {
     private ZonedDateTime value;
 

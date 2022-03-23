@@ -1,13 +1,20 @@
 package hanu.gdsc.coreProblem.domains;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import hanu.gdsc.coreProblem.controllers.jackson.KBDeserializer;
+import hanu.gdsc.coreProblem.controllers.jackson.KBSerializer;
+
+@JsonSerialize(using = KBSerializer.class)
+@JsonDeserialize(using = KBDeserializer.class)
 public class KB {
-    private float value;
+    private double value;
 
     public KB(long value) {
         this.value = value;
     }
 
-    public KB(float value) {
+    public KB(double value) {
         this.value = value;
     }
 
@@ -15,7 +22,7 @@ public class KB {
         throw new Error("Unimplemented");
     }
 
-    public float getValue() {
+    public double getValue() {
         return value;
     }
 

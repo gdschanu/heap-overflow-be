@@ -22,7 +22,7 @@ public class MemoryLimitEntity {
     @JoinColumn(name="problem_id", columnDefinition = "VARCHAR(30)")
     private ProblemEntity problem;
     private String programmingLanguage;
-    private float memoryLimit;
+    private double memoryLimit;
 
     public static MemoryLimitEntity toEntity(MemoryLimit memoryLimitDomain) {
         return MemoryLimitEntity.builder()

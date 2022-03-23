@@ -1,5 +1,12 @@
 package hanu.gdsc.coreProblem.domains;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import hanu.gdsc.coreProblem.controllers.jackson.MillisecondDeserializer;
+import hanu.gdsc.coreProblem.controllers.jackson.MillisecondSerializer;
+
+@JsonSerialize(using = MillisecondSerializer.class)
+@JsonDeserialize(using = MillisecondDeserializer.class)
 public class Millisecond {
     private long value;
     

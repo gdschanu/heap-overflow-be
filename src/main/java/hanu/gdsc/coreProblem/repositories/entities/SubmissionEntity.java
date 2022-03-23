@@ -23,7 +23,7 @@ public class SubmissionEntity {
     private String problemId;
     private String programmingLanguage;
     private long runTimeInMillis;
-    private float memoryInKB;
+    private double memoryInKB;
     private String submittedAtInZonedDateTime;
     private String code;
     private String status;
