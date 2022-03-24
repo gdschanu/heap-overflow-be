@@ -108,7 +108,6 @@ public class ProblemEntity {
                         .collect(Collectors.toList()),
                 problemEntity.getServiceToCreate()
         );
-        System.out.println("-------------------" + problem.getVersion() + "-------------");
         return problem;
     }
 }

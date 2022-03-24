@@ -18,7 +18,7 @@ public class SubmitPracticeProblemController {
     private SubmitPracticeProblemService submitPracticeProblemService;
 
     @PostMapping("/practiceProblem")
-    public ResponseEntity<?> submit(@RequestBody SubmitPracticeProblemService.Input input) {
+    public ResponseEntity<?> submit(@RequestBody SubmitService.Input input) {
         try {
             SubmitService.Output output = submitPracticeProblemService.submit(input);
             return new ResponseEntity<>(

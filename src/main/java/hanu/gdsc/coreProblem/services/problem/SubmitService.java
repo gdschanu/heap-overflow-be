@@ -21,6 +21,8 @@ public interface SubmitService {
         public Status status;
         public TestCase failedTestCase;
         public String actualOutput;
+        public String compilationMessage;
+        public String stdMessage;
     }
 
     public Output submit(Input input);

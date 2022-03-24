@@ -12,7 +12,8 @@ public class SubmitPracticeProblemServiceImpl implements SubmitPracticeProblemSe
 
 
     @Override
-    public SubmitService.Output submit(Input input) {
-        return submitService.submit(input.inputService);
+    public SubmitService.Output submit(SubmitService.Input input) {
+        input.serviceName = "PracticeProblemService";
+        return submitService.submit(input);
     }
 }
