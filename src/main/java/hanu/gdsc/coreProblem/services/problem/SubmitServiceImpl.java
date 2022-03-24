@@ -42,8 +42,35 @@ public class SubmitServiceImpl implements SubmitService {
         if (!problem.getAllowedProgrammingLanguages().contains(input.programmingLanguage)) {
             throw new BusinessLogicError("Bài tập không hỗ trợ ngôn ngữ lập trình " + input.programmingLanguage, "LANGUAGE_NOT_SUPPORTED");
         }
+        int testCaseCount = 0;
+        float totalMemory = 0;
+        long totalRunTime = 0;
         for (TestCase testCase : problem.getSortedByOrdinalTestCases()) {
             RunCodeService.Output runCodeServiceOutput = runCodeService.execute(input.code, testCase.getInput(), input.programmingLanguage);
+            //Check compilation status
+            if (runCodeServiceOutput.compilationError == true) {
+                return Output.builder()
+                    .runTime(null)
+                    .memory(null)
+                    .status(Status.CE)
+                    .failedTestCase(null)
+                    .actualOutput(null)
+                    .compilationMessage(runCodeServiceOutput.compilationMessage)
+                    .stdMessage(null)
+                    .build();
+            }
+            // check std status
+            if (runCodeServiceOutput.stdError == true) {
+                return Output.builder()
+                    .runTime(null)
+                    .memory(null)
+                    .status(Status.STDE)
+                    .failedTestCase(null)
+                    .actualOutput(null)
+                    .compilationMessage(null)
+                    .stdMessage(runCodeServiceOutput.stdMessage)
+                    .build();
+            }
             // Check time limit
             TimeLimit timeLimit = problem.getTimeLimitByProgrammingLanguage(input.programmingLanguage);
             if (runCodeServiceOutput.runTime.greaterThan(timeLimit.getTimeLimit())) {
@@ -52,6 +79,9 @@ public class SubmitServiceImpl implements SubmitService {
                         .memory(runCodeServiceOutput.memory)
                         .status(Status.TLE)
                         .failedTestCase(null)
+                        .actualOutput(null)
+                        .compilationMessage(null)
+                        .stdMessage(null)
                         .build();
             }
             // Check memory limit
@@ -62,6 +92,9 @@ public class SubmitServiceImpl implements SubmitService {
                         .memory(runCodeServiceOutput.memory)
                         .status(Status.MLE)
                         .failedTestCase(null)
+                        .actualOutput(null)
+                        .compilationMessage(null)
+                        .stdMessage(null)
                         .build();
             }
             // Check answer
@@ -71,13 +104,22 @@ public class SubmitServiceImpl implements SubmitService {
                         .memory(runCodeServiceOutput.memory)
                         .status(Status.WA)
                         .failedTestCase(testCase)
+                        .actualOutput(runCodeServiceOutput.output.toString())
+                        .compilationMessage(null)
+                        .stdMessage(null)
                         .build();
             }
+            totalMemory += runCodeServiceOutput.memory.getValue();
+            totalRunTime += runCodeServiceOutput.runTime.getValue();
+            testCaseCount++;
         }
         return Output.builder()
-                .memory(null) // TODO: calculate average run time & memory
-                .runTime(null)
+                .memory(new KB((float) totalMemory / testCaseCount)) // TODO: calculate average run time & memory
+                .runTime(new Millisecond(totalRunTime / testCaseCount))
                 .status(Status.AC)
+                .actualOutput(null)
+                .compilationMessage(null)
+                .stdMessage(null)            
                 .build();
     }
 }

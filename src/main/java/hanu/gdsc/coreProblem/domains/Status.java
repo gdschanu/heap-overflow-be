@@ -2,6 +2,6 @@ package hanu.gdsc.coreProblem.domains;
 
 public enum Status {
     
-    AC, TLE, MLE, WA
+    AC, TLE, MLE, WA, CE, STDE
         
 }
