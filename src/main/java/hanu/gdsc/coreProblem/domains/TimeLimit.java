@@ -2,7 +2,9 @@ package hanu.gdsc.coreProblem.domains;
 
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 public class TimeLimit extends IdentifiedDomainObject {
 
@@ -16,6 +18,8 @@ public class TimeLimit extends IdentifiedDomainObject {
     }
 
     @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class CreateInput {
         public ProgrammingLanguage programmingLanguage;
         public Millisecond timeLimit;

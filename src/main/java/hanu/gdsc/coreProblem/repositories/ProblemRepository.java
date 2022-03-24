@@ -19,4 +19,6 @@ public interface ProblemRepository {
     public List<Problem> search(Pageable pageable);
 
     public long count();
+
+    public List<Problem> getByIds(List<Id> ids);
 }

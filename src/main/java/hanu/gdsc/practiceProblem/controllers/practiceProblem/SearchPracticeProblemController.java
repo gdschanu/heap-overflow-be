@@ -35,7 +35,7 @@ public class SearchPracticeProblemController {
         }
     }
 
-    @GetMapping("/practiceProblem/practiceProblem")
+    @GetMapping("/practiceProblem/problem")
     public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage) {
         try {
             List<SearchPracticeProblemService.Output> output = servicePracticeProblemService.get(page, perPage);
@@ -47,6 +47,7 @@ public class SearchPracticeProblemController {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
             }
+            e.printStackTrace();
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

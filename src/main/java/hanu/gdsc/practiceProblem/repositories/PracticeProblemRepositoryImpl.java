@@ -3,8 +3,13 @@ package hanu.gdsc.practiceProblem.repositories;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+import hanu.gdsc.coreProblem.repositories.entities.ProblemEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import hanu.gdsc.practiceProblem.domains.Category;
@@ -40,8 +45,13 @@ public class PracticeProblemRepositoryImpl implements PracticeProblemRepository{
     }
 
     @Override
-    public List<Problem> get(int skip, int limit) {
-        return null;
+    public List<Problem> get(int page, int perPage) {
+        Pageable pageable = PageRequest.of(page , perPage);
+        Page<PracticeProblemEntity> entities =  practiceProblemJpaRepository.findAll(pageable);
+        return entities.getContent()
+                .stream().map(
+                        e -> PracticeProblemEntity.toDomain(e)
+                ).collect(Collectors.toList());
     }
 
 

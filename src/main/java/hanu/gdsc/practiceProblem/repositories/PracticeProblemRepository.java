@@ -10,5 +10,5 @@ public interface PracticeProblemRepository {
 
     public Problem getById(Id id);
 
-    public List<Problem> get(int skip, int limit);
+    public List<Problem> get(int page, int perPage);
 }

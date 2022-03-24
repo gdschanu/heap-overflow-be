@@ -25,11 +25,6 @@ public class CreateContestController {
         public String endAt;
     }
 
-    @AllArgsConstructor
-    public static class Output {
-        public String id;
-    }
-
     @PostMapping("/contest/contest")
     public ResponseEntity<?> createContest(@RequestBody Input input) {
         try {
@@ -42,7 +37,7 @@ public class CreateContestController {
                     .createdBy(Id.generateRandom())
                     .build());
             return new ResponseEntity<>(
-                    new ResponseBody("Tạo kì thi thành công.", new Output(id.toString())),
+                    new ResponseBody("Tạo kì thi thành công.", id),
                     HttpStatus.OK
             );
         } catch (Throwable e) {

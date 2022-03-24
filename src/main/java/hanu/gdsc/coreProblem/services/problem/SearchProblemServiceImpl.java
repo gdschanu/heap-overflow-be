@@ -32,7 +32,7 @@ public class SearchProblemServiceImpl implements SearchProblemService{
 
     @Override
     public List<Problem> getByIds(List<Id> ids) {
-        return null;
+        return problemRepository.getByIds(ids);
     }
 
 }
