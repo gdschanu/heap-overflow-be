@@ -7,6 +7,8 @@ import hanu.gdsc.share.controller.jackson.IdDeserializer;
 import hanu.gdsc.share.controller.jackson.IdSerializer;
 import org.bson.types.ObjectId;
 
+import java.util.Objects;
+
 @JsonSerialize(using = IdSerializer.class)
 @JsonDeserialize(using = IdDeserializer.class)
 public class Id {
@@ -25,5 +27,18 @@ public class Id {
 
     public String toString() {
         return value;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Id id = (Id) o;
+        return Objects.equals(value, id.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value);
     }
 }

@@ -27,11 +27,11 @@ public class TestCase extends IdentifiedDomainObject {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class CreateInput {
-        private String input;   
-        private String expectedOutput;
-        private int ordinal;
-        private boolean isSample;
-        private String description;
+        public String input;
+        public String expectedOutput;
+        public int ordinal;
+        public boolean isSample;
+        public String description;
     }
 
     public static TestCase create(CreateInput input) {

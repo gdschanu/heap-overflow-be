@@ -58,7 +58,7 @@ public interface SearchPracticeProblemService {
     public static class OutputPracticeProblem {
         public Id id;
         public long version;
-        public Id coreProlemId;
+        public Id coreProblemId;
         public long likeCount;
         public long dislikeCount;
         private List<Id> categoryIds;

@@ -21,6 +21,6 @@ public class KBSerializer extends StdSerializer<KB> {
 
     @Override
     public void serialize(KB d, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeString(d.toString());
+        jsonGenerator.writeNumber(d.getValue());
     }
 }

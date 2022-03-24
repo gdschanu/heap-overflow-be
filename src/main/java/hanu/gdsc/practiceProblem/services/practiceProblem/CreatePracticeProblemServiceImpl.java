@@ -34,12 +34,7 @@ public class CreatePracticeProblemServiceImpl implements CreatePracticeProblemSe
                 .allowedProgrammingLanguages(input.createCoreProblemInput.allowedProgrammingLanguages)
                 .serviceToCreate(ServiceName.serviceName)
                 .build());
-        List<Id> categoryIds = new ArrayList<>();
-        for (String categoryName : input.categories) {
-            Category category = searchCategoryService.getByName(categoryName);
-            categoryIds.add(category.getId());
-        }
-        Problem practiceProblem = Problem.create(coreProblemId, categoryIds, input.difficulty);
+        Problem practiceProblem = Problem.create(coreProblemId, input.categoryIds, input.difficulty);
         practiceProblemRepository.create(practiceProblem);
         return practiceProblem.getId();
     }

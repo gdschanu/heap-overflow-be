@@ -22,6 +22,6 @@ public class MillisecondSerializer extends StdSerializer<Millisecond> {
 
     @Override
     public void serialize(Millisecond d, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeString(d.toString());
+        jsonGenerator.writeNumber(d.getValue());
     }
 }

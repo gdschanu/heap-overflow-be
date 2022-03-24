@@ -25,7 +25,7 @@ public class CreatePracticeProblemController {
 
     public static class Input {
         public CreateCoreProblemInput createCoreProblemInput;
-        public List<String> categories;
+        public List<Id> categoryIds;
         public Difficulty difficulty;
     }
 
@@ -51,7 +51,7 @@ public class CreatePracticeProblemController {
                             .allowedProgrammingLanguages(input.createCoreProblemInput.allowedProgrammingLanguages)
                             .author(Id.generateRandom()) // TODO: get from token
                             .build())
-                    .categories(input.categories)
+                    .categoryIds(input.categoryIds)
                     .difficulty(input.difficulty)
                     .build());
             return new ResponseEntity<>(
