@@ -1,9 +1,5 @@
 package hanu.gdsc.coderAuth.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-
 import hanu.gdsc.coder.services.CreateCoderService;
 import hanu.gdsc.coderAuth.domains.Email;
 import hanu.gdsc.coderAuth.domains.Password;
@@ -12,9 +8,12 @@ import hanu.gdsc.coderAuth.domains.Username;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
-public class SignUpServiceImpl implements SignUpService{
+public class SignUpServiceImpl implements SignUpService {
     @Autowired
     private UserRepository userRepository;
 
@@ -26,16 +25,16 @@ public class SignUpServiceImpl implements SignUpService{
         Email newEmail = new Email(email);
         Username newUsername = new Username(username);
         Password newPassword = new Password(password);
-        if(userRepository.getByUsername(new Username(username))==null && 
-        userRepository.getByEmail(new Email(email))==null){
+        if (userRepository.getByUsername(new Username(username)) == null &&
+                userRepository.getByEmail(new Email(email)) == null) {
             boolean registrationConfirmed = false;
-            User user = new User(Id.generateRandom(), newEmail, newUsername, 
-                newPassword, createCoderService.create(), registrationConfirmed);
+            User user = new User(Id.generateRandom(), newEmail, newUsername,
+                    newPassword, createCoderService.create(), registrationConfirmed);
 
-            BCryptPasswordEncoder encoder=new BCryptPasswordEncoder();
-    		user.setPassword(new Password(encoder.encode(password.toString()))); 
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            user.setPassword(new Password(encoder.encode(password.toString())));
             userRepository.save(user);
-        } else{
+        } else {
             throw new BusinessLogicError("Username/email đã tồn tại", "EXISTED");
         }
     }
