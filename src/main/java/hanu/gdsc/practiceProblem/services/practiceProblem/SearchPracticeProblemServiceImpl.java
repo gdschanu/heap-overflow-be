@@ -25,8 +25,11 @@ public class SearchPracticeProblemServiceImpl implements SearchPracticeProblemSe
     @Override
     public Output getById(Id practiceProblemId) {
         Problem practiceProblem = practiceProblemRepository.getById(practiceProblemId);
+        if (practiceProblem == null) {
+            throw new BusinessLogicError("Không tìm thấy bài toán phù hợp.", "NOT_FOUND");
+        }
         hanu.gdsc.coreProblem.domains.Problem coreProblem = searchProblemService.getById(practiceProblem.getCoreProblemId());
-        if (practiceProblem == null || coreProblem == null) {
+        if (coreProblem == null) {
             throw new BusinessLogicError("Không tìm thấy bài toán phù hợp.", "NOT_FOUND");
         }
         return toOutput(practiceProblem, coreProblem);

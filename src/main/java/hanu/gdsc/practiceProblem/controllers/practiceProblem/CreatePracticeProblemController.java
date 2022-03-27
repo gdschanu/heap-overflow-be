@@ -55,7 +55,7 @@ public class CreatePracticeProblemController {
                     .difficulty(input.difficulty)
                     .build());
             return new ResponseEntity<>(
-                    new ResponseBody("Tạo bài toán thành công", problemId), HttpStatus.OK
+                    new ResponseBody("Create successfully problem", problemId), HttpStatus.OK
             );
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {

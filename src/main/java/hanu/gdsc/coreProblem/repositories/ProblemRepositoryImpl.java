@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 @Repository
 public class ProblemRepositoryImpl implements ProblemRepository {
     @Autowired
@@ -18,11 +20,13 @@ public class ProblemRepositoryImpl implements ProblemRepository {
 
     @Override
     public Problem getById(Id id) {
-        ProblemEntity problemEntity = problemJPARepository.getById(id.toString());
-        if (problemEntity == null) {
+        try {
+            ProblemEntity problemEntity = problemJPARepository.getById(id.toString());
+            return ProblemEntity.toDomain(problemEntity);
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
             return null;
         }
-        return ProblemEntity.toDomain(problemEntity);
     }
 
     @Override

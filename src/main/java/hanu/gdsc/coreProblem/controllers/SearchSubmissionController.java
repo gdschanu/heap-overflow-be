@@ -25,7 +25,7 @@ public class SearchSubmissionController {
         try {
             List<Submission> submissions = searchSubmissionService.getAllByProblemId(new Id(problemId));
             return new ResponseEntity<>(
-                new ResponseBody("Lấy ra submissions thành công", submissions), HttpStatus.OK
+                new ResponseBody("Found successfully", submissions), HttpStatus.OK
                 );
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {

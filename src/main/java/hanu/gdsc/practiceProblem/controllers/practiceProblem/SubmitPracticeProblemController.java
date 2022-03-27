@@ -22,7 +22,7 @@ public class SubmitPracticeProblemController {
         try {
             SubmitService.Output output = submitPracticeProblemService.submit(input);
             return new ResponseEntity<>(
-                new ResponseBody("Submit bài thành công", output), HttpStatus.OK
+                new ResponseBody("Submit successfully", output), HttpStatus.OK
             );
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {

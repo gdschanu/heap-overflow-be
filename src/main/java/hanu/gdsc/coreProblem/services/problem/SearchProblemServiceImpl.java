@@ -3,7 +3,6 @@ package hanu.gdsc.coreProblem.services.problem;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coreProblem.domains.Problem;
@@ -20,7 +19,7 @@ public class SearchProblemServiceImpl implements SearchProblemService{
     public Problem getById(Id id) {
         Problem problem = problemRepository.getById(id);   
         if(problem == null) {
-            throw new BusinessLogicError("Không tìm thấy bài toán", "NOT_FOUND");
+            throw new BusinessLogicError("Could not found problem", "NOT_FOUND");
         }
         return problem;
     }

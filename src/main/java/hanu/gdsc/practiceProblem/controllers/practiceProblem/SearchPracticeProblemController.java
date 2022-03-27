@@ -24,7 +24,7 @@ public class SearchPracticeProblemController {
         try {
             SearchPracticeProblemService.Output output = servicePracticeProblemService.getById(new Id(id));
             return new ResponseEntity<>(
-                    new ResponseBody("Tìm kiếm bài toán thành công", output), HttpStatus.OK
+                    new ResponseBody("Found Problem", output), HttpStatus.OK
             );
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {
@@ -40,7 +40,7 @@ public class SearchPracticeProblemController {
         try {
             List<SearchPracticeProblemService.Output> output = servicePracticeProblemService.get(page, perPage);
             return new ResponseEntity<>(
-                    new ResponseBody("Tìm kiếm thành công", output), HttpStatus.OK
+                    new ResponseBody("Found Problems", output), HttpStatus.OK
             );
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import hanu.gdsc.coreProblem.repositories.entities.ProblemEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,8 +42,13 @@ public class PracticeProblemRepositoryImpl implements PracticeProblemRepository{
 
     @Override
     public Problem getById(Id id) {
-        PracticeProblemEntity practiceProblemEntity = practiceProblemJpaRepository.getById(id.toString());
-        return PracticeProblemEntity.toDomain(practiceProblemEntity);
+        try {
+            PracticeProblemEntity practiceProblemEntity = practiceProblemJpaRepository.getById(id.toString());
+            return PracticeProblemEntity.toDomain(practiceProblemEntity);
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
