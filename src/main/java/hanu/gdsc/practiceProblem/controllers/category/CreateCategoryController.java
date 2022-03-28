@@ -17,7 +17,7 @@ public class CreateCategoryController {
     @Autowired
     private CreateCategoryService createCategoryService;
     
-    @PostMapping("/practiceProblem/createCategory")
+    @PostMapping("/practiceProblem/category")
     public ResponseEntity<?> create(@RequestBody CreateCategoryService.Input input) {
         try {
             Id category = createCategoryService.create(input);

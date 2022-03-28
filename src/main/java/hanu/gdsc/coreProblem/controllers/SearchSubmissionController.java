@@ -20,7 +20,7 @@ public class SearchSubmissionController {
     @Autowired
     private SearchSubmissionService searchSubmissionService;
     
-    @GetMapping("/submission")
+    @GetMapping("/coreProblem/submission")
     public ResponseEntity<?> getAllByProblemId(@RequestBody String problemId) {
         try {
             List<Submission> submissions = searchSubmissionService.getAllByProblemId(new Id(problemId));

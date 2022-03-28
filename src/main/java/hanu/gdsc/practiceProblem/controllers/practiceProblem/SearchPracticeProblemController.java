@@ -19,7 +19,7 @@ public class SearchPracticeProblemController {
     @Autowired
     private SearchPracticeProblemService servicePracticeProblemService;
 
-    @GetMapping("/practiceProblem/practiceProblemDetail")
+    @GetMapping("/practiceProblem/problem/{id}")
     public ResponseEntity<?> getById(@RequestParam String id){
         try {
             SearchPracticeProblemService.Output output = servicePracticeProblemService.getById(new Id(id));

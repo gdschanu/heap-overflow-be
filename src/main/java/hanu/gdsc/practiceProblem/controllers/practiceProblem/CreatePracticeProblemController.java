@@ -38,7 +38,7 @@ public class CreatePracticeProblemController {
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
-    @PostMapping("/practiceProblem/createPracticeProblem")
+    @PostMapping("/practiceProblem/problem")
     public ResponseEntity<?> create(@RequestBody Input input) {
         try {
             Id problemId = createPracticeProblemService.create(CreatePracticeProblemService.Input.builder()
