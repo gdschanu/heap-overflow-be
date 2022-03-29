@@ -3,6 +3,8 @@ package hanu.gdsc.coreProblem.repositories;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -22,9 +24,14 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
     }
 
     @Override
-    public List<Submission> getAllByProblemId(Id problemId) {
-        return submissionJPARepository.getAllByProblemId(problemId.toString()).stream()
+    public List<Submission> getPracticeSubmissions(Id problemId) {
+        try {
+        return submissionJPARepository.getPracticeSubmissions(problemId.toString()).stream()
                         .map(submissionEntity -> SubmissionEntity.toDomain(submissionEntity))
                         .collect(Collectors.toList());
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -8,5 +8,5 @@ import hanu.gdsc.share.domains.Id;
 public interface SubmissionRepository {
     public void create(Submission submission);
 
-    public List<Submission> getAllByProblemId(Id problemId);
+    public List<Submission> getPracticeSubmissions(Id problemId);
 }
