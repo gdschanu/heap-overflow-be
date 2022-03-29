@@ -97,8 +97,6 @@ public class SearchPracticeProblemServiceImpl implements SearchPracticeProblemSe
                                 .id(practiceProblem.getId())
                                 .version(practiceProblem.getVersion())
                                 .coreProblemId(practiceProblem.getCoreProblemId())
-                                .likeCount(practiceProblem.getLikeCount())
-                                .dislikeCount(practiceProblem.getDislikeCount())
                                 .difficulty(practiceProblem.getDifficulty())
                                 .build()
                 )

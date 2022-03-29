@@ -7,18 +7,14 @@ import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 
 public class Problem extends IdentitifedVersioningDomainObject {
     private Id coreProblemId;
-    private long likeCount;
-    private long dislikeCount;
     private List<Id> categoryIds;
     private Difficulty difficulty;
 
 
-    public Problem(Id id, long version, Id coreProblemId, long likeCount, long dislikeCount, List<Id> categoryIds,
+    public Problem(Id id, long version, Id coreProblemId, List<Id> categoryIds,
                    Difficulty difficulty) {
         super(id, version);
         this.coreProblemId = coreProblemId;
-        this.likeCount = likeCount;
-        this.dislikeCount = dislikeCount;
         this.categoryIds = categoryIds;
         this.difficulty = difficulty;
     }
@@ -28,8 +24,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
             Id.generateRandom(),
             0,
             coreProlemId,
-            0,
-            0,
             categoryIds,
             difficulty);
     }
@@ -42,13 +36,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
         this.coreProblemId = coreProblemId;
     }
 
-    public long getLikeCount() {
-        return likeCount;
-    }
-
-    public long getDislikeCount() {
-        return dislikeCount;
-    }
 
     public List<Id> getCategoryIds() {
         return categoryIds;
