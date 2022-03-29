@@ -28,8 +28,6 @@ public class ProblemEntity {
     private String difficulty;
     @Column(columnDefinition = "VARCHAR(30)")
     private String authorId;
-    private int ACsCount;
-    private int submissionsCount;
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<TestCaseEntity> testCases = new HashSet<>();
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -89,8 +87,6 @@ public class ProblemEntity {
                 problemEntity.getName(),
                 problemEntity.getDescription(),
                 new hanu.gdsc.share.domains.Id(problemEntity.getAuthorId()),
-                problemEntity.getACsCount(),
-                problemEntity.getSubmissionsCount(),
                 problemEntity.getTestCases().stream()
                         .map(testCaseEntity -> TestCaseEntity.toDomain(testCaseEntity))
                         .collect(Collectors.toList()),

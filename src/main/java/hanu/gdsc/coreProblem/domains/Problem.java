@@ -12,22 +12,17 @@ public class Problem extends IdentitifedVersioningDomainObject {
     private String name;
     private String description;
     private Id author;
-    private int ACsCount;
-    private int submissionsCount;
     private List<TestCase> testCases;
     private List<MemoryLimit> memoryLimits;
     private List<TimeLimit> timeLimits;
     private List<ProgrammingLanguage> allowedProgrammingLanguages;
     private String serviceToCreate;
 
-
-    public Problem(Id id, long version, String name, String description, Id author, int ACsCount, int submissionsCount, List<TestCase> testCases, List<MemoryLimit> memoryLimits, List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages, String serviceToCreate) {
+    public Problem(Id id, long version, String name, String description, Id author, List<TestCase> testCases, List<MemoryLimit> memoryLimits, List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages, String serviceToCreate) {
         super(id, version);
         this.name = name;
         this.description = description;
         this.author = author;
-        this.ACsCount = ACsCount;
-        this.submissionsCount = submissionsCount;
         this.testCases = testCases;
         this.memoryLimits = memoryLimits;
         this.timeLimits = timeLimits;
@@ -75,8 +70,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
                 name,
                 description,
                 author,
-                0,
-                0,
                 testCases,
                 memoryLimits,
                 timeLimits,
@@ -145,12 +138,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
     public void setDescription(String description) {
         this.description = description;
     }
-
-
-    public void setSubmissionsCount(int submissionsCount) {
-        this.submissionsCount = submissionsCount;
-    }
-
 
     public void setTestCases(List<TestCase> testCases) {
         this.testCases = testCases;

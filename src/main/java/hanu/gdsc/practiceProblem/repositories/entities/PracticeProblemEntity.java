@@ -40,8 +40,6 @@ public class PracticeProblemEntity {
             .id(problem.getId().toString())
             .version(problem.getVersion())
             .coreProblemId(problem.getCoreProblemId().toString())
-            .likeCount(problem.getLikeCount())
-            .dislikeCount(problem.getDislikeCount())
             .difficulty(problem.getDifficulty().toString())
             .build();
     }
@@ -55,8 +53,6 @@ public class PracticeProblemEntity {
             new hanu.gdsc.share.domains.Id(practiceProblemEntity.getId()),
             practiceProblemEntity.getVersion(),
             new hanu.gdsc.share.domains.Id(practiceProblemEntity.getCoreProblemId()),
-            practiceProblemEntity.getLikeCount(),
-            practiceProblemEntity.getDislikeCount(),
             categoryIds,
             Difficulty.valueOf(practiceProblemEntity.getDifficulty())
         );
