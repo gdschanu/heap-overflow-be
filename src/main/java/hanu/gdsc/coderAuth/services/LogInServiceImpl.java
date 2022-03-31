@@ -19,29 +19,32 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 @Service
-public class LogInServiceImpl implements LogInService{
+public class LogInServiceImpl implements LogInService {
    @Autowired
    private UserRepository userRepository;
 
    @Autowired
    private SessionRepository sessionRepository;
-   
+
    @Override
    public String logInService(String usernameOrEmail, String password) {
       User user;
-      if(Email.isValidEmail(usernameOrEmail)) {
+      if (Email.isValidEmail(usernameOrEmail)) {
          Email email = new Email(usernameOrEmail);
          user = userRepository.getByEmail(email);
       } else {
          Username username = new Username(usernameOrEmail);
          user = userRepository.getByUsername(username);
       }
-
-      Id coderId = user.getCoderId();
-      if (BCrypt.checkpw(password, user.getPassword().toString())) {
-         return createToken(coderId);
+      if (user != null) {
+         Id coderId = user.getCoderId();
+         if (BCrypt.checkpw(password, user.getPassword().toString())) {
+            return createToken(coderId);
+         } else {
+            throw new BusinessLogicError("Sai mật khẩu.", "WRONG_PASSWORD");
+         }
       } else {
-         throw new BusinessLogicError("Sai mật khẩu.", "WRONG_PASSWORD");
+         throw new BusinessLogicError("Username/email không tồn tại", "NON-EXISTENT_USERNAME_OR_EMAIL");
       }
    }
 
@@ -49,8 +52,8 @@ public class LogInServiceImpl implements LogInService{
       Session session = new Session(Id.generateRandom(), coderId, DateTime.now().plusMinutes(15));
       sessionRepository.save(session);
       return Jwts.builder()
-              .setId(session.getId().toString())
-              .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encode("Hanuoj<Secretkey>".getBytes()))
-              .compact(); 
-  }
+            .setId(session.getId().toString())
+            .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encode("Hanuoj<Secretkey>".getBytes()))
+            .compact();
+   }
 }
