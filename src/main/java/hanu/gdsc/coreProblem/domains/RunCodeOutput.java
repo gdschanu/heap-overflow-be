@@ -22,7 +22,7 @@ public class RunCodeOutput {
             throw new Error("RunCodeOutput.equal(...) argument must be String.");
         }
         Scanner actualOutput = new Scanner(output);
-        Scanner correctOutput = new Scanner((String) output);
+        Scanner correctOutput = new Scanner((String) obj);
         while (correctOutput.hasNextLine()) {
             if (!actualOutput.hasNextLine()) {
                 return false;
@@ -40,6 +40,25 @@ public class RunCodeOutput {
             }
         }
         return true;
+    }
+
+    public int calculateFailedLine(Object obj) {
+        if(obj.getClass() != String.class) {
+            throw new Error("RunCodeOutput.calculateFailedLine(...) argument must be String.");
+        }
+        Scanner actualOutput = new Scanner(output);
+        Scanner correctOutput = new Scanner((String) obj);
+        for (int line=1; correctOutput.hasNextLine(); line++) {
+            if(!actualOutput.hasNextLine()) {
+                return 1;
+            }
+            String correctLine = correctOutput.nextLine();
+            String actualLine = actualOutput.nextLine();
+            if(!correctLine.trim().equals(actualLine.trim())) {
+                return line;
+            }
+        }
+        return 0;
     }
 
     private boolean containsOnlyChars(String s, char... chars) {

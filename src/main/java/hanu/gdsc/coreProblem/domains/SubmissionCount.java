@@ -24,6 +24,14 @@ public class SubmissionCount extends VersioningDomainObject {
         );
     }
 
+    public void updateACsCount() {
+        this.ACsCount += 1;
+    }
+
+    public void updateSubmissionsCount() {
+        this.submissionsCount += 1;
+    }
+
     public Id getProblemId() {
         return problemId;
     }

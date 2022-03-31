@@ -1,10 +1,14 @@
 package hanu.gdsc.coreProblem.services.problem;
 
 import hanu.gdsc.coreProblem.domains.*;
+import hanu.gdsc.coreProblem.repositories.EventRepository;
 import hanu.gdsc.coreProblem.repositories.ProblemRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
@@ -13,27 +17,37 @@ public class SubmitServiceImpl implements SubmitService {
     private final ProblemRepository problemRepository;
     private final RunCodeService runCodeService;
     private final SubmissionRepository submissionRepository;
+    private final EventRepository eventRepository;
+    private static int failedAtLine;
+    
+    private static final Logger log = LoggerFactory.getLogger(SubmitServiceImpl.class);
 
     @Override
     public Output submit(Input input) {
         Output output = runTests(input);
+        FailedTestCaseDetail failedTestCaseDetail = output.failedTestCase == null ? null : 
+            FailedTestCaseDetail.fromTestCase(
+            failedAtLine,
+            output.actualOutput,
+            output.failedTestCase
+            );
         Submission submission = Submission.create(
                 input.problemId,
                 input.programmingLanguage,
-                null,
-                null,
+                output.runTime,
+                output.memory,
                 input.code,
                 output.status,
-                output.failedTestCase == null ?
-                        null :
-                        FailedTestCaseDetail.fromTestCase(
-                                0,
-                                output.actualOutput,
-                                output.failedTestCase
-                        ),
+                failedTestCaseDetail,
                 input.serviceName
         );
         submissionRepository.create(submission);
+        eventRepository.create(
+            EventRepository.Input.builder()
+                .problemId(input.problemId)
+                .status(output.status)
+                .build()
+        );
         return output;
     }
 
@@ -99,6 +113,7 @@ public class SubmitServiceImpl implements SubmitService {
             }
             // Check answer
             if (!runCodeServiceOutput.output.equals(testCase.getExpectedOutput())) {
+                failedAtLine = runCodeServiceOutput.output.calculateFailedLine(testCase.getExpectedOutput());
                 return Output.builder()
                         .runTime(runCodeServiceOutput.runTime)
                         .memory(runCodeServiceOutput.memory)
@@ -115,8 +130,9 @@ public class SubmitServiceImpl implements SubmitService {
         }
         return Output.builder()
                 .memory(new KB((float) totalMemory / testCaseCount)) // TODO: calculate average run time & memory
-                .runTime(new Millisecond(totalRunTime / testCaseCount))
+                .runTime(new Millisecond((long) totalRunTime / testCaseCount))
                 .status(Status.AC)
+                .failedTestCase(null)
                 .actualOutput(null)
                 .compilationMessage(null)
                 .stdMessage(null)            

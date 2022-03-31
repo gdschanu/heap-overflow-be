@@ -40,7 +40,7 @@ public class Problem extends IdentitifedVersioningDomainObject {
             for (MemoryLimit.CreateInput second : createMemoryLimitInputs) {
                 if (first.programmingLanguage.equals(second.programmingLanguage)
                         && !first.equals(second)) {
-                    throw new BusinessLogicError("Có 2 giới hạn bộ nhớ trùng nhau.", "DUPLICATE");
+                    throw new BusinessLogicError("Having duplicate memoryLimits", "DUPLICATE");
                 }
             }
         }
@@ -48,7 +48,7 @@ public class Problem extends IdentitifedVersioningDomainObject {
             for (TimeLimit.CreateInput second : createTimeLimitInputs) {
                 if (first.programmingLanguage.equals(second.programmingLanguage)
                         && !first.equals(second)) {
-                    throw new BusinessLogicError("Có 2 giới hạn thời gian trùng nhau.", "DUPLICATE");
+                    throw new BusinessLogicError("Having duplicate timeLimits", "DUPLICATE");
                 }
             }
         }

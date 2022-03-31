@@ -33,6 +33,36 @@ public class SubmissionEntity {
     private String serviceToCreate;
 
     public static SubmissionEntity toEntity(Submission submission) {
+        if(submission.getMemory() == null && submission.getRunTime() == null) {
+            return SubmissionEntity.builder()
+                    .id(submission.getId().toString())
+                    .version(submission.getVersion())
+                    .problemId(submission.getProblemId().toString())
+                    .programmingLanguage(submission.getProgrammingLanguage().toString())
+                    .runTimeInMillis(0)
+                    .memoryInKB(0)
+                    .submittedAtInZonedDateTime(submission.getSubmittedAt().toZonedDateTime().toString())
+                    .code(submission.getCode())
+                    .status(submission.getStatus().toString())
+                    .failedTestCaseDetail(null)
+                    .serviceToCreate(submission.getServiceToCreate())
+                    .build();
+        }
+        if (submission.getFailedTestCaseDetail() == null) {
+            return SubmissionEntity.builder()
+                .id(submission.getId().toString())
+                .version(submission.getVersion())
+                .problemId(submission.getProblemId().toString())
+                .programmingLanguage(submission.getProgrammingLanguage().toString())
+                .runTimeInMillis(submission.getRunTime().getValue())
+                .memoryInKB(submission.getMemory().getValue())
+                .submittedAtInZonedDateTime(submission.getSubmittedAt().toZonedDateTime().toString())
+                .code(submission.getCode())
+                .status(submission.getStatus().toString())
+                .failedTestCaseDetail(null)
+                .serviceToCreate(submission.getServiceToCreate())
+                .build();
+        }
         return SubmissionEntity.builder()
                 .id(submission.getId().toString())
                 .version(submission.getVersion())

@@ -35,7 +35,7 @@ public class CreatePracticeProblemController {
         public List<TestCase.CreateInput> createTestCaseInputs;
         public List<MemoryLimit.CreateInput> createMemoryLimitInputs;
         public List<TimeLimit.CreateInput> createTimeLimitInputs;
-        public List<ProgrammingLanguage> allowedProgrammingLanguages;
+        public List<ProgrammingLanguage> allowedProgrammingLanguages;   
     }
 
     @PostMapping("/practiceProblem/problem")

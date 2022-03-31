@@ -2,23 +2,16 @@ package hanu.gdsc.practiceProblem.services.practiceProblem;
 
 import hanu.gdsc.coreProblem.services.problem.CreateProblemService;
 import hanu.gdsc.practiceProblem.config.ServiceName;
-import hanu.gdsc.practiceProblem.domains.Category;
 import hanu.gdsc.practiceProblem.domains.Problem;
 import hanu.gdsc.practiceProblem.repositories.PracticeProblemRepository;
-import hanu.gdsc.practiceProblem.services.category.SearchCategoryService;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 public class CreatePracticeProblemServiceImpl implements CreatePracticeProblemService {
     @Autowired
     private CreateProblemService createProblemService;
-    @Autowired
-    private SearchCategoryService searchCategoryService;
     @Autowired
     private PracticeProblemRepository practiceProblemRepository;
 
