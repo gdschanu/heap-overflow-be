@@ -17,6 +17,7 @@ public class SubmissionEventEntity {
     @Id
     @Column(columnDefinition = "VARCHAR(30)")
     private String id;
+    @Column(columnDefinition = "VARCHAR(30)")
     private String problemId;
     private String status;
 

@@ -21,7 +21,7 @@ public class UpdateSubmissionCountServiceImpl implements UpdateSubmissionCountSe
     @Transactional
     public void update(Input input) {
         SubmissionCount submissionCount = searchSubmissionCountService.getById(input.problemId);
-        if(input.status.equals(Status.valueOf("AC"))) {
+        if(input.status.equals(Status.AC)) {
             submissionCount.updateACsCount();
             submissionCount.updateSubmissionsCount();
         } else {

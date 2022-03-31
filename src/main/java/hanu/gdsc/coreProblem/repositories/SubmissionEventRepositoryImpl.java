@@ -1,14 +1,13 @@
 package hanu.gdsc.coreProblem.repositories;
 
-import javax.persistence.EntityNotFoundException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import hanu.gdsc.coreProblem.domains.SubmissionEvent;
 import hanu.gdsc.coreProblem.repositories.JPA.EventJPARepository;
 import hanu.gdsc.coreProblem.repositories.entities.SubmissionEventEntity;
 import hanu.gdsc.share.domains.Id;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class SubmissionEventRepositoryImpl implements SubmissionEventRepository {
@@ -17,13 +16,12 @@ public class SubmissionEventRepositoryImpl implements SubmissionEventRepository 
 
     @Override
     public SubmissionEvent getSubmissionEvent() {
-        try {
-            SubmissionEventEntity submissionEventEntity = eventJPARepository.getEventEntity();
-            return SubmissionEventEntity.toDomain(submissionEventEntity);
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
+        Page<SubmissionEventEntity> eventEntities = eventJPARepository
+                .findAll(Pageable.ofSize(1));
+        if (eventEntities.isEmpty()) {
             return null;
         }
+        return SubmissionEventEntity.toDomain(eventEntities.getContent().get(0));
     }
 
     @Override

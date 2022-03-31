@@ -2,8 +2,8 @@ package hanu.gdsc.coreProblem.services.problem;
 
 import hanu.gdsc.coreProblem.domains.*;
 import hanu.gdsc.coreProblem.repositories.ProblemRepository;
+import hanu.gdsc.coreProblem.repositories.SubmissionEventRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
-import hanu.gdsc.coreProblem.services.submissionEvent.CreateSubmissionEventService;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
 
@@ -15,7 +15,7 @@ public class SubmitServiceImpl implements SubmitService {
     private final ProblemRepository problemRepository;
     private final RunCodeService runCodeService;
     private final SubmissionRepository submissionRepository;
-    private final CreateSubmissionEventService createSubmissionEventService;
+    private final SubmissionEventRepository submissionEventRepository;
     private static int failedAtLine;
 
     @Override
@@ -38,12 +38,11 @@ public class SubmitServiceImpl implements SubmitService {
                 input.serviceName
         );
         submissionRepository.create(submission);
-        createSubmissionEventService.create(
-            CreateSubmissionEventService.Input.builder()
-                .problemId(input.problemId)
-                .status(output.status)
-                .build()
+        SubmissionEvent submissionEvent = SubmissionEvent.create(
+                input.problemId,
+                output.status
         );
+        submissionEventRepository.create(submissionEvent);
         return output;
     }
 

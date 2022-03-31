@@ -8,6 +8,8 @@ import javax.persistence.Version;
 
 import hanu.gdsc.coreProblem.domains.SubmissionCount;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "core_problem_submission_count")
