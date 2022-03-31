@@ -16,7 +16,7 @@ public class Id {
 
     public Id(String value) {
         if (!ObjectId.isValid(value)) {
-            throw new BusinessLogicError("Id không hợp lệ: '" + value + "'.", "INVALID_ID");
+            throw new BusinessLogicError("Invalid Id: '" + value + "'.", "INVALID_ID");
         }
         this.value = value;
     }
