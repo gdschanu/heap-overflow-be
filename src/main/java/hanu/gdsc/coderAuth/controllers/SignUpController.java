@@ -22,7 +22,7 @@ public class SignUpController {
         public String password;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/coderAuth/signUp")
     public ResponseEntity<?> signUp(@RequestBody Input input) {
         try {
             signUpService.signUpService(input.email, input.username, input.password);
