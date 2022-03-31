@@ -26,12 +26,9 @@ public class SearchPracticeProblemServiceImpl implements SearchPracticeProblemSe
     public Output getById(Id practiceProblemId) {
         Problem practiceProblem = practiceProblemRepository.getById(practiceProblemId);
         if (practiceProblem == null) {
-            throw new BusinessLogicError("Không tìm thấy bài toán phù hợp.", "NOT_FOUND");
+            throw new BusinessLogicError("Could not found problem", "NOT_FOUND");
         }
         hanu.gdsc.coreProblem.domains.Problem coreProblem = searchProblemService.getById(practiceProblem.getCoreProblemId());
-        if (coreProblem == null) {
-            throw new BusinessLogicError("Không tìm thấy bài toán phù hợp.", "NOT_FOUND");
-        }
         return toOutput(practiceProblem, coreProblem);
     }
 

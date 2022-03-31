@@ -8,6 +8,6 @@ import hanu.gdsc.share.domains.Id;
 public interface SearchSubmissionService {
     public Submission getById(Id id);
 
-    public List<Submission> getAllByProblemId(Id problemId);
+    public List<Submission> getPracticeSubmissions(Id problemId);
 }
 

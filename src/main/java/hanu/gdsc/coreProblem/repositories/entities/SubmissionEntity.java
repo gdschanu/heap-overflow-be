@@ -49,6 +49,21 @@ public class SubmissionEntity {
     }
 
     public static Submission toDomain(SubmissionEntity submissionEntity) {
+        if (submissionEntity.getFailedTestCaseDetail() == null) {
+            return new Submission(
+                new hanu.gdsc.share.domains.Id(submissionEntity.getId()),
+                submissionEntity.getVersion(),
+                new hanu.gdsc.share.domains.Id(submissionEntity.getProblemId()),
+                ProgrammingLanguage.valueOf(submissionEntity.getProgrammingLanguage()),
+                new Millisecond(submissionEntity.getRunTimeInMillis()),
+                new KB(submissionEntity.getMemoryInKB()),
+                new DateTime(submissionEntity.getSubmittedAtInZonedDateTime()),
+                submissionEntity.getCode(),
+                Status.valueOf(submissionEntity.getStatus()),
+                null,
+                submissionEntity.getServiceToCreate()
+        );
+        }
         return new Submission(
                 new hanu.gdsc.share.domains.Id(submissionEntity.getId()),
                 submissionEntity.getVersion(),

@@ -2,6 +2,7 @@ package hanu.gdsc.coreProblem.services.problem;
 
 import hanu.gdsc.coreProblem.domains.*;
 import hanu.gdsc.coreProblem.repositories.ProblemRepository;
+import hanu.gdsc.coreProblem.repositories.SubmissionEventRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ public class SubmitServiceImpl implements SubmitService {
     private final ProblemRepository problemRepository;
     private final RunCodeService runCodeService;
     private final SubmissionRepository submissionRepository;
+    private final SubmissionEventRepository submissionEventRepository;
 
     @Override
     public Output submit(Input input) {
@@ -34,6 +36,7 @@ public class SubmitServiceImpl implements SubmitService {
                 input.serviceName
         );
         submissionRepository.create(submission);
+        SubmissionEvent submissionEvent = SubmissionEvent.create(input.problemId, output.status);
         return output;
     }
 
@@ -50,26 +53,26 @@ public class SubmitServiceImpl implements SubmitService {
             //Check compilation status
             if (runCodeServiceOutput.compilationError == true) {
                 return Output.builder()
-                    .runTime(null)
-                    .memory(null)
-                    .status(Status.CE)
-                    .failedTestCase(null)
-                    .actualOutput(null)
-                    .compilationMessage(runCodeServiceOutput.compilationMessage)
-                    .stdMessage(null)
-                    .build();
+                        .runTime(null)
+                        .memory(null)
+                        .status(Status.CE)
+                        .failedTestCase(null)
+                        .actualOutput(null)
+                        .compilationMessage(runCodeServiceOutput.compilationMessage)
+                        .stdMessage(null)
+                        .build();
             }
             // check std status
             if (runCodeServiceOutput.stdError == true) {
                 return Output.builder()
-                    .runTime(null)
-                    .memory(null)
-                    .status(Status.STDE)
-                    .failedTestCase(null)
-                    .actualOutput(null)
-                    .compilationMessage(null)
-                    .stdMessage(runCodeServiceOutput.stdMessage)
-                    .build();
+                        .runTime(null)
+                        .memory(null)
+                        .status(Status.STDE)
+                        .failedTestCase(null)
+                        .actualOutput(null)
+                        .compilationMessage(null)
+                        .stdMessage(runCodeServiceOutput.stdMessage)
+                        .build();
             }
             // Check time limit
             TimeLimit timeLimit = problem.getTimeLimitByProgrammingLanguage(input.programmingLanguage);
@@ -119,7 +122,7 @@ public class SubmitServiceImpl implements SubmitService {
                 .status(Status.AC)
                 .actualOutput(null)
                 .compilationMessage(null)
-                .stdMessage(null)            
+                .stdMessage(null)
                 .build();
     }
 }
