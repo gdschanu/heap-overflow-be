@@ -21,7 +21,7 @@ public class LogInController {
         public String password;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/coderAuth/logIn")
     public ResponseEntity<?> logIn(@RequestBody Input input) {
         try {
             String token = logInService.logInService(input.usernameOrEmail, input.password);
