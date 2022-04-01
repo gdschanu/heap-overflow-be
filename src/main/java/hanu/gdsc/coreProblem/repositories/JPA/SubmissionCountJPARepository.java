@@ -20,8 +20,8 @@ public interface SubmissionCountJPARepository extends JpaRepository<SubmissionCo
             " submissions_count= :submissionsCount, " +
             " version= ( :version + 1) " +
             " WHERE problem_id= :problemId AND version= :version ", nativeQuery = true)
-    void update(@Param("ACsCount") Integer ACsCount,
-                @Param("submissionsCount") Integer submissionsCount,
+    void update(@Param("ACsCount") Long ACsCount,
+                @Param("submissionsCount") Long submissionsCount,
                 @Param("problemId") String problemId,
                 @Param("version") Long version);
 

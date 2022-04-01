@@ -32,11 +32,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
         return coreProblemId;
     }
 
-    public void setCoreProblemId(Id coreProblemId) {
-        this.coreProblemId = coreProblemId;
-    }
-
-
     public List<Id> getCategoryIds() {
         return categoryIds;
     }

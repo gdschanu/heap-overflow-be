@@ -18,16 +18,7 @@ public class SearchSubmissionServiceImpl implements SearchSubmissionService {
     private SubmissionRepository submissionRepository;
 
     @Override
-    public Submission getById(Id id) {
+    public Submission getByProblemId(Id id) {
         return null;
-    }
-
-    @Override
-    public List<Submission> getPracticeSubmissions(Id problemId) {
-        List<Submission> submissions = submissionRepository.getPracticeSubmissions(problemId);
-        if (submissions == null) {
-            throw new BusinessLogicError("Không tìm thấy submission", "NOT_FOUND");
-        }
-        return submissions;
     }
 }

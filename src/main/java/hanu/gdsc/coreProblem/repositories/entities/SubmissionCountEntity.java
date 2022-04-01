@@ -26,8 +26,8 @@ public class SubmissionCountEntity {
     private String problemId;
     @Version
     private Long version;
-    private int ACsCount;
-    private int submissionsCount;
+    private long ACsCount;
+    private long submissionsCount;
 
     public static SubmissionCountEntity toEntity(SubmissionCount submissionCount) {
         return SubmissionCountEntity.builder()

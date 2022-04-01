@@ -1,8 +1,8 @@
-package hanu.gdsc.practiceProblem.controllers.practiceProblem;
+package hanu.gdsc.practiceProblem.controllers.problem;
 
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 import hanu.gdsc.coreProblem.services.problem.SubmitService;
-import hanu.gdsc.practiceProblem.services.practiceProblem.SubmitPracticeProblemService;
+import hanu.gdsc.practiceProblem.services.problem.SubmitProblemService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SubmitPracticeProblemController {
     @Autowired
-    private SubmitPracticeProblemService submitPracticeProblemService;
+    private SubmitProblemService submitProblemService;
 
     public static class Input {
         public Id problemId;
@@ -27,7 +27,7 @@ public class SubmitPracticeProblemController {
     @PostMapping("/practiceProblem/problem/submit")
     public ResponseEntity<?> submit(@RequestBody Input input) {
         try {
-            SubmitService.Output output = submitPracticeProblemService.submit(SubmitPracticeProblemService.Input.builder()
+            SubmitService.Output output = submitProblemService.submit(SubmitProblemService.Input.builder()
                     .problemId(input.problemId)
                     .code(input.code)
                     .programmingLanguage(input.programmingLanguage)

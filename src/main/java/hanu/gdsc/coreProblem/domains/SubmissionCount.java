@@ -5,10 +5,10 @@ import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 
 public class SubmissionCount extends IdentitifedVersioningDomainObject {
     private Id problemId;
-    private int ACsCount;
-    private int submissionsCount;
+    private long ACsCount;
+    private long submissionsCount;
 
-    public SubmissionCount(Id id, long version, Id problemId, int ACsCount, int submissionsCount) {
+    public SubmissionCount(Id id, long version, Id problemId, long ACsCount, long submissionsCount) {
         super(id, version);
         this.problemId = problemId;
         this.ACsCount = ACsCount;
@@ -37,11 +37,11 @@ public class SubmissionCount extends IdentitifedVersioningDomainObject {
         return problemId;
     }
 
-    public int getACsCount() {
+    public long getACsCount() {
         return ACsCount;
     }
 
-    public int getSubmissionsCount() {
+    public long getSubmissionsCount() {
         return submissionsCount;
     }
 }

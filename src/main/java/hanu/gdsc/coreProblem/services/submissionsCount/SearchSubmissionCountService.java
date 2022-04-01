@@ -4,5 +4,5 @@ import hanu.gdsc.coreProblem.domains.SubmissionCount;
 import hanu.gdsc.share.domains.Id;
 
 public interface SearchSubmissionCountService {
-    public SubmissionCount getById(Id id);
+    public SubmissionCount getByProblemId(Id id);
 }

@@ -1,23 +1,22 @@
-package hanu.gdsc.practiceProblem.services.practiceProblem;
+package hanu.gdsc.practiceProblem.services.problem;
 
-import hanu.gdsc.coreProblem.services.problem.CreateProblemService;
 import hanu.gdsc.practiceProblem.config.ServiceName;
 import hanu.gdsc.practiceProblem.domains.Problem;
-import hanu.gdsc.practiceProblem.repositories.PracticeProblemRepository;
+import hanu.gdsc.practiceProblem.repositories.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CreatePracticeProblemServiceImpl implements CreatePracticeProblemService {
+public class CreateProblemServiceImpl implements CreateProblemService {
     @Autowired
-    private CreateProblemService createProblemService;
+    private hanu.gdsc.coreProblem.services.problem.CreateProblemService createProblemService;
     @Autowired
-    private PracticeProblemRepository practiceProblemRepository;
+    private ProblemRepository problemRepository;
 
     @Override
     public Id create(Input input) {
-        Id coreProblemId = createProblemService.execute(CreateProblemService.Input.builder()
+        Id coreProblemId = createProblemService.execute(hanu.gdsc.coreProblem.services.problem.CreateProblemService.Input.builder()
                 .name(input.createCoreProblemInput.name)
                 .description(input.createCoreProblemInput.description)
                 .author(input.createCoreProblemInput.author)
@@ -28,7 +27,7 @@ public class CreatePracticeProblemServiceImpl implements CreatePracticeProblemSe
                 .serviceToCreate(ServiceName.serviceName)
                 .build());
         Problem practiceProblem = Problem.create(coreProblemId, input.categoryIds, input.difficulty);
-        practiceProblemRepository.create(practiceProblem);
+        problemRepository.create(practiceProblem);
         return practiceProblem.getId();
     }
 }

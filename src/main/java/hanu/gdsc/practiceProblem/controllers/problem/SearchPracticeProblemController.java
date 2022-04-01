@@ -1,6 +1,6 @@
-package hanu.gdsc.practiceProblem.controllers.practiceProblem;
+package hanu.gdsc.practiceProblem.controllers.problem;
 
-import hanu.gdsc.practiceProblem.services.practiceProblem.SearchPracticeProblemService;
+import hanu.gdsc.practiceProblem.services.problem.SearchProblemService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -17,12 +17,12 @@ import java.util.List;
 @RestController
 public class SearchPracticeProblemController {
     @Autowired
-    private SearchPracticeProblemService servicePracticeProblemService;
+    private SearchProblemService servicePracticeProblemService;
 
     @GetMapping("/practiceProblem/problem/{id}")
     public ResponseEntity<?> getById(@RequestParam String id){
         try {
-            SearchPracticeProblemService.Output output = servicePracticeProblemService.getById(new Id(id));
+            SearchProblemService.Output output = servicePracticeProblemService.getById(new Id(id));
             return new ResponseEntity<>(
                     new ResponseBody("Found Problem", output), HttpStatus.OK
             );
@@ -38,7 +38,7 @@ public class SearchPracticeProblemController {
     @GetMapping("/practiceProblem/problem")
     public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage) {
         try {
-            List<SearchPracticeProblemService.Output> output = servicePracticeProblemService.get(page, perPage);
+            List<SearchProblemService.Output> output = servicePracticeProblemService.get(page, perPage);
             return new ResponseEntity<>(
                     new ResponseBody("Found Problems", output), HttpStatus.OK
             );

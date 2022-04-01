@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
-import hanu.gdsc.coreProblem.repositories.entities.ProblemEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,7 +21,7 @@ import hanu.gdsc.practiceProblem.repositories.entities.PracticeProblemEntity;
 import hanu.gdsc.share.domains.Id;
 
 @Repository
-public class PracticeProblemRepositoryImpl implements PracticeProblemRepository{
+public class ProblemRepositoryImpl implements ProblemRepository {
     @Autowired
     private PracticeProblemJPARepository practiceProblemJpaRepository;
     @Autowired

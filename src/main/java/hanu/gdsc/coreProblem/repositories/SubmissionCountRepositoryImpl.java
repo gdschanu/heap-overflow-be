@@ -16,17 +16,6 @@ public class SubmissionCountRepositoryImpl implements SubmissionCountRepository 
     private SubmissionCountJPARepository submissionCountJPARepository;
 
     @Override
-    public SubmissionCount getById(Id id) {
-        try {
-            SubmissionCountEntity submissionCountEntity = submissionCountJPARepository.getById(id.toString());
-            return SubmissionCountEntity.toDomain(submissionCountEntity);
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    @Override
     public void create(SubmissionCount submissionCount) {
         submissionCountJPARepository.save(SubmissionCountEntity.toEntity(submissionCount));
     }
@@ -34,8 +23,8 @@ public class SubmissionCountRepositoryImpl implements SubmissionCountRepository 
     @Override
     public void update(SubmissionCount submissionCount) {
         submissionCountJPARepository.update(
-                new Integer(submissionCount.getACsCount()),
-                new Integer(submissionCount.getSubmissionsCount()),
+                new Long(submissionCount.getACsCount()),
+                new Long(submissionCount.getSubmissionsCount()),
                 submissionCount.getProblemId().toString(),
                 new Long(submissionCount.getVersion())
         );

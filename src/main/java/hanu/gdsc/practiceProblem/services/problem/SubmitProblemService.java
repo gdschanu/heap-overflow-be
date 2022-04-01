@@ -1,4 +1,4 @@
-package hanu.gdsc.practiceProblem.services.practiceProblem;
+package hanu.gdsc.practiceProblem.services.problem;
 
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 import hanu.gdsc.coreProblem.services.problem.SubmitService;
@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-public interface SubmitPracticeProblemService {
+public interface SubmitProblemService {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
