@@ -14,15 +14,6 @@ public class SearchCategoryServiceImpl implements SearchCategoryService {
     private CategoryRepository categoryRepository;
 
     @Override
-    public Category getByName(String name) {
-        Category category = categoryRepository.getByName(name);
-        if(category == null) {
-            throw new BusinessLogicError("This category does not exist", "NOT_FOUND");
-        }
-        return category;
-    }
-
-    @Override
     public Category getById(Id id) {
         // TODO Auto-generated method stub
         return null;

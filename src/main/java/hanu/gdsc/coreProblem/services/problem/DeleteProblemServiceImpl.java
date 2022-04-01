@@ -12,9 +12,4 @@ import hanu.gdsc.share.domains.Id;
 public class DeleteProblemServiceImpl implements DeleteProblemService{
     @Autowired
     private ProblemRepository problemRepository;
-
-    @Override
-    public void deleteAllById(List<Id> ids) {
-        problemRepository.deleteAllById(ids); 
-    }
 }

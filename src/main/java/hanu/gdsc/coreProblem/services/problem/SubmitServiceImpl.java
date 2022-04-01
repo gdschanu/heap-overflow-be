@@ -1,15 +1,11 @@
 package hanu.gdsc.coreProblem.services.problem;
 
 import hanu.gdsc.coreProblem.domains.*;
-import hanu.gdsc.coreProblem.repositories.EventRepository;
 import hanu.gdsc.coreProblem.repositories.ProblemRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionEventRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
@@ -23,12 +19,6 @@ public class SubmitServiceImpl implements SubmitService {
     @Override
     public Output submit(Input input) {
         Output output = runTests(input);
-        FailedTestCaseDetail failedTestCaseDetail = output.failedTestCase == null ? null : 
-            FailedTestCaseDetail.fromTestCase(
-            failedAtLine,
-            output.actualOutput,
-            output.failedTestCase
-            );
         Submission submission = Submission.create(
                 input.problemId,
                 input.programmingLanguage,
@@ -36,11 +26,22 @@ public class SubmitServiceImpl implements SubmitService {
                 output.memory,
                 input.code,
                 output.status,
-                failedTestCaseDetail,
+                output.failedTestCaseDetail == null ? null :
+                        hanu.gdsc.coreProblem.domains.FailedTestCaseDetail.create(
+                                output.failedTestCaseDetail.failedAtLine,
+                                output.failedTestCaseDetail.input,
+                                output.failedTestCaseDetail.actualOutput,
+                                output.failedTestCaseDetail.expectedOutput,
+                                output.failedTestCaseDetail.description
+                        ),
                 input.serviceName
         );
         submissionRepository.create(submission);
-        SubmissionEvent submissionEvent = SubmissionEvent.create(input.problemId, output.status);
+        SubmissionEvent submissionEvent = SubmissionEvent.create(
+                input.problemId,
+                output.status
+        );
+        submissionEventRepository.create(submissionEvent);
         return output;
     }
 
@@ -60,10 +61,7 @@ public class SubmitServiceImpl implements SubmitService {
                         .runTime(null)
                         .memory(null)
                         .status(Status.CE)
-                        .failedTestCase(null)
-                        .actualOutput(null)
-                        .compilationMessage(runCodeServiceOutput.compilationMessage)
-                        .stdMessage(null)
+                        .failedTestCaseDetail(null)
                         .build();
             }
             // check std status
@@ -72,8 +70,7 @@ public class SubmitServiceImpl implements SubmitService {
                         .runTime(null)
                         .memory(null)
                         .status(Status.STDE)
-                        .failedTestCase(null)
-                        .actualOutput(null)
+                        .failedTestCaseDetail(null)
                         .compilationMessage(null)
                         .stdMessage(runCodeServiceOutput.stdMessage)
                         .build();
@@ -85,8 +82,7 @@ public class SubmitServiceImpl implements SubmitService {
                         .runTime(runCodeServiceOutput.runTime)
                         .memory(runCodeServiceOutput.memory)
                         .status(Status.TLE)
-                        .failedTestCase(null)
-                        .actualOutput(null)
+                        .failedTestCaseDetail(null)
                         .compilationMessage(null)
                         .stdMessage(null)
                         .build();
@@ -98,21 +94,26 @@ public class SubmitServiceImpl implements SubmitService {
                         .runTime(runCodeServiceOutput.runTime)
                         .memory(runCodeServiceOutput.memory)
                         .status(Status.MLE)
-                        .failedTestCase(null)
-                        .actualOutput(null)
+                        .failedTestCaseDetail(null)
                         .compilationMessage(null)
                         .stdMessage(null)
                         .build();
             }
             // Check answer
             if (!runCodeServiceOutput.output.equals(testCase.getExpectedOutput())) {
-                failedAtLine = runCodeServiceOutput.output.calculateFailedLine(testCase.getExpectedOutput());
                 return Output.builder()
                         .runTime(runCodeServiceOutput.runTime)
                         .memory(runCodeServiceOutput.memory)
                         .status(Status.WA)
-                        .failedTestCase(testCase)
-                        .actualOutput(runCodeServiceOutput.output.toString())
+                        .failedTestCaseDetail(
+                                FailedTestCaseDetail.builder()
+                                        .failedAtLine(runCodeServiceOutput.output.getFailedAtLine())
+                                        .input(testCase.getInput())
+                                        .actualOutput(runCodeServiceOutput.output.toString())
+                                        .expectedOutput(testCase.getExpectedOutput())
+                                        .description(testCase.getDescription())
+                                        .build()
+                        )
                         .compilationMessage(null)
                         .stdMessage(null)
                         .build();
@@ -122,11 +123,10 @@ public class SubmitServiceImpl implements SubmitService {
             testCaseCount++;
         }
         return Output.builder()
-                .memory(new KB((float) totalMemory / testCaseCount)) // TODO: calculate average run time & memory
+                .memory(new KB((float) totalMemory / testCaseCount))
                 .runTime(new Millisecond((long) totalRunTime / testCaseCount))
                 .status(Status.AC)
-                .failedTestCase(null)
-                .actualOutput(null)
+                .failedTestCaseDetail(null)
                 .compilationMessage(null)
                 .stdMessage(null)
                 .build();

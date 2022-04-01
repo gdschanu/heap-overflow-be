@@ -1,15 +1,15 @@
 package hanu.gdsc.coreProblem.domains;
 
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.VersioningDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 
-public class SubmissionCount extends VersioningDomainObject {
+public class SubmissionCount extends IdentitifedVersioningDomainObject {
     private Id problemId;
-    private int ACsCount;
-    private int submissionsCount;
+    private long ACsCount;
+    private long submissionsCount;
 
-    public SubmissionCount(long version, Id problemId, int ACsCount, int submissionsCount) {
-        super(version);
+    public SubmissionCount(Id id, long version, Id problemId, long ACsCount, long submissionsCount) {
+        super(id, version);
         this.problemId = problemId;
         this.ACsCount = ACsCount;
         this.submissionsCount = submissionsCount;
@@ -17,6 +17,7 @@ public class SubmissionCount extends VersioningDomainObject {
 
     public static SubmissionCount create(Id problemId) {
         return new SubmissionCount(
+                Id.generateRandom(),
                 0,
                 problemId,
                 0,
@@ -36,11 +37,11 @@ public class SubmissionCount extends VersioningDomainObject {
         return problemId;
     }
 
-    public int getACsCount() {
+    public long getACsCount() {
         return ACsCount;
     }
 
-    public int getSubmissionsCount() {
+    public long getSubmissionsCount() {
         return submissionsCount;
     }
 }

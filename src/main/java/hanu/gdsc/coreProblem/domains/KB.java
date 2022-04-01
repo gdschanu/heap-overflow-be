@@ -18,8 +18,8 @@ public class KB {
         this.value = value;
     }
 
-    public boolean greaterThan(KB kb) {
-        throw new Error("Unimplemented");
+    public boolean greaterThan(KB that) {
+        return this.value > that.value;
     }
 
     public double getValue() {

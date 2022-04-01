@@ -8,6 +8,8 @@ import javax.persistence.Version;
 
 import hanu.gdsc.coreProblem.domains.SubmissionCount;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 @Table(name = "core_problem_submission_count")
@@ -19,14 +21,17 @@ import lombok.*;
 public class SubmissionCountEntity {
     @Id
     @Column(columnDefinition = "VARCHAR(30)")
+    private String id;
+    @Column(columnDefinition = "VARCHAR(30)")
     private String problemId;
     @Version
     private Long version;
-    private int ACsCount;
-    private int submissionsCount;
+    private long ACsCount;
+    private long submissionsCount;
 
     public static SubmissionCountEntity toEntity(SubmissionCount submissionCount) {
         return SubmissionCountEntity.builder()
+                .id(submissionCount.getId().toString())
                 .problemId(submissionCount.getProblemId().toString())
                 .ACsCount(submissionCount.getACsCount())
                 .submissionsCount(submissionCount.getSubmissionsCount())
@@ -35,6 +40,7 @@ public class SubmissionCountEntity {
 
     public static SubmissionCount toDomain(SubmissionCountEntity submissionCountEntity) {
         return new SubmissionCount(
+            new hanu.gdsc.share.domains.Id(submissionCountEntity.getId()),
             submissionCountEntity.getVersion(),
             new hanu.gdsc.share.domains.Id(submissionCountEntity.getProblemId()),
             submissionCountEntity.getACsCount(),

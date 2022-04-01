@@ -13,8 +13,8 @@ public class SearchSubmissionCountServiceImpl implements SearchSubmissionCountSe
     @Autowired
     private SubmissionCountRepository submissionCountRepository;
     @Override
-    public SubmissionCount getById(Id id) {
-        SubmissionCount submissionCount = submissionCountRepository.getById(id);
+    public SubmissionCount getByProblemId(Id id) {
+        SubmissionCount submissionCount = submissionCountRepository.getByProblemId(id);
         if (submissionCount == null) {
             throw new BusinessLogicError("Not found submissionCount", "NOT_FOUND");
         }

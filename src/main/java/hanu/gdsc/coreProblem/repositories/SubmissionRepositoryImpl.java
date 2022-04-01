@@ -23,15 +23,4 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
         submissionJPARepository.save(SubmissionEntity.toEntity(submission));
     }
 
-    @Override
-    public List<Submission> getPracticeSubmissions(Id problemId) {
-        try {
-        return submissionJPARepository.getPracticeSubmissions(problemId.toString()).stream()
-                        .map(submissionEntity -> SubmissionEntity.toDomain(submissionEntity))
-                        .collect(Collectors.toList());
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }

@@ -1,11 +1,11 @@
-package hanu.gdsc.practiceProblem.controllers.practiceProblem;
+package hanu.gdsc.practiceProblem.controllers.problem;
 
 import hanu.gdsc.coreProblem.domains.MemoryLimit;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 import hanu.gdsc.coreProblem.domains.TestCase;
 import hanu.gdsc.coreProblem.domains.TimeLimit;
 import hanu.gdsc.practiceProblem.domains.Difficulty;
-import hanu.gdsc.practiceProblem.services.practiceProblem.CreatePracticeProblemService;
+import hanu.gdsc.practiceProblem.services.problem.CreateProblemService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 public class CreatePracticeProblemController {
     @Autowired
-    private CreatePracticeProblemService createPracticeProblemService;
+    private CreateProblemService createPracticeProblemService;
 
     public static class Input {
         public CreateCoreProblemInput createCoreProblemInput;
@@ -41,8 +41,8 @@ public class CreatePracticeProblemController {
     @PostMapping("/practiceProblem/problem")
     public ResponseEntity<?> create(@RequestBody Input input) {
         try {
-            Id problemId = createPracticeProblemService.create(CreatePracticeProblemService.Input.builder()
-                    .createCoreProblemInput(CreatePracticeProblemService.CreateCoreProblemInput.builder()
+            Id problemId = createPracticeProblemService.create(CreateProblemService.Input.builder()
+                    .createCoreProblemInput(CreateProblemService.CreateCoreProblemInput.builder()
                             .name(input.createCoreProblemInput.name)
                             .description(input.createCoreProblemInput.description)
                             .createTestCaseInputs(input.createCoreProblemInput.createTestCaseInputs)

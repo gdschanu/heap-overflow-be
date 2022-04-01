@@ -6,8 +6,6 @@ import hanu.gdsc.coreProblem.domains.Submission;
 import hanu.gdsc.share.domains.Id;
 
 public interface SearchSubmissionService {
-    public Submission getById(Id id);
-
-    public List<Submission> getPracticeSubmissions(Id problemId);
+    public Submission getByProblemId(Id id);
 }
 

@@ -1,4 +1,4 @@
-package hanu.gdsc.practiceProblem.services.practiceProblem;
+package hanu.gdsc.practiceProblem.services.problem;
 
 import java.util.List;
 
@@ -6,12 +6,11 @@ import hanu.gdsc.coreProblem.domains.MemoryLimit;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 import hanu.gdsc.coreProblem.domains.TestCase;
 import hanu.gdsc.coreProblem.domains.TimeLimit;
-import hanu.gdsc.coreProblem.services.problem.CreateProblemService;
 import hanu.gdsc.practiceProblem.domains.Difficulty;
 import hanu.gdsc.share.domains.Id;
 import lombok.Builder;
 
-public interface CreatePracticeProblemService {
+public interface CreateProblemService {
     @Builder
     public static class Input {
         public CreateCoreProblemInput createCoreProblemInput;
