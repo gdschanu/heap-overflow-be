@@ -26,7 +26,14 @@ public class SubmitServiceImpl implements SubmitService {
                 output.memory,
                 input.code,
                 output.status,
-                output.failedTestCaseDetail,
+                output.failedTestCaseDetail == null ? null :
+                        hanu.gdsc.coreProblem.domains.FailedTestCaseDetail.create(
+                                output.failedTestCaseDetail.failedAtLine,
+                                output.failedTestCaseDetail.input,
+                                output.failedTestCaseDetail.actualOutput,
+                                output.failedTestCaseDetail.expectedOutput,
+                                output.failedTestCaseDetail.description
+                        ),
                 input.serviceName
         );
         submissionRepository.create(submission);
@@ -98,11 +105,15 @@ public class SubmitServiceImpl implements SubmitService {
                         .runTime(runCodeServiceOutput.runTime)
                         .memory(runCodeServiceOutput.memory)
                         .status(Status.WA)
-                        .failedTestCaseDetail(FailedTestCaseDetail.fromTestCase(
-                                runCodeServiceOutput.output.getFailedAtLine(),
-                                runCodeServiceOutput.output.toString(),
-                                testCase
-                        ))
+                        .failedTestCaseDetail(
+                                FailedTestCaseDetail.builder()
+                                        .failedAtLine(runCodeServiceOutput.output.getFailedAtLine())
+                                        .input(testCase.getInput())
+                                        .actualOutput(runCodeServiceOutput.output.toString())
+                                        .expectedOutput(testCase.getExpectedOutput())
+                                        .description(testCase.getDescription())
+                                        .build()
+                        )
                         .compilationMessage(null)
                         .stdMessage(null)
                         .build();

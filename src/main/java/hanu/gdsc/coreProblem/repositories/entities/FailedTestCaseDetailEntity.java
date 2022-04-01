@@ -21,10 +21,9 @@ public class FailedTestCaseDetailEntity {
     private String actualOutput;
     private String expectedOutput;
     private String description;
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "submission_id", referencedColumnName = "id", columnDefinition = "VARCHAR(30)")
+    @OneToOne(mappedBy = "failedTestCaseDetail")
     private SubmissionEntity submission;
+
 
     public FailedTestCaseDetail toDomain() {
         return new FailedTestCaseDetail(
@@ -37,7 +36,7 @@ public class FailedTestCaseDetailEntity {
         );
     }
 
-    public static FailedTestCaseDetailEntity fromDomain(FailedTestCaseDetail domain) {
+    public static FailedTestCaseDetailEntity fromDomain(FailedTestCaseDetail domain, SubmissionEntity submission) {
         return FailedTestCaseDetailEntity.builder()
                 .id(domain.getId().toString())
                 .failedAtLine(domain.getFailedAtLine())
@@ -45,6 +44,7 @@ public class FailedTestCaseDetailEntity {
                 .actualOutput(domain.getActualOutput())
                 .expectedOutput(domain.getExpectedOutput())
                 .description(domain.getDescription())
+                .submission(submission)
                 .build();
     }
 }

@@ -22,77 +22,49 @@ public class SubmissionEntity {
     @Column(columnDefinition = "VARCHAR(30)")
     private String problemId;
     private String programmingLanguage;
-    private long runTimeInMillis;
-    private double memoryInKB;
+    private Long runTimeInMillis;
+    private Double memoryInKB;
     private String submittedAtInZonedDateTime;
     private String code;
     private String status;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "failed_test_case_detail_id", referencedColumnName = "id", columnDefinition = "VARCHAR(30)")
     private FailedTestCaseDetailEntity failedTestCaseDetail;
     private String serviceToCreate;
 
     public static SubmissionEntity toEntity(Submission submission) {
-        if(submission.getMemory() == null && submission.getRunTime() == null) {
-            return SubmissionEntity.builder()
-                    .id(submission.getId().toString())
-                    .version(submission.getVersion())
-                    .problemId(submission.getProblemId().toString())
-                    .programmingLanguage(submission.getProgrammingLanguage().toString())
-                    .runTimeInMillis(0)
-                    .memoryInKB(0)
-                    .submittedAtInZonedDateTime(submission.getSubmittedAt().toZonedDateTime().toString())
-                    .code(submission.getCode())
-                    .status(submission.getStatus().toString())
-                    .failedTestCaseDetail(null)
-                    .serviceToCreate(submission.getServiceToCreate())
-                    .build();
-        }
-        if (submission.getFailedTestCaseDetail() == null) {
-            return SubmissionEntity.builder()
+        SubmissionEntity e = SubmissionEntity.builder()
                 .id(submission.getId().toString())
                 .version(submission.getVersion())
                 .problemId(submission.getProblemId().toString())
                 .programmingLanguage(submission.getProgrammingLanguage().toString())
-                .runTimeInMillis(submission.getRunTime().getValue())
-                .memoryInKB(submission.getMemory().getValue())
+                .runTimeInMillis(submission.getRunTime() == null ? null : submission.getRunTime().getValue())
+                .memoryInKB(submission.getMemory() == null ? null : submission.getMemory().getValue())
                 .submittedAtInZonedDateTime(submission.getSubmittedAt().toZonedDateTime().toString())
                 .code(submission.getCode())
                 .status(submission.getStatus().toString())
-                .failedTestCaseDetail(null)
                 .serviceToCreate(submission.getServiceToCreate())
                 .build();
-        }
-        return SubmissionEntity.builder()
-                .id(submission.getId().toString())
-                .version(submission.getVersion())
-                .problemId(submission.getProblemId().toString())
-                .programmingLanguage(submission.getProgrammingLanguage().toString())
-                .runTimeInMillis(submission.getRunTime().getValue())
-                .memoryInKB(submission.getMemory().getValue())
-                .submittedAtInZonedDateTime(submission.getSubmittedAt().toZonedDateTime().toString())
-                .code(submission.getCode())
-                .status(submission.getStatus().toString())
-                .failedTestCaseDetail(FailedTestCaseDetailEntity.fromDomain(submission.getFailedTestCaseDetail()))
-                .serviceToCreate(submission.getServiceToCreate())
-                .build();
+        e.setFailedTestCaseDetail(submission.getFailedTestCaseDetail() == null ? null :
+                FailedTestCaseDetailEntity.fromDomain(submission.getFailedTestCaseDetail(), e));
+        return e;
     }
 
     public static Submission toDomain(SubmissionEntity submissionEntity) {
         if (submissionEntity.getFailedTestCaseDetail() == null) {
             return new Submission(
-                new hanu.gdsc.share.domains.Id(submissionEntity.getId()),
-                submissionEntity.getVersion(),
-                new hanu.gdsc.share.domains.Id(submissionEntity.getProblemId()),
-                ProgrammingLanguage.valueOf(submissionEntity.getProgrammingLanguage()),
-                new Millisecond(submissionEntity.getRunTimeInMillis()),
-                new KB(submissionEntity.getMemoryInKB()),
-                new DateTime(submissionEntity.getSubmittedAtInZonedDateTime()),
-                submissionEntity.getCode(),
-                Status.valueOf(submissionEntity.getStatus()),
-                null,
-                submissionEntity.getServiceToCreate()
-        );
+                    new hanu.gdsc.share.domains.Id(submissionEntity.getId()),
+                    submissionEntity.getVersion(),
+                    new hanu.gdsc.share.domains.Id(submissionEntity.getProblemId()),
+                    ProgrammingLanguage.valueOf(submissionEntity.getProgrammingLanguage()),
+                    new Millisecond(submissionEntity.getRunTimeInMillis()),
+                    new KB(submissionEntity.getMemoryInKB()),
+                    new DateTime(submissionEntity.getSubmittedAtInZonedDateTime()),
+                    submissionEntity.getCode(),
+                    Status.valueOf(submissionEntity.getStatus()),
+                    null,
+                    submissionEntity.getServiceToCreate()
+            );
         }
         return new Submission(
                 new hanu.gdsc.share.domains.Id(submissionEntity.getId()),

@@ -30,6 +30,21 @@ public class FailedTestCaseDetail extends IdentifiedDomainObject {
         );
     }
 
+    public static FailedTestCaseDetail create(Integer failedAtLine,
+                                              String input,
+                                              String actualOutput,
+                                              String expectedOutput,
+                                              String description) {
+        return new FailedTestCaseDetail(
+                Id.generateRandom(),
+                failedAtLine,
+                input,
+                actualOutput,
+                expectedOutput,
+                description
+        );
+    }
+
     public int getFailedAtLine() {
         return failedAtLine;
     }
