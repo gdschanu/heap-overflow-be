@@ -4,61 +4,72 @@ import java.util.Scanner;
 
 public class RunCodeOutput {
     private String output;
+    private int failedAtLine;
 
     public RunCodeOutput(String output) {
         this.output = output;
+        failedAtLine = 0;
+    }
+
+    public int getFailedAtLine() {
+        return failedAtLine;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        /*
-        Thực hiện so sánh equal với string tại đây
-        vì một số trường hợp thừa cách / xuống dòng
-        ở cuối vẫn là hợp lệ
-        Ko đc thêm get set attribute output của class này
-         */
-        // TODO: implement this
-        if (obj.getClass() != String.class) {
+    public boolean equals(Object o) {
+        if (o.getClass() != String.class) {
             throw new Error("RunCodeOutput.equal(...) argument must be String.");
         }
+        try {
+            check((String) o);
+            return true;
+        } catch (CheckError e) {
+            failedAtLine = e.line;
+            return false;
+        }
+    }
+
+    private static class CheckError extends Error {
+        int line;
+
+        public CheckError(int line) {
+            this.line = line;
+        }
+    }
+
+    void check(String correctOutputString) {
         Scanner actualOutput = new Scanner(output);
-        Scanner correctOutput = new Scanner((String) obj);
+        Scanner correctOutput = new Scanner(correctOutputString);
+        int line = 1;
         while (correctOutput.hasNextLine()) {
             if (!actualOutput.hasNextLine()) {
-                return false;
+                throw new CheckError(line);
             }
             String correctLine = correctOutput.nextLine();
             String actualLine = actualOutput.nextLine();
-            if (!correctLine.trim().equals(actualLine.trim())) {
-                return false;
+            if (!trim(correctLine).equals(trim(actualLine))) {
+                throw new CheckError(line);
             }
+            line++;
         }
         while (actualOutput.hasNextLine()) {
             String actualLine = actualOutput.nextLine();
             if (!containsOnlyChars(actualLine, '\n', ' ')) {
-                return false;
+                throw new CheckError(line);
             }
+            line++;
         }
-        return true;
     }
 
-    public int calculateFailedLine(Object obj) {
-        if(obj.getClass() != String.class) {
-            throw new Error("RunCodeOutput.calculateFailedLine(...) argument must be String.");
+    private String trim(String line) {
+        StringBuilder s = new StringBuilder();
+        int i = line.length() - 1;
+        while (i >= 0 && (line.charAt(i) == '\n' || line.charAt(i) == ' ')) {
+            i--;
         }
-        Scanner actualOutput = new Scanner(output);
-        Scanner correctOutput = new Scanner((String) obj);
-        for (int line=1; correctOutput.hasNextLine(); line++) {
-            if(!actualOutput.hasNextLine()) {
-                return 1;
-            }
-            String correctLine = correctOutput.nextLine();
-            String actualLine = actualOutput.nextLine();
-            if(!correctLine.trim().equals(actualLine.trim())) {
-                return line;
-            }
-        }
-        return 0;
+        for (int j = 0; j <= i; j++)
+            s.append(line.charAt(j));
+        return s.toString();
     }
 
     private boolean containsOnlyChars(String s, char... chars) {
@@ -78,8 +89,6 @@ public class RunCodeOutput {
 
     @Override
     public String toString() {
-        return "RunCodeOutput{" +
-                "output='" + output + '\'' +
-                '}';
+        return output;
     }
 }

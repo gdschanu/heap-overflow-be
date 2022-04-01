@@ -6,7 +6,6 @@ import hanu.gdsc.coreProblem.repositories.SubmissionEventRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
-
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
@@ -16,17 +15,10 @@ public class SubmitServiceImpl implements SubmitService {
     private final RunCodeService runCodeService;
     private final SubmissionRepository submissionRepository;
     private final SubmissionEventRepository submissionEventRepository;
-    private static int failedAtLine;
 
     @Override
     public Output submit(Input input) {
         Output output = runTests(input);
-        FailedTestCaseDetail failedTestCaseDetail = output.failedTestCase == null ? null : 
-            FailedTestCaseDetail.fromTestCase(
-            failedAtLine,
-            output.actualOutput,
-            output.failedTestCase
-            );
         Submission submission = Submission.create(
                 input.problemId,
                 input.programmingLanguage,
@@ -34,7 +26,7 @@ public class SubmitServiceImpl implements SubmitService {
                 output.memory,
                 input.code,
                 output.status,
-                failedTestCaseDetail,
+                output.failedTestCaseDetail,
                 input.serviceName
         );
         submissionRepository.create(submission);
@@ -62,10 +54,7 @@ public class SubmitServiceImpl implements SubmitService {
                         .runTime(null)
                         .memory(null)
                         .status(Status.CE)
-                        .failedTestCase(null)
-                        .actualOutput(null)
-                        .compilationMessage(runCodeServiceOutput.compilationMessage)
-                        .stdMessage(null)
+                        .failedTestCaseDetail(null)
                         .build();
             }
             // check std status
@@ -74,8 +63,7 @@ public class SubmitServiceImpl implements SubmitService {
                         .runTime(null)
                         .memory(null)
                         .status(Status.STDE)
-                        .failedTestCase(null)
-                        .actualOutput(null)
+                        .failedTestCaseDetail(null)
                         .compilationMessage(null)
                         .stdMessage(runCodeServiceOutput.stdMessage)
                         .build();
@@ -87,8 +75,7 @@ public class SubmitServiceImpl implements SubmitService {
                         .runTime(runCodeServiceOutput.runTime)
                         .memory(runCodeServiceOutput.memory)
                         .status(Status.TLE)
-                        .failedTestCase(null)
-                        .actualOutput(null)
+                        .failedTestCaseDetail(null)
                         .compilationMessage(null)
                         .stdMessage(null)
                         .build();
@@ -100,21 +87,22 @@ public class SubmitServiceImpl implements SubmitService {
                         .runTime(runCodeServiceOutput.runTime)
                         .memory(runCodeServiceOutput.memory)
                         .status(Status.MLE)
-                        .failedTestCase(null)
-                        .actualOutput(null)
+                        .failedTestCaseDetail(null)
                         .compilationMessage(null)
                         .stdMessage(null)
                         .build();
             }
             // Check answer
             if (!runCodeServiceOutput.output.equals(testCase.getExpectedOutput())) {
-                failedAtLine = runCodeServiceOutput.output.calculateFailedLine(testCase.getExpectedOutput());
                 return Output.builder()
                         .runTime(runCodeServiceOutput.runTime)
                         .memory(runCodeServiceOutput.memory)
                         .status(Status.WA)
-                        .failedTestCase(testCase)
-                        .actualOutput(runCodeServiceOutput.output.toString())
+                        .failedTestCaseDetail(FailedTestCaseDetail.fromTestCase(
+                                runCodeServiceOutput.output.getFailedAtLine(),
+                                runCodeServiceOutput.output.toString(),
+                                testCase
+                        ))
                         .compilationMessage(null)
                         .stdMessage(null)
                         .build();
@@ -124,11 +112,10 @@ public class SubmitServiceImpl implements SubmitService {
             testCaseCount++;
         }
         return Output.builder()
-                .memory(new KB((float) totalMemory / testCaseCount)) // TODO: calculate average run time & memory
+                .memory(new KB((float) totalMemory / testCaseCount))
                 .runTime(new Millisecond((long) totalRunTime / testCaseCount))
                 .status(Status.AC)
-                .failedTestCase(null)
-                .actualOutput(null)
+                .failedTestCaseDetail(null)
                 .compilationMessage(null)
                 .stdMessage(null)
                 .build();

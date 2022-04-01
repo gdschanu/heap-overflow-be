@@ -19,8 +19,7 @@ public interface SubmitService {
         public Millisecond runTime;
         public KB memory;
         public Status status;
-        public TestCase failedTestCase;
-        public String actualOutput;
+        public FailedTestCaseDetail failedTestCaseDetail;
         public String compilationMessage;
         public String stdMessage;
     }
