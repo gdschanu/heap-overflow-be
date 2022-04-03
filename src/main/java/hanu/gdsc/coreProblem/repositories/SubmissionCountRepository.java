@@ -10,6 +10,6 @@ public interface SubmissionCountRepository {
 
     public void update(SubmissionCount submission);
 
-    public SubmissionCount getByProblemId(Id problemId);
+    public SubmissionCount getByProblemId(Id problemId, String serviceToCreate);
 
 }

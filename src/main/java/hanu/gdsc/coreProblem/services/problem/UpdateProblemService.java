@@ -11,6 +11,8 @@ import hanu.gdsc.share.domains.Id;
 public interface UpdateProblemService {
     public static class Input{
         public Id id;
+        public String serviceToCreate;
+
         public String name;
         public String description;
         public List<TestCase> testCases;

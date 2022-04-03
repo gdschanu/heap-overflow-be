@@ -18,7 +18,12 @@ public class SearchSubmissionServiceImpl implements SearchSubmissionService {
     private SubmissionRepository submissionRepository;
 
     @Override
-    public Submission getByProblemId(Id id) {
+    public List<Submission> get(int page, int perPage, Id problemId, Id coderId, String serviceToCreate) {
+        return null;
+    }
+
+    @Override
+    public Submission getById(Id id, String serviceToCreate) {
         return null;
     }
 }

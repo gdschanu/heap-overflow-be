@@ -13,6 +13,14 @@ public class DislikeCount extends VersioningDomainObject {
         this.dislikeCount = dislikeCount;
     }
 
+    public static DislikeCount create(Id problemId) {
+        return new DislikeCount(
+                0,
+                problemId,
+                0
+        );
+    }
+
     public Id getProblemId() {
         return problemId;
     }

@@ -44,6 +44,7 @@ public interface SearchProblemService {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class Output {
+        public Id id;
         public String name;
         public String description;
         public Id author;
@@ -54,5 +55,7 @@ public interface SearchProblemService {
         public String serviceToCreate;
     }
 
-    public Output getById(Id id);
+    public Output getById(Id id, String serviceToCreate);
+
+    public List<Output> getByIds(List<Id> ids, String serviceToCreate);
 }

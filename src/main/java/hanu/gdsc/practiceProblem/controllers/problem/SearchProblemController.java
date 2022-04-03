@@ -15,7 +15,7 @@ import java.util.List;
 
 
 @RestController
-public class SearchPracticeProblemController {
+public class SearchProblemController {
     @Autowired
     private SearchProblemService servicePracticeProblemService;
 

@@ -46,7 +46,7 @@ public class SubmitServiceImpl implements SubmitService {
     }
 
     private Output runTests(Input input) {
-        Problem problem = problemRepository.getById(input.problemId);
+        Problem problem = problemRepository.getById(input.problemId, input.serviceToCreate);
         if (!problem.getAllowedProgrammingLanguages().contains(input.programmingLanguage)) {
             throw new BusinessLogicError("Bài tập không hỗ trợ ngôn ngữ lập trình " + input.programmingLanguage, "LANGUAGE_NOT_SUPPORTED");
         }

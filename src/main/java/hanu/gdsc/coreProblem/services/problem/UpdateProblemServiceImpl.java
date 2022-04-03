@@ -15,7 +15,7 @@ public class UpdateProblemServiceImpl implements UpdateProblemService{
 
     @Override
     public Id update(Input input) {
-        Problem problem = problemRepository.getById(input.id);
+        Problem problem = problemRepository.getById(input.id, input.serviceToCreate);
         if(problem == null) {
             throw new BusinessLogicError("Bài toán không tồn tại", "NOT_FOUND");
         }

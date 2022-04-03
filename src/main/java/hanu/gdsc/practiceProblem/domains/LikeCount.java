@@ -13,6 +13,14 @@ public class LikeCount extends VersioningDomainObject {
         this.likeCount = likeCount;
     }
 
+    public static LikeCount create(Id problemId) {
+        return new LikeCount(
+                0,
+                problemId,
+                0
+        );
+    }
+
     public Id getProblemId() {
         return problemId;
     }

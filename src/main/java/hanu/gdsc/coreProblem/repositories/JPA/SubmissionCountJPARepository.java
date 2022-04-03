@@ -9,10 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface SubmissionCountJPARepository extends JpaRepository<SubmissionCountEntity, String> {
-    @Query(value = "SELECT * FROM core_problem_submission_count sc WHERE sc.problem_id = :problemId", nativeQuery = true)
-    public SubmissionCountEntity getById(String problemId);
-
-    public List<SubmissionCountEntity> getByProblemId(String problemId);
+    public SubmissionCountEntity findByProblemIdAndServiceToCreate(String problemId, String serviceToCreate);
 
     @Modifying
     @Query(value = " UPDATE core_problem_submission_count set " +

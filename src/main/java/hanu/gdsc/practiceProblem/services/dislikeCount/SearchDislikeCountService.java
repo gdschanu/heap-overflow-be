@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface SearchDislikeCountService {
     public DislikeCount getByProblemId(Id problemId);
+
+    public List<DislikeCount> getByProblemIds(List<Id> problemIds);
 }

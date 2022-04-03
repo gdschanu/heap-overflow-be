@@ -9,4 +9,6 @@ public interface DislikeCountRepository {
     public List<DislikeCount> getByProblemIds(List<Id> ids);
 
     public DislikeCount getByProblemId(Id id);
+
+    public void create(DislikeCount dislikeCount);
 }

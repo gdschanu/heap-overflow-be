@@ -1,22 +1,27 @@
 package hanu.gdsc.practiceProblem.services.problem;
 
 import hanu.gdsc.practiceProblem.config.ServiceName;
+import hanu.gdsc.practiceProblem.domains.DislikeCount;
+import hanu.gdsc.practiceProblem.domains.LikeCount;
 import hanu.gdsc.practiceProblem.domains.Problem;
+import hanu.gdsc.practiceProblem.repositories.DislikeCountRepository;
+import hanu.gdsc.practiceProblem.repositories.LikeCountRepository;
 import hanu.gdsc.practiceProblem.repositories.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class CreateProblemServiceImpl implements CreateProblemService {
-    @Autowired
-    private hanu.gdsc.coreProblem.services.problem.CreateProblemService createProblemService;
-    @Autowired
-    private ProblemRepository problemRepository;
+    private final hanu.gdsc.coreProblem.services.problem.CreateProblemService createCoreProblemService;
+    private final ProblemRepository problemRepository;
+    private final LikeCountRepository likeCountRepository;
+    private final DislikeCountRepository dislikeCountRepository;
 
     @Override
     public Id create(Input input) {
-        Id coreProblemId = createProblemService.execute(hanu.gdsc.coreProblem.services.problem.CreateProblemService.Input.builder()
+        Id coreProblemId = createCoreProblemService.execute(hanu.gdsc.coreProblem.services.problem.CreateProblemService.Input.builder()
                 .name(input.createCoreProblemInput.name)
                 .description(input.createCoreProblemInput.description)
                 .author(input.createCoreProblemInput.author)
@@ -26,8 +31,16 @@ public class CreateProblemServiceImpl implements CreateProblemService {
                 .allowedProgrammingLanguages(input.createCoreProblemInput.allowedProgrammingLanguages)
                 .serviceToCreate(ServiceName.serviceName)
                 .build());
+
         Problem practiceProblem = Problem.create(coreProblemId, input.categoryIds, input.difficulty);
         problemRepository.create(practiceProblem);
+
+        LikeCount likeCount = LikeCount.create(practiceProblem.getId());
+        likeCountRepository.create(likeCount);
+
+        DislikeCount dislikeCount = DislikeCount.create(practiceProblem.getId());
+        dislikeCountRepository.create(dislikeCount);
+
         return practiceProblem.getId();
     }
 }

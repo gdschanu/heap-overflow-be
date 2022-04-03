@@ -12,7 +12,10 @@ public interface SubmitService {
     @NoArgsConstructor
     public static class Input {
         public Id coderId;
+
         public Id problemId;
+        public String serviceToCreate;
+
         public String code;
         public ProgrammingLanguage programmingLanguage;
         public String serviceName;

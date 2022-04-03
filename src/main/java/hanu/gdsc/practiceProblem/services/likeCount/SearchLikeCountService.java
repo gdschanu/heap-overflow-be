@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface SearchLikeCountService {
     public LikeCount getByProblemId(Id problemId);
+
+    public List<LikeCount> getByProblemIds(List<Id> problemIds);
+
 }

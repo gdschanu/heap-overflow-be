@@ -7,6 +7,7 @@ import hanu.gdsc.share.error.BusinessLogicError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -15,13 +16,20 @@ public class SearchProblemServiceImpl implements SearchProblemService {
     private ProblemRepository problemRepository;
 
     @Override
-    public Output getById(Id id) {
-        Problem problem = problemRepository.getById(id);
+    public Output getById(Id id, String serviceToCreate) {
+        Problem problem = problemRepository.getById(id, serviceToCreate);
         if (problem == null) {
             throw new BusinessLogicError("Could not found problem", "NOT_FOUND");
         }
         return toOutput(problem);
     }
+
+    @Override
+    public List<Output> getByIds(List<Id> ids, String serviceToCreate) {
+        List<Problem> problems = problemRepository.getByIds(ids, serviceToCreate);
+        return problems.stream().map(p -> toOutput(p)).collect(Collectors.toList());
+    }
+
 
     private Output toOutput(Problem problem) {
         return Output.builder()

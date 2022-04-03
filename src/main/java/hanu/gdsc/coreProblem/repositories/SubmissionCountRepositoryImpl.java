@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
 
 @Repository
 public class SubmissionCountRepositoryImpl implements SubmissionCountRepository {
@@ -31,12 +30,14 @@ public class SubmissionCountRepositoryImpl implements SubmissionCountRepository 
     }
 
     @Override
-    public SubmissionCount getByProblemId(Id problemId) {
-        List<SubmissionCountEntity> submissionCountEntities = submissionCountJPARepository
-                .getByProblemId(problemId.toString());
-        if (submissionCountEntities.size() == 0)
+    public SubmissionCount getByProblemId(Id problemId, String serviceToCreate) {
+        try {
+            SubmissionCountEntity submissionCountEnt = submissionCountJPARepository
+                    .findByProblemIdAndServiceToCreate(problemId.toString(), serviceToCreate);
+            return SubmissionCountEntity.toDomain(submissionCountEnt);
+        } catch (EntityNotFoundException e) {
             return null;
-        return SubmissionCountEntity.toDomain(submissionCountEntities.get(0));
+        }
     }
 
 }

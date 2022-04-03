@@ -1,4 +1,4 @@
-package hanu.gdsc.practiceProblem.controllers;
+package hanu.gdsc.practiceProblem.controllers.coreProblem;
 
 import hanu.gdsc.coreProblem.services.submission.SearchSubmissionService;
 import hanu.gdsc.share.controller.ResponseBody;

@@ -8,6 +8,8 @@ import hanu.gdsc.practiceProblem.repositories.CategoryRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 
+import java.util.List;
+
 @Service
 public class SearchCategoryServiceImpl implements SearchCategoryService {
     @Autowired
@@ -18,5 +20,10 @@ public class SearchCategoryServiceImpl implements SearchCategoryService {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
+    @Override
+    public List<Category> get() {
+        return null;
+    }
+
 }
