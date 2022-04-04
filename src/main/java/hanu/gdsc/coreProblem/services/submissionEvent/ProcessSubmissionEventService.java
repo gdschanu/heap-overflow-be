@@ -30,9 +30,9 @@ public class ProcessSubmissionEventService {
             }
             SubmissionCount submissionCount = submissionCountRepository.getByProblemId(submissionEvent.getProblemId());
             if (submissionEvent.getStatus().equals(Status.AC)) {
-                submissionCount.updateACsCount();
+                submissionCount.increaseACsCount();
             }
-            submissionCount.updateSubmissionsCount();
+            submissionCount.increaseSubmissionsCount();
             submissionCountRepository.update(submissionCount);
             submissionEventRepository.delete(submissionEvent.getId());
             System.out.println("Increased submission count for problemId: " + submissionEvent.getProblemId());

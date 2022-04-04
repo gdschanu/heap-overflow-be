@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.util.List;
-
 public interface SubmissionCountJPARepository extends JpaRepository<SubmissionCountEntity, String> {
     public SubmissionCountEntity findByProblemIdAndServiceToCreate(String problemId, String serviceToCreate);
 
@@ -21,5 +19,7 @@ public interface SubmissionCountJPARepository extends JpaRepository<SubmissionCo
                 @Param("submissionsCount") Long submissionsCount,
                 @Param("problemId") String problemId,
                 @Param("version") Long version);
+
+    public SubmissionCountEntity findByProblemId(String problemId);
 
 }

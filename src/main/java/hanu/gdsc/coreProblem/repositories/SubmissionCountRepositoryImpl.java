@@ -40,4 +40,14 @@ public class SubmissionCountRepositoryImpl implements SubmissionCountRepository 
         }
     }
 
+    @Override
+    public SubmissionCount getByProblemId(Id problemId) {
+        try {
+            SubmissionCountEntity ent = submissionCountJPARepository.findByProblemId(problemId.toString());
+            return SubmissionCountEntity.toDomain(ent);
+        } catch (EntityNotFoundException e) {
+            return null;
+        }
+    }
+
 }

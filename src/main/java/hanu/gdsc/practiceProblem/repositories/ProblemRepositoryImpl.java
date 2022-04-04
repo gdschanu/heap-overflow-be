@@ -11,16 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import hanu.gdsc.practiceProblem.domains.Category;
 import hanu.gdsc.practiceProblem.domains.Problem;
 import hanu.gdsc.practiceProblem.repositories.JPA.PracticeProblemJPARepository;
 import hanu.gdsc.practiceProblem.repositories.entities.CategoryEntity;
-import hanu.gdsc.practiceProblem.repositories.entities.PracticeProblemEntity;
+import hanu.gdsc.practiceProblem.repositories.entities.PracticeProblemProblemEntity;
 import hanu.gdsc.share.domains.Id;
 
-@Repository
+@Component(value = "PracticeProblem.ProblemRepositoryImpl")
 public class ProblemRepositoryImpl implements ProblemRepository {
     @Autowired
     private PracticeProblemJPARepository practiceProblemJpaRepository;
@@ -29,21 +29,21 @@ public class ProblemRepositoryImpl implements ProblemRepository {
 
     @Override
     public void create(Problem practiceProblem) {
-        PracticeProblemEntity practiceProblemEntity = PracticeProblemEntity.toEntity(practiceProblem);
+        PracticeProblemProblemEntity practiceProblemProblemEntity = PracticeProblemProblemEntity.toEntity(practiceProblem);
         Set<CategoryEntity> categoriesEntity = new HashSet<>();
         for(Id categoryId : practiceProblem.getCategoryIds()) {
             Category category = categoryRepository.getById(categoryId);
             categoriesEntity.add(CategoryEntity.toEntity(category));
         }
-        practiceProblemEntity.setCategory(categoriesEntity);
-        practiceProblemJpaRepository.save(practiceProblemEntity);
+        practiceProblemProblemEntity.setCategory(categoriesEntity);
+        practiceProblemJpaRepository.save(practiceProblemProblemEntity);
     }
 
     @Override
     public Problem getById(Id id) {
         try {
-            PracticeProblemEntity practiceProblemEntity = practiceProblemJpaRepository.getById(id.toString());
-            return PracticeProblemEntity.toDomain(practiceProblemEntity);
+            PracticeProblemProblemEntity practiceProblemProblemEntity = practiceProblemJpaRepository.getById(id.toString());
+            return PracticeProblemProblemEntity.toDomain(practiceProblemProblemEntity);
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
             return null;
@@ -53,10 +53,10 @@ public class ProblemRepositoryImpl implements ProblemRepository {
     @Override
     public List<Problem> get(int page, int perPage) {
         Pageable pageable = PageRequest.of(page , perPage);
-        Page<PracticeProblemEntity> entities =  practiceProblemJpaRepository.findAll(pageable);
+        Page<PracticeProblemProblemEntity> entities =  practiceProblemJpaRepository.findAll(pageable);
         return entities.getContent()
                 .stream().map(
-                        e -> PracticeProblemEntity.toDomain(e)
+                        e -> PracticeProblemProblemEntity.toDomain(e)
                 ).collect(Collectors.toList());
     }
 

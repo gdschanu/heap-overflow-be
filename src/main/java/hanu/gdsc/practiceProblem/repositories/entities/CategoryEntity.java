@@ -20,11 +20,11 @@ public class CategoryEntity {
     @Column(columnDefinition = "VARCHAR(30)")
     private String id;
     @Version
-    @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
+    @Column(name = "version")
     private long version;
     private String name;
     @ManyToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<PracticeProblemEntity> practiceProblem = new HashSet<>();
+    private Set<PracticeProblemProblemEntity> practiceProblem = new HashSet<>();
     
     public static CategoryEntity toEntity(Category category) {
         return CategoryEntity.builder()

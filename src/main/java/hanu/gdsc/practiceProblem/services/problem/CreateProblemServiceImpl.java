@@ -9,9 +9,10 @@ import hanu.gdsc.practiceProblem.repositories.LikeCountRepository;
 import hanu.gdsc.practiceProblem.repositories.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component(value = "PracticeProblem.CreateProblemServiceImpl")
 @AllArgsConstructor
 public class CreateProblemServiceImpl implements CreateProblemService {
     private final hanu.gdsc.coreProblem.services.problem.CreateProblemService createCoreProblemService;

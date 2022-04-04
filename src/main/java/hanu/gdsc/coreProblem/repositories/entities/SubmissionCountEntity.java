@@ -1,15 +1,9 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Version;
-
 import hanu.gdsc.coreProblem.domains.SubmissionCount;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "core_problem_submission_count")
@@ -26,21 +20,24 @@ public class SubmissionCountEntity {
     private Long version;
     private long ACsCount;
     private long submissionsCount;
+    private String serviceToCreate;
 
     public static SubmissionCountEntity toEntity(SubmissionCount submissionCount) {
         return SubmissionCountEntity.builder()
                 .problemId(submissionCount.getProblemId().toString())
                 .ACsCount(submissionCount.getACsCount())
                 .submissionsCount(submissionCount.getSubmissionsCount())
+                .serviceToCreate(submissionCount.getServiceToCreate())
                 .build();
     }
 
     public static SubmissionCount toDomain(SubmissionCountEntity submissionCountEntity) {
         return new SubmissionCount(
-            submissionCountEntity.getVersion(),
-            new hanu.gdsc.share.domains.Id(submissionCountEntity.getProblemId()),
-            submissionCountEntity.getACsCount(),
-            submissionCountEntity.getSubmissionsCount()
+                submissionCountEntity.getVersion(),
+                new hanu.gdsc.share.domains.Id(submissionCountEntity.getProblemId()),
+                submissionCountEntity.getACsCount(),
+                submissionCountEntity.getSubmissionsCount(),
+                submissionCountEntity.serviceToCreate
         );
     }
 }

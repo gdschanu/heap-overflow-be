@@ -14,7 +14,7 @@ public class SearchSubmissionCountServiceImpl implements SearchSubmissionCountSe
     private SubmissionCountRepository submissionCountRepository;
     @Override
     public SubmissionCount getByProblemId(Id id, String serviceToCreate) {
-        SubmissionCount submissionCount = submissionCountRepository.getByProblemId(id);
+        SubmissionCount submissionCount = submissionCountRepository.getByProblemId(id, serviceToCreate);
         if (submissionCount == null) {
             throw new BusinessLogicError("Not found submissionCount", "NOT_FOUND");
         }

@@ -29,7 +29,7 @@ public class CreateProblemServiceImpl implements CreateProblemService {
         );
         problemRepository.create(problem);
 
-        SubmissionCount submissionCount = SubmissionCount.create(problem.getId());
+        SubmissionCount submissionCount = SubmissionCount.create(problem.getId(), input.serviceToCreate);
         submissionCountRepository.create(submissionCount);
 
         return problem.getId();

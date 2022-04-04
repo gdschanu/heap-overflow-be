@@ -18,7 +18,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PracticeProblemEntity {
+public class PracticeProblemProblemEntity {
     @Id
     @Column(columnDefinition = "VARCHAR(30)")
     private String id;
@@ -35,8 +35,8 @@ public class PracticeProblemEntity {
     private Set<CategoryEntity> category = new HashSet<>();
     private String difficulty;
 
-    public static PracticeProblemEntity toEntity(Problem problem) {
-        return PracticeProblemEntity.builder()
+    public static PracticeProblemProblemEntity toEntity(Problem problem) {
+        return PracticeProblemProblemEntity.builder()
             .id(problem.getId().toString())
             .version(problem.getVersion())
             .coreProblemId(problem.getCoreProblemId().toString())
@@ -44,17 +44,17 @@ public class PracticeProblemEntity {
             .build();
     }
 
-    public static Problem toDomain(PracticeProblemEntity practiceProblemEntity) {
+    public static Problem toDomain(PracticeProblemProblemEntity practiceProblemProblemEntity) {
         List<hanu.gdsc.share.domains.Id> categoryIds = new ArrayList<>();
-        for(CategoryEntity category : practiceProblemEntity.getCategory()) {
+        for(CategoryEntity category : practiceProblemProblemEntity.getCategory()) {
             categoryIds.add(new hanu.gdsc.share.domains.Id(category.getId()));
         }
         return new Problem(
-            new hanu.gdsc.share.domains.Id(practiceProblemEntity.getId()),
-            practiceProblemEntity.getVersion(),
-            new hanu.gdsc.share.domains.Id(practiceProblemEntity.getCoreProblemId()),
+            new hanu.gdsc.share.domains.Id(practiceProblemProblemEntity.getId()),
+            practiceProblemProblemEntity.getVersion(),
+            new hanu.gdsc.share.domains.Id(practiceProblemProblemEntity.getCoreProblemId()),
             categoryIds,
-            Difficulty.valueOf(practiceProblemEntity.getDifficulty())
+            Difficulty.valueOf(practiceProblemProblemEntity.getDifficulty())
         );
     }
 }

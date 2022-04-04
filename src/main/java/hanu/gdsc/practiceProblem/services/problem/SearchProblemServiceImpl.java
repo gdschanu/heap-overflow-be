@@ -5,12 +5,13 @@ import hanu.gdsc.practiceProblem.repositories.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
+@Component(value = "PracticeProblem.SearchProblemServiceImpl")
 public class SearchProblemServiceImpl implements SearchProblemService {
     @Autowired
     private ProblemRepository problemRepository;
