@@ -1,6 +1,7 @@
-package hanu.gdsc.practiceProblem.controllers.problem;
+package hanu.gdsc.practiceProblem.controllers.dislikeCount;
 
-import hanu.gdsc.practiceProblem.services.problem.SearchProblemService;
+import hanu.gdsc.practiceProblem.domains.DislikeCount;
+import hanu.gdsc.practiceProblem.services.dislikeCount.SearchDislikeCountService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -13,19 +14,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 @RestController
-public class SearchProblemController {
+public class SearchDislikeCountController {
     @Autowired
-    private SearchProblemService servicePracticeProblemService;
+    private SearchDislikeCountService searchDislikeCountService;
 
-    @GetMapping("/practiceProblem/problem/{id}")
-    public ResponseEntity<?> getById(@PathVariable String id){
+    @GetMapping("/practiceProblem/dislikeCount/{problemId}")
+    public ResponseEntity<?> getByProblemId(@PathVariable String problemId) {
         try {
-            SearchProblemService.Output output = servicePracticeProblemService.getById(new Id(id));
+            DislikeCount dislikeCount = searchDislikeCountService.getByProblemId(
+                    new Id(problemId)
+            );
             return new ResponseEntity<>(
-                    new ResponseBody("Found Problem", output), HttpStatus.OK
+                    new ResponseBody("Success", dislikeCount), HttpStatus.OK
             );
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {
@@ -36,19 +39,21 @@ public class SearchProblemController {
         }
     }
 
-    @GetMapping("/practiceProblem/problem")
-    public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage) {
+    @GetMapping("/practiceProblem/dislikeCount")
+    public ResponseEntity<?> getByProblemIds(@RequestParam String problemIds) {
         try {
-            List<SearchProblemService.Output> output = servicePracticeProblemService.get(page, perPage);
+            List<String> ids = List.of(problemIds.split(","));
+            List<DislikeCount> dislikeCounts = searchDislikeCountService
+                    .getByProblemIds(ids.stream().map(x -> new Id(x))
+                            .collect(Collectors.toList()));
             return new ResponseEntity<>(
-                    new ResponseBody("Found Problems", output), HttpStatus.OK
+                    new ResponseBody("Success", dislikeCounts), HttpStatus.OK
             );
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
             }
-            e.printStackTrace();
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

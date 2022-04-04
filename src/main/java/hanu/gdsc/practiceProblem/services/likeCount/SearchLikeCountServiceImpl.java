@@ -25,6 +25,6 @@ public class SearchLikeCountServiceImpl implements SearchLikeCountService {
 
     @Override
     public List<LikeCount> getByProblemIds(List<Id> problemIds) {
-        return null;
+        return likeCountRepository.getByProblemIds(problemIds);
     }
 }

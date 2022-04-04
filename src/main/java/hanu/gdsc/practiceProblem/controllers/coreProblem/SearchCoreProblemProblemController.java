@@ -1,6 +1,7 @@
-package hanu.gdsc.practiceProblem.controllers.problem;
+package hanu.gdsc.practiceProblem.controllers.coreProblem;
 
-import hanu.gdsc.practiceProblem.services.problem.SearchProblemService;
+import hanu.gdsc.coreProblem.services.problem.SearchProblemService;
+import hanu.gdsc.practiceProblem.services.coreProblem.SearchCoreProblemProblemService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -12,20 +13,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Arrays;
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 @RestController
-public class SearchProblemController {
+public class SearchCoreProblemProblemController {
     @Autowired
-    private SearchProblemService servicePracticeProblemService;
+    private SearchCoreProblemProblemService service;
 
-    @GetMapping("/practiceProblem/problem/{id}")
-    public ResponseEntity<?> getById(@PathVariable String id){
+    @GetMapping("/practiceProblem/coreProblem/problem/{id}")
+    public ResponseEntity<?> getById(@PathVariable String id) {
         try {
-            SearchProblemService.Output output = servicePracticeProblemService.getById(new Id(id));
+            SearchProblemService.Output res = service.getById(new Id(id));
             return new ResponseEntity<>(
-                    new ResponseBody("Found Problem", output), HttpStatus.OK
+                    new ResponseBody("Success", res), HttpStatus.OK
             );
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {
@@ -36,19 +38,22 @@ public class SearchProblemController {
         }
     }
 
-    @GetMapping("/practiceProblem/problem")
-    public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage) {
+    @GetMapping("/practiceProblem/coreProblem/problem")
+    public ResponseEntity<?> getByIds(@RequestParam String ids) {
         try {
-            List<SearchProblemService.Output> output = servicePracticeProblemService.get(page, perPage);
+            List<Id> uids = Arrays
+                    .stream(ids.split(","))
+                    .map(x -> new Id(x))
+                    .collect(Collectors.toList());
+            List<SearchProblemService.Output> res = service.getByIds(uids);
             return new ResponseEntity<>(
-                    new ResponseBody("Found Problems", output), HttpStatus.OK
+                    new ResponseBody("Success", res), HttpStatus.OK
             );
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
             }
-            e.printStackTrace();
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

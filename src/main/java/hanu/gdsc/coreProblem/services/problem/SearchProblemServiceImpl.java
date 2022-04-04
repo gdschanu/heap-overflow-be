@@ -33,6 +33,7 @@ public class SearchProblemServiceImpl implements SearchProblemService {
 
     private Output toOutput(Problem problem) {
         return Output.builder()
+                .id(problem.getId())
                 .name(problem.getName())
                 .description(problem.getDescription())
                 .author(problem.getAuthor())
