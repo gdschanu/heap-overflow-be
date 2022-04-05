@@ -18,7 +18,6 @@ public interface SubmitService {
 
         public String code;
         public ProgrammingLanguage programmingLanguage;
-        public String serviceName;
     }
 
     @Builder

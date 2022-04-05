@@ -34,7 +34,7 @@ public class SubmitServiceImpl implements SubmitService {
                                 output.failedTestCaseDetail.expectedOutput,
                                 output.failedTestCaseDetail.description
                         ),
-                input.serviceName
+                input.serviceToCreate
         );
         submissionRepository.create(submission);
         SubmissionEvent submissionEvent = SubmissionEvent.create(
