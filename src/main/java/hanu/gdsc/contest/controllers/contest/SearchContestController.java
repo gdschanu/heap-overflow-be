@@ -25,7 +25,7 @@ public class SearchContestController {
         try {
             List<Contest> contests = searchContestService.search(page, perPage);
             return new ResponseEntity<>(
-                    new ResponseBody("Tìm kiếm thành công.", contests),
+                    new ResponseBody("Success", contests),
                     HttpStatus.OK
             );
         } catch (Throwable e) {

@@ -37,7 +37,7 @@ public class CreateContestController {
                     .createdBy(Id.generateRandom())
                     .build());
             return new ResponseEntity<>(
-                    new ResponseBody("Tạo kì thi thành công.", id),
+                    new ResponseBody("Success", id),
                     HttpStatus.OK
             );
         } catch (Throwable e) {
