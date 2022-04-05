@@ -5,6 +5,8 @@ import hanu.gdsc.coreProblem.domains.SubmissionCount;
 import hanu.gdsc.coreProblem.domains.SubmissionEvent;
 import hanu.gdsc.coreProblem.repositories.SubmissionCountRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionEventRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import javax.transaction.Transactional;
 
 @Service
 public class ProcessSubmissionEventService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSubmissionEventService.class);
 
     @Autowired
     private SubmissionEventRepository submissionEventRepository;
@@ -35,10 +38,10 @@ public class ProcessSubmissionEventService {
             submissionCount.increaseSubmissionsCount();
             submissionCountRepository.update(submissionCount);
             submissionEventRepository.delete(submissionEvent.getId());
-            System.out.println("Increased submission count for problemId: " + submissionEvent.getProblemId());
+            LOGGER.info("Increased submission count for problemId: " + submissionEvent.getProblemId());
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Process submission event error: " + e);
+            LOGGER.error("Process submission event error: " + e);
 
         }
     }

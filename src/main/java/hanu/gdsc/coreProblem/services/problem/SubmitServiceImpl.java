@@ -62,6 +62,7 @@ public class SubmitServiceImpl implements SubmitService {
                         .memory(null)
                         .status(Status.CE)
                         .failedTestCaseDetail(null)
+                        .compilationMessage(runCodeServiceOutput.compilationMessage)
                         .build();
             }
             // check std status
