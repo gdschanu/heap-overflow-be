@@ -5,10 +5,13 @@ import hanu.gdsc.contest.repositories.JPA.ContestJPARepository;
 import hanu.gdsc.contest.repositories.entities.ContestEntity;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class ContestRepositoryImpl implements ContestRepository {
@@ -36,7 +39,12 @@ public class ContestRepositoryImpl implements ContestRepository {
     }
 
     @Override
-    public List<Contest> search(int skip, int limit) {
-        return null;
+    public List<Contest> search(int page, int perPage) {
+        Page<ContestEntity> entities = contestJPARepository
+                .findAll(Pageable.ofSize(perPage).withPage(page));
+        return entities.getContent()
+                .stream()
+                .map(x -> x.toDomain())
+                .collect(Collectors.toList());
     }
 }

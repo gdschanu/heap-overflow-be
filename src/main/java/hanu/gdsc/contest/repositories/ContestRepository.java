@@ -12,5 +12,5 @@ public interface ContestRepository {
 
     public Contest getById(Id id);
 
-    public List<Contest> search(int skip, int limit);
+    public List<Contest> search(int page, int perPage);
 }
