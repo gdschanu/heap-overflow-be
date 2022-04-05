@@ -39,7 +39,7 @@ public class SearchLikeCountController {
         }
     }
 
-    @GetMapping("/practiceProblem/liktCount")
+    @GetMapping("/practiceProblem/likeCount")
     public ResponseEntity<?> getByProblemIds(@RequestParam String problemIds) {
         try {
             List<String> ids = List.of(problemIds.split(","));
