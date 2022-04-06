@@ -1,6 +1,7 @@
-package hanu.gdsc.practiceProblem.controllers.problem;
+package hanu.gdsc.practiceProblem.controllers.likeCount;
 
-import hanu.gdsc.practiceProblem.services.problem.SearchProblemService;
+import hanu.gdsc.practiceProblem.domains.LikeCount;
+import hanu.gdsc.practiceProblem.services.likeCount.SearchLikeCountService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -13,19 +14,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 @RestController
-public class SearchProblemController {
+public class SearchLikeCountController {
     @Autowired
-    private SearchProblemService servicePracticeProblemService;
+    private SearchLikeCountService searchLikeCountService;
 
-    @GetMapping("/practiceProblem/problem/{id}")
-    public ResponseEntity<?> getById(@PathVariable String id){
+    @GetMapping("/practiceProblem/likeCount/{problemId}")
+    public ResponseEntity<?> getByProblemId(@PathVariable String problemId) {
         try {
-            SearchProblemService.Output output = servicePracticeProblemService.getById(new Id(id));
+            LikeCount cnt = searchLikeCountService.getByProblemId(
+                    new Id(problemId)
+            );
             return new ResponseEntity<>(
-                    new ResponseBody("Found Problem", output), HttpStatus.OK
+                    new ResponseBody("Success", cnt), HttpStatus.OK
             );
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {
@@ -36,19 +39,21 @@ public class SearchProblemController {
         }
     }
 
-    @GetMapping("/practiceProblem/problem")
-    public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage) {
+    @GetMapping("/practiceProblem/likeCount")
+    public ResponseEntity<?> getByProblemIds(@RequestParam String problemIds) {
         try {
-            List<SearchProblemService.Output> output = servicePracticeProblemService.get(page, perPage);
+            List<String> ids = List.of(problemIds.split(","));
+            List<LikeCount> cnt = searchLikeCountService
+                    .getByProblemIds(ids.stream().map(x -> new Id(x))
+                            .collect(Collectors.toList()));
             return new ResponseEntity<>(
-                    new ResponseBody("Found Problems", output), HttpStatus.OK
+                    new ResponseBody("Success", cnt), HttpStatus.OK
             );
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }
-            e.printStackTrace();
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -17,27 +17,27 @@ public interface SearchProblemService {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class OutputTestCase {
-        private String input;
-        private String expectedOutput;
-        private int ordinal;
-        private boolean isSample;
-        private String description;
+        public String input;
+        public String expectedOutput;
+        public int ordinal;
+        public boolean isSample;
+        public String description;
     }
 
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class OutputMemoryLimit {
-        private ProgrammingLanguage programmingLanguage;
-        private KB memoryLimit;
+        public ProgrammingLanguage programmingLanguage;
+        public KB memoryLimit;
     }
 
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
     public static class OutputTimeLimit {
-        private ProgrammingLanguage programmingLanguage;
-        private Millisecond timeLimit;
+        public ProgrammingLanguage programmingLanguage;
+        public Millisecond timeLimit;
     }
 
     @Builder
@@ -52,7 +52,6 @@ public interface SearchProblemService {
         public List<OutputMemoryLimit> memoryLimits;
         public List<OutputTimeLimit> timeLimits;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
-        public String serviceToCreate;
     }
 
     public Output getById(Id id, String serviceToCreate);

@@ -19,19 +19,19 @@ public class SearchContestController {
     @Autowired
     private SearchContestService searchContestService;
 
-    @GetMapping("/contest")
+    @GetMapping("/contest/contest")
     public ResponseEntity<?> searchContest(@RequestParam int page,
                                            @RequestParam int perPage) {
         try {
             List<Contest> contests = searchContestService.search(page, perPage);
             return new ResponseEntity<>(
-                    new ResponseBody("Tìm kiếm thành công.", contests),
+                    new ResponseBody("Success", contests),
                     HttpStatus.OK
             );
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {
                 e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         } 

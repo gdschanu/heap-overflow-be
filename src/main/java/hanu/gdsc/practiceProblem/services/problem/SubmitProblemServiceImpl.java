@@ -27,7 +27,7 @@ public class SubmitProblemServiceImpl implements SubmitProblemService {
                 .problemId(practiceProblem.getCoreProblemId())
                 .code(input.code)
                 .programmingLanguage(input.programmingLanguage)
-                .serviceName(ServiceName.serviceName)
+                .serviceToCreate(ServiceName.serviceName)
                 .build());
     }
 }

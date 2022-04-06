@@ -25,6 +25,6 @@ public class SearchDislikeCountServiceImpl implements SearchDislikeCountService 
 
     @Override
     public List<DislikeCount> getByProblemIds(List<Id> problemIds) {
-        return null;
+        return dislikeCountRepository.getByProblemIds(problemIds);
     }
 }

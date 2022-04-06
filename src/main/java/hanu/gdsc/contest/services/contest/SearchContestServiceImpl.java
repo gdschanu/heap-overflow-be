@@ -25,6 +25,6 @@ public class SearchContestServiceImpl implements SearchContestService {
 
     @Override
     public List<Contest> search(int page, int perPage) {
-        return contestRepository.search((page - 1) * perPage, page);
+        return contestRepository.search(page, perPage);
     }
 }
