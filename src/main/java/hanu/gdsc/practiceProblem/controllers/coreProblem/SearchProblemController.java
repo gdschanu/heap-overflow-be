@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+@RestController(value = "PracticeProblem.CoreProblem.SearchProblemController")
 public class SearchProblemController {
     @Autowired
     private SearchCoreProblemProblemService service;
