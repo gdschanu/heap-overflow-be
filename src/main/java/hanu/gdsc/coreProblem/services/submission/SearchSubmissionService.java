@@ -31,6 +31,7 @@ public interface SearchSubmissionService {
         public String code;
         public Status status;
         public FailedTestCaseDetailOutput failedTestCaseDetail;
+        public Id coderId;
     }
 
     public List<Output> get(int page,

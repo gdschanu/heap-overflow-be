@@ -14,8 +14,9 @@ public class Submission extends IdentitifedVersioningDomainObject {
     private Status status;
     private FailedTestCaseDetail failedTestCaseDetail;
     private String serviceToCreate;
+    private Id coderId;
 
-    public Submission(Id id, long version, Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, FailedTestCaseDetail failedTestCaseDetail, String serviceToCreate) {
+    public Submission(Id id, long version, Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, FailedTestCaseDetail failedTestCaseDetail, String serviceToCreate, Id coderId) {
         super(id, version);
         this.problemId = problemId;
         this.programmingLanguage = programmingLanguage;
@@ -26,11 +27,12 @@ public class Submission extends IdentitifedVersioningDomainObject {
         this.status = status;
         this.failedTestCaseDetail = failedTestCaseDetail;
         this.serviceToCreate = serviceToCreate;
+        this.coderId = coderId;
     }
 
     public static Submission create(Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory,
                                     String code, Status status, FailedTestCaseDetail failedTestCaseDetail,
-                                    String serviceToCreate) {
+                                    String serviceToCreate, Id coderId) {
         return new Submission(
                 Id.generateRandom(),
                 0,
@@ -42,8 +44,13 @@ public class Submission extends IdentitifedVersioningDomainObject {
                 code,
                 status,
                 failedTestCaseDetail,
-                serviceToCreate
+                serviceToCreate,
+                coderId
         );
+    }
+
+    public Id getCoderId() {
+        return coderId;
     }
 
     public Id getProblemId() {

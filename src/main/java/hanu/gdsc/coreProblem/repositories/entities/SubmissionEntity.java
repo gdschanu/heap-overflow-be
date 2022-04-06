@@ -46,6 +46,7 @@ public class SubmissionEntity {
                 .code(submission.getCode())
                 .status(submission.getStatus().toString())
                 .serviceToCreate(submission.getServiceToCreate())
+                .coderId(submission.getCoderId().toString())
                 .build();
         e.setFailedTestCaseDetail(submission.getFailedTestCaseDetail() == null ? null :
                 FailedTestCaseDetailEntity.fromDomain(submission.getFailedTestCaseDetail(), e));
@@ -53,21 +54,6 @@ public class SubmissionEntity {
     }
 
     public static Submission toDomain(SubmissionEntity submissionEntity) {
-        if (submissionEntity.getFailedTestCaseDetail() == null) {
-            return new Submission(
-                    new hanu.gdsc.share.domains.Id(submissionEntity.getId()),
-                    submissionEntity.getVersion(),
-                    new hanu.gdsc.share.domains.Id(submissionEntity.getProblemId()),
-                    ProgrammingLanguage.valueOf(submissionEntity.getProgrammingLanguage()),
-                    new Millisecond(submissionEntity.getRunTimeInMillis()),
-                    new KB(submissionEntity.getMemoryInKB()),
-                    new DateTime(submissionEntity.getSubmittedAtInZonedDateTime()),
-                    submissionEntity.getCode(),
-                    Status.valueOf(submissionEntity.getStatus()),
-                    null,
-                    submissionEntity.getServiceToCreate()
-            );
-        }
         return new Submission(
                 new hanu.gdsc.share.domains.Id(submissionEntity.getId()),
                 submissionEntity.getVersion(),
@@ -78,8 +64,10 @@ public class SubmissionEntity {
                 new DateTime(submissionEntity.getSubmittedAtInZonedDateTime()),
                 submissionEntity.getCode(),
                 Status.valueOf(submissionEntity.getStatus()),
-                submissionEntity.getFailedTestCaseDetail().toDomain(),
-                submissionEntity.getServiceToCreate()
+                submissionEntity.getFailedTestCaseDetail() == null ?
+                        null : submissionEntity.getFailedTestCaseDetail().toDomain(),
+                submissionEntity.getServiceToCreate(),
+                new hanu.gdsc.share.domains.Id(submissionEntity.coderId)
         );
     }
 }
