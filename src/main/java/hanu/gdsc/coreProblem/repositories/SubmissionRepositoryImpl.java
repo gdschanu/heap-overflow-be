@@ -29,7 +29,9 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
     @Override
     public List<Submission> get(int page, int perPage, Id problemId, Id coderId, String serviceToCreate) {
         Pageable pageable = PageRequest.of(page, perPage);
-        Page<SubmissionEntity> submissionsEntity = submissionJPARepository.get(problemId.toString(), coderId.toString(), serviceToCreate, pageable);
+        String stringProblemId = problemId == null ? null : problemId.toString();
+        String stringCoderId = coderId == null ? null : coderId.toString();
+        Page<SubmissionEntity> submissionsEntity = submissionJPARepository.get(stringProblemId, stringCoderId, serviceToCreate, pageable);
         return submissionsEntity.getContent().stream()
                 .map(s -> SubmissionEntity.toDomain(s))
                 .collect(Collectors.toList());

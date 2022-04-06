@@ -20,12 +20,14 @@ public class SearchSubmissionProblemController {
     @Autowired
     private SearchCoreProblemSubmissionService searchCoreProblemSubmissionService;
 
-    @GetMapping("/practiceProblem/coreProblem/submission")
+    @GetMapping("/practiceProblem/coreProblem/submissions")
     public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage,
                                  @RequestParam(required = false) String problemId,
                                  @RequestParam(required = false) String coderId) {
         try {
-            List<SearchSubmissionService.Output> output = searchCoreProblemSubmissionService.get(page, perPage, new Id(problemId), new Id(coderId));
+            Id problem = problemId == null ? null : new Id(problemId);
+            Id coder = coderId == null ? null : new Id(coderId);
+            List<SearchSubmissionService.Output> output = searchCoreProblemSubmissionService.get(page, perPage, problem, coder);
             return new ResponseEntity<>(
                     new ResponseBody("Found Successfully", output), HttpStatus.OK
             );
@@ -38,7 +40,7 @@ public class SearchSubmissionProblemController {
         }
     }
 
-    @GetMapping("/practiceProblem/coreProblem/submission/{id}")
+    @GetMapping("/practiceProblem/coreProblem/submission")
     public ResponseEntity<?> getById(@RequestParam String id) {
         try {
             SearchSubmissionService.Output output = searchCoreProblemSubmissionService.getById(new Id(id));

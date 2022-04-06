@@ -10,12 +10,12 @@ import hanu.gdsc.coreProblem.repositories.entities.SubmissionEntity;
 
 
 public interface SubmissionJPARepository extends JpaRepository<SubmissionEntity, String> {
-    @Query(value="SELECT * FROM core_problem_submission s WHERE (:problemId IS NULL OR s.problemId = :problemId)" +
-        " AND (:coderId IS NULL OR s.coderId = :coderId)" +
-        " AND s.serviceToCreate = :serviceToCreate",
-        countQuery="SELECT count(*) FROM core_problem_submission s WHERE (:problemId IS NULL OR s.problemId = :problemId)" +
-        " AND (:coderId IS NULL OR s.coderId = :coderId)" +
-        " AND s.serviceToCreate = :serviceToCreate",
+    @Query(value="SELECT * FROM core_problem_submission s WHERE (:problemId IS NULL OR s.problem_id = :problemId)" +
+        " AND (:coderId IS NULL OR s.coder_id = :coderId)" +
+        " AND s.service_to_create = :serviceToCreate",
+        countQuery="SELECT count(*) FROM core_problem_submission s WHERE (:problemId IS NULL OR s.problem_id = :problemId)" +
+        " AND (:coderId IS NULL OR s.coder_id = :coderId)" +
+        " AND s.service_to_create = :serviceToCreate",
         nativeQuery = true)
     public Page<SubmissionEntity> get(@Param("problemId") String problemId,
                                       @Param("coderId") String coderId,

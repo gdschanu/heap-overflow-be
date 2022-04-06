@@ -37,6 +37,18 @@ public class SearchSubmissionServiceImpl implements SearchSubmissionService {
     }
 
     private static Output toOutput(Submission submission) {
+        if (submission.getFailedTestCaseDetail() == null) {
+            return Output.builder()
+                .problemId(submission.getProblemId())
+                .programmingLanguage(submission.getProgrammingLanguage())
+                .runTime(submission.getRunTime())
+                .memory(submission.getMemory())
+                .submittedAt(submission.getSubmittedAt())
+                .code(submission.getCode())
+                .status(submission.getStatus())
+                .failedTestCaseDetail(null)
+                .build();
+        }
         return Output.builder()
                 .problemId(submission.getId())
                 .programmingLanguage(submission.getProgrammingLanguage())

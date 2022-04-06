@@ -21,6 +21,8 @@ public class SubmissionEntity {
     private long version;
     @Column(columnDefinition = "VARCHAR(30)")
     private String problemId;
+    @Column(columnDefinition = "VARCHAR(30)")
+    private String coderId;
     private String programmingLanguage;
     private Long runTimeInMillis;
     private Double memoryInKB;
