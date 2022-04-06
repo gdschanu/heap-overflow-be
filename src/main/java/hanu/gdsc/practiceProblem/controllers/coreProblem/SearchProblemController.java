@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-public class SearchCoreProblemProblemController {
+public class SearchProblemController {
     @Autowired
     private SearchCoreProblemProblemService service;
 
