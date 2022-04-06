@@ -9,6 +9,7 @@ import hanu.gdsc.share.error.BusinessLogicError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,16 +20,15 @@ public class SubmitProblemController {
     private SubmitProblemService submitProblemService;
 
     public static class Input {
-        public Id problemId;
         public String code;
         public ProgrammingLanguage programmingLanguage;
     }
 
-    @PostMapping("/practiceProblem/problem/submit")
-    public ResponseEntity<?> submit(@RequestBody Input input) {
+    @PostMapping("/practiceProblem/problem/{id}/submit")
+    public ResponseEntity<?> submit(@RequestBody Input input, @PathVariable String id) {
         try {
             SubmitService.Output output = submitProblemService.submit(SubmitProblemService.Input.builder()
-                    .problemId(input.problemId)
+                    .problemId(new Id(id))
                     .code(input.code)
                     .programmingLanguage(input.programmingLanguage)
                     .coderId(Id.generateRandom())

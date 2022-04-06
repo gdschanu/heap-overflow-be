@@ -1,6 +1,5 @@
 package hanu.gdsc.practiceProblem.services.coreProblem;
 
-import hanu.gdsc.coreProblem.domains.Submission;
 import hanu.gdsc.coreProblem.services.submission.SearchSubmissionService;
 import hanu.gdsc.practiceProblem.config.ServiceName;
 import hanu.gdsc.share.domains.Id;
@@ -15,7 +14,7 @@ public class SearchCoreProblemSubmissionServiceImpl implements SearchCoreProblem
     private final SearchSubmissionService searchSubmissionService;
 
     @Override
-    public List<Submission> get(int page, int perPage, Id problemId, Id coderId) {
+    public List<SearchSubmissionService.Output> get(int page, int perPage, Id problemId, Id coderId) {
         return searchSubmissionService.get(
                 page,
                 perPage,
@@ -26,7 +25,7 @@ public class SearchCoreProblemSubmissionServiceImpl implements SearchCoreProblem
     }
 
     @Override
-    public Submission getById(Id id) {
+    public SearchSubmissionService.Output getById(Id id) {
         return searchSubmissionService.getById(id, ServiceName.serviceName);
     }
 }

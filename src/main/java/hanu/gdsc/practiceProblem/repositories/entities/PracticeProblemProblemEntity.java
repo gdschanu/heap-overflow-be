@@ -27,8 +27,6 @@ public class PracticeProblemProblemEntity {
     private long version;
     @Column(columnDefinition = "VARCHAR(30)")
     private String coreProblemId;
-    private long likeCount;
-    private long dislikeCount;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "practice_problem_problem_category", joinColumns = @JoinColumn(name="practice_problem_id"),
             inverseJoinColumns = @JoinColumn(name="category_id"))
