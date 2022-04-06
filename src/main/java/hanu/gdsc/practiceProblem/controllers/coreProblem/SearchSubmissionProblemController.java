@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class SearchSubmissionProblemController {
     @Autowired
     private SearchCoreProblemSubmissionService searchCoreProblemSubmissionService;
 
-    @GetMapping("/practiceProblem/coreProblem/submissions")
+    @GetMapping("/practiceProblem/coreProblem/submission")
     public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage,
                                  @RequestParam(required = false) String problemId,
                                  @RequestParam(required = false) String coderId) {
@@ -40,8 +41,8 @@ public class SearchSubmissionProblemController {
         }
     }
 
-    @GetMapping("/practiceProblem/coreProblem/submission")
-    public ResponseEntity<?> getById(@RequestParam String id) {
+    @GetMapping("/practiceProblem/coreProblem/submission/{id}")
+    public ResponseEntity<?> getById(@PathVariable String id) {
         try {
             SearchSubmissionService.Output output = searchCoreProblemSubmissionService.getById(new Id(id));
             return new ResponseEntity<>(
