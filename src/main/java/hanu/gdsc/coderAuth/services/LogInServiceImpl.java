@@ -41,19 +41,22 @@ public class LogInServiceImpl implements LogInService {
          if (BCrypt.checkpw(password, user.getPassword().toString())) {
             return createToken(coderId);
          } else {
-            throw new BusinessLogicError("Sai mật khẩu.", "WRONG_PASSWORD");
+            throw new BusinessLogicError("Sai mật khẩu", "WRONG_PASSWORD");
          }
       } else {
          throw new BusinessLogicError("Username/email không tồn tại", "NON-EXISTENT_USERNAME_OR_EMAIL");
       }
    }
 
+   private final String secretKey = "Hanuoj";
    public String createToken(Id coderId) {
-      Session session = new Session(Id.generateRandom(), coderId, DateTime.now().plusMinutes(15));
+      Id id = Id.generateRandom();
+      DateTime expireAt = DateTime.now().plusMinutes(15);
+      Session session = new Session(id, coderId, expireAt);
       sessionRepository.save(session);
       return Jwts.builder()
-            .setId(session.getId().toString())
-            .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encode("Hanuoj<Secretkey>".getBytes()))
+            .setId(id.toString())
+            .signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
             .compact();
    }
 }
