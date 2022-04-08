@@ -6,13 +6,13 @@ import hanu.gdsc.share.domains.Id;
 public class Session {
     private Id id;
     private Id coderId;
-    private DateTime expiredAt; 
+    private DateTime expireAt; 
     
 
     public Session(Id id, Id coderId, DateTime expiredAt) {
         this.id = id;
         this.coderId = coderId;
-        this.expiredAt = expiredAt;
+        this.expireAt = expiredAt;
     }
 
     public Id getId() {
@@ -32,11 +32,11 @@ public class Session {
     }
 
     public DateTime getExpiredAt() {
-        return expiredAt;
+        return expireAt;
     }
 
-    public void setExpiredAt(DateTime expiredAt) {
-        this.expiredAt = expiredAt;
+    public void setExpiredAt(DateTime expireAt) {
+        this.expireAt = expireAt;
     }
 
     
