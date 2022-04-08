@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import hanu.gdsc.coderAuth.domains.Session;
 import hanu.gdsc.coderAuth.repositories.Entities.SessionEntity;
 import hanu.gdsc.coderAuth.repositories.JPA.SessionJPARepository;
+import hanu.gdsc.share.domains.Id;
 
 @Repository
 public class SessionRepositoryImpl implements SessionRepository{
@@ -16,5 +17,10 @@ public class SessionRepositoryImpl implements SessionRepository{
     @Override
     public void save(Session session) {
       sessionJPARepository.save(SessionEntity.toEntity(session));
+    }
+
+    @Override
+    public Session getById(Id id) {
+      return sessionJPARepository.getById(id.toString()).toDomain();
     }
 }

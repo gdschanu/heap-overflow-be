@@ -22,13 +22,21 @@ public class SessionEntity {
     private String id;
     @Column(columnDefinition = "VARCHAR(30)")
     private String coderId;
-    private String expiredAt;    
+    private String expireAt;    
 
     public static SessionEntity toEntity(Session session) {
         return SessionEntity.builder()
         .id(session.getId().toString())
         .coderId(session.getCoderId().toString())
-        .expiredAt(session.getExpiredAt().toZonedDateTime().toString())
+        .expireAt(session.getExpiredAt().toZonedDateTime().toString())
         .build();
+    }
+
+    public Session toDomain() {
+        return new Session(
+            new hanu.gdsc.share.domains.Id(id), 
+            new hanu.gdsc.share.domains.Id(coderId),
+            new hanu.gdsc.share.domains.DateTime(expireAt)
+        );
     }
 }
