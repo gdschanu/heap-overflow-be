@@ -23,7 +23,7 @@ public class RunCodeOutput {
         try {
             check((String) o);
             return true;
-        } catch (CheckError e) {
+        } catch (CheckError e) {    
             failedAtLine = e.line;
             return false;
         }

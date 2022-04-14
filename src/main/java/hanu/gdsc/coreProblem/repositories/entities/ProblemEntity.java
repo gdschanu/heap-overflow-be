@@ -29,8 +29,6 @@ public class ProblemEntity {
     @Column(columnDefinition = "VARCHAR(30)")
     private String authorId;
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<TestCaseEntity> testCases = new HashSet<>();
-    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<TimeLimitEntity> timeLimits = new HashSet<>();
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<MemoryLimitEntity> memoryLimits = new HashSet<>();
@@ -53,9 +51,6 @@ public class ProblemEntity {
                 .name(problem.getName())
                 .description(problem.getDescription())
                 .authorId(problem.getAuthor().toString())
-                .testCases(problem.getTestCases().stream()
-                        .map(testCase -> TestCaseEntity.toEntity(testCase))
-                        .collect(Collectors.toSet()))
                 .timeLimits(problem.getTimeLimits().stream()
                         .map(timeLimit -> TimeLimitEntity.toEntity(timeLimit))
                         .collect(Collectors.toSet()))
@@ -65,9 +60,6 @@ public class ProblemEntity {
                 .allowedProgrammingLanguages(gson.toJson(programmingLangs))
                 .serviceToCreate(problem.getServiceToCreate())
                 .build();
-        for (TestCaseEntity testCaseEntity : problemEntity.getTestCases()) {
-            testCaseEntity.setProblem(problemEntity);
-        }
         for (TimeLimitEntity timeLimitEntity : problemEntity.getTimeLimits()) {
             timeLimitEntity.setProblem(problemEntity);
         }
@@ -87,9 +79,6 @@ public class ProblemEntity {
                 problemEntity.getName(),
                 problemEntity.getDescription(),
                 new hanu.gdsc.share.domains.Id(problemEntity.getAuthorId()),
-                problemEntity.getTestCases().stream()
-                        .map(testCaseEntity -> TestCaseEntity.toDomain(testCaseEntity))
-                        .collect(Collectors.toList()),
                 problemEntity.getMemoryLimits().stream()
                         .map(memoryLimitEntity -> MemoryLimitEntity.toDomain(memoryLimitEntity))
                         .collect(Collectors.toList()),

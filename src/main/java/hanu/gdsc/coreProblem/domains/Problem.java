@@ -5,25 +5,22 @@ import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class Problem extends IdentitifedVersioningDomainObject {
     private String name;
     private String description;
     private Id author;
-    private List<TestCase> testCases;
     private List<MemoryLimit> memoryLimits;
     private List<TimeLimit> timeLimits;
     private List<ProgrammingLanguage> allowedProgrammingLanguages;
     private String serviceToCreate;
 
-    public Problem(Id id, long version, String name, String description, Id author, List<TestCase> testCases, List<MemoryLimit> memoryLimits, List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages, String serviceToCreate) {
+    public Problem(Id id, long version, String name, String description, Id author, List<MemoryLimit> memoryLimits, List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages, String serviceToCreate) {
         super(id, version);
         this.name = name;
         this.description = description;
         this.author = author;
-        this.testCases = testCases;
         this.memoryLimits = memoryLimits;
         this.timeLimits = timeLimits;
         this.allowedProgrammingLanguages = allowedProgrammingLanguages;
@@ -31,7 +28,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
     }
 
     public static Problem create(String name, String description, Id author,
-                                 List<TestCase.CreateInput> createTestCaseInputs,
                                  List<MemoryLimit.CreateInput> createMemoryLimitInputs,
                                  List<TimeLimit.CreateInput> createTimeLimitInputs,
                                  List<ProgrammingLanguage> allowedProgrammingLanguages,
@@ -52,10 +48,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
                 }
             }
         }
-        List<TestCase> testCases = new ArrayList<>();
-        for (TestCase.CreateInput createTestCaseInp : createTestCaseInputs) {
-            testCases.add(TestCase.create(createTestCaseInp));
-        }
         List<MemoryLimit> memoryLimits = new ArrayList<>();
         for (MemoryLimit.CreateInput createMemLimitInp : createMemoryLimitInputs) {
             memoryLimits.add(MemoryLimit.create(createMemLimitInp));
@@ -70,18 +62,11 @@ public class Problem extends IdentitifedVersioningDomainObject {
                 name,
                 description,
                 author,
-                testCases,
                 memoryLimits,
                 timeLimits,
                 allowedProgrammingLanguages,
                 serviceToCreate
         );
-    }
-
-    public List<TestCase> getSortedByOrdinalTestCases() {
-        List<TestCase> res = new ArrayList<>(getTestCases());
-        res.sort(Comparator.comparingInt(tc -> tc.getOrdinal()));
-        return res;
     }
 
     public MemoryLimit getMemoryLimitByProgrammingLanguage(ProgrammingLanguage programmingLanguage) {
@@ -114,11 +99,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
         return author;
     }
 
-
-    public List<TestCase> getTestCases() {
-        return testCases;
-    }
-
     public List<MemoryLimit> getMemoryLimits() {
         return memoryLimits;
     }
@@ -137,10 +117,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public void setTestCases(List<TestCase> testCases) {
-        this.testCases = testCases;
     }
 
     public void setMemoryLimits(List<MemoryLimit> memoryLimits) {

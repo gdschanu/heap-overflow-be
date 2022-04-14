@@ -12,18 +12,6 @@ import java.util.List;
 
 
 public interface SearchProblemService {
-
-    @Builder
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class OutputTestCase {
-        public String input;
-        public String expectedOutput;
-        public int ordinal;
-        public boolean isSample;
-        public String description;
-    }
-
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
@@ -48,7 +36,6 @@ public interface SearchProblemService {
         public String name;
         public String description;
         public Id author;
-        public List<OutputTestCase> testCases;
         public List<OutputMemoryLimit> memoryLimits;
         public List<OutputTimeLimit> timeLimits;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;

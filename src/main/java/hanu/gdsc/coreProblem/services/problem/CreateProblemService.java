@@ -12,7 +12,6 @@ public interface CreateProblemService {
         public String name;
         public String description;
         public Id author;
-        List<TestCase.CreateInput> createTestCaseInputs;
         List<MemoryLimit.CreateInput> createMemoryLimitInputs;
         List<TimeLimit.CreateInput> createTimeLimitInputs;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;

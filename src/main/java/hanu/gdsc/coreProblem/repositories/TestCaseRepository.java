@@ -1,9 +1,11 @@
 package hanu.gdsc.coreProblem.repositories;
 
-import java.util.UUID;
+import java.util.List;
 
 import hanu.gdsc.coreProblem.domains.TestCase;
+import hanu.gdsc.share.domains.Id;
 
 public interface TestCaseRepository {
-    public TestCase getById(UUID id);
+    public void create(TestCase testCase);
+    public List<TestCase> getByProblemId(Id id);
 }

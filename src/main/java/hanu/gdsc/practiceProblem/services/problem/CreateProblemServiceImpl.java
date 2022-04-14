@@ -10,7 +10,6 @@ import hanu.gdsc.practiceProblem.repositories.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 @Component(value = "PracticeProblem.CreateProblemServiceImpl")
 @AllArgsConstructor
@@ -26,7 +25,6 @@ public class CreateProblemServiceImpl implements CreateProblemService {
                 .name(input.createCoreProblemInput.name)
                 .description(input.createCoreProblemInput.description)
                 .author(input.createCoreProblemInput.author)
-                .createTestCaseInputs(input.createCoreProblemInput.createTestCaseInputs)
                 .createMemoryLimitInputs(input.createCoreProblemInput.createMemoryLimitInputs)
                 .createTimeLimitInputs(input.createCoreProblemInput.createTimeLimitInputs)
                 .allowedProgrammingLanguages(input.createCoreProblemInput.allowedProgrammingLanguages)

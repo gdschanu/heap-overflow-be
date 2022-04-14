@@ -17,9 +17,9 @@ public class TestCaseEntity {
     @Id
     @Column(columnDefinition = "VARCHAR(30)")
     private String id;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="problem_id", columnDefinition = "VARCHAR(30)")
-    private ProblemEntity problem;
+    @Version
+    private long version;
+    private String problemId;
     private String input;
     private String expectedOutput;
     private int ordinal;
@@ -29,6 +29,8 @@ public class TestCaseEntity {
     public static TestCaseEntity toEntity(TestCase testCase) {
         return TestCaseEntity.builder()
             .id(testCase.getId().toString())
+            .version(testCase.getVersion())
+            .problemId(testCase.getProblemId().toString())
             .input(testCase.getInput())
             .expectedOutput(testCase.getExpectedOutput())
             .ordinal(testCase.getOrdinal())
@@ -40,6 +42,8 @@ public class TestCaseEntity {
     public static TestCase toDomain(TestCaseEntity testCaseEntity) {
         return new TestCase(
             new hanu.gdsc.share.domains.Id(testCaseEntity.getId()),
+            testCaseEntity.getVersion(),
+            new hanu.gdsc.share.domains.Id(testCaseEntity.getProblemId()),
             testCaseEntity.getInput(),
             testCaseEntity.getExpectedOutput(),
             testCaseEntity.getOrdinal(),

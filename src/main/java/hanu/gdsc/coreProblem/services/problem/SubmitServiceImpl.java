@@ -4,8 +4,12 @@ import hanu.gdsc.coreProblem.domains.*;
 import hanu.gdsc.coreProblem.repositories.ProblemRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionEventRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
+import hanu.gdsc.coreProblem.services.testCase.SearchTestCaseService;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
@@ -15,6 +19,7 @@ public class SubmitServiceImpl implements SubmitService {
     private final RunCodeService runCodeService;
     private final SubmissionRepository submissionRepository;
     private final SubmissionEventRepository submissionEventRepository;
+    private final SearchTestCaseService searchTestCaseService;
 
     @Override
     public Output submit(Input input) {
@@ -54,7 +59,8 @@ public class SubmitServiceImpl implements SubmitService {
         int testCaseCount = 0;
         float totalMemory = 0;
         long totalRunTime = 0;
-        for (TestCase testCase : problem.getSortedByOrdinalTestCases()) {
+        List<TestCase> testCases = searchTestCaseService.getByProblemId(problem.getId());
+        for (TestCase testCase : TestCase.getSortedByOrdinalTestCases(testCases)) {
             RunCodeService.Output runCodeServiceOutput = runCodeService.execute(input.code, testCase.getInput(), input.programmingLanguage);
             //Check compilation status
             if (runCodeServiceOutput.compilationError == true) {

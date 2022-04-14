@@ -2,7 +2,6 @@ package hanu.gdsc.practiceProblem.controllers.problem;
 
 import hanu.gdsc.coreProblem.domains.MemoryLimit;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
-import hanu.gdsc.coreProblem.domains.TestCase;
 import hanu.gdsc.coreProblem.domains.TimeLimit;
 import hanu.gdsc.practiceProblem.domains.Difficulty;
 import hanu.gdsc.practiceProblem.services.problem.CreateProblemService;
@@ -32,7 +31,6 @@ public class CreateProblemController {
     public static class CreateCoreProblemInput {
         public String name;
         public String description;
-        public List<TestCase.CreateInput> createTestCaseInputs;
         public List<MemoryLimit.CreateInput> createMemoryLimitInputs;
         public List<TimeLimit.CreateInput> createTimeLimitInputs;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;   
@@ -45,7 +43,6 @@ public class CreateProblemController {
                     .createCoreProblemInput(CreateProblemService.CreateCoreProblemInput.builder()
                             .name(input.createCoreProblemInput.name)
                             .description(input.createCoreProblemInput.description)
-                            .createTestCaseInputs(input.createCoreProblemInput.createTestCaseInputs)
                             .createMemoryLimitInputs(input.createCoreProblemInput.createMemoryLimitInputs)
                             .createTimeLimitInputs(input.createCoreProblemInput.createTimeLimitInputs)
                             .allowedProgrammingLanguages(input.createCoreProblemInput.allowedProgrammingLanguages)
