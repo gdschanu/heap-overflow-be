@@ -17,8 +17,8 @@ public class TestCaseRepositoryImpl implements TestCaseRepository{
     private TestCaseJPARepository testCaseJpaRepository;
     
     @Override
-    public List<TestCase> getByProblemId(Id id) {
-        List<TestCaseEntity> testCasesEntity = testCaseJpaRepository.getByProblemId(id.toString());
+    public List<TestCase> getByProblemId(Id problemId, String serviceToCreate) {
+        List<TestCaseEntity> testCasesEntity = testCaseJpaRepository.getByProblemIdAndServiceToCreate(problemId.toString(), serviceToCreate);
         return testCasesEntity.stream()
                 .map(t -> TestCaseEntity.toDomain(t))
                 .collect(Collectors.toList());
@@ -27,5 +27,13 @@ public class TestCaseRepositoryImpl implements TestCaseRepository{
     @Override
     public void create(TestCase testCase) {
         testCaseJpaRepository.save(TestCaseEntity.toEntity(testCase));
+    }
+
+    @Override
+    public List<TestCase> getSampleTestCases(Id problemId, String serviceToCreate) {
+        List<TestCaseEntity> sampleTestCasesEntity = testCaseJpaRepository.getSampleTestCases(problemId.toString(), serviceToCreate);
+        return sampleTestCasesEntity.stream()
+            .map(t -> TestCaseEntity.toDomain(t))
+            .collect(Collectors.toList());
     }    
 }

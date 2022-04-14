@@ -59,7 +59,7 @@ public class SubmitServiceImpl implements SubmitService {
         int testCaseCount = 0;
         float totalMemory = 0;
         long totalRunTime = 0;
-        List<TestCase> testCases = searchTestCaseService.getByProblemId(problem.getId());
+        List<TestCase> testCases = searchTestCaseService.getByProblemId(problem.getId(), problem.getServiceToCreate());
         for (TestCase testCase : TestCase.getSortedByOrdinalTestCases(testCases)) {
             RunCodeService.Output runCodeServiceOutput = runCodeService.execute(input.code, testCase.getInput(), input.programmingLanguage);
             //Check compilation status

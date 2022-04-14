@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coreProblem.services.testCase.CreateTestCaseService;
+import hanu.gdsc.practiceProblem.config.ServiceName;
 
 @Service
 public class CreateCoreProblemTestCaseServiceImpl implements CreateCoreProblemTestCaseService {
@@ -22,6 +23,7 @@ public class CreateCoreProblemTestCaseServiceImpl implements CreateCoreProblemTe
             .ordinal(input.ordinal)
             .isSample(input.isSample)
             .description(input.description)
+            .serviceToCreate(ServiceName.serviceName)
             .build()
             );
         }

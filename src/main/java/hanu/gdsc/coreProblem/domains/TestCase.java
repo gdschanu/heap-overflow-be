@@ -14,9 +14,10 @@ public class TestCase extends IdentitifedVersioningDomainObject {
     private int ordinal;
     private boolean isSample;
     private String description;
+    private String serviceToCreate;
 
     public TestCase(Id id, long version, Id problemId, String input, String expectedOutput, int ordinal, boolean isSample,
-                    String description) {
+                    String description, String serviceToCreate) {
         super(id, version);
         this.problemId = problemId;
         this.input = input;
@@ -24,10 +25,11 @@ public class TestCase extends IdentitifedVersioningDomainObject {
         this.ordinal = ordinal;
         this.isSample = isSample;
         this.description = description;
+        this.serviceToCreate = serviceToCreate;
     }
 
     public static TestCase create(Id problemId, String input, String expectedOutput, int ordinal, boolean isSample,
-            String description) {
+            String description, String serviceToCreate) {
         return new TestCase(
                 Id.generateRandom(),
                 0,
@@ -36,7 +38,8 @@ public class TestCase extends IdentitifedVersioningDomainObject {
                 expectedOutput,
                 ordinal,
                 isSample,
-                description
+                description,
+                serviceToCreate
         );
     }
  
@@ -69,4 +72,9 @@ public class TestCase extends IdentitifedVersioningDomainObject {
     public String getDescription() {
         return description;
     }
+
+    public String getServiceToCreate() {
+        return serviceToCreate;
+    }
+
 }

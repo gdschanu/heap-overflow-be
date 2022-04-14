@@ -3,9 +3,15 @@ package hanu.gdsc.coreProblem.repositories.JPA;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import hanu.gdsc.coreProblem.repositories.entities.TestCaseEntity;
 
 public interface TestCaseJPARepository extends JpaRepository<TestCaseEntity, String> {
-    public List<TestCaseEntity> getByProblemId(String problemId);
+    public List<TestCaseEntity> getByProblemIdAndServiceToCreate(String problemId, String serviceToCreate);
+
+    @Query(value = "SELECT * FROM core_problem_test_case t WHERE t.problem_id = :problemId" +
+    " AND t.service_to_create = :serviceToCreate AND t.is_sample = 1" ,
+    nativeQuery = true)
+    public List<TestCaseEntity> getSampleTestCases(String problemId, String serviceToCreate);
 }

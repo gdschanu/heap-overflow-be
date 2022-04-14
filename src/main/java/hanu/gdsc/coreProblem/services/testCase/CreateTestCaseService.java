@@ -12,6 +12,7 @@ public interface CreateTestCaseService {
         public int ordinal;
         public boolean isSample;
         public String description;
+        public String serviceToCreate;
     }
 
     public void create(Input input);

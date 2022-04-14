@@ -25,6 +25,7 @@ public class TestCaseEntity {
     private int ordinal;
     private boolean isSample;
     private String description;
+    private String serviceToCreate;
 
     public static TestCaseEntity toEntity(TestCase testCase) {
         return TestCaseEntity.builder()
@@ -36,6 +37,7 @@ public class TestCaseEntity {
             .ordinal(testCase.getOrdinal())
             .isSample(testCase.isSample())
             .description(testCase.getDescription())
+            .serviceToCreate(testCase.getServiceToCreate())
             .build();
     }
 
@@ -48,7 +50,8 @@ public class TestCaseEntity {
             testCaseEntity.getExpectedOutput(),
             testCaseEntity.getOrdinal(),
             testCaseEntity.isSample(),
-            testCaseEntity.getDescription()
+            testCaseEntity.getDescription(),
+            testCaseEntity.getServiceToCreate()
         );
     }
 }

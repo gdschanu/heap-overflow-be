@@ -25,7 +25,6 @@ public class ProblemEntity {
     private String id;
     private String name;
     private String description;
-    private String difficulty;
     @Column(columnDefinition = "VARCHAR(30)")
     private String authorId;
     @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

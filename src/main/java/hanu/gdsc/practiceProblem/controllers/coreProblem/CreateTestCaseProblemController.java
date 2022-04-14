@@ -3,9 +3,11 @@ package hanu.gdsc.practiceProblem.controllers.coreProblem;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import hanu.gdsc.practiceProblem.services.coreProblem.CreateCoreProblemTestCaseService;
@@ -13,8 +15,8 @@ import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 @RestController
-public class CreateTestCaseController {
-    
+public class CreateTestCaseProblemController {
+    @Autowired
     private CreateCoreProblemTestCaseService createCoreProblemTestCaseService;
 
     public static class CreateTestCaseInput {
@@ -27,7 +29,7 @@ public class CreateTestCaseController {
     }
 
     @PostMapping("/practiceProblem/coreProblem/testCase")
-    public ResponseEntity<?> create(List<CreateTestCaseInput> createTestCaseInputs) {
+    public ResponseEntity<?> create(@RequestBody List<CreateTestCaseInput> createTestCaseInputs) {
         try {
             createCoreProblemTestCaseService.create(createTestCaseInputs.stream()
                     .map(c -> CreateCoreProblemTestCaseService.Input.builder()

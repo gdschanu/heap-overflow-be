@@ -1,10 +1,12 @@
 package hanu.gdsc.coreProblem.services.testCase;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coreProblem.domains.TestCase;
 import hanu.gdsc.coreProblem.repositories.TestCaseRepository;
 
+@Service
 public class CreateTestCaseServiceImpl implements CreateTestCaseService {
     @Autowired
     private TestCaseRepository testCaseRepository;
@@ -17,7 +19,8 @@ public class CreateTestCaseServiceImpl implements CreateTestCaseService {
             input.expectedOutput,
             input.ordinal,
             input.isSample,
-            input.description
+            input.description,
+            input.serviceToCreate
         );
         testCaseRepository.create(testCase);
     }

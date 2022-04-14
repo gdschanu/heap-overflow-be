@@ -15,8 +15,13 @@ public class SearchTestCaseServiceImpl implements SearchTestCaseService{
     private TestCaseRepository testCaseRepository;
 
     @Override
-    public List<TestCase> getByProblemId(Id problemId) {
-        return testCaseRepository.getByProblemId(problemId);
+    public List<TestCase> getByProblemId(Id problemId, String serviceToCreate) {
+        return testCaseRepository.getByProblemId(problemId, serviceToCreate);
+    }
+
+    @Override
+    public List<TestCase> getSampleTestCases(Id problemId, String serviceToCreate) {
+        return testCaseRepository.getSampleTestCases(problemId, serviceToCreate);
     }
     
 }
