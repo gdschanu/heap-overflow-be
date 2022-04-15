@@ -40,12 +40,4 @@ public class MemoryLimit extends IdentifiedDomainObject {
     public KB getMemoryLimit() {
         return memoryLimit;
     }
-
-    public void setProgrammingLanguage(ProgrammingLanguage programmingLanguage) {
-        this.programmingLanguage = programmingLanguage;
-    }
-
-    public void setMemoryLimit(KB memoryLimit) {
-        this.memoryLimit = memoryLimit;
-    }
 }
