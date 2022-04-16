@@ -47,7 +47,7 @@ public class UpdateProblemController {
         public Id coreProblemId;
     }
 
-    @PostMapping("/contest/contest/{id}/remove-problem")
+    @PostMapping("/contest/contest/{contestId}/remove-problem")
     public ResponseEntity<?> removeProblem(@PathVariable String contestId, @RequestBody RemoveProblemBody input) {
         try {
             updateProblemService.removeProblem(
