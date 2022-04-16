@@ -23,7 +23,7 @@ public class SearchContestController {
     public ResponseEntity<?> searchContest(@RequestParam int page,
                                            @RequestParam int perPage) {
         try {
-            List<Contest> contests = searchContestService.search(page, perPage);
+            List<Contest> contests = searchContestService.get(page, perPage);
             return new ResponseEntity<>(
                     new ResponseBody("Success", contests),
                     HttpStatus.OK

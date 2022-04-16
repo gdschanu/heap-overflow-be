@@ -39,7 +39,7 @@ public class ContestRepositoryImpl implements ContestRepository {
     }
 
     @Override
-    public List<Contest> search(int page, int perPage) {
+    public List<Contest> get(int page, int perPage) {
         Page<ContestEntity> entities = contestJPARepository
                 .findAll(Pageable.ofSize(perPage).withPage(page));
         return entities.getContent()

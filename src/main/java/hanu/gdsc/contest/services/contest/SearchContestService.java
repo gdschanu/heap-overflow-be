@@ -8,5 +8,5 @@ import java.util.List;
 public interface SearchContestService {
     public Contest getById(Id contestId);
 
-    public List<Contest> search(int page, int perPage);
+    public List<Contest> get(int page, int perPage);
 }
