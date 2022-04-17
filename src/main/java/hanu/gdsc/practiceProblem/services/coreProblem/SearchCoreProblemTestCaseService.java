@@ -2,10 +2,19 @@ package hanu.gdsc.practiceProblem.services.coreProblem;
 
 import java.util.List;
 
-import hanu.gdsc.coreProblem.domains.TestCase;
 import hanu.gdsc.share.domains.Id;
+import lombok.Builder;
 
 public interface SearchCoreProblemTestCaseService {
-    public List<TestCase> get(Id problemId);
-    public List<TestCase> getSampleTestCases(Id problemId);
+    @Builder
+    public static class Output {
+        public Id problemId;
+        public String input;
+        public String expectedOutput;
+        public int ordinal;
+        public boolean isSample;
+        public String description;
+    }
+    public List<Output> get(Id problemId);
+    public List<Output> getSampleTestCases(Id problemId);
 }
