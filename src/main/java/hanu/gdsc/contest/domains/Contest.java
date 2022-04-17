@@ -6,6 +6,7 @@ import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Contest extends IdentitifedVersioningDomainObject {
@@ -59,6 +60,27 @@ public class Contest extends IdentitifedVersioningDomainObject {
         setEndAt(endAt);
     }
 
+    public void addProblem(Problem probToAdd) {
+        for (Problem addedProb : problems) {
+            if (addedProb.getOrdinal() == probToAdd.getOrdinal()) {
+                throw new BusinessLogicError("Duplicate problem ordinal.", "DUPLICATE_PROBLEM_ORDINAL");
+            }
+            if (addedProb.getCoreProblemId().equals(probToAdd.getCoreProblemId())) {
+                throw new BusinessLogicError("Duplicate problem.", "DUPLICATE_CORE_PROBLEM_ID");
+            }
+        }
+        problems.add(probToAdd);
+    }
+
+    public void removeProblem(Id coreProblemId) {
+        for (int i = 0; i < problems.size(); i++) {
+            if (problems.get(i).getCoreProblemId().equals(coreProblemId)) {
+                problems.remove(i);
+                break;
+            }
+        }
+    }
+
     private void setStartAt(DateTime startAt) {
         this.startAt = startAt;
     }
@@ -105,6 +127,6 @@ public class Contest extends IdentitifedVersioningDomainObject {
     }
 
     public List<Problem> getProblems() {
-        return problems;
+        return Collections.unmodifiableList(problems);
     }
 }

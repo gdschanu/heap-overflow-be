@@ -15,6 +15,20 @@ public class Problem extends IdentitifedVersioningDomainObject {
         this.score = score;
     }
 
+    public static Problem create(
+            int ordinal,
+            Id coreProblemId,
+            int score
+    ) {
+        return new Problem(
+                Id.generateRandom(),
+                0,
+                ordinal,
+                coreProblemId,
+                score
+        );
+    }
+
     public int getOrdinal() {
         return ordinal;
     }
