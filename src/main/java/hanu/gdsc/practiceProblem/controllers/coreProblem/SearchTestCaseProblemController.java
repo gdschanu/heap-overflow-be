@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import hanu.gdsc.coreProblem.domains.TestCase;
 import hanu.gdsc.practiceProblem.services.coreProblem.SearchCoreProblemTestCaseService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -22,9 +21,9 @@ public class SearchTestCaseProblemController {
     @GetMapping("/practiceProblem/coreProblem/testCase/{problemId}")
     public ResponseEntity<?> get(@PathVariable String problemId) {
         try {
-            List<TestCase> testCases = searchCoreProblemTestCaseService.get(new hanu.gdsc.share.domains.Id(problemId));
+            List<SearchCoreProblemTestCaseService.Output> outputs = searchCoreProblemTestCaseService.get(new hanu.gdsc.share.domains.Id(problemId));
             return new ResponseEntity<>(
-                new ResponseBody("Get Successfully", testCases), HttpStatus.OK
+                new ResponseBody("Get Successfully", outputs), HttpStatus.OK
             );
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {
@@ -38,9 +37,9 @@ public class SearchTestCaseProblemController {
     @GetMapping("/practiceProblem/coreProblem/testCase/{problemId}/isSample")
     public ResponseEntity<?> getSampleTestCases(@PathVariable String problemId) {
         try {
-            List<TestCase> testCases = searchCoreProblemTestCaseService.getSampleTestCases(new hanu.gdsc.share.domains.Id(problemId));
+            List<SearchCoreProblemTestCaseService.Output> outputs = searchCoreProblemTestCaseService.getSampleTestCases(new hanu.gdsc.share.domains.Id(problemId));
             return new ResponseEntity<>(
-                new ResponseBody("Get Successfully", testCases), HttpStatus.OK
+                new ResponseBody("Get Successfully", outputs), HttpStatus.OK
             );
         } catch (Throwable e) {
             if (e.getClass().equals(BusinessLogicError.class)) {
