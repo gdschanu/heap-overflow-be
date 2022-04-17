@@ -5,7 +5,7 @@ import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-@Service
+@Service(value = "Contest.CreateProblemServiceImpl")
 @AllArgsConstructor
 public class CreateProblemServiceImpl implements CreateProblemService {
     private final hanu.gdsc.coreProblem.services.problem.CreateProblemService createCoreProblemService;
