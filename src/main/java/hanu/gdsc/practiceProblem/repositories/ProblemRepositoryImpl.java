@@ -60,5 +60,17 @@ public class ProblemRepositoryImpl implements ProblemRepository {
                 ).collect(Collectors.toList());
     }
 
+    @Override
+    public void update(Problem problem) {
+        PracticeProblemProblemEntity practiceProblemProblemEntity = PracticeProblemProblemEntity.toEntity(problem);
+        Set<CategoryEntity> categoriesEntity = new HashSet<>();
+        for (Id categoryId : problem.getCategoryIds()) {
+            Category category = categoryRepository.getById(categoryId);
+            categoriesEntity.add(CategoryEntity.toEntity(category));
+        }
+        practiceProblemProblemEntity.setCategory(categoriesEntity);
+        practiceProblemJpaRepository.save(practiceProblemProblemEntity);
+    }
+
 
 }

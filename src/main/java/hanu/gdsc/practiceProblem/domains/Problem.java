@@ -47,5 +47,9 @@ public class Problem extends IdentitifedVersioningDomainObject {
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }
+
+    public void setCoreProblemId(Id coreProblemId) {
+        this.coreProblemId = coreProblemId;
+    }
     
 }

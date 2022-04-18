@@ -11,4 +11,6 @@ public interface ProblemRepository {
     public Problem getById(Id id);
 
     public List<Problem> get(int page, int perPage);
+
+    public void update(Problem problem);
 }
