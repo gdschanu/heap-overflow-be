@@ -40,4 +40,12 @@ public class TimeLimit extends IdentifiedDomainObject {
     public Millisecond getTimeLimit() {
         return timeLimit;
     }
+
+    public void setProgrammingLanguage(ProgrammingLanguage programmingLanguage) {
+        this.programmingLanguage = programmingLanguage;
+    }
+
+    public void setTimeLimit(Millisecond timeLimit) {
+        this.timeLimit = timeLimit;
+    }
 }
