@@ -35,5 +35,14 @@ public class TestCaseRepositoryImpl implements TestCaseRepository{
         return sampleTestCasesEntity.stream()
             .map(t -> TestCaseEntity.toDomain(t))
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteById(Id id, String serviceToDelete) {
+        testCaseJpaRepository.deleteByIdAndServiceToCreate(
+            id.toString(),
+            serviceToDelete
+        );
+        
     }    
 }

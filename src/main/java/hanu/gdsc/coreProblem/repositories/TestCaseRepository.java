@@ -9,4 +9,5 @@ public interface TestCaseRepository {
     public void create(TestCase testCase);
     public List<TestCase> getByProblemId(Id problemId, String serviceToCreate);
     public List<TestCase> getSampleTestCases(Id problemId, String serviceToCreate);
+    public void deleteById(Id id, String serviceToDelete);
 }
