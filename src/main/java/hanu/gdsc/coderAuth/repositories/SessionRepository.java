@@ -7,4 +7,6 @@ public interface SessionRepository {
     public void save(Session session);
 
     public Session getById(Id id);
+
+    public Session getByCoderId(Id coderId);
 }
