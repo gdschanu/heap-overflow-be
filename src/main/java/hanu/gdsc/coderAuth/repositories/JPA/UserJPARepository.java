@@ -8,5 +8,5 @@ public interface UserJPARepository extends JpaRepository<UserEntity,String> {
     UserEntity getByEmail(String email);
     UserEntity getByUsername(String username);   
     UserEntity getById(String id);
-    UserEntity getByCoderId(String id);
+    UserEntity getByCoderId(String coderId);
 }

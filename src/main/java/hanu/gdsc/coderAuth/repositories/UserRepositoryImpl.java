@@ -19,23 +19,19 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getByUsername(Username username) {
         UserEntity userEntity = userJPARepository.getByUsername(username.toString());
-        User user;
+        User user = null;
         if(userEntity != null) {
             user = userEntity.toDomain();
-        } else {
-            user = null;
-        }
+        } 
         return user;
     }
 
     @Override
     public User getByEmail(Email email) {
         UserEntity userEntity = userJPARepository.getByEmail(email.toString());
-        User user;
+        User user = null;
         if(userEntity != null) {
             user = userEntity.toDomain();
-        } else {
-            user = null;
         }
         return user;
     }

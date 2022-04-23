@@ -8,7 +8,7 @@ public class Email {
     public Email(String value) {
         this.value = value;
         if(!isValidEmail(value)) {
-            throw new BusinessLogicError("Email không hợp lệ", "INVALID_EMAIL");
+            throw new BusinessLogicError("Email is invalid", "INVALID_EMAIL");
         }
     }
 

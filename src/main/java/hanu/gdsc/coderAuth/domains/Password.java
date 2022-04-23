@@ -8,10 +8,10 @@ public class Password {
     public Password(String value) {
         this.value = value;
         if (value.length() < 8) {
-            throw new BusinessLogicError("Password cần tối thiểu 8 kí tự", "INVALID_PASSWORD");
+            throw new BusinessLogicError("Password needs at least 8 characters", "INVALID_PASSWORD");
         }
         if (!containsLetter(value) || !containsNumber(value)) {
-            throw new BusinessLogicError("Password cần chứa cả số và chữ", "INVALID_PASSWORD");
+            throw new BusinessLogicError("Password need both number and letter", "INVALID_PASSWORD");
         }
     }
 
