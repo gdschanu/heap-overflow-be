@@ -1,43 +1,30 @@
 package hanu.gdsc.coderAuth.domains;
 
 import java.util.Random;
-
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 
 public class RegisterVerificationCode {
-    private Id id;
+    private Id coderId;
     private String code;
-    private DateTime expiredAt;
+    private DateTime expireAt;
     
-    public RegisterVerificationCode(Id id, String code, DateTime expiredAt) {
-        this.id = id;
+    public RegisterVerificationCode(Id coderId, String code, DateTime expireAt) {
+        this.coderId = coderId;
         this.code = code;
-        this.expiredAt = expiredAt;
+        this.expireAt = expireAt;
     }
     
-    public Id getId() {
-        return id;
-    }
-
-    public void setId(Id id) {
-        this.id = id;
+    public Id getCoderId() {
+        return coderId;
     }
 
     public String getCode() {
         return code;
     }
 
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public DateTime getExpiredAt() {
-        return expiredAt;
-    }
-
-    public void setExpiredAt(DateTime expiredAt) {
-        this.expiredAt = expiredAt;
+    public DateTime getExpireAt() {
+        return expireAt;
     }
 
     public static String generateRandom() {

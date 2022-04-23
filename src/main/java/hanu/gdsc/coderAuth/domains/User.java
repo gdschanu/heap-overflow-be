@@ -23,48 +23,33 @@ public class User {
         return id;
     }
 
-    public void setId(Id id) {
-        this.id = id;
-    }
-
     public Email getEmail() {
         return email;
-    }
-
-    public void setEmail(Email email) {
-        this.email = email;
     }
 
     public Username getUsername() {
         return username;
     }
 
-    public void setUsername(Username username) {
-        this.username = username;
-    }
-
     public Password getPassword() {
         return password;
-    }
-
-    public void setPassword(Password password) {
-        this.password = password;
     }
 
     public Id getCoderId() {
         return coderId;
     }
 
-    public void setCoderId(Id coderId) {
-        this.coderId = coderId;
-    }
-
     public boolean isRegistrationConfirmed() {
         return registrationConfirmed;
+    }
+
+    public void setPassword(Password password) {
+        this.password = password;
     }
 
     public void setRegistrationConfirmed(boolean registrationConfirmed) {
         this.registrationConfirmed = registrationConfirmed;
     }
+
     
 }

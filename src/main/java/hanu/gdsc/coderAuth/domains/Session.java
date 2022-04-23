@@ -9,35 +9,21 @@ public class Session {
     private DateTime expireAt; 
     
 
-    public Session(Id id, Id coderId, DateTime expiredAt) {
+    public Session(Id id, Id coderId, DateTime expireAt) {
         this.id = id;
         this.coderId = coderId;
-        this.expireAt = expiredAt;
+        this.expireAt = expireAt;
     }
 
     public Id getId() {
         return id;
     }
 
-    public void setId(Id id) {
-        this.id = id;
-    }
-
     public Id getCoderId() {
         return coderId;
     }
 
-    public void setCoderId(Id coderId) {
-        this.coderId = coderId;
-    }
-
-    public DateTime getExpiredAt() {
+    public DateTime getExpireAt() {
         return expireAt;
     }
-
-    public void setExpiredAt(DateTime expireAt) {
-        this.expireAt = expireAt;
-    }
-
-    
 }
