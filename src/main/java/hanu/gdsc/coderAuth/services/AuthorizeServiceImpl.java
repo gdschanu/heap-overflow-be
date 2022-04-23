@@ -23,45 +23,60 @@ public class AuthorizeServiceImpl implements AuthorizeService {
     private UserRepository userRepository;
 
     @Override
-    public void authorize(String token) {
+    public Id authorize(String token) {
         if (token == null) {
-            throw new BusinessLogicError("Chưa login", "NULL_TOKEN");
+            throw new BusinessLogicError("You haven't log in yet", "NULL_TOKEN");
         } else {
             Claims claims = getClaims(token);
             if (claims == null) {
-                throw new BusinessLogicError("Token không tồn tại", "WRONG_TOKEN");
+                throw new BusinessLogicError("Token doesn't exist", "WRONG_TOKEN");
             }
             if (!isNotExpired(token)) {
-                throw new BusinessLogicError("Token đã hết hiệu lực", "EXPIRED_TOKEN");
+                throw new BusinessLogicError("Token is expired", "EXPIRED_TOKEN");
             }
             if (!isRegistrationConfirmed(token)) {
-                throw new BusinessLogicError("Chưa xác nhận email", "UNCONFIRMED_TOKEN");
+                throw new BusinessLogicError("You haven't confirm your email", "UNCONFIRMED_TOKEN");
             }
+            return getSession(token).getCoderId();
         }
     }
 
-    private final String secretKey = "Hanuoj";
-
+    @Override
+    public Id authorizeUnconfirmedRegistration(String token) {
+        if (token == null) {
+            throw new BusinessLogicError("You haven't log in yet", "NULL_TOKEN");
+        } else {
+            Claims claims = getClaims(token);
+            if (claims == null) {
+                throw new BusinessLogicError("Token doesn't exist", "WRONG_TOKEN");
+            }
+            if (!isNotExpired(token)) {
+                throw new BusinessLogicError("Token is expired", "EXPIRED_TOKEN");
+            }
+            return getSession(token).getCoderId();
+        }
+    }
     public Claims getClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(secretKey.getBytes())
+                .setSigningKey("Hanuoj".getBytes())
                 .parseClaimsJws(token)
                 .getBody();
     }
 
-    public Id getId(String token) {
-        return new Id(getClaims(token).getId());
+    public Session getSession(String token) {
+        Id sessionId = new Id(getClaims(token).getId());
+        return sessionRepository.getById(sessionId);
     }
 
     public boolean isNotExpired(String token) {
-        Session session = sessionRepository.getById(getId(token));
+        Session session = getSession(token);
         DateTime time = new DateTime(DateTime.now().toString());
-        return time.isBefore(session.getExpiredAt());
+        return time.isBefore(session.getExpireAt());
     }
 
     public boolean isRegistrationConfirmed(String token) {
-        Session session = sessionRepository.getById(getId(token));
-        User user = userRepository.getByCoderId(session.getCoderId());
+        Id coderId = getSession(token).getCoderId();
+        User user = userRepository.getByCoderId(coderId);
         return user.isRegistrationConfirmed();
     }
 }
