@@ -4,27 +4,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
+import hanu.gdsc.coderAuth.services.AuthorizeService;
 import hanu.gdsc.coderAuth.services.ConfirmRegisterVerificationCodeService;
 import hanu.gdsc.share.controller.ResponseBody;
+import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 @Controller
 public class ConfirmRegisterVerificationCodeController {
     @Autowired
-    private ConfirmRegisterVerificationCodeService service;
+    private ConfirmRegisterVerificationCodeService confirmRegisterVerificationCodeService;
 
-    public static class Input {
+    @Autowired
+    private AuthorizeService authorizeService;
+
+    public static class Input{
         public String code;
     }
 
-    @GetMapping("/coderAuth/confirmRegisterVerificationCode")
-    public ResponseEntity<?> confirmRegisterVerificationCode(@RequestBody Input input) {
+    @PostMapping("/coderAuth/confirmRegisterVerificationCode")
+    public ResponseEntity<?> confirmRegisterVerificationCode(@RequestBody Input input, @RequestHeader String token) {
         try {
-            service.confirmRegisterVerificationCode(input.code);
-            return new ResponseEntity<>(new ResponseBody("Confirm code thành công","CONFIRMED_CODE"),
+            Id coderId = authorizeService.authorizeUnconfirmedRegistration(token);
+            confirmRegisterVerificationCodeService.confirmRegisterVerificationCode(input.code, coderId);
+            return new ResponseEntity<>(new ResponseBody("Confirm code successfully"),
             HttpStatus.OK);
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {
