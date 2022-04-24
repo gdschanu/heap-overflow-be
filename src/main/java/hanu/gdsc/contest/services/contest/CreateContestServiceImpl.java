@@ -5,6 +5,8 @@ import hanu.gdsc.contest.repositories.ContestRepository;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @AllArgsConstructor

@@ -82,6 +82,15 @@ public class Contest extends IdentitifedVersioningDomainObject {
         throw new BusinessLogicError("Unknown ordinal.", "UNKNOWN_ORDINAL");
     }
 
+    public Problem getProblem(int ordinal) {
+        for (Problem problem : problems) {
+            if (problem.getOrdinal() == ordinal) {
+                return problem;
+            }
+        }
+        return null;
+    }
+
     private void setStartAt(DateTime startAt) {
         this.startAt = startAt;
     }

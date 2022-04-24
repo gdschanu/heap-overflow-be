@@ -1,6 +1,6 @@
 package hanu.gdsc.contest.controllers.problem;
 
-import hanu.gdsc.contest.services.problem.RemoveProblemService;
+import hanu.gdsc.contest.services.problem.DeleteProblemService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@RestController(value = "Contest.DeleteProblemController")
 @AllArgsConstructor
-public class RemoveProblemController {
-    private final RemoveProblemService removeProblemService;
+public class DeleteProblemController {
+    private final DeleteProblemService deleteProblemService;
 
     @PostMapping("/contest/contest/{contestId}/remove-problem/{ordinal}")
     public ResponseEntity<?> execute(@PathVariable String contestId, @PathVariable int ordinal) {
         try {
-            removeProblemService.execute(
+            deleteProblemService.execute(
                     new Id(contestId),
                     ordinal
             );

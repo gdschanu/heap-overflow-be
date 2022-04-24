@@ -13,4 +13,6 @@ public interface ProblemRepository {
     public void update(Problem problem);
 
     public List<Problem> getByIds(List<Id> ids, String serviceToCreate);
+
+    public void deleteById(Id id);
 }

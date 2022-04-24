@@ -9,8 +9,10 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
-@Service(value = "Contest.UpdateProblemService")
+@Service(value = "Contest.CreateProblemService")
 @AllArgsConstructor
 public class CreateProblemServiceImpl implements CreateProblemService {
     private final SearchProblemService searchProblemService;
@@ -19,6 +21,7 @@ public class CreateProblemServiceImpl implements CreateProblemService {
     private final hanu.gdsc.coreProblem.services.problem.CreateProblemService createCoreProblemService;
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public void execute(Input input) {
         Contest contest = contestRepository.getById(input.contestId);
         if (contest == null) {

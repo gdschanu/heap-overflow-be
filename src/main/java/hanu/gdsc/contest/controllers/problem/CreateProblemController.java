@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
+@RestController(value = "Contest.CreateProblemController")
 public class CreateProblemController {
     @Autowired
     private CreateProblemService createProblemService;
