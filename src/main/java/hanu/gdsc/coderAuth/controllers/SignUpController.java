@@ -27,7 +27,7 @@ public class SignUpController {
         try {
             signUpService.signUpService(input.email, input.username, input.password);
             return new ResponseEntity<>(
-                    new ResponseBody("Đăng kí thành công."),
+                    new ResponseBody("Sign up successfully"),
                     HttpStatus.OK);
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {

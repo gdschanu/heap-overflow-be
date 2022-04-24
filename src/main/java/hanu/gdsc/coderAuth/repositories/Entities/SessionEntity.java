@@ -28,7 +28,7 @@ public class SessionEntity {
         return SessionEntity.builder()
         .id(session.getId().toString())
         .coderId(session.getCoderId().toString())
-        .expireAt(session.getExpiredAt().toZonedDateTime().toString())
+        .expireAt(session.getExpireAt().toZonedDateTime().toString())
         .build();
     }
 

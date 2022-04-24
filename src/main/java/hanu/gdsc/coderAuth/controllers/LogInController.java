@@ -26,7 +26,7 @@ public class LogInController {
         try {
             String token = logInService.logInService(input.usernameOrEmail, input.password);
             return new ResponseEntity<>(
-                    new ResponseBody("Đăng nhập thành công.", token),
+                    new ResponseBody("Log in successfully", token),
                     HttpStatus.OK);
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {

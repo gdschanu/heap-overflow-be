@@ -8,8 +8,13 @@ import hanu.gdsc.coderAuth.domains.Username;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.xml.bind.DatatypeConverter;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,11 +36,20 @@ public class SignUpServiceImpl implements SignUpService {
             User user = new User(Id.generateRandom(), newEmail, newUsername,
                     newPassword, createCoderService.create(), registrationConfirmed);
 
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            user.setPassword(new Password(encoder.encode(password.toString())));
+            MessageDigest md;
+            try {
+                md = MessageDigest.getInstance("MD5");
+                md.update(password.getBytes());
+                byte[] digest = md.digest();
+                String myHash = DatatypeConverter
+                        .printHexBinary(digest).toUpperCase();
+                        user.setPassword(new Password(myHash));
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            }
             userRepository.save(user);
         } else {
-            throw new BusinessLogicError("Username/email đã tồn tại", "EXISTED");
+            throw new BusinessLogicError("Username/email existed", "EXISTED");
         }
     }
 }
