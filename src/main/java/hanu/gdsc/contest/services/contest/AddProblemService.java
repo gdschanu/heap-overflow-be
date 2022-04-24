@@ -1,4 +1,4 @@
-package hanu.gdsc.contest.services.problem;
+package hanu.gdsc.contest.services.contest;
 
 import hanu.gdsc.coreProblem.domains.MemoryLimit;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
@@ -8,7 +8,7 @@ import lombok.Builder;
 
 import java.util.List;
 
-public interface CreateProblemService {
+public interface AddProblemService {
 
     @Builder
     public static class CreateCoreProblemInput {

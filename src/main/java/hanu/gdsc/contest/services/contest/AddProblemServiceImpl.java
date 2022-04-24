@@ -1,4 +1,4 @@
-package hanu.gdsc.contest.services.problem;
+package hanu.gdsc.contest.services.contest;
 
 import hanu.gdsc.contest.domains.Contest;
 import hanu.gdsc.contest.domains.Problem;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service(value = "Contest.CreateProblemService")
 @AllArgsConstructor
-public class CreateProblemServiceImpl implements CreateProblemService {
+public class AddProblemServiceImpl implements AddProblemService {
     private final SearchProblemService searchProblemService;
     private final ContestRepository contestRepository;
 

@@ -11,6 +11,8 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 @AllArgsConstructor
 @Service
@@ -22,6 +24,7 @@ public class SubmitServiceImpl implements SubmitService {
     private final SearchTestCaseService searchTestCaseService;
 
     @Override
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Output submit(Input input) {
         Output output = runTests(input);
         Submission submission = Submission.create(
@@ -131,8 +134,8 @@ public class SubmitServiceImpl implements SubmitService {
             testCaseCount++;
         }
         return Output.builder()
-                .memory(new KB((float) totalMemory / testCaseCount))
-                .runTime(new Millisecond((long) totalRunTime / testCaseCount))
+                .memory(new KB(testCaseCount == 0 ? 0 : (float) totalMemory / testCaseCount))
+                .runTime(new Millisecond(testCaseCount == 0 ? 0 : (long) totalRunTime / testCaseCount))
                 .status(Status.AC)
                 .failedTestCaseDetail(null)
                 .compilationMessage(null)

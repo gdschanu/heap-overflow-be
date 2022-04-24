@@ -1,6 +1,6 @@
-package hanu.gdsc.contest.controllers.problem;
+package hanu.gdsc.contest.controllers.contest;
 
-import hanu.gdsc.contest.services.problem.CreateProblemService;
+import hanu.gdsc.contest.services.contest.AddProblemService;
 import hanu.gdsc.coreProblem.domains.MemoryLimit;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 import hanu.gdsc.coreProblem.domains.TimeLimit;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController(value = "Contest.CreateProblemController")
-public class CreateProblemController {
+public class AddProblemController {
     @Autowired
-    private CreateProblemService createProblemService;
+    private AddProblemService addProblemService;
 
     public static class CreateCoreProblemInput {
         public String name;
@@ -38,15 +38,15 @@ public class CreateProblemController {
     }
 
 
-    @PostMapping("/contest/contest/{contestId}/add-problem")
+    @PostMapping("/contest/contest/{contestId}/addProblem")
     public ResponseEntity<?> addProblem(@PathVariable String contestId, @RequestBody Input input) {
         try {
-            createProblemService
-                    .execute(CreateProblemService.Input.builder()
+            addProblemService
+                    .execute(AddProblemService.Input.builder()
                             .contestId(new Id(contestId))
                             .ordinal(input.ordinal)
                             .score(input.score)
-                            .createCoreProblemInput(CreateProblemService.CreateCoreProblemInput.builder()
+                            .createCoreProblemInput(AddProblemService.CreateCoreProblemInput.builder()
                                     .name(input.createCoreProblemInput.name)
                                     .description(input.createCoreProblemInput.description)
                                     .createMemoryLimitInputs(input.createCoreProblemInput.createMemoryLimitInputs)

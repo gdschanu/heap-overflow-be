@@ -1,6 +1,6 @@
-package hanu.gdsc.contest.controllers.problem;
+package hanu.gdsc.contest.controllers.contest;
 
-import hanu.gdsc.contest.services.problem.DeleteProblemService;
+import hanu.gdsc.contest.services.contest.DeleteProblemService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DeleteProblemController {
     private final DeleteProblemService deleteProblemService;
 
-    @PostMapping("/contest/contest/{contestId}/remove-problem/{ordinal}")
+    @PostMapping("/contest/contest/{contestId}/deleteProblem/{ordinal}")
     public ResponseEntity<?> execute(@PathVariable String contestId, @PathVariable int ordinal) {
         try {
             deleteProblemService.execute(

@@ -1,4 +1,4 @@
-package hanu.gdsc.contest.services.problem;
+package hanu.gdsc.contest.services.contest;
 
 import hanu.gdsc.contest.domains.Contest;
 import hanu.gdsc.contest.domains.Problem;
