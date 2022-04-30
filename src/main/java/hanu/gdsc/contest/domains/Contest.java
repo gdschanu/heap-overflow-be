@@ -72,13 +72,23 @@ public class Contest extends IdentitifedVersioningDomainObject {
         problems.add(probToAdd);
     }
 
-    public void removeProblem(Id coreProblemId) {
+    public void removeProblem(int ordinal) {
         for (int i = 0; i < problems.size(); i++) {
-            if (problems.get(i).getCoreProblemId().equals(coreProblemId)) {
+            if (problems.get(i).getOrdinal() == ordinal) {
                 problems.remove(i);
-                break;
+                return;
             }
         }
+        throw new BusinessLogicError("Unknown ordinal.", "UNKNOWN_ORDINAL");
+    }
+
+    public Problem getProblem(int ordinal) {
+        for (Problem problem : problems) {
+            if (problem.getOrdinal() == ordinal) {
+                return problem;
+            }
+        }
+        return null;
     }
 
     private void setStartAt(DateTime startAt) {

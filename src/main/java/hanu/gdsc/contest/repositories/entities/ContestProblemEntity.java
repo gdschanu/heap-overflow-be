@@ -27,19 +27,19 @@ public class ContestProblemEntity {
     @JoinColumn(name = "contest_id", columnDefinition = "VARCHAR(30)")
     private ContestEntity contest;
 
-    public static ContestProblemEntity fromDomain(Problem problem) {
+    public static ContestProblemEntity fromDomain(Problem problem, ContestEntity contestEntity) {
         return ContestProblemEntity.builder()
-                .id(problem.getId().toString())
+                .id(contestEntity.getId().toString() + "#" + problem.getOrdinal())
                 .version(problem.getVersion())
                 .ordinal(problem.getOrdinal())
                 .coreProblemId(problem.getCoreProblemId().toString())
                 .score(problem.getScore())
+                .contest(contestEntity)
                 .build();
     }
 
     public Problem toDomain() {
         return new Problem(
-                new hanu.gdsc.share.domains.Id(id),
                 version,
                 ordinal,
                 new hanu.gdsc.share.domains.Id(coreProblemId),

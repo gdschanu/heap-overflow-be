@@ -5,4 +5,5 @@ import java.util.List;
 import hanu.gdsc.share.domains.Id;
 
 public interface DeleteProblemService {
+    public void execute(Id id);
 }

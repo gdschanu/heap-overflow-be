@@ -48,5 +48,10 @@ public class ProblemRepositoryImpl implements ProblemRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void deleteById(Id id) {
+        problemJPARepository.deleteById(id.toString());
+    }
+
 
 }

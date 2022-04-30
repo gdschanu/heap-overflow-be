@@ -16,6 +16,7 @@ import hanu.gdsc.coderAuth.repositories.RegisterVerificationCodeRepository;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.error.BusinessLogicError;
 
 @Service
 public class SendRegisterVerificationCodeServiceImpl implements SendRegisterVerificationCodeService{
@@ -30,23 +31,21 @@ public class SendRegisterVerificationCodeServiceImpl implements SendRegisterVeri
     private JavaMailSender javaMailSender;
 
     @Override
-    public void sendRegisterVerificationCodeService(String id) {
-        Id newId = new Id(id);
-        User user = userRepository.getById(newId);
+    public void sendRegisterVerificationCodeService(Id coderId) {
+        User user = userRepository.getByCoderId(coderId);
         String name = user.getUsername().toString();
         Email toAddress = user.getEmail();
-        Email fromAddress = new Email("gdschanu.linhdt0102@gmail.com");
+        Email fromAddress = new Email("dtlinh010202@gmail.com");
         String subject = "Verify your email to register";
-        Id codeId = Id.generateRandom();
         String code = RegisterVerificationCode.generateRandom();
         DateTime expireAt = DateTime.now().plusMinutes(100);
-        RegisterVerificationCode registerVerificationCode = new RegisterVerificationCode(codeId, code, expireAt);
+        RegisterVerificationCode registerVerificationCode = new RegisterVerificationCode(coderId, code, expireAt);
         registerVerificationCodeRepository.save(registerVerificationCode);
 
         String content = "Dear " + name + ",\n"
         +"Use this code below to verify your account \n"
         + code +"\n"
-        + "Thank you,"
+        + "Thanks,\n"
         +"Hanu gcsd";
 
         MimeMessage message = javaMailSender.createMimeMessage();
@@ -59,8 +58,9 @@ public class SendRegisterVerificationCodeServiceImpl implements SendRegisterVeri
             helper.setText(content);
 
         } catch (MessagingException exception) {
-            exception.printStackTrace();
+            throw new BusinessLogicError("Error in sending email", "EMAIL_SENDING_ERROR");
         }
         javaMailSender.send(message);
     }
+
 }

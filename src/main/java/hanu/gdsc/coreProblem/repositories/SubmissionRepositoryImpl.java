@@ -1,21 +1,18 @@
 package hanu.gdsc.coreProblem.repositories;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.persistence.EntityNotFoundException;
-
+import hanu.gdsc.coreProblem.domains.Submission;
+import hanu.gdsc.coreProblem.repositories.JPA.SubmissionJPARepository;
+import hanu.gdsc.coreProblem.repositories.entities.SubmissionEntity;
+import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import hanu.gdsc.coreProblem.domains.Submission;
-import hanu.gdsc.coreProblem.repositories.JPA.SubmissionJPARepository;
-import hanu.gdsc.coreProblem.repositories.entities.SubmissionEntity;
-import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.BusinessLogicError;
+import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class SubmissionRepositoryImpl implements SubmissionRepository {
@@ -29,18 +26,27 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
 
     @Override
     public List<Submission> get(int page, int perPage, Id problemId, Id coderId, String serviceToCreate) {
-        try {
-            Pageable pageable = PageRequest.of(page, perPage);
-            String stringProblemId = problemId == null ? null : problemId.toString();
-            String stringCoderId = coderId == null ? null : coderId.toString();
-            Page<SubmissionEntity> submissionsEntity = submissionJPARepository.get(stringProblemId, stringCoderId, serviceToCreate, pageable);
-            return submissionsEntity.getContent().stream()
-                    .map(s -> SubmissionEntity.toDomain(s))
-                    .collect(Collectors.toList());
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            throw new BusinessLogicError(e.getMessage(), "NULL");
+        Pageable pageable = PageRequest.of(page, perPage);
+        Page<SubmissionEntity> submissionsEntity;
+        if (problemId != null && coderId != null) {
+            submissionsEntity = submissionJPARepository.findByProblemIdAndCoderIdAndServiceToCreate(problemId.toString(),
+                    coderId.toString(),
+                    serviceToCreate,
+                    pageable);
+        } else if (problemId != null) {
+            submissionsEntity = submissionJPARepository.findByProblemIdAndServiceToCreate(problemId.toString(),
+                    serviceToCreate,
+                    pageable);
+        } else if (coderId != null) {
+            submissionsEntity = submissionJPARepository.findByCoderIdAndServiceToCreate(coderId.toString(),
+                    serviceToCreate,
+                    pageable);
+        } else {
+            submissionsEntity = submissionJPARepository.findByServiceToCreate(serviceToCreate, pageable);
         }
+        return submissionsEntity.getContent().stream()
+                .map(s -> SubmissionEntity.toDomain(s))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -33,7 +33,7 @@ public class ContestEntity {
     private List<ContestProblemEntity> problems;
 
     public static ContestEntity fromDomain(Contest contest) {
-        return ContestEntity.builder()
+        ContestEntity res = ContestEntity.builder()
                 .id(contest.getId().toString())
                 .version(contest.getVersion())
                 .name(contest.getName())
@@ -41,10 +41,11 @@ public class ContestEntity {
                 .startAt(contest.getStartAt().toString())
                 .endAt(contest.getEndAt().toString())
                 .createdBy(contest.getCreatedBy().toString())
-                .problems(contest.getProblems().stream()
-                        .map(x -> ContestProblemEntity.fromDomain(x))
-                        .collect(Collectors.toList()))
                 .build();
+        res.setProblems(contest.getProblems().stream()
+                .map(x -> ContestProblemEntity.fromDomain(x, res))
+                .collect(Collectors.toList()));
+        return res;
     }
 
     public Contest toDomain() {

@@ -1,9 +1,11 @@
 package hanu.gdsc.coderAuth.services;
 
-import java.util.Base64;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coderAuth.domains.Email;
@@ -36,26 +38,39 @@ public class LogInServiceImpl implements LogInService {
          Username username = new Username(usernameOrEmail);
          user = userRepository.getByUsername(username);
       }
+      Id coderId = null;
       if (user != null) {
-         Id coderId = user.getCoderId();
-         if (BCrypt.checkpw(password, user.getPassword().toString())) {
+         coderId = user.getCoderId();
+      } else {
+         throw new BusinessLogicError("Username/email does not exist", "NON-EXISTENT_USERNAME_OR_EMAIL");
+      }
+      MessageDigest md;
+      try {
+         md = MessageDigest.getInstance("MD5");
+         md.update(password.getBytes());
+         byte[] digest = md.digest();
+         String myHash = DatatypeConverter
+               .printHexBinary(digest).toUpperCase();
+         if (user.getPassword().toString().equals(myHash)) {
             return createToken(coderId);
          } else {
-            throw new BusinessLogicError("Sai mật khẩu", "WRONG_PASSWORD");
+            throw new BusinessLogicError("Password is wrong", "WRONG_PASSWORD");
          }
-      } else {
-         throw new BusinessLogicError("Username/email không tồn tại", "NON-EXISTENT_USERNAME_OR_EMAIL");
+      } catch (NoSuchAlgorithmException e) {
+         e.printStackTrace();
+         throw new BusinessLogicError("No such algorithm exception", "");
       }
    }
 
    private final String secretKey = "Hanuoj";
+
    public String createToken(Id coderId) {
-      Id id = Id.generateRandom();
+      Id sessionId = Id.generateRandom();
       DateTime expireAt = DateTime.now().plusMinutes(15);
-      Session session = new Session(id, coderId, expireAt);
+      Session session = new Session(sessionId, coderId, expireAt);
       sessionRepository.save(session);
       return Jwts.builder()
-            .setId(id.toString())
+            .setId(sessionId.toString())
             .signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
             .compact();
    }

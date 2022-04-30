@@ -23,4 +23,9 @@ public class SessionRepositoryImpl implements SessionRepository{
     public Session getById(Id id) {
       return sessionJPARepository.getById(id.toString()).toDomain();
     }
+
+    @Override
+    public Session getByCoderId(Id coderId) {
+      return sessionJPARepository.getByCoderId(coderId.toString()).toDomain();
+    }
 }
