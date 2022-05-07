@@ -20,19 +20,18 @@ import lombok.Setter;
 @Setter
 @Builder
 public class UserEntity {
-    @Id
     @Column(columnDefinition = "VARCHAR(30)")
     private String id;
     private String email;
     private String username;
     private String password;
+    @Id
     @Column(columnDefinition = "VARCHAR(30)")
     private String coderId;
     private boolean registrationConfirmed;
 
     public static UserEntity toEntity(User user) {
         return UserEntity.builder()
-        .id(user.getId().toString())
         .email(user.getEmail().toString())
         .username(user.getUsername().toString())
         .password(user.getPassword().toString())
@@ -43,7 +42,6 @@ public class UserEntity {
 
     public User toDomain() {
         return new User(
-            new hanu.gdsc.share.domains.Id(id),
             new Email(email),
             new Username(username),
             new Password(password),

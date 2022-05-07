@@ -33,7 +33,7 @@ public class SignUpServiceImpl implements SignUpService {
         if (userRepository.getByUsername(new Username(username)) == null &&
                 userRepository.getByEmail(new Email(email)) == null) {
             boolean registrationConfirmed = false;
-            User user = new User(Id.generateRandom(), newEmail, newUsername,
+            User user = new User(newEmail, newUsername,
                     newPassword, createCoderService.create(), registrationConfirmed);
 
             MessageDigest md;
