@@ -1,13 +1,13 @@
 package hanu.gdsc.coreProblem.domains;
 
+import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.domains.VersioningDomainObject;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
-
-public class TestCase extends IdentitifedVersioningDomainObject {
+public class TestCase extends VersioningDomainObject {
     private Id problemId;
     private String input;
     private String expectedOutput;
@@ -16,9 +16,9 @@ public class TestCase extends IdentitifedVersioningDomainObject {
     private String description;
     private String serviceToCreate;
 
-    public TestCase(Id id, long version, Id problemId, String input, String expectedOutput, int ordinal, boolean isSample,
+    public TestCase(long version, Id problemId, String input, String expectedOutput, int ordinal, boolean isSample,
                     String description, String serviceToCreate) {
-        super(id, version);
+        super(version);
         this.problemId = problemId;
         this.input = input;
         this.expectedOutput = expectedOutput;
@@ -31,7 +31,6 @@ public class TestCase extends IdentitifedVersioningDomainObject {
     public static TestCase create(Id problemId, String input, String expectedOutput, int ordinal, boolean isSample,
             String description, String serviceToCreate) {
         return new TestCase(
-                Id.generateRandom(),
                 0,
                 problemId,
                 input,

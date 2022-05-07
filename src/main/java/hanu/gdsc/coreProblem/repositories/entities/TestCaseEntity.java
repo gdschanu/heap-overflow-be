@@ -1,10 +1,9 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
+import hanu.gdsc.coreProblem.domains.TestCase;
 import lombok.*;
 
 import javax.persistence.*;
-
-import hanu.gdsc.coreProblem.domains.TestCase;
 
 @Entity
 @Table(name = "core_problem_test_case")
@@ -29,21 +28,20 @@ public class TestCaseEntity {
 
     public static TestCaseEntity toEntity(TestCase testCase) {
         return TestCaseEntity.builder()
-            .id(testCase.getId().toString())
-            .version(testCase.getVersion())
-            .problemId(testCase.getProblemId().toString())
-            .input(testCase.getInput())
-            .expectedOutput(testCase.getExpectedOutput())
-            .ordinal(testCase.getOrdinal())
-            .isSample(testCase.isSample())
-            .description(testCase.getDescription())
-            .serviceToCreate(testCase.getServiceToCreate())
-            .build();
+                .id(testCase.getProblemId() + "#" + testCase.getOrdinal())
+                .version(testCase.getVersion())
+                .problemId(testCase.getProblemId().toString())
+                .input(testCase.getInput())
+                .expectedOutput(testCase.getExpectedOutput())
+                .ordinal(testCase.getOrdinal())
+                .isSample(testCase.isSample())
+                .description(testCase.getDescription())
+                .serviceToCreate(testCase.getServiceToCreate())
+                .build();
     }
 
     public static TestCase toDomain(TestCaseEntity testCaseEntity) {
         return new TestCase(
-            new hanu.gdsc.share.domains.Id(testCaseEntity.getId()),
             testCaseEntity.getVersion(),
             new hanu.gdsc.share.domains.Id(testCaseEntity.getProblemId()),
             testCaseEntity.getInput(),
