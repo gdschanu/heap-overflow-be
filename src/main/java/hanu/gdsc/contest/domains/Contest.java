@@ -1,5 +1,6 @@
 package hanu.gdsc.contest.domains;
 
+import hanu.gdsc.contest.errors.InvalidStartDateError;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
@@ -29,7 +30,7 @@ public class Contest extends IdentitifedVersioningDomainObject {
 
     public static Contest create(String name, String description, DateTime startAt, DateTime endAt, Id authorId) {
         if (startAt.isBefore(DateTime.now())) {
-            throw new BusinessLogicError("Thời gian bắt đầu phải muộn hơn hiện tại.", "INVALID_STARTDATE");
+            throw new InvalidStartDateError("Thời gian bắt đầu phải muộn hơn hiện tại.");
         }
         if (endAt.isBefore(startAt) || endAt.equals(startAt)) {
             throw new BusinessLogicError("Thời gian kết thúc phải muộn hơn thời gian bắt đầu.", "INVALID_ENDDATE");
