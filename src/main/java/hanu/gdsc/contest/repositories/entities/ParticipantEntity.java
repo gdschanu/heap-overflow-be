@@ -2,11 +2,9 @@ package hanu.gdsc.contest.repositories.entities;
 
 import hanu.gdsc.contest.domains.Participant;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
@@ -32,7 +30,7 @@ public class ParticipantEntity {
 
     public static ParticipantEntity fromDomains(Participant participant) {
         return ParticipantEntity.builder()
-                .id(participant.getId().toString())
+                .id(participant.getCoderId() + "#" + participant.getContestId())
                 .version(participant.getVersion())
                 .coderId(participant.getCoderId().toString())
                 .participantRank(participant.getRank())

@@ -1,21 +1,21 @@
 package hanu.gdsc.contest.domains;
 
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
+import hanu.gdsc.share.domains.VersioningDomainObject;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Participant extends IdentitifedVersioningDomainObject {
+public class Participant extends VersioningDomainObject {
     private Id coderId;
     private Id contestId;
     private int rank;
     private List<ProblemScore> problemScores;
 
-    public Participant(Id id, long version, Id coderId, Id contestId, int rank, List<ProblemScore> problemScores) {
-        super(id, version);
+    public Participant(long version, Id coderId, Id contestId, int rank, List<ProblemScore> problemScores) {
+        super(version);
         this.coderId = coderId;
         this.contestId = contestId;
         this.rank = rank;
@@ -27,7 +27,6 @@ public class Participant extends IdentitifedVersioningDomainObject {
             throw new BusinessLogicError("Không thể thêm thí sinh, kì thi đã kết thúc.", "CAN_NOT_CREATE");
         }
         return new Participant(
-                Id.generateRandom(),
                 0,
                 coderId,
                 contest.getId(),
