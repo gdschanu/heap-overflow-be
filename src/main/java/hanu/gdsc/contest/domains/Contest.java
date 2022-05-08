@@ -17,7 +17,7 @@ public class Contest extends IdentitifedVersioningDomainObject {
     private Id createdBy;
     private List<Problem> problems;
 
-    public Contest(Id id, long version, String name, String description, DateTime startAt, DateTime endAt, Id createdBy, List<Problem> problems) {
+    private Contest(Id id, long version, String name, String description, DateTime startAt, DateTime endAt, Id createdBy, List<Problem> problems) {
         super(id, version);
         this.name = name;
         this.description = description;
