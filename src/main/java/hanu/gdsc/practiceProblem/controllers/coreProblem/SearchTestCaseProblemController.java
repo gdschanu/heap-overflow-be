@@ -18,22 +18,6 @@ public class SearchTestCaseProblemController {
     @Autowired
     private SearchCoreProblemTestCaseService searchCoreProblemTestCaseService;
 
-    @GetMapping("/practiceProblem/coreProblem/testCase/{problemId}")
-    public ResponseEntity<?> get(@PathVariable String problemId) {
-        try {
-            List<SearchCoreProblemTestCaseService.Output> outputs = searchCoreProblemTestCaseService.get(new hanu.gdsc.share.domains.Id(problemId));
-            return new ResponseEntity<>(
-                new ResponseBody("Get Successfully", outputs), HttpStatus.OK
-            );
-        } catch (Throwable e) {
-            if (e.getClass().equals(BusinessLogicError.class)) {
-                e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
     @GetMapping("/practiceProblem/coreProblem/testCase/{problemId}/isSample")
     public ResponseEntity<?> getSampleTestCases(@PathVariable String problemId) {
         try {
