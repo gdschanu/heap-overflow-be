@@ -2,10 +2,9 @@ package hanu.gdsc.contest.repositories.entities;
 
 import hanu.gdsc.contest.domains.Problem;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.UUID;
+import java.lang.reflect.Constructor;
 
 
 @Entity
@@ -39,11 +38,23 @@ public class ContestProblemEntity {
     }
 
     public Problem toDomain() {
-        return new Problem(
-                version,
-                ordinal,
-                new hanu.gdsc.share.domains.Id(coreProblemId),
-                score
-        );
+        try {
+            Constructor<Problem> con = Problem.class.getDeclaredConstructor(
+                    Long.TYPE,
+                    Integer.TYPE,
+                    hanu.gdsc.share.domains.Id.class,
+                    Integer.TYPE
+            );
+            con.setAccessible(true);
+            return con.newInstance(
+                    version,
+                    ordinal,
+                    new hanu.gdsc.share.domains.Id(coreProblemId),
+                    score
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }

@@ -8,7 +8,7 @@ public class ProblemScore extends IdentitifedVersioningDomainObject {
     private int score;
     private int tryCount;
 
-    public ProblemScore(Id id, long version) {
+    private ProblemScore(Id id, long version) {
         super(id, version);
     }
 

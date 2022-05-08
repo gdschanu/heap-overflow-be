@@ -8,7 +8,7 @@ public class Problem extends VersioningDomainObject {
     private Id coreProblemId;
     private int score;
 
-    public Problem(long version, int ordinal, Id coreProblemId, int score) {
+    private Problem(long version, int ordinal, Id coreProblemId, int score) {
         super(version);
         this.ordinal = ordinal;
         this.coreProblemId = coreProblemId;

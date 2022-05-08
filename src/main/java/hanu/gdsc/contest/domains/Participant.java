@@ -14,7 +14,7 @@ public class Participant extends VersioningDomainObject {
     private int rank;
     private List<ProblemScore> problemScores;
 
-    public Participant(long version, Id coderId, Id contestId, int rank, List<ProblemScore> problemScores) {
+    private Participant(long version, Id coderId, Id contestId, int rank, List<ProblemScore> problemScores) {
         super(version);
         this.coderId = coderId;
         this.contestId = contestId;
