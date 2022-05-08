@@ -3,11 +3,10 @@ package hanu.gdsc.contest.repositories.entities;
 import hanu.gdsc.contest.domains.Contest;
 import hanu.gdsc.share.domains.DateTime;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.lang.reflect.Constructor;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Entity
@@ -49,15 +48,31 @@ public class ContestEntity {
     }
 
     public Contest toDomain() {
-        return new Contest(
-                new hanu.gdsc.share.domains.Id(id),
-                version,
-                name,
-                description,
-                new DateTime(startAt),
-                new DateTime(endAt),
-                new hanu.gdsc.share.domains.Id(createdBy),
-                problems.stream().map(x -> x.toDomain()).collect(Collectors.toList())
-        );
+        try {
+            Constructor<Contest> con = Contest.class.getDeclaredConstructor(
+                    hanu.gdsc.share.domains.Id.class,
+                    Long.TYPE,
+                    String.class,
+                    String.class,
+                    DateTime.class,
+                    DateTime.class,
+                    hanu.gdsc.share.domains.Id.class,
+                    List.class
+            );
+            con.setAccessible(true);
+            return con.newInstance(
+                    new hanu.gdsc.share.domains.Id(id),
+                    version,
+                    name,
+                    description,
+                    new DateTime(startAt),
+                    new DateTime(endAt),
+                    new hanu.gdsc.share.domains.Id(createdBy),
+                    problems.stream().map(x -> x.toDomain()).collect(Collectors.toList())
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }
