@@ -11,7 +11,7 @@ public class MemoryLimit extends IdentifiedDomainObject {
     private ProgrammingLanguage programmingLanguage;
     private KB memoryLimit;
 
-    public MemoryLimit(Id id, ProgrammingLanguage programmingLanguage, KB memoryLimit) {
+    private MemoryLimit(Id id, ProgrammingLanguage programmingLanguage, KB memoryLimit) {
         super(id);
         this.programmingLanguage = programmingLanguage;
         this.memoryLimit = memoryLimit;

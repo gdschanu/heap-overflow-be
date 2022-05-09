@@ -7,6 +7,8 @@ import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 import lombok.*;
 
 import javax.persistence.*;
+
+import java.lang.reflect.Constructor;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -73,7 +75,19 @@ public class ProblemEntity {
         GsonBuilder builder = new GsonBuilder();
         Gson gson = builder.create();
         List<String> allowedLangs = gson.fromJson(problemEntity.getAllowedProgrammingLanguages(), List.class);
-        Problem problem = new Problem(
+        try {
+        Constructor<Problem> constructor = Problem.class.getDeclaredConstructor(
+                hanu.gdsc.share.domains.Id.class,
+                Long.TYPE, 
+                String.class,
+                hanu.gdsc.share.domains.Id.class,
+                List.class,
+                List.class,
+                List.class,
+                String.class
+        );
+        constructor.setAccessible(true);
+        Problem problem = constructor.newInstance(
                 new hanu.gdsc.share.domains.Id(problemEntity.getId()),
                 problemEntity.getVersion(),
                 problemEntity.getName(),
@@ -94,5 +108,9 @@ public class ProblemEntity {
                 problemEntity.getServiceToCreate()
         );
         return problem;
+        } catch (Exception e) {
+                e.printStackTrace();
+                throw new Error(e);
+        }
     }
 }

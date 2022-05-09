@@ -3,6 +3,8 @@ package hanu.gdsc.practiceProblem.repositories.entities;
 import hanu.gdsc.practiceProblem.domains.DislikeCount;
 import lombok.*;
 
+import java.lang.reflect.Constructor;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,11 +23,21 @@ public class DislikeCountEntity {
     private long version;
 
     public DislikeCount toDomain() {
-        return new DislikeCount(
-                version,
-                new hanu.gdsc.share.domains.Id(problemId),
-                dislikeCount
-        );
+        try {
+            Constructor<DislikeCount> constructor = DislikeCount.class.getDeclaredConstructor(
+                Long.TYPE,
+                hanu.gdsc.share.domains.Id.class,
+                Long.TYPE
+            );
+            return constructor.newInstance(
+                    version,
+                    new hanu.gdsc.share.domains.Id(problemId),
+                    dislikeCount
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 
     public static DislikeCountEntity fromDomain(DislikeCount dislikeCount) {

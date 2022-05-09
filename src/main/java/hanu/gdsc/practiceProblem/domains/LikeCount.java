@@ -7,7 +7,7 @@ public class LikeCount extends VersioningDomainObject {
     private Id problemId;
     private long likeCount;
 
-    public LikeCount(long version, Id problemId, long likeCount) {
+    private LikeCount(long version, Id problemId, long likeCount) {
         super(version);
         this.problemId = problemId;
         this.likeCount = likeCount;

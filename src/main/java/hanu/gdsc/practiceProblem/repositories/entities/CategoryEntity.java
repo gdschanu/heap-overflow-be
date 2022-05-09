@@ -1,5 +1,6 @@
 package hanu.gdsc.practiceProblem.repositories.entities;
 
+import java.lang.reflect.Constructor;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,10 +36,20 @@ public class CategoryEntity {
     }
 
     public static Category toDomain(CategoryEntity categoryEntity) {
-        return new Category(
-            new hanu.gdsc.share.domains.Id(categoryEntity.getId()),
-            categoryEntity.getVersion(),
-            categoryEntity.getName()
-        );
+        try {
+            Constructor<Category> constructor = Category.class.getDeclaredConstructor(
+                hanu.gdsc.share.domains.Id.class,
+                Long.TYPE,
+                String.class
+            );
+            return constructor.newInstance(
+                new hanu.gdsc.share.domains.Id(categoryEntity.getId()),
+                categoryEntity.getVersion(),
+                categoryEntity.getName()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }

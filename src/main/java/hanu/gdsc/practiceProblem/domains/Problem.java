@@ -11,7 +11,7 @@ public class Problem extends IdentitifedVersioningDomainObject {
     private Difficulty difficulty;
 
 
-    public Problem(Id id, long version, Id coreProblemId, List<Id> categoryIds,
+    private Problem(Id id, long version, Id coreProblemId, List<Id> categoryIds,
                    Difficulty difficulty) {
         super(id, version);
         this.coreProblemId = coreProblemId;

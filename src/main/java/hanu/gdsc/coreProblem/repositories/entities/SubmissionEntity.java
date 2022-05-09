@@ -4,6 +4,8 @@ import hanu.gdsc.coreProblem.domains.*;
 import hanu.gdsc.share.domains.DateTime;
 import lombok.*;
 
+import java.lang.reflect.Constructor;
+
 import javax.persistence.*;
 
 @Entity
@@ -55,7 +57,22 @@ public class SubmissionEntity {
     }
 
     public static Submission toDomain(SubmissionEntity submissionEntity) {
-        return new Submission(
+        try {
+            Constructor<Submission> constructor = Submission.class.getDeclaredConstructor(
+                hanu.gdsc.share.domains.Id.class,
+                Long.TYPE,
+                hanu.gdsc.share.domains.Id.class,
+                ProgrammingLanguage.class,
+                Millisecond.class,
+                KB.class,
+                DateTime.class,
+                String.class, 
+                Status.class, 
+                FailedTestCaseDetail.class,
+                String.class, 
+                hanu.gdsc.share.domains.Id.class
+            );
+            return constructor.newInstance(
                 new hanu.gdsc.share.domains.Id(submissionEntity.getId()),
                 submissionEntity.getVersion(),
                 new hanu.gdsc.share.domains.Id(submissionEntity.getProblemId()),
@@ -69,6 +86,10 @@ public class SubmissionEntity {
                         null : submissionEntity.getFailedTestCaseDetail().toDomain(),
                 submissionEntity.getServiceToCreate(),
                 new hanu.gdsc.share.domains.Id(submissionEntity.coderId)
-        );
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }

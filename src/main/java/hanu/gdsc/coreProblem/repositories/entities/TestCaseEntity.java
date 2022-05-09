@@ -3,6 +3,8 @@ package hanu.gdsc.coreProblem.repositories.entities;
 import hanu.gdsc.coreProblem.domains.TestCase;
 import lombok.*;
 
+import java.lang.reflect.Constructor;
+
 import javax.persistence.*;
 
 @Entity
@@ -41,15 +43,30 @@ public class TestCaseEntity {
     }
 
     public static TestCase toDomain(TestCaseEntity testCaseEntity) {
-        return new TestCase(
-            testCaseEntity.getVersion(),
-            new hanu.gdsc.share.domains.Id(testCaseEntity.getProblemId()),
-            testCaseEntity.getInput(),
-            testCaseEntity.getExpectedOutput(),
-            testCaseEntity.getOrdinal(),
-            testCaseEntity.isSample(),
-            testCaseEntity.getDescription(),
-            testCaseEntity.getServiceToCreate()
-        );
+        try {
+            Constructor<TestCase> constructor = TestCase.class.getDeclaredConstructor(
+                Long.TYPE,
+                hanu.gdsc.share.domains.Id.class,
+                String.class,
+                String.class,
+                Integer.TYPE,
+                Boolean.TYPE,
+                String.class, 
+                String.class
+            );
+            return constructor.newInstance(
+                testCaseEntity.getVersion(),
+                new hanu.gdsc.share.domains.Id(testCaseEntity.getProblemId()),
+                testCaseEntity.getInput(),
+                testCaseEntity.getExpectedOutput(),
+                testCaseEntity.getOrdinal(),
+                testCaseEntity.isSample(),
+                testCaseEntity.getDescription(),
+                testCaseEntity.getServiceToCreate()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }

@@ -16,7 +16,7 @@ public class Submission extends IdentitifedVersioningDomainObject {
     private String serviceToCreate;
     private Id coderId;
 
-    public Submission(Id id, long version, Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, FailedTestCaseDetail failedTestCaseDetail, String serviceToCreate, Id coderId) {
+    private Submission(Id id, long version, Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, FailedTestCaseDetail failedTestCaseDetail, String serviceToCreate, Id coderId) {
         super(id, version);
         this.problemId = problemId;
         this.programmingLanguage = programmingLanguage;

@@ -1,5 +1,7 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
+import java.lang.reflect.Constructor;
+
 import javax.persistence.*;
 
 import hanu.gdsc.coreProblem.domains.KB;
@@ -33,10 +35,20 @@ public class MemoryLimitEntity {
     }
 
     public static MemoryLimit toDomain(MemoryLimitEntity memoryLimitEntity) {
-        return new MemoryLimit(
-            new hanu.gdsc.share.domains.Id(memoryLimitEntity.getId()),
-            ProgrammingLanguage.valueOf(memoryLimitEntity.getProgrammingLanguage()),
-            new KB(memoryLimitEntity.getMemoryLimit())
-        );
+        try {
+            Constructor<MemoryLimit> constructor = MemoryLimit.class.getDeclaredConstructor(
+                hanu.gdsc.share.domains.Id.class,
+                ProgrammingLanguage.class,
+                KB.class
+            );
+            return constructor.newInstance(
+                new hanu.gdsc.share.domains.Id(memoryLimitEntity.getId()),
+                ProgrammingLanguage.valueOf(memoryLimitEntity.getProgrammingLanguage()),
+                new KB(memoryLimitEntity.getMemoryLimit())
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }

@@ -1,5 +1,6 @@
 package hanu.gdsc.practiceProblem.repositories.entities;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -47,12 +48,24 @@ public class PracticeProblemProblemEntity {
         for(CategoryEntity category : practiceProblemProblemEntity.getCategory()) {
             categoryIds.add(new hanu.gdsc.share.domains.Id(category.getId()));
         }
-        return new Problem(
-            new hanu.gdsc.share.domains.Id(practiceProblemProblemEntity.getId()),
-            practiceProblemProblemEntity.getVersion(),
-            new hanu.gdsc.share.domains.Id(practiceProblemProblemEntity.getCoreProblemId()),
-            categoryIds,
-            Difficulty.valueOf(practiceProblemProblemEntity.getDifficulty())
-        );
+        try {
+            Constructor<Problem> constructor = Problem.class.getDeclaredConstructor(
+                hanu.gdsc.share.domains.Id.class,
+                Long.TYPE,
+                hanu.gdsc.share.domains.Id.class,
+                List.class,
+                Difficulty.class
+            );
+            return constructor.newInstance(
+                new hanu.gdsc.share.domains.Id(practiceProblemProblemEntity.getId()),
+                practiceProblemProblemEntity.getVersion(),
+                new hanu.gdsc.share.domains.Id(practiceProblemProblemEntity.getCoreProblemId()),
+                categoryIds,
+                Difficulty.valueOf(practiceProblemProblemEntity.getDifficulty())
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }

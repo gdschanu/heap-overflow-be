@@ -3,6 +3,8 @@ package hanu.gdsc.coreProblem.repositories.entities;
 import hanu.gdsc.coreProblem.domains.FailedTestCaseDetail;
 import lombok.*;
 
+import java.lang.reflect.Constructor;
+
 import javax.persistence.*;
 
 @Entity
@@ -26,7 +28,17 @@ public class FailedTestCaseDetailEntity {
 
 
     public FailedTestCaseDetail toDomain() {
-        return new FailedTestCaseDetail(
+        try {
+        Constructor<FailedTestCaseDetail> constructor = FailedTestCaseDetail.class.getDeclaredConstructor(
+            hanu.gdsc.share.domains.Id.class,
+            Long.TYPE,
+            Integer.TYPE,
+            String.class,
+            String.class, 
+            String.class,
+            String.class
+        );
+        return constructor.newInstance(
                 new hanu.gdsc.share.domains.Id(id),
                 failedAtLine,
                 input,
@@ -34,6 +46,10 @@ public class FailedTestCaseDetailEntity {
                 expectedOutput,
                 description
         );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 
     public static FailedTestCaseDetailEntity fromDomain(FailedTestCaseDetail domain, SubmissionEntity submission) {

@@ -11,7 +11,7 @@ public class TimeLimit extends IdentifiedDomainObject {
     private ProgrammingLanguage programmingLanguage;
     private Millisecond timeLimit;
 
-    public TimeLimit(Id id, ProgrammingLanguage programmingLanguage, Millisecond timeLimit) {
+    private TimeLimit(Id id, ProgrammingLanguage programmingLanguage, Millisecond timeLimit) {
         super(id);
         this.programmingLanguage = programmingLanguage;
         this.timeLimit = timeLimit;

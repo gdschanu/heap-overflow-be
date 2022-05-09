@@ -2,6 +2,8 @@ package hanu.gdsc.practiceProblem.repositories.entities;
 import hanu.gdsc.practiceProblem.domains.LikeCount;
 import lombok.*;
 
+import java.lang.reflect.Constructor;
+
 import javax.persistence.*;
 
 @Entity
@@ -20,11 +22,21 @@ public class LikeCountEntity {
     private long version;
 
     public LikeCount toDomain() {
-        return new LikeCount(
-                version,
-                new hanu.gdsc.share.domains.Id(problemId),
-                likeCount
-        );
+        try {
+            Constructor<LikeCount> constructor =  LikeCount.class.getDeclaredConstructor(
+                Long.TYPE,
+                hanu.gdsc.share.domains.Id.class,
+                Long.TYPE
+            );
+            return constructor.newInstance(
+                    version,
+                    new hanu.gdsc.share.domains.Id(problemId),
+                    likeCount
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 
     public static LikeCountEntity fromDomain(LikeCount cnt) {

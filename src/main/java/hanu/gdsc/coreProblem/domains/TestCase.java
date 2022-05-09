@@ -16,7 +16,7 @@ public class TestCase extends VersioningDomainObject {
     private String description;
     private String serviceToCreate;
 
-    public TestCase(long version, Id problemId, String input, String expectedOutput, int ordinal, boolean isSample,
+    private TestCase(long version, Id problemId, String input, String expectedOutput, int ordinal, boolean isSample,
                     String description, String serviceToCreate) {
         super(version);
         this.problemId = problemId;

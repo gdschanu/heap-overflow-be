@@ -1,5 +1,7 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
+import java.lang.reflect.Constructor;
+
 import javax.persistence.*;
 
 import hanu.gdsc.coreProblem.domains.Status;
@@ -33,10 +35,20 @@ public class SubmissionEventEntity {
         if (submissionEventEntity == null) {
             return null;
         }
-            return new SubmissionEvent(
+        try {
+            Constructor<SubmissionEvent> constructor = SubmissionEvent.class.getDeclaredConstructor(
+                hanu.gdsc.share.domains.Id.class,
+                hanu.gdsc.share.domains.Id.class,
+                Status.class
+            );
+            return constructor.newInstance(
                 new hanu.gdsc.share.domains.Id(submissionEventEntity.getId()),
                 new hanu.gdsc.share.domains.Id(submissionEventEntity.getProblemId()),
                 Status.valueOf(submissionEventEntity.getStatus())
             );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }

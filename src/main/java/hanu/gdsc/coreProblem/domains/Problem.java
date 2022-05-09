@@ -16,7 +16,7 @@ public class Problem extends IdentitifedVersioningDomainObject {
     private List<ProgrammingLanguage> allowedProgrammingLanguages;
     private String serviceToCreate;
 
-    public Problem(Id id, long version, String name, String description, Id author, List<MemoryLimit> memoryLimits, List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages, String serviceToCreate) {
+    private Problem(Id id, long version, String name, String description, Id author, List<MemoryLimit> memoryLimits, List<TimeLimit> timeLimits, List<ProgrammingLanguage> allowedProgrammingLanguages, String serviceToCreate) {
         super(id, version);
         this.name = name;
         this.description = description;

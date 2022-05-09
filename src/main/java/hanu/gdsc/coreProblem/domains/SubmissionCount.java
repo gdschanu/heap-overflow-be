@@ -9,7 +9,7 @@ public class SubmissionCount extends VersioningDomainObject {
     private long submissionsCount;
     private String serviceToCreate;
 
-    public SubmissionCount(long version, Id problemId, long ACsCount, long submissionsCount, String serviceToCreate) {
+    private SubmissionCount(long version, Id problemId, long ACsCount, long submissionsCount, String serviceToCreate) {
         super(version);
         this.problemId = problemId;
         this.ACsCount = ACsCount;

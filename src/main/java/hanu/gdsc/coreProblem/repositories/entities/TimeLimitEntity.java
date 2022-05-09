@@ -1,5 +1,7 @@
 package hanu.gdsc.coreProblem.repositories.entities;
 
+import java.lang.reflect.Constructor;
+
 import javax.persistence.*;
 
 import hanu.gdsc.coreProblem.domains.Millisecond;
@@ -33,10 +35,20 @@ public class TimeLimitEntity {
     }
 
     public static TimeLimit toDomain(TimeLimitEntity timeLimitEntity) {
-        return new TimeLimit(
-            new hanu.gdsc.share.domains.Id(timeLimitEntity.getId()),
-            ProgrammingLanguage.valueOf(timeLimitEntity.getProgrammingLanguage()),
-            new Millisecond(timeLimitEntity.getTimeLimit())
-        );
+        try {
+            Constructor<TimeLimit> constructor = TimeLimit.class.getDeclaredConstructor(
+                hanu.gdsc.share.domains.Id.class,
+                ProgrammingLanguage.class,
+                Millisecond.class
+            );
+            return constructor.newInstance(
+                new hanu.gdsc.share.domains.Id(timeLimitEntity.getId()),
+                ProgrammingLanguage.valueOf(timeLimitEntity.getProgrammingLanguage()),
+                new Millisecond(timeLimitEntity.getTimeLimit())
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }

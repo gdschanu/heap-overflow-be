@@ -7,7 +7,7 @@ public class SubmissionEvent extends IdentifiedDomainObject {
     private Id problemId;
     private Status status;
 
-    public SubmissionEvent(Id id, Id problemId, Status status) {
+    private SubmissionEvent(Id id, Id problemId, Status status) {
         super(id);
         this.problemId = problemId;
         this.status = status;

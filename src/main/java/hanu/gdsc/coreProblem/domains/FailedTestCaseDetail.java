@@ -10,7 +10,7 @@ public class FailedTestCaseDetail extends IdentifiedDomainObject {
     private String expectedOutput;
     private String description;
 
-    public FailedTestCaseDetail(Id id, Integer failedAtLine, String input, String actualOutput, String expectedOutput, String description) {
+    private FailedTestCaseDetail(Id id, Integer failedAtLine, String input, String actualOutput, String expectedOutput, String description) {
         super(id);
         this.failedAtLine = failedAtLine;
         this.input = input;
