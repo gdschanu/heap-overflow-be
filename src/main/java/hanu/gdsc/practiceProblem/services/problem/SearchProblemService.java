@@ -15,7 +15,7 @@ public interface SearchProblemService {
     public static class Output {
         public Id id;
         public long version;
-        public Id coreProblemId;
+        public Id coreProblemProblemId;
         private List<Id> categoryIds;
         public Difficulty difficulty;
     }

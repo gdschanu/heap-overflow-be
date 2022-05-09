@@ -6,30 +6,30 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 
 public class Problem extends IdentitifedVersioningDomainObject {
-    private Id coreProblemId;
+    private Id coreProblemProblemId;
     private List<Id> categoryIds;
     private Difficulty difficulty;
 
 
-    private Problem(Id id, long version, Id coreProblemId, List<Id> categoryIds,
+    private Problem(Id id, long version, Id coreProblemProblemId, List<Id> categoryIds,
                    Difficulty difficulty) {
         super(id, version);
-        this.coreProblemId = coreProblemId;
+        this.coreProblemProblemId = coreProblemProblemId;
         this.categoryIds = categoryIds;
         this.difficulty = difficulty;
     }
 
-    public static Problem create(Id coreProlemId, List<Id> categoryIds, Difficulty difficulty) {
+    public static Problem create(Id coreProlemProblemId, List<Id> categoryIds, Difficulty difficulty) {
         return new Problem(
             Id.generateRandom(),
             0,
-            coreProlemId,
+            coreProlemProblemId,
             categoryIds,
             difficulty);
     }
 
-    public Id getCoreProblemId() {
-        return coreProblemId;
+    public Id getCoreProblemProblemId() {
+        return coreProblemProblemId;
     }
 
     public List<Id> getCategoryIds() {
@@ -48,8 +48,8 @@ public class Problem extends IdentitifedVersioningDomainObject {
         this.difficulty = difficulty;
     }
 
-    public void setCoreProblemId(Id coreProblemId) {
-        this.coreProblemId = coreProblemId;
+    public void setCoreProblemId(Id coreProblemProblemId) {
+        this.coreProblemProblemId = coreProblemProblemId;
     }
     
 }

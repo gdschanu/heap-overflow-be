@@ -27,7 +27,7 @@ public class PracticeProblemProblemEntity {
     @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
     private long version;
     @Column(columnDefinition = "VARCHAR(30)")
-    private String coreProblemId;
+    private String coreProblemProblemId;
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "practice_problem_problem_category", joinColumns = @JoinColumn(name="practice_problem_id"),
             inverseJoinColumns = @JoinColumn(name="category_id"))
@@ -38,7 +38,7 @@ public class PracticeProblemProblemEntity {
         return PracticeProblemProblemEntity.builder()
             .id(problem.getId().toString())
             .version(problem.getVersion())
-            .coreProblemId(problem.getCoreProblemId().toString())
+            .coreProblemProblemId(problem.getCoreProblemProblemId().toString())
             .difficulty(problem.getDifficulty().toString())
             .build();
     }
@@ -59,7 +59,7 @@ public class PracticeProblemProblemEntity {
             return constructor.newInstance(
                 new hanu.gdsc.share.domains.Id(practiceProblemProblemEntity.getId()),
                 practiceProblemProblemEntity.getVersion(),
-                new hanu.gdsc.share.domains.Id(practiceProblemProblemEntity.getCoreProblemId()),
+                new hanu.gdsc.share.domains.Id(practiceProblemProblemEntity.getCoreProblemProblemId()),
                 categoryIds,
                 Difficulty.valueOf(practiceProblemProblemEntity.getDifficulty())
             );

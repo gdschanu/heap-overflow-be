@@ -37,7 +37,7 @@ public class SearchProblemServiceImpl implements SearchProblemService {
         return Output.builder()
                 .id(practiceProblem.getId())
                 .version(practiceProblem.getVersion())
-                .coreProblemId(practiceProblem.getCoreProblemId())
+                .coreProblemProblemId(practiceProblem.getCoreProblemProblemId())
                 .categoryIds(practiceProblem.getCategoryIds())
                 .difficulty(practiceProblem.getDifficulty())
                 .build();
