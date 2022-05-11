@@ -17,6 +17,11 @@ public interface TestCaseJPARepository extends JpaRepository<TestCaseEntity, Str
         nativeQuery = true)
     public List<TestCaseEntity> getSampleTestCases(String problemId, String serviceToCreate);
 
+    @Query(value = "SELECT * FROM core_problem_test_case t WHERE t.problem_id = :problemId" +
+        " AND t.ordinal = :ordinal AND t.service_to_create = :serviceToCreate",
+        nativeQuery = true)
+    public TestCaseEntity getByProblemIdAndOrdinalAndServiceToCreate(String problemId, int ordinal, String serviceToCreate);
+
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM core_problem_test_case WHERE id = :id AND service_to_create = :serviceToCreate",

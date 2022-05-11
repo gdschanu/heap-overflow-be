@@ -41,6 +41,7 @@ public class TimeLimitEntity {
                 ProgrammingLanguage.class,
                 Millisecond.class
             );
+            constructor.setAccessible(true);
             return constructor.newInstance(
                 new hanu.gdsc.share.domains.Id(timeLimitEntity.getId()),
                 ProgrammingLanguage.valueOf(timeLimitEntity.getProgrammingLanguage()),

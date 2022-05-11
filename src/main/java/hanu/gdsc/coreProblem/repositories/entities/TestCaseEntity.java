@@ -54,6 +54,7 @@ public class TestCaseEntity {
                 String.class, 
                 String.class
             );
+            constructor.setAccessible(true);
             return constructor.newInstance(
                 testCaseEntity.getVersion(),
                 new hanu.gdsc.share.domains.Id(testCaseEntity.getProblemId()),

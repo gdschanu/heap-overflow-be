@@ -42,6 +42,7 @@ public class CategoryEntity {
                 Long.TYPE,
                 String.class
             );
+            constructor.setAccessible(true);
             return constructor.newInstance(
                 new hanu.gdsc.share.domains.Id(categoryEntity.getId()),
                 categoryEntity.getVersion(),

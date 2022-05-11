@@ -56,6 +56,7 @@ public class PracticeProblemProblemEntity {
                 List.class,
                 Difficulty.class
             );
+            constructor.setAccessible(true);
             return constructor.newInstance(
                 new hanu.gdsc.share.domains.Id(practiceProblemProblemEntity.getId()),
                 practiceProblemProblemEntity.getVersion(),

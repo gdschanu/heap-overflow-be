@@ -76,4 +76,24 @@ public class TestCase extends VersioningDomainObject {
         return serviceToCreate;
     }
 
+    public void setInput(String input) {
+        this.input = input;
+    }
+
+    public void setExpectedOutput(String expectedOutput) {
+        this.expectedOutput = expectedOutput;
+    }
+
+    public void setOrdinal(int ordinal) {
+        this.ordinal = ordinal;
+    }
+
+    public void setSample(boolean isSample) {
+        this.isSample = isSample;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

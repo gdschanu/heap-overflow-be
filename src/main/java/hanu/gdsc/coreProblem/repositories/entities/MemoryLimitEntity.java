@@ -41,6 +41,7 @@ public class MemoryLimitEntity {
                 ProgrammingLanguage.class,
                 KB.class
             );
+            constructor.setAccessible(true);
             return constructor.newInstance(
                 new hanu.gdsc.share.domains.Id(memoryLimitEntity.getId()),
                 ProgrammingLanguage.valueOf(memoryLimitEntity.getProgrammingLanguage()),

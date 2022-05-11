@@ -3,6 +3,8 @@ package hanu.gdsc.coreProblem.repositories;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -44,5 +46,21 @@ public class TestCaseRepositoryImpl implements TestCaseRepository{
             serviceToDelete
         );
         
+    }
+
+    @Override
+    public TestCase getByProblemIdAndOrdinal(Id problemId, int ordinal, String serviceToCreate) {
+        return TestCaseEntity.toDomain(
+            testCaseJpaRepository.getByProblemIdAndOrdinalAndServiceToCreate(
+                problemId.toString(),
+                ordinal,
+                serviceToCreate)
+            );
+    }
+
+    @Override
+    @Transactional
+    public void update(TestCase testCase) {
+        testCaseJpaRepository.save(TestCaseEntity.toEntity(testCase));  
     }    
 }

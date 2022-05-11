@@ -41,6 +41,7 @@ public class SubmissionEventEntity {
                 hanu.gdsc.share.domains.Id.class,
                 Status.class
             );
+            constructor.setAccessible(true);
             return constructor.newInstance(
                 new hanu.gdsc.share.domains.Id(submissionEventEntity.getId()),
                 new hanu.gdsc.share.domains.Id(submissionEventEntity.getProblemId()),

@@ -38,6 +38,7 @@ public class FailedTestCaseDetailEntity {
             String.class,
             String.class
         );
+        constructor.setAccessible(true);
         return constructor.newInstance(
                 new hanu.gdsc.share.domains.Id(id),
                 failedAtLine,

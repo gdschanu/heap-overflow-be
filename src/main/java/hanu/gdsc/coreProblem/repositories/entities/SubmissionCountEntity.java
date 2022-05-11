@@ -42,6 +42,7 @@ public class SubmissionCountEntity {
                 Long.TYPE,
                 String.class
             );
+            constructor.setAccessible(true);
             return constructor.newInstance(
                 submissionCountEntity.getVersion(),
                 new hanu.gdsc.share.domains.Id(submissionCountEntity.getProblemId()),

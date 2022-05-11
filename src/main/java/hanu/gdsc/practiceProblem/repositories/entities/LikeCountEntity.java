@@ -28,6 +28,7 @@ public class LikeCountEntity {
                 hanu.gdsc.share.domains.Id.class,
                 Long.TYPE
             );
+            constructor.setAccessible(true);
             return constructor.newInstance(
                     version,
                     new hanu.gdsc.share.domains.Id(problemId),
