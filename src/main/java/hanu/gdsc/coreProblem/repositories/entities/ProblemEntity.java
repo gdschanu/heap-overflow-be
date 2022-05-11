@@ -80,6 +80,7 @@ public class ProblemEntity {
                 hanu.gdsc.share.domains.Id.class,
                 Long.TYPE, 
                 String.class,
+                String.class,
                 hanu.gdsc.share.domains.Id.class,
                 List.class,
                 List.class,

@@ -7,12 +7,11 @@ import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.coreProblem.services.testCase.SearchTestCaseService;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
-
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Service
@@ -22,6 +21,8 @@ public class SubmitServiceImpl implements SubmitService {
     private final SubmissionRepository submissionRepository;
     private final SubmissionEventRepository submissionEventRepository;
     private final SearchTestCaseService searchTestCaseService;
+
+    private final TestCaseNotificationService testCaseNotificationService;
 
     @Override
     @Transactional(isolation = Isolation.READ_COMMITTED)
@@ -63,7 +64,20 @@ public class SubmitServiceImpl implements SubmitService {
         float totalMemory = 0;
         long totalRunTime = 0;
         List<TestCase> testCases = searchTestCaseService.getByProblemId(problem.getId(), problem.getServiceToCreate());
+        int currentTestCase = 0;
         for (TestCase testCase : TestCase.getSortedByOrdinalTestCases(testCases)) {
+            // Ping the running test case
+            currentTestCase++;
+            try {
+                testCaseNotificationService.notifyRunningTestCase(TestCaseNotificationService.Input.builder()
+                        .runningTestCase(currentTestCase)
+                        .totalTestCase(testCases.size())
+                        .coderId(input.coderId)
+                        .build());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             RunCodeService.Output runCodeServiceOutput = runCodeService.execute(input.code, testCase.getInput(), input.programmingLanguage);
             //Check compilation status
             if (runCodeServiceOutput.compilationError == true) {

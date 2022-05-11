@@ -2,6 +2,7 @@ package hanu.gdsc.coreProblem.services.problem;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import hanu.gdsc.coreProblem.config.Judge0Config;
 import hanu.gdsc.coreProblem.domains.KB;
 import hanu.gdsc.coreProblem.domains.Millisecond;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
@@ -84,7 +85,7 @@ public class RunCodeServiceImpl implements RunCodeService {
         Gson gson = new GsonBuilder().create();
         String requestString = gson.toJson(request);
         HttpRequest httpReq = HttpRequest.newBuilder()
-                .uri(URI.create("https://judge0-ce.p.rapidapi.com/submissions?base64_encoded=true&fields=*"))
+                .uri(URI.create(Judge0Config.SERVER_URL + "?base64_encoded=true&fields=*"))
                 .header("content-type", "application/json")
                 .header("x-rapidapi-host", "judge0-ce.p.rapidapi.com")
                 .header("x-rapidapi-key", "f803e60e33msh9bba8830c9044abp1f5592jsn0abe369e6307")
@@ -129,7 +130,7 @@ public class RunCodeServiceImpl implements RunCodeService {
 
     private Judge0Submission getSubmission(String submissonToken) throws Exception {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://judge0-ce.p.rapidapi.com/submissions/" + submissonToken + "?base64_encoded=true&fields=*"))
+                .uri(URI.create(Judge0Config.SERVER_URL + "/" + submissonToken + "?base64_encoded=true&fields=*"))
                 .header("x-rapidapi-host", "judge0-ce.p.rapidapi.com")
                 .header("x-rapidapi-key", "f803e60e33msh9bba8830c9044abp1f5592jsn0abe369e6307")
                 .method("GET", HttpRequest.BodyPublishers.noBody())
