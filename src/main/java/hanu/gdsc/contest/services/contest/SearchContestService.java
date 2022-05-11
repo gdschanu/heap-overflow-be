@@ -1,12 +1,34 @@
 package hanu.gdsc.contest.services.contest;
 
 import hanu.gdsc.contest.domains.Contest;
+import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
+import lombok.Builder;
 
 import java.util.List;
 
 public interface SearchContestService {
-    public Contest getById(Id contestId);
 
-    public List<Contest> get(int page, int perPage);
+    @Builder
+    public static class OutputProblem {
+        public int ordinal;
+        public Id coreProblemId;
+        public int score;
+    }
+
+    @Builder
+    public static class OutputContest {
+        public Id id;
+        public String name;
+        public String description;
+        public DateTime startAt;
+        public DateTime endAt;
+        public Id createdBy;
+        public List<OutputProblem> problems;
+        public long version;
+    }
+
+    public OutputContest getById(Id contestId);
+
+    public List<OutputContest> get(int page, int perPage);
 }

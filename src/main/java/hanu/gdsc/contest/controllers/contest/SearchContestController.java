@@ -26,7 +26,7 @@ public class SearchContestController {
     public ResponseEntity<?> searchContest(@RequestParam int page,
                                            @RequestParam int perPage) {
         try {
-            List<Contest> contests = searchContestService.get(page, perPage);
+            List<SearchContestService.OutputContest> contests = searchContestService.get(page, perPage);
             return new ResponseEntity<>(
                     new ResponseBody("Success", contests),
                     HttpStatus.OK
@@ -43,9 +43,9 @@ public class SearchContestController {
     @GetMapping("/contest/contest/{id}")
     public ResponseEntity<?> searchContest(@PathVariable String id) {
         try {
-            Contest contest = searchContestService.getById(new Id(id));
+            SearchContestService.OutputContest contest = searchContestService.getById(new Id(id));
             return new ResponseEntity<>(
-                    new ResponseBody("Success", id),
+                    new ResponseBody("Success", contest),
                     HttpStatus.OK
             );
         } catch (Throwable e) {

@@ -1,26 +1,32 @@
 package hanu.gdsc.practiceProblem.services.problem;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import hanu.gdsc.practiceProblem.domains.Problem;
+import hanu.gdsc.practiceProblem.repositories.ProblemRepository;
+import hanu.gdsc.share.error.NotFoundError;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import hanu.gdsc.practiceProblem.config.ServiceName;
-
 @Component(value = "PracticeProblem.RunSampleTestCaseService")
+@AllArgsConstructor
 public class RunSampleTestCaseServiceImpl implements RunSampleTestCaseService {
-    @Autowired
-    private hanu.gdsc.coreProblem.services.problem.RunSampleTestCaseService runSampleTestCaseService;
+    private final hanu.gdsc.practiceProblem.services.coreProblem.RunSampleTestCaseService
+            coreProblemRunSampleTestCaseService;
+    private final ProblemRepository problemRepository;
 
     @Override
     public hanu.gdsc.coreProblem.services.problem.RunSampleTestCaseService.Output runSampleTestCase(Input input) {
-        return runSampleTestCaseService.runSampleTestCase(
-            hanu.gdsc.coreProblem.services.problem.RunSampleTestCaseService.Input.builder()
-                .coderId(input.coderId)
-                .problemId(input.problemId)
-                .serviceToCreate(ServiceName.serviceName)
-                .code(input.code)
-                .programmingLanguage(input.programmingLanguage)
-                .build()
-            );
+        Problem problem = problemRepository.getById(input.problemId);
+        if (problem == null) {
+            throw new NotFoundError("Problem not found");
+        }
+        return coreProblemRunSampleTestCaseService.runSampleTestCase(
+                hanu.gdsc.practiceProblem.services.coreProblem.RunSampleTestCaseService.Input.builder()
+                        .coderId(input.coderId)
+                        .problemId(problem.getCoreProblemProblemId())
+                        .code(input.code)
+                        .programmingLanguage(input.programmingLanguage)
+                        .build()
+        );
     }
     
 }
