@@ -14,16 +14,13 @@ public class TestCaseNotificationServiceImpl implements TestCaseNotificationServ
     private ServerSocket serverSocket;
     private Socket clientSocket;
     private PrintWriter out;
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private ObjectMapper objectMapper;
 
-    private void startSocketIfDidnt() throws IOException {
-        if (serverSocket == null) {
-            synchronized (this) {
-                serverSocket = new ServerSocket(TestCaseNotificationSocketConfig.PORT);
-                clientSocket = serverSocket.accept();
-                out = new PrintWriter(clientSocket.getOutputStream(), true);
-            }
-        }
+    public TestCaseNotificationServiceImpl() throws IOException {
+        serverSocket = new ServerSocket(TestCaseNotificationSocketConfig.PORT);
+        clientSocket = serverSocket.accept();
+        out = new PrintWriter(clientSocket.getOutputStream(), true);
+        objectMapper = new ObjectMapper();
     }
 
     private void writeToSocket(String message) {
@@ -32,7 +29,6 @@ public class TestCaseNotificationServiceImpl implements TestCaseNotificationServ
 
     @Override
     public void notifyRunningTestCase(Input input) throws Exception {
-        startSocketIfDidnt();
         writeToSocket(objectMapper.writeValueAsString(input));
     }
 }
