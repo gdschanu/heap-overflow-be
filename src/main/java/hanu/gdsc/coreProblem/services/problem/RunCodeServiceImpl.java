@@ -1,5 +1,6 @@
 package hanu.gdsc.coreProblem.services.problem;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import hanu.gdsc.coreProblem.config.Judge0Config;
@@ -77,12 +78,13 @@ public class RunCodeServiceImpl implements RunCodeService {
         public String token;
     }
 
+    Gson gson = new GsonBuilder().create();
+
     private String createSubmission(String code, String input, ProgrammingLanguage programmingLanguage) throws Exception {
         CreateSubmissionRequest request = new CreateSubmissionRequest();
         request.language_id = getJudge0ProgrammingLanguageId(programmingLanguage);
         request.source_code = new String(Base64.getEncoder().encode(code.getBytes()));
         request.stdin = new String(Base64.getEncoder().encode(input.getBytes()));
-        Gson gson = new GsonBuilder().create();
         String requestString = gson.toJson(request);
         HttpRequest httpReq = HttpRequest.newBuilder()
                 .uri(URI.create(Judge0Config.SERVER_URL + "?base64_encoded=true&fields=*"))

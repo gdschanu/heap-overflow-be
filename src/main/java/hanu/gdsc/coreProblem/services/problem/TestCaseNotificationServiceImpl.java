@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.Queue;
 
 @Service
@@ -16,6 +17,7 @@ public class TestCaseNotificationServiceImpl implements TestCaseNotificationServ
     private Queue<Input> runningTestCasesQueue;
 
     public TestCaseNotificationServiceImpl() throws IOException {
+        runningTestCasesQueue = new LinkedList<>();
         Thread socketHandlerThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -36,7 +38,7 @@ public class TestCaseNotificationServiceImpl implements TestCaseNotificationServ
                         }
                     }
                 } catch (Exception e) {
-
+                    e.printStackTrace();
                 }
             }
         });
