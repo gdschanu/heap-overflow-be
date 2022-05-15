@@ -1,14 +1,10 @@
 package hanu.gdsc.coderAuth.repositories.Entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.lang.reflect.Constructor;
 
+import javax.persistence.*;
 import hanu.gdsc.coderAuth.domains.RegisterVerificationCode;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Id;
 
@@ -35,9 +31,21 @@ public class RegisterVerificationCodeEntity {
     }
 
     public RegisterVerificationCode toDomain() {
-        return new RegisterVerificationCode(
-            new hanu.gdsc.share.domains.Id(coderId), 
-            code, 
-            new hanu.gdsc.share.domains.DateTime(expireAt));
+        try {
+            Constructor<RegisterVerificationCode> con = RegisterVerificationCode.class.getDeclaredConstructor(
+                hanu.gdsc.share.domains.Id.class,
+                String.class,
+                hanu.gdsc.share.domains.DateTime.class
+            );
+            con.setAccessible(true);
+            return con.newInstance(
+                new hanu.gdsc.share.domains.Id(coderId),
+                code,
+                new hanu.gdsc.share.domains.DateTime(expireAt)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }
