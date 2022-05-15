@@ -7,7 +7,6 @@ import hanu.gdsc.coderAuth.domains.RegisterVerificationCode;
 import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.repositories.RegisterVerificationCodeRepository;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
-import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 
@@ -22,17 +21,18 @@ public class ConfirmRegisterVerificationCodeServiceImpl implements ConfirmRegist
 
     @Override
     public void confirmRegisterVerificationCode(String code, Id coderId) {
-       RegisterVerificationCode registerVerificationCode = registerVerificationCodeRepository.getByCode(code);
+       RegisterVerificationCode registerVerificationCode = registerVerificationCodeRepository.getByCoderId(coderId);
        if(registerVerificationCode == null) {
-           throw new BusinessLogicError("Your code is wrong", "WRONG_CODE");
+           throw new BusinessLogicError("You haven't send code yet", "UNSENT_CODE");
        }
-
-       DateTime time = new DateTime(DateTime.now().toString());
-       if(!time.isBefore(registerVerificationCode.getExpireAt())) {
+       if(registerVerificationCode.invalidate()) {
            throw new BusinessLogicError("Your code is expired", "EXPIRED_CODE");
        }
-
+       if(!registerVerificationCode.getCode().equals(code)) {
+           throw new BusinessLogicError("Your code is wrong", "WRONG_CODE");
+       }
        User user = userRepository.getByCoderId(coderId);
-       user.setRegistrationConfirmed(true);
+       user.confirmRegistration();
+       userRepository.save(user);
     }  
 }
