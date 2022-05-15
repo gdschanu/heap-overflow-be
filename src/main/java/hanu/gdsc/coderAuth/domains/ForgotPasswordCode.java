@@ -5,22 +5,22 @@ import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 
-public class RegisterVerificationCode {
+public class ForgotPasswordCode {
     private Id coderId;
     private String code;
     private DateTime expireAt;
     
-    private RegisterVerificationCode(Id coderId, String code, DateTime expireAt) {
+    private ForgotPasswordCode(Id coderId, String code, DateTime expireAt) {
         this.coderId = coderId;
         this.code = code;
         this.expireAt = expireAt;
     }
 
-    public static RegisterVerificationCode createRegisterVerificationCode(Id coderId) {
-        return new RegisterVerificationCode(
+    public static ForgotPasswordCode createForgotPasswordCode(Id coderId) {
+        return new ForgotPasswordCode(
             coderId, 
             generateRandomCode(), 
-            DateTime.now().plusMinutes(60));
+            DateTime.now().plusMinutes(20));
     }
     
     public Id getCoderId() {
@@ -44,8 +44,9 @@ public class RegisterVerificationCode {
     public boolean invalidate() {
         DateTime time = DateTime.now();
         if(!time.isBefore(expireAt)) {
-            throw new BusinessLogicError("Register verification code is expired", "EXPIRED_CODE");
+            throw new BusinessLogicError("Forgot password code is expired", "EXPIRED_CODE");
         }
         return false;
     }
 }
+

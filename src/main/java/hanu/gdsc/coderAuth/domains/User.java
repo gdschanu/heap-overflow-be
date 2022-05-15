@@ -1,20 +1,30 @@
 package hanu.gdsc.coderAuth.domains;
 
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
+import hanu.gdsc.share.error.BusinessLogicError;
 
-public class User {
+public class User extends IdentitifedVersioningDomainObject{
     private Email email;
     private Username username;
-    private Password password;
-    private Id coderId;
+    private HashedPassword password;
     private boolean registrationConfirmed;
 
-    public User(Email email, Username username, Password password, Id coderId, boolean registrationConfirmed) {
+    private User(long version, Email email, Username username, HashedPassword password, Id coderId, boolean registrationConfirmed) {
+        super(coderId, version);
         this.email = email;
         this.username = username;
         this.password = password;
-        this.coderId = coderId;
         this.registrationConfirmed = registrationConfirmed;
+    }
+
+    public static User createUser(Email email, Username username, HashedPassword password, Id coderId) {
+        return new User(0, 
+        email, 
+        username, 
+        password, 
+        coderId, 
+        false);
     }
 
     public Email getEmail() {
@@ -25,25 +35,24 @@ public class User {
         return username;
     }
 
-    public Password getPassword() {
+    public HashedPassword getPassword() {
         return password;
-    }
-
-    public Id getCoderId() {
-        return coderId;
     }
 
     public boolean isRegistrationConfirmed() {
         return registrationConfirmed;
     }
 
-    public void setPassword(Password password) {
+    public void setPassword(HashedPassword password) {
         this.password = password;
     }
-
-    public void setRegistrationConfirmed(boolean registrationConfirmed) {
-        this.registrationConfirmed = registrationConfirmed;
-    }
-
     
+    public void confirmRegistration() {
+        if(registrationConfirmed == true) {
+            throw new BusinessLogicError("You already confirm mail registration", "CONFIRMED_USER");
+        }
+        else {
+            this.registrationConfirmed = true;
+        }
+    }
 }
