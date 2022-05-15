@@ -9,4 +9,8 @@ public interface SessionRepository {
     public Session getById(Id id);
 
     public Session getByCoderId(Id coderId);
+
+    public void deleteById(Id id);
+
+    public void deleteSession(Id coderId, Id sessionId);
 }
