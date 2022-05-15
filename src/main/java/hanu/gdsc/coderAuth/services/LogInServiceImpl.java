@@ -1,20 +1,16 @@
 package hanu.gdsc.coderAuth.services;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import javax.xml.bind.DatatypeConverter;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coderAuth.domains.Email;
+import hanu.gdsc.coderAuth.domains.HashedPassword;
 import hanu.gdsc.coderAuth.domains.Session;
 import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.domains.Username;
+import hanu.gdsc.coderAuth.errors.WrongPassword;
 import hanu.gdsc.coderAuth.repositories.SessionRepository;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
-import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 import io.jsonwebtoken.Jwts;
@@ -36,38 +32,25 @@ public class LogInServiceImpl implements LogInService {
          user = userRepository.getByEmail(email);
       } else {
          Username username = new Username(usernameOrEmail);
-         user = userRepository.getByUsername(username);
+         user = userRepository.getByUsername(username); 
       }
       Id coderId = null;
       if (user != null) {
-         coderId = user.getCoderId();
+         coderId = user.getId();
       } else {
          throw new BusinessLogicError("Username/email does not exist", "NON-EXISTENT_USERNAME_OR_EMAIL");
       }
-      MessageDigest md;
-      try {
-         md = MessageDigest.getInstance("MD5");
-         md.update(password.getBytes());
-         byte[] digest = md.digest();
-         String myHash = DatatypeConverter
-               .printHexBinary(digest).toUpperCase();
-         if (user.getPassword().toString().equals(myHash)) {
-            return createToken(coderId);
-         } else {
-            throw new BusinessLogicError("Password is wrong", "WRONG_PASSWORD");
-         }
-      } catch (NoSuchAlgorithmException e) {
-         e.printStackTrace();
-         throw new BusinessLogicError("No such algorithm exception", "");
+      if (user.getPassword().toHashedPasswordString().equals(HashedPassword.fromRawPassword(password).toHashedPasswordString())) {
+         return createToken(coderId);
+      } else {
+         throw new WrongPassword();
       }
    }
 
    private final String secretKey = "Hanuoj";
-
-   public String createToken(Id coderId) {
+   private String createToken(Id coderId) {
       Id sessionId = Id.generateRandom();
-      DateTime expireAt = DateTime.now().plusMinutes(15);
-      Session session = new Session(sessionId, coderId, expireAt);
+      Session session = Session.createSession(sessionId, coderId);
       sessionRepository.save(session);
       return Jwts.builder()
             .setId(sessionId.toString())
