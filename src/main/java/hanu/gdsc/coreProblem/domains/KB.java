@@ -22,6 +22,14 @@ public class KB {
         return this.value > that.value;
     }
 
+    public KB plus(KB that) {
+        return new KB(value + that.value);
+    }
+
+    public KB divide(double val) {
+        return new KB(value / val);
+    }
+
     public double getValue() {
         return value;
     }

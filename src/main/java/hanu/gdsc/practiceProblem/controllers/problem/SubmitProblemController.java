@@ -1,7 +1,7 @@
 package hanu.gdsc.practiceProblem.controllers.problem;
 
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
-import hanu.gdsc.coreProblem.services.problem.SubmitService;
+import hanu.gdsc.coreProblem.services.submit.SubmitService;
 import hanu.gdsc.practiceProblem.services.problem.SubmitProblemService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;

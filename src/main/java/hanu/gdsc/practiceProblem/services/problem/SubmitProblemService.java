@@ -1,7 +1,7 @@
 package hanu.gdsc.practiceProblem.services.problem;
 
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
-import hanu.gdsc.coreProblem.services.problem.SubmitService;
+import hanu.gdsc.coreProblem.services.submit.SubmitService;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

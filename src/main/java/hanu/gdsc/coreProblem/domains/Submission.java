@@ -15,8 +15,9 @@ public class Submission extends IdentitifedVersioningDomainObject {
     private FailedTestCaseDetail failedTestCaseDetail;
     private String serviceToCreate;
     private Id coderId;
+    private String message;
 
-    private Submission(Id id, long version, Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, FailedTestCaseDetail failedTestCaseDetail, String serviceToCreate, Id coderId) {
+    private Submission(Id id, long version, Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, FailedTestCaseDetail failedTestCaseDetail, String serviceToCreate, Id coderId, String message) {
         super(id, version);
         this.problemId = problemId;
         this.programmingLanguage = programmingLanguage;
@@ -28,11 +29,12 @@ public class Submission extends IdentitifedVersioningDomainObject {
         this.failedTestCaseDetail = failedTestCaseDetail;
         this.serviceToCreate = serviceToCreate;
         this.coderId = coderId;
+        this.message = message;
     }
 
     public static Submission create(Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory,
                                     String code, Status status, FailedTestCaseDetail failedTestCaseDetail,
-                                    String serviceToCreate, Id coderId) {
+                                    String serviceToCreate, Id coderId, String message) {
         return new Submission(
                 Id.generateRandom(),
                 0,
@@ -45,7 +47,28 @@ public class Submission extends IdentitifedVersioningDomainObject {
                 status,
                 failedTestCaseDetail,
                 serviceToCreate,
-                coderId
+                coderId,
+                message
+        );
+    }
+
+    public static Submission createWithId(Id id, Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory,
+                                          String code, Status status, FailedTestCaseDetail failedTestCaseDetail,
+                                          String serviceToCreate, Id coderId, String message) {
+        return new Submission(
+                id,
+                0,
+                problemId,
+                programmingLanguage,
+                runTime,
+                memory,
+                DateTime.now(),
+                code,
+                status,
+                failedTestCaseDetail,
+                serviceToCreate,
+                coderId,
+                message
         );
     }
 

@@ -9,7 +9,11 @@ import hanu.gdsc.coreProblem.controllers.jackson.MillisecondSerializer;
 @JsonDeserialize(using = MillisecondDeserializer.class)
 public class Millisecond {
     private long value;
-    
+
+    public Millisecond plus(Millisecond that) {
+        return new Millisecond(value + that.value);
+    }
+
     public Millisecond(Long millisecond) {
         this.value = millisecond;
     }
@@ -25,6 +29,10 @@ public class Millisecond {
 
     public long getValue() {
         return value;
+    }
+
+    public Millisecond divide(int val) {
+        return new Millisecond(value / val);
     }
 
     @Override

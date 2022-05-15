@@ -1,6 +1,6 @@
 package hanu.gdsc.practiceProblem.services.coreProblem;
 
-import hanu.gdsc.coreProblem.services.problem.SubmitService;
+import hanu.gdsc.coreProblem.services.submit.SubmitService;
 import hanu.gdsc.practiceProblem.config.ServiceName;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

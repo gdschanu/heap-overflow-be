@@ -1,9 +1,8 @@
 package hanu.gdsc.practiceProblem.services.problem;
 
-import hanu.gdsc.coreProblem.services.problem.SubmitService;
+import hanu.gdsc.coreProblem.services.submit.SubmitService;
 import hanu.gdsc.practiceProblem.domains.Problem;
 import hanu.gdsc.practiceProblem.repositories.ProblemRepository;
-import hanu.gdsc.share.error.BusinessLogicError;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
