@@ -9,6 +9,5 @@ public interface UserRepository {
     public User getByUsername(Username username);
     public User getByEmail(Email email);
     public void save(User user);
-    public User getById(Id id);
     public User getByCoderId(Id coderId);
 }
