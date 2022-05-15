@@ -5,8 +5,8 @@ import hanu.gdsc.coderAuth.domains.Email;
 import hanu.gdsc.coderAuth.domains.HashedPassword;
 import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.domains.Username;
+import hanu.gdsc.coderAuth.errors.ExistedUsernameOrEmail;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
-import hanu.gdsc.share.error.BusinessLogicError;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class SignUpServiceImpl implements SignUpService {
                     user.setPassword(newPassword);
             userRepository.save(user);
         } else {
-            throw new BusinessLogicError("Username/email existed", "EXISTED");
+            throw new ExistedUsernameOrEmail();
         }
     }
 }

@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import hanu.gdsc.coderAuth.domains.HashedPassword;
 import hanu.gdsc.coderAuth.domains.Session;
 import hanu.gdsc.coderAuth.domains.User;
+import hanu.gdsc.coderAuth.errors.WrongPassword;
 import hanu.gdsc.coderAuth.repositories.SessionRepository;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.BusinessLogicError;
 
 @Service
 public class ChangePasswordServiceImpl implements ChangePasswordService {
@@ -31,7 +31,7 @@ public class ChangePasswordServiceImpl implements ChangePasswordService {
 
         User user = userRepository.getByCoderId(coderId);
         if(!user.getPassword().toHashedPasswordString().equals(HashedPassword.fromRawPassword(oldPassword).toHashedPasswordString())) {
-            throw new BusinessLogicError("You enter wrong old password", "WRONG_OLD_PASSWORD");
+            throw new WrongPassword();
         }
         else {
             user.setPassword(HashedPassword.fromRawPassword(newPassword));

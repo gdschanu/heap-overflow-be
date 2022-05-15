@@ -22,7 +22,7 @@ public class LogOutController {
         try {
             logOutService.logOut(token);
             return new ResponseEntity<>(
-            new ResponseBody("Log out successfully"), HttpStatus.OK);
+            new ResponseBody("Success"), HttpStatus.OK);
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {
                 e.printStackTrace();

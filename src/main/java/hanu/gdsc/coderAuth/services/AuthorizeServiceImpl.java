@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import hanu.gdsc.coderAuth.domains.Session;
 import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.errors.ExpiredToken;
+import hanu.gdsc.coderAuth.errors.UnconfirmedEmail;
 import hanu.gdsc.coderAuth.repositories.SessionRepository;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.BusinessLogicError;
 import io.jsonwebtoken.Claims;
 
 @Service
@@ -29,32 +29,25 @@ public class AuthorizeServiceImpl implements AuthorizeService {
         Claims claims = getClaimFromToken.getClaims(token);
         Id sessionId = new Id(claims.getId());
         Session session = sessionRepository.getById(sessionId);
-        if (token == null) {
-            throw new BusinessLogicError("You haven't log in yet", "NULL_TOKEN");
-        } else {       
-            if (session.invalidate()) {
-                throw new ExpiredToken();
-            }
-            Id coderId = session.getCoderId();
-            User user = userRepository.getByCoderId(coderId);
-            if (user.isRegistrationConfirmed()) {
-                throw new BusinessLogicError("You haven't confirm your email", "UNCONFIRMED_TOKEN");
-            }
-            return session.getCoderId();
+        if (session.invalidate()) {
+            throw new ExpiredToken();
         }
+        Id coderId = session.getCoderId();
+        User user = userRepository.getByCoderId(coderId);
+        if (user.isRegistrationConfirmed()) {
+            throw new UnconfirmedEmail();
+        }
+        return session.getCoderId();
     }
+
     @Override
     public Id authorizeUnconfirmedRegistration(String token) {
         Claims claims = getClaimFromToken.getClaims(token);
         Id sessionId = new Id(claims.getId());
         Session session = sessionRepository.getById(sessionId);
-        if (token == null) {
-            throw new BusinessLogicError("You haven't log in yet", "NULL_TOKEN");
-        } else {       
-            if (session.invalidate()) {
-                throw new BusinessLogicError("Token is expired", "EXPIRED_TOKEN");
-            }
-            return session.getCoderId();
+        if (session.invalidate()) {
+            throw new ExpiredToken();
         }
+        return session.getCoderId();
     }
 }

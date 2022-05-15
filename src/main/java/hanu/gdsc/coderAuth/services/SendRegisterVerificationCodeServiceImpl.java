@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import hanu.gdsc.coderAuth.domains.Email;
 import hanu.gdsc.coderAuth.domains.RegisterVerificationCode;
 import hanu.gdsc.coderAuth.domains.User;
+import hanu.gdsc.coderAuth.errors.ExpiredToken;
 import hanu.gdsc.coderAuth.repositories.RegisterVerificationCodeRepository;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.BusinessLogicError;
 
 @Service
 public class SendRegisterVerificationCodeServiceImpl implements SendRegisterVerificationCodeService{
@@ -27,7 +27,7 @@ public class SendRegisterVerificationCodeServiceImpl implements SendRegisterVeri
     public void sendRegisterVerificationCodeService(Id coderId) {
         User user = userRepository.getByCoderId(coderId);
         if(user == null) {
-            throw new BusinessLogicError("Your token is expired", "EXPIRED_TOKEN");
+            throw new ExpiredToken();
         }
         String name = user.getUsername().toString();
         Email toAddress = user.getEmail();

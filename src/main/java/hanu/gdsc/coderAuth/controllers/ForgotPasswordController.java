@@ -24,7 +24,7 @@ public class ForgotPasswordController {
     public ResponseEntity<?> forgotPassword(@RequestBody Input input) {
         try {
             forgotPasswordService.forgotPassword(input.email);
-            return new ResponseEntity<>(new ResponseBody("Send email to verify forgot password successfully"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseBody("Success"), HttpStatus.OK);
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {
                 e.printStackTrace();

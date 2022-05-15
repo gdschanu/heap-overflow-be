@@ -6,9 +6,10 @@ import org.springframework.stereotype.Service;
 import hanu.gdsc.coderAuth.domains.Email;
 import hanu.gdsc.coderAuth.domains.HashedPassword;
 import hanu.gdsc.coderAuth.domains.User;
+import hanu.gdsc.coderAuth.errors.WrongCode;
+import hanu.gdsc.coderAuth.errors.WrongEmail;
 import hanu.gdsc.coderAuth.repositories.ForgotPasswordCodeRepository;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
-import hanu.gdsc.share.error.BusinessLogicError;
 
 @Service
 public class ConfirmForgotPasswordServiceImpl implements ConfirmForgotPasswordService {
@@ -22,11 +23,11 @@ public class ConfirmForgotPasswordServiceImpl implements ConfirmForgotPasswordSe
     public void confirmForgotPassword(String email, String code, String newPassword) {
         User user = userRepository.getByEmail(new Email(email));
         if (user == null) {
-            throw new BusinessLogicError("Your email is wrong", "WRONG_EMAIL");
+            throw new WrongEmail();
         }
         String codeFromDb = forgotPasswordCodeRepository.getByCoderId(user.getId()).getCode();
         if(!code.equals(codeFromDb)) {
-            throw new BusinessLogicError("your code is wrong", "WRONG_CODE");
+            throw new WrongCode();
         }
         user.setPassword(HashedPassword.fromRawPassword(newPassword));
         userRepository.save(user);

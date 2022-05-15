@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coderAuth.domains.RegisterVerificationCode;
 import hanu.gdsc.coderAuth.domains.User;
+import hanu.gdsc.coderAuth.errors.ExpiredCode;
+import hanu.gdsc.coderAuth.errors.UnsentCode;
+import hanu.gdsc.coderAuth.errors.WrongCode;
 import hanu.gdsc.coderAuth.repositories.RegisterVerificationCodeRepository;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.BusinessLogicError;
 
 @Service
 public class ConfirmRegisterVerificationCodeServiceImpl implements ConfirmRegisterVerificationCodeService {
@@ -23,13 +25,13 @@ public class ConfirmRegisterVerificationCodeServiceImpl implements ConfirmRegist
     public void confirmRegisterVerificationCode(String code, Id coderId) {
        RegisterVerificationCode registerVerificationCode = registerVerificationCodeRepository.getByCoderId(coderId);
        if(registerVerificationCode == null) {
-           throw new BusinessLogicError("You haven't send code yet", "UNSENT_CODE");
+           throw new UnsentCode();
        }
        if(registerVerificationCode.invalidate()) {
-           throw new BusinessLogicError("Your code is expired", "EXPIRED_CODE");
+           throw new ExpiredCode("Your register verification code is expired");
        }
        if(!registerVerificationCode.getCode().equals(code)) {
-           throw new BusinessLogicError("Your code is wrong", "WRONG_CODE");
+           throw new WrongCode();
        }
        User user = userRepository.getByCoderId(coderId);
        user.confirmRegistration();

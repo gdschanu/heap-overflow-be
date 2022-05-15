@@ -1,9 +1,9 @@
 package hanu.gdsc.coderAuth.domains;
 
+import hanu.gdsc.coderAuth.errors.ExpiredSession;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
-import hanu.gdsc.share.error.BusinessLogicError;
 
 public class Session extends IdentifiedDomainObject{
     private Id coderId;
@@ -33,7 +33,7 @@ public class Session extends IdentifiedDomainObject{
     public boolean invalidate() {
         DateTime time = DateTime.now();
         if(!time.isBefore(expireAt)) {
-            throw new BusinessLogicError("Session is expired", "EXPIRED_SESSION");
+            throw new ExpiredSession();
         }
         return false;
     }

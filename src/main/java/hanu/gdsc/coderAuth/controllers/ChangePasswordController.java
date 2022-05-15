@@ -26,7 +26,7 @@ public class ChangePasswordController {
     public ResponseEntity<?> changePassword(@RequestHeader String token, @RequestBody Input input) {
         try {
             changePasswordService.changePassword(token, input.oldPassword, input.newPassword);
-            return new ResponseEntity<>(new ResponseBody("Change password successfully"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseBody("Success"), HttpStatus.OK);
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {
                 e.printStackTrace();

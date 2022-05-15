@@ -27,8 +27,7 @@ public class SignUpController {
         try {
             signUpService.signUpService(input.email, input.username, input.password);
             return new ResponseEntity<>(
-                    new ResponseBody("Sign up successfully"),
-                    HttpStatus.OK);
+                    new ResponseBody("Success"), HttpStatus.OK);
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {
                 e.printStackTrace();

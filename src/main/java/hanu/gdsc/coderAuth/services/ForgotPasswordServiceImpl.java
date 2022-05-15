@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import hanu.gdsc.coderAuth.domains.Email;
 import hanu.gdsc.coderAuth.domains.ForgotPasswordCode;
 import hanu.gdsc.coderAuth.domains.User;
+import hanu.gdsc.coderAuth.errors.WrongEmail;
 import hanu.gdsc.coderAuth.repositories.ForgotPasswordCodeRepository;
 import hanu.gdsc.coderAuth.repositories.UserRepository;
-import hanu.gdsc.share.error.BusinessLogicError;
 
 @Service
 public class ForgotPasswordServiceImpl implements ForgotPasswordService {
@@ -25,7 +25,7 @@ public class ForgotPasswordServiceImpl implements ForgotPasswordService {
     public void forgotPassword(String email) {
         User user = userRepository.getByEmail(new Email(email));
         if(user == null) {
-            throw new BusinessLogicError("Your email is wrong", "WRONG_EMAIL");
+            throw new WrongEmail();
         }
         String name = user.getUsername().toString();
         Email toAddress = user.getEmail();

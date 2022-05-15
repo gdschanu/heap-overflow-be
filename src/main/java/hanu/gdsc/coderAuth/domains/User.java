@@ -1,8 +1,8 @@
 package hanu.gdsc.coderAuth.domains;
 
+import hanu.gdsc.coderAuth.errors.ConfirmedUser;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
-import hanu.gdsc.share.error.BusinessLogicError;
 
 public class User extends IdentitifedVersioningDomainObject{
     private Email email;
@@ -49,7 +49,7 @@ public class User extends IdentitifedVersioningDomainObject{
     
     public void confirmRegistration() {
         if(registrationConfirmed == true) {
-            throw new BusinessLogicError("You already confirm mail registration", "CONFIRMED_USER");
+            throw new ConfirmedUser();
         }
         else {
             this.registrationConfirmed = true;

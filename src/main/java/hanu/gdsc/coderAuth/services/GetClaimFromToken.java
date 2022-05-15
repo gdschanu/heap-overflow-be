@@ -2,7 +2,7 @@ package hanu.gdsc.coderAuth.services;
 
 import org.springframework.stereotype.Service;
 
-import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.coderAuth.errors.InvalidToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
@@ -15,7 +15,7 @@ public class GetClaimFromToken {
                 .parseClaimsJws(token)
                 .getBody();
         } catch (Exception e) {
-            throw new BusinessLogicError("Token is invalid", "INVALID_TOKEN");
+            throw new InvalidToken();
         }
     }
 }

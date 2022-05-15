@@ -10,7 +10,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coderAuth.domains.Email;
-import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.coderAuth.errors.EmailSendingError;
 
 @Service
 public class SendMailService {
@@ -37,7 +37,7 @@ public class SendMailService {
             helper.setText(content);
 
         } catch (MessagingException exception) {
-            throw new BusinessLogicError("Error in sending email", "EMAIL_SENDING_ERROR");
+            throw new EmailSendingError();
         }
         javaMailSender.send(message);
     }

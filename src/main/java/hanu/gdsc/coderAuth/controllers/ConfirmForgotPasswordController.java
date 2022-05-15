@@ -26,7 +26,7 @@ public class ConfirmForgotPasswordController {
     public ResponseEntity<?> confirmForgotPassword(@RequestBody Input input) {
         try {
             confirmForgotPasswordService.confirmForgotPassword(input.email, input.code, input.newPassword);
-            return new ResponseEntity<>(new ResponseBody("Confirm forgot password successfully"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseBody("Success"), HttpStatus.OK);
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicError.class)) {
                 e.printStackTrace();

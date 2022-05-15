@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.xml.bind.DatatypeConverter;
 
+import hanu.gdsc.coderAuth.errors.InvalidPassword;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 public class HashedPassword {
@@ -16,10 +17,10 @@ public class HashedPassword {
 
     public static HashedPassword fromRawPassword(String rawPassword) {
         if (rawPassword.length() < 8) {
-            throw new BusinessLogicError("Password needs at least 8 characters", "INVALID_PASSWORD");
+            throw new InvalidPassword("Password needs at least 8 characters");
         }
         if (!containsLetter(rawPassword) || !containsNumber(rawPassword)) {
-            throw new BusinessLogicError("Password need both number and letter", "INVALID_PASSWORD");
+            throw new InvalidPassword("Password need both number and letter");
         }
         String hashedPassword = encode(rawPassword);
         return new HashedPassword(hashedPassword);
