@@ -149,11 +149,23 @@ public interface Judger {
         }
 
         public Millisecond runTime() {
-            return new Millisecond(Long.parseLong(time));
+            return new Millisecond(Math.round(Double.parseDouble(time)));
         }
 
         public Output output() {
             return new Output(stdout);
+        }
+
+        @Override
+        public String toString() {
+            return "Submission{" +
+                    "stdout='" + stdout + '\'' +
+                    ", time='" + time + '\'' +
+                    ", memory='" + memory + '\'' +
+                    ", stderr='" + stderr + '\'' +
+                    ", compileOutput='" + compileOutput + '\'' +
+                    ", status=" + status +
+                    '}';
         }
     }
 

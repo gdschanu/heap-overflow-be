@@ -2,9 +2,10 @@ package hanu.gdsc.coreProblem.domains;
 
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.domains.IdentifiedDomainObject;
 import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 
-public class Submission extends IdentitifedVersioningDomainObject {
+public class Submission extends IdentifiedDomainObject {
     private Id problemId;
     private ProgrammingLanguage programmingLanguage;
     private Millisecond runTime;
@@ -17,8 +18,12 @@ public class Submission extends IdentitifedVersioningDomainObject {
     private Id coderId;
     private String message;
 
-    private Submission(Id id, long version, Id problemId, ProgrammingLanguage programmingLanguage, Millisecond runTime, KB memory, DateTime submittedAt, String code, Status status, FailedTestCaseDetail failedTestCaseDetail, String serviceToCreate, Id coderId, String message) {
-        super(id, version);
+    private Submission(Id id, Id problemId,
+                       ProgrammingLanguage programmingLanguage,
+                       Millisecond runTime, KB memory, DateTime submittedAt,
+                       String code, Status status, FailedTestCaseDetail failedTestCaseDetail,
+                       String serviceToCreate, Id coderId, String message) {
+        super(id);
         this.problemId = problemId;
         this.programmingLanguage = programmingLanguage;
         this.runTime = runTime;
@@ -37,7 +42,6 @@ public class Submission extends IdentitifedVersioningDomainObject {
                                     String serviceToCreate, Id coderId, String message) {
         return new Submission(
                 Id.generateRandom(),
-                0,
                 problemId,
                 programmingLanguage,
                 runTime,
@@ -57,7 +61,6 @@ public class Submission extends IdentitifedVersioningDomainObject {
                                           String serviceToCreate, Id coderId, String message) {
         return new Submission(
                 id,
-                0,
                 problemId,
                 programmingLanguage,
                 runTime,
@@ -110,5 +113,9 @@ public class Submission extends IdentitifedVersioningDomainObject {
 
     public String getServiceToCreate() {
         return serviceToCreate;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

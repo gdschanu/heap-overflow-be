@@ -31,7 +31,7 @@ public class SearchDislikeCountController {
                     new ResponseBody("Success", dislikeCount), HttpStatus.OK
             );
         } catch (Throwable e) {
-            if (e.getClass().equals(BusinessLogicError.class)) {
+            if (e instanceof BusinessLogicError) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }
@@ -50,7 +50,7 @@ public class SearchDislikeCountController {
                     new ResponseBody("Success", dislikeCounts), HttpStatus.OK
             );
         } catch (Throwable e) {
-            if (e.getClass().equals(BusinessLogicError.class)) {
+            if (e instanceof BusinessLogicError) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }

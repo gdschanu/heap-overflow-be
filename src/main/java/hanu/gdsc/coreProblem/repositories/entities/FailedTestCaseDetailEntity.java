@@ -31,7 +31,6 @@ public class FailedTestCaseDetailEntity {
         try {
         Constructor<FailedTestCaseDetail> constructor = FailedTestCaseDetail.class.getDeclaredConstructor(
             hanu.gdsc.share.domains.Id.class,
-            Long.TYPE,
             Integer.TYPE,
             String.class,
             String.class, 

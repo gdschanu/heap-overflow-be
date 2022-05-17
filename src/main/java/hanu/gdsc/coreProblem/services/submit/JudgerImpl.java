@@ -19,8 +19,14 @@ public class JudgerImpl implements Judger {
 
     Gson gson = new GsonBuilder().create();
 
-    private String base64(String s) {
+    private String base64Encode(String s) {
+        if (s == null) return s;
         return new String(Base64.getEncoder().encode(s.getBytes()));
+    }
+
+    private String base64Decode(String s) {
+        if (s == null) return s;
+        return new String(Base64.getDecoder().decode(s.replace("\n", "")));
     }
 
     // < Utils
@@ -47,7 +53,7 @@ public class JudgerImpl implements Judger {
         request.stdin = new String(Base64.getEncoder().encode(input.getBytes()));
         String requestString = gson.toJson(request);
         HttpRequest httpReq = HttpRequest.newBuilder()
-                .uri(URI.create(Judge0Config.SERVER_URL + "?base64_encoded=true&fields=*"))
+                .uri(URI.create(Judge0Config.SERVER_URL + "/submissions" + "?base64_encoded=true&fields=*"))
                 .header("content-type", "application/json")
                 .method("POST", HttpRequest.BodyPublishers.ofString(requestString))
                 .build();
@@ -77,11 +83,11 @@ public class JudgerImpl implements Judger {
 
     // > Get Submission
 
-    static class GetSubmissionByIdResponseStatus {
+    private static class GetSubmissionByIdResponseStatus {
         public int id;
     }
 
-    static class GetSubmissionByIdResponse {
+    private static class GetSubmissionByIdResponse {
         public String stdout;
         public String time;
         public String memory;
@@ -92,18 +98,17 @@ public class JudgerImpl implements Judger {
 
     public Submission getSubmissionById(String submissionId) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(Judge0Config.SERVER_URL + "/" + submissionId + "?base64_encoded=true&fields=*"))
+                .uri(URI.create(Judge0Config.SERVER_URL + "/submissions" + "/" + submissionId + "?base64_encoded=true&fields=*"))
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        Gson gson = new GsonBuilder().create();
         GetSubmissionByIdResponse submission = gson.fromJson(response.body(), GetSubmissionByIdResponse.class);
         return new Submission(
-                submission.stdout,
+                base64Decode(submission.stdout),
                 submission.time,
                 submission.memory,
-                submission.stderr,
-                submission.compile_output,
+                base64Decode(submission.stderr),
+                base64Decode(submission.compile_output),
                 submission.status.id
         );
     }

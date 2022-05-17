@@ -29,6 +29,10 @@ public class CompleteJudgeTestCaseEvent {
             throw new Error("Can only set eventId once");
     }
 
+    public void nullOutEventId() {
+        this.eventId = null;
+    }
+
     public CompleteJudgeTestCaseEvent(String judgeSubmissionId, Id problemId, String serviceToCreate, ProgrammingLanguage programmingLanguage, int testCaseIndex, Id submissionId, String code, Id coderId, KB totalMemory, Millisecond totalRuntime) {
         this.judgeSubmissionId = judgeSubmissionId;
         this.problemId = problemId;
@@ -40,5 +44,22 @@ public class CompleteJudgeTestCaseEvent {
         this.coderId = coderId;
         this.totalMemory = totalMemory;
         this.totalRuntime = totalRuntime;
+    }
+
+    @Override
+    public String toString() {
+        return "CompleteJudgeTestCaseEvent{" +
+                "eventId=" + eventId +
+                ", judgeSubmissionId='" + judgeSubmissionId + '\'' +
+                ", problemId=" + problemId +
+                ", serviceToCreate='" + serviceToCreate + '\'' +
+                ", programmingLanguage=" + programmingLanguage +
+                ", testCaseIndex=" + testCaseIndex +
+                ", submissionId=" + submissionId +
+                ", code='" + code + '\'' +
+                ", coderId=" + coderId +
+                ", totalMemory=" + totalMemory +
+                ", totalRuntime=" + totalRuntime +
+                '}';
     }
 }

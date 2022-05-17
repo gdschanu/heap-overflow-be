@@ -53,6 +53,9 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
     public Submission getById(Id id, String serviceToCreate) {
         try {
             SubmissionEntity submissionEntity = submissionJPARepository.getByIdAndServiceToCreate(id.toString(), serviceToCreate);
+            if (submissionEntity == null) {
+                return null;
+            }
             return SubmissionEntity.toDomain(submissionEntity);
         } catch (EntityNotFoundException e) {
             return null;

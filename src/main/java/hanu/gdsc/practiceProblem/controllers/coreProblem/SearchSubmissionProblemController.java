@@ -30,10 +30,10 @@ public class SearchSubmissionProblemController {
             Id coder = coderId == null ? null : new Id(coderId);
             List<SearchSubmissionService.Output> output = searchCoreProblemSubmissionService.get(page, perPage, problem, coder);
             return new ResponseEntity<>(
-                    new ResponseBody("Found Successfully", output), HttpStatus.OK
+                    new ResponseBody("Found", output), HttpStatus.OK
             );
         } catch (Throwable e) {
-            if (e.getClass().equals(BusinessLogicError.class)) {
+            if (e instanceof BusinessLogicError) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
             }
@@ -46,10 +46,10 @@ public class SearchSubmissionProblemController {
         try {
             SearchSubmissionService.Output output = searchCoreProblemSubmissionService.getById(new Id(id));
             return new ResponseEntity<>(
-                new ResponseBody("Found successfully", output), HttpStatus.OK
+                new ResponseBody("Found", output), HttpStatus.OK
             );
         } catch (Throwable e) {
-            if (e.getClass().equals(BusinessLogicError.class)) {
+            if (e instanceof BusinessLogicError) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
             }

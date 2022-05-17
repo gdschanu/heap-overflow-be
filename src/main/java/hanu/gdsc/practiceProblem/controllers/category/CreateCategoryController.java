@@ -23,7 +23,7 @@ public class CreateCategoryController {
             Id category = createCategoryService.create(input);
             return new ResponseEntity<>(new ResponseBody("Create successfully category", category.toString()), HttpStatus.OK);
         } catch (Throwable e) {
-            if (e.getClass().equals(BusinessLogicError.class)) {
+            if (e instanceof BusinessLogicError) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }   

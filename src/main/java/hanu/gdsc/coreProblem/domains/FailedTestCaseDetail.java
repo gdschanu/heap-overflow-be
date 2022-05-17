@@ -4,13 +4,18 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
 
 public class FailedTestCaseDetail extends IdentifiedDomainObject {
-    private Integer failedAtLine;
+    private int failedAtLine;
     private String input;
     private String actualOutput;
     private String expectedOutput;
     private String description;
 
-    private FailedTestCaseDetail(Id id, Integer failedAtLine, String input, String actualOutput, String expectedOutput, String description) {
+    private FailedTestCaseDetail(Id id,
+                                 int failedAtLine,
+                                 String input,
+                                 String actualOutput,
+                                 String expectedOutput,
+                                 String description) {
         super(id);
         this.failedAtLine = failedAtLine;
         this.input = input;
@@ -30,7 +35,7 @@ public class FailedTestCaseDetail extends IdentifiedDomainObject {
         );
     }
 
-    public static FailedTestCaseDetail create(Integer failedAtLine,
+    public static FailedTestCaseDetail create(int failedAtLine,
                                               String input,
                                               String actualOutput,
                                               String expectedOutput,

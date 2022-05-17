@@ -34,7 +34,7 @@ public class ConfirmRegisterVerificationCodeController {
             return new ResponseEntity<>(new ResponseBody("Confirm code successfully"),
             HttpStatus.OK);
         } catch (Throwable e) {
-            if(e.getClass().equals(BusinessLogicError.class)) {
+            if(e instanceof BusinessLogicError) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }

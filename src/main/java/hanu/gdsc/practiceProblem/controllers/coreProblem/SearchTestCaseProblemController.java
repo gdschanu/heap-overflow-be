@@ -26,7 +26,7 @@ public class SearchTestCaseProblemController {
                 new ResponseBody("Get Successfully", outputs), HttpStatus.OK
             );
         } catch (Throwable e) {
-            if (e.getClass().equals(BusinessLogicError.class)) {
+            if (e instanceof BusinessLogicError) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
             }

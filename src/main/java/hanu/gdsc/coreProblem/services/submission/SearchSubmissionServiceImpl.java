@@ -5,6 +5,7 @@ import hanu.gdsc.coreProblem.domains.Submission;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,7 @@ public class SearchSubmissionServiceImpl implements SearchSubmissionService {
     public Output getById(Id id, String serviceToCreate) {
         Submission submission = submissionRepository.getById(id, serviceToCreate);
         if (submission == null) {
-            throw new BusinessLogicError("Not found this submission", "NOT_FOUND");
+            throw new NotFoundError("Submission not found");
         }
         return toOutput(submission);
     }
@@ -49,6 +50,7 @@ public class SearchSubmissionServiceImpl implements SearchSubmissionService {
                                 toOutputTestCase(submission.getFailedTestCaseDetail())
                 )
                 .coderId(submission.getCoderId())
+                .message(submission.getMessage())
                 .build();
     }
 

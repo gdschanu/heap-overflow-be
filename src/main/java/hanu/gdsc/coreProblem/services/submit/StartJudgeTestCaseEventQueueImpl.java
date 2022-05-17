@@ -7,16 +7,18 @@ import hanu.gdsc.coreProblem.config.SubmitQueueConfig;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
 
 @Service
 public class StartJudgeTestCaseEventQueueImpl implements StartJudgeTestCaseEventQueue {
-    private StartJudgeTestCaseEventHandler startJudgeTestCaseEventHandler;
+    private Queue<StartJudgeTestCaseEvent> queue;
     private Gson gson;
     private Channel channel;
 
-    public StartJudgeTestCaseEventQueueImpl(StartJudgeTestCaseEventHandler startJudgeTestCaseEventHandler) throws IOException, TimeoutException {
-        this.startJudgeTestCaseEventHandler = startJudgeTestCaseEventHandler;
+    public StartJudgeTestCaseEventQueueImpl() throws IOException, TimeoutException {
+        this.queue = new ConcurrentLinkedQueue();
         this.gson = new GsonBuilder().create();
         startRabbitMQ();
     }
@@ -30,7 +32,10 @@ public class StartJudgeTestCaseEventQueueImpl implements StartJudgeTestCaseEvent
         this.channel = channel;
 
         channel.queueDeclare(SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_QUEUE_NAME, true, false, false, null);
-        channel.exchangeDeclare(SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE, "Direct", true);
+        channel.exchangeDeclare(SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE, "direct", true);
+        channel.queueBind(SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_QUEUE_NAME,
+                SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE,
+                SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_ROUTING_KEY);
         final Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag,
@@ -39,31 +44,35 @@ public class StartJudgeTestCaseEventQueueImpl implements StartJudgeTestCaseEvent
                                        byte[] body) throws IOException {
                 String message = new String(body, "UTF-8");
                 StartJudgeTestCaseEvent startJudgeTestCaseEvent = gson.fromJson(message, StartJudgeTestCaseEvent.class);
-                try {
-                    startJudgeTestCaseEventHandler.handle(startJudgeTestCaseEvent);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                startJudgeTestCaseEvent.setEventId(envelope.getDeliveryTag());
+                queue.add(startJudgeTestCaseEvent);
             }
         };
         channel.basicConsume(SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_QUEUE_NAME, true, consumer);
     }
 
+
     @Override
-    public void publish(StartJudgeTestCaseEvent event) throws IOException {
-        channel.basicPublish(
-                SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE,
-                "",
-                new AMQP.BasicProperties(),
-                gson.toJson(event).getBytes()
-        );
+    public StartJudgeTestCaseEvent get() {
+        return queue.poll();
     }
 
     @Override
     public void ack(StartJudgeTestCaseEvent event) throws IOException {
-        if (event.getEventId()== null) {
+        if (event.getEventId() == null) {
             throw new Error("Event must have eventId");
         }
         channel.basicAck(event.getEventId(), false);
+    }
+
+    @Override
+    public void publish(StartJudgeTestCaseEvent event) throws IOException {
+        event.nullOutEventId();
+        channel.basicPublish(
+                SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE,
+                SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_ROUTING_KEY,
+                new AMQP.BasicProperties(),
+                gson.toJson(event).getBytes()
+        );
     }
 }

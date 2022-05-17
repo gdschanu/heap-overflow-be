@@ -28,7 +28,7 @@ public class SearchProblemController {
                     new ResponseBody("Found Problem", output), HttpStatus.OK
             );
         } catch (Throwable e) {
-            if (e.getClass().equals(BusinessLogicError.class)) {
+            if (e instanceof BusinessLogicError) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }
@@ -44,7 +44,7 @@ public class SearchProblemController {
                     new ResponseBody("Found Problems", output), HttpStatus.OK
             );
         } catch (Throwable e) {
-            if (e.getClass().equals(BusinessLogicError.class)) {
+            if (e instanceof BusinessLogicError) {
                 e.printStackTrace();
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }

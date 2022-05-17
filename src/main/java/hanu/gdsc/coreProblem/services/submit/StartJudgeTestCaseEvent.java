@@ -40,4 +40,24 @@ public class StartJudgeTestCaseEvent {
         this.totalMemory = totalMemory;
         this.coderId = coderId;
     }
+
+    public void nullOutEventId() {
+        this.eventId = null;
+    }
+
+    @Override
+    public String toString() {
+        return "StartJudgeTestCaseEvent{" +
+                "eventId=" + eventId +
+                ", submissionId=" + submissionId +
+                ", testCaseIndex=" + testCaseIndex +
+                ", problemId=" + problemId +
+                ", code='" + code + '\'' +
+                ", serviceToCreate='" + serviceToCreate + '\'' +
+                ", programmingLanguage=" + programmingLanguage +
+                ", totalRuntime=" + totalRuntime +
+                ", totalMemory=" + totalMemory +
+                ", coderId=" + coderId +
+                '}';
+    }
 }

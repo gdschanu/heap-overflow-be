@@ -6,6 +6,7 @@ import hanu.gdsc.coreProblem.repositories.SubmissionEventRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.coreProblem.repositories.TestCaseRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class CompleteJudgeTestCaseEventHandler {
-    private final JudgerImpl judgerImpl;
+    private final Judger judger;
     private final ProblemRepository problemRepository;
     private final TestCaseRepository testCaseRepository;
     private final SubmissionRepository submissionRepository;
@@ -22,9 +23,15 @@ public class CompleteJudgeTestCaseEventHandler {
     private final CompleteJudgeTestCaseEventQueue completeJudgeTestCaseEventQueue;
     private final StartJudgeTestCaseEventQueue startJudgeTestCaseEventQueue;
 
-    public void handle(CompleteJudgeTestCaseEvent event) throws IOException, InterruptedException {
-        JudgerImpl.Submission judgeSubmission = judgerImpl.getSubmissionById(event.judgeSubmissionId);
+    @Scheduled(fixedRate = 1000)
+    public void handle() throws IOException, InterruptedException {
+        CompleteJudgeTestCaseEvent event = completeJudgeTestCaseEventQueue.get();
+        if (event == null) {
+            return;
+        }
+        Judger.Submission judgeSubmission = judger.getSubmissionById(event.judgeSubmissionId);
         if (judgeSubmission.processing() || judgeSubmission.inQueue()) {
+            completeJudgeTestCaseEventQueue.publish(event);
             return;
         }
 
@@ -177,6 +184,5 @@ public class CompleteJudgeTestCaseEventHandler {
                 submissionRepository.create(submission);
             }
         }
-        completeJudgeTestCaseEventQueue.ack(event);
     }
 }

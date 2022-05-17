@@ -7,16 +7,18 @@ import hanu.gdsc.coreProblem.config.SubmitQueueConfig;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeoutException;
 
 @Service
 public class CompleteJudgeTestCaseEventQueueImpl implements CompleteJudgeTestCaseEventQueue {
-    private CompleteJudgeTestCaseEventHandler completeJudgeTestCaseEventHandler;
+    private Queue<CompleteJudgeTestCaseEvent> queue;
     private Gson gson;
     private Channel channel;
 
-    public CompleteJudgeTestCaseEventQueueImpl(CompleteJudgeTestCaseEventHandler completeJudgeTestCaseEventHandler) throws IOException, TimeoutException {
-        this.completeJudgeTestCaseEventHandler = completeJudgeTestCaseEventHandler;
+    public CompleteJudgeTestCaseEventQueueImpl() throws IOException, TimeoutException {
+        this.queue = new ConcurrentLinkedQueue();
         this.gson = new GsonBuilder().create();
         startRabbitMQ();
     }
@@ -30,8 +32,10 @@ public class CompleteJudgeTestCaseEventQueueImpl implements CompleteJudgeTestCas
         this.channel = channel;
 
         channel.queueDeclare(SubmitQueueConfig.COMPLETE_JUDGE_TEST_CASE_QUEUE_RABBIT_QUEUE_NAME, true, false, false, null);
-        channel.exchangeDeclare(SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE, "Direct", true);
-
+        channel.exchangeDeclare(SubmitQueueConfig.COMPLETE_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE, "direct", true);
+        channel.queueBind(SubmitQueueConfig.COMPLETE_JUDGE_TEST_CASE_QUEUE_RABBIT_QUEUE_NAME,
+                SubmitQueueConfig.COMPLETE_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE,
+                SubmitQueueConfig.COMPLETE_JUDGE_TEST_CASE_QUEUE_RABBIT_ROUTING_KEY);
         final Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag,
@@ -39,25 +43,17 @@ public class CompleteJudgeTestCaseEventQueueImpl implements CompleteJudgeTestCas
                                        AMQP.BasicProperties properties,
                                        byte[] body) throws IOException {
                 String message = new String(body, "UTF-8");
-                CompleteJudgeTestCaseEvent completeJudgeTestCaseEventQueue = gson.fromJson(message, CompleteJudgeTestCaseEvent.class);
-                try {
-                    completeJudgeTestCaseEventHandler.handle(completeJudgeTestCaseEventQueue);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
+                CompleteJudgeTestCaseEvent completeJudgeTestCaseEvent = gson.fromJson(message, CompleteJudgeTestCaseEvent.class);
+                completeJudgeTestCaseEvent.setEventId(envelope.getDeliveryTag());
+                queue.add(completeJudgeTestCaseEvent);
             }
         };
         channel.basicConsume(SubmitQueueConfig.COMPLETE_JUDGE_TEST_CASE_QUEUE_RABBIT_QUEUE_NAME, true, consumer);
     }
 
     @Override
-    public void publish(CompleteJudgeTestCaseEvent event) throws IOException {
-        channel.basicPublish(
-                SubmitQueueConfig.COMPLETE_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE,
-                "",
-                new AMQP.BasicProperties(),
-                gson.toJson(event).getBytes()
-        );
+    public CompleteJudgeTestCaseEvent get() {
+        return queue.poll();
     }
 
     @Override
@@ -66,5 +62,16 @@ public class CompleteJudgeTestCaseEventQueueImpl implements CompleteJudgeTestCas
             throw new Error("Event must have eventId");
         }
         channel.basicAck(event.getEventId(), false);
+    }
+
+    @Override
+    public void publish(CompleteJudgeTestCaseEvent event) throws IOException {
+        event.nullOutEventId();
+        channel.basicPublish(
+                SubmitQueueConfig.COMPLETE_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE,
+                SubmitQueueConfig.COMPLETE_JUDGE_TEST_CASE_QUEUE_RABBIT_ROUTING_KEY,
+                new AMQP.BasicProperties(),
+                gson.toJson(event).getBytes()
+        );
     }
 }
