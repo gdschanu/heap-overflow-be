@@ -42,11 +42,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User getById(Id id) {
-        return userJPARepository.getById(id.toString()).toDomain();
-    }
-
-    @Override
     public User getByCoderId(Id coderId) {
         return userJPARepository.getByCoderId(coderId.toString()).toDomain();
     }

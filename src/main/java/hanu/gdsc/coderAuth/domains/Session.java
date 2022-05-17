@@ -1,22 +1,25 @@
 package hanu.gdsc.coderAuth.domains;
 
+import hanu.gdsc.coderAuth.errors.ExpiredSession;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.domains.IdentifiedDomainObject;
 
-public class Session {
-    private Id id;
+public class Session extends IdentifiedDomainObject{
     private Id coderId;
     private DateTime expireAt; 
-    
 
-    public Session(Id id, Id coderId, DateTime expireAt) {
-        this.id = id;
+    private Session(Id id, Id coderId, DateTime expireAt) {
+        super(id);
         this.coderId = coderId;
         this.expireAt = expireAt;
     }
 
-    public Id getId() {
-        return id;
+    public static Session createSession(Id id, Id coderId) {
+        return new Session(
+            id, 
+            coderId, 
+            DateTime.now().plusMinutes(100));
     }
 
     public Id getCoderId() {
@@ -25,5 +28,13 @@ public class Session {
 
     public DateTime getExpireAt() {
         return expireAt;
+    }
+
+    public boolean invalidate() {
+        DateTime time = DateTime.now();
+        if(!time.isBefore(expireAt)) {
+            throw new ExpiredSession();
+        }
+        return false;
     }
 }

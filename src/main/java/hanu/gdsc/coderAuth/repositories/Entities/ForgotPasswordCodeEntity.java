@@ -1,38 +1,37 @@
 package hanu.gdsc.coderAuth.repositories.Entities;
 
 import java.lang.reflect.Constructor;
-
 import javax.persistence.*;
-import hanu.gdsc.coderAuth.domains.RegisterVerificationCode;
+import hanu.gdsc.coderAuth.domains.ForgotPasswordCode;
 import lombok.*;
 
 import javax.persistence.Id;
 
 @Entity
-@Table(name = "coder_auth_register_verification_code")
+@Table(name = "coder_auth_forgot_password_code")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class RegisterVerificationCodeEntity {
+public class ForgotPasswordCodeEntity {
     @Id
     @Column(columnDefinition = "VARCHAR(30)")
     private String coderId;
     private String code;
     private String expireAt;
 
-    public static RegisterVerificationCodeEntity toEntity(RegisterVerificationCode registerVerificationCode) {
-        return RegisterVerificationCodeEntity.builder()
-            .coderId(registerVerificationCode.getCoderId().toString())
-            .code(registerVerificationCode.getCode())
-            .expireAt(registerVerificationCode.getExpireAt().toString())
+    public static ForgotPasswordCodeEntity toEntity(ForgotPasswordCode forgotPasswordCode) {
+        return ForgotPasswordCodeEntity.builder()
+            .coderId(forgotPasswordCode.getCoderId().toString())
+            .code(forgotPasswordCode.getCode())
+            .expireAt(forgotPasswordCode.getExpireAt().toString())
             .build()
         ;
     }
 
-    public RegisterVerificationCode toDomain() {
+    public ForgotPasswordCode toDomain() {
         try {
-            Constructor<RegisterVerificationCode> con = RegisterVerificationCode.class.getDeclaredConstructor(
+            Constructor<ForgotPasswordCode> con = ForgotPasswordCode.class.getDeclaredConstructor(
                 hanu.gdsc.share.domains.Id.class,
                 String.class,
                 hanu.gdsc.share.domains.DateTime.class

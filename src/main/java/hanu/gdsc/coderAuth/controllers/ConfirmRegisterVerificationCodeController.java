@@ -31,7 +31,7 @@ public class ConfirmRegisterVerificationCodeController {
         try {
             Id coderId = authorizeService.authorizeUnconfirmedRegistration(token);
             confirmRegisterVerificationCodeService.confirmRegisterVerificationCode(input.code, coderId);
-            return new ResponseEntity<>(new ResponseBody("Confirm code successfully"),
+            return new ResponseEntity<>(new ResponseBody("Success"),
             HttpStatus.OK);
         } catch (Throwable e) {
             if(e instanceof BusinessLogicError) {

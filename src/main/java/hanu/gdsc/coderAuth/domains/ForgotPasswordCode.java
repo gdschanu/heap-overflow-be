@@ -6,22 +6,22 @@ import hanu.gdsc.coderAuth.errors.ExpiredCode;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 
-public class RegisterVerificationCode {
+public class ForgotPasswordCode {
     private Id coderId;
     private String code;
     private DateTime expireAt;
     
-    private RegisterVerificationCode(Id coderId, String code, DateTime expireAt) {
+    private ForgotPasswordCode(Id coderId, String code, DateTime expireAt) {
         this.coderId = coderId;
         this.code = code;
         this.expireAt = expireAt;
     }
 
-    public static RegisterVerificationCode createRegisterVerificationCode(Id coderId) {
-        return new RegisterVerificationCode(
+    public static ForgotPasswordCode createForgotPasswordCode(Id coderId) {
+        return new ForgotPasswordCode(
             coderId, 
             generateRandomCode(), 
-            DateTime.now().plusMinutes(60));
+            DateTime.now().plusMinutes(20));
     }
     
     public Id getCoderId() {
@@ -45,8 +45,9 @@ public class RegisterVerificationCode {
     public boolean invalidate() {
         DateTime time = DateTime.now();
         if(!time.isBefore(expireAt)) {
-            throw new ExpiredCode("Register verification code is expired");
+            throw new ExpiredCode("Your forgot password code is expired");
         }
         return false;
     }
 }
+

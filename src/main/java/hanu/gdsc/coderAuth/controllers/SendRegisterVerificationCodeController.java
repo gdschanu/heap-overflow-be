@@ -26,7 +26,7 @@ public class SendRegisterVerificationCodeController {
         try {
             Id coderId = authorizeService.authorizeUnconfirmedRegistration(token);
             sendRegisterVerificationCodeService.sendRegisterVerificationCodeService(coderId);
-            return new ResponseEntity<>(new ResponseBody("A code sent via your email"), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseBody("Success"), HttpStatus.OK);
         } catch (Throwable e) {
             if(e instanceof BusinessLogicError) {
                 e.printStackTrace();

@@ -1,6 +1,6 @@
 package hanu.gdsc.coderAuth.domains;
 
-import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.coderAuth.errors.InvalidUsername;
 
 public class Username {
     private String value;
@@ -8,10 +8,10 @@ public class Username {
     public Username(String value) {
         this.value = value;
         if(value.length() < 8) {
-            throw new BusinessLogicError("Username needs at least 8 characters", "INVALID_USERNAME");
+            throw new InvalidUsername("Username needs at least 8 characters");
         }
         if (Email.isValidEmail(value)) {
-            throw new BusinessLogicError("Username can't be in the form of email", "INVALID_USERNAME");
+            throw new InvalidUsername("Username can't be in the form of email");
         }
     }
     @Override
