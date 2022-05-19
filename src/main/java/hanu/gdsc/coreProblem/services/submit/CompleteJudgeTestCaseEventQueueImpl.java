@@ -26,6 +26,7 @@ public class CompleteJudgeTestCaseEventQueueImpl implements CompleteJudgeTestCas
     private void startRabbitMQ() throws IOException, TimeoutException {
         ConnectionFactory connectionFactory = new ConnectionFactory();
         connectionFactory.setHost(SubmitQueueConfig.COMPLETE_JUDGE_TEST_CASE_QUEUE_RABBIT_HOST_NAME);
+        connectionFactory.setPort(SubmitQueueConfig.COMPLETE_JUDGE_TEST_CASE_QUEUE_RABBIT_PORT);
 
         Connection connection = connectionFactory.newConnection();
         Channel channel = connection.createChannel();
