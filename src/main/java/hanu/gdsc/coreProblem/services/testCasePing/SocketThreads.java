@@ -1,6 +1,7 @@
 package hanu.gdsc.coreProblem.services.testCasePing;
 
 import hanu.gdsc.coreProblem.config.TestCasePingConfig;
+import hanu.gdsc.share.scheduling.ScheduledThread;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +17,15 @@ public class SocketThreads {
 
     public SocketThreads() throws IOException {
         serverSocket = new ServerSocket(TestCasePingConfig.PORT);
-        new Thread(() -> {
-            while (true) {
+        new ScheduledThread(10000, new ScheduledThread.Runner() {
+            @Override
+            public void run() throws IOException, InterruptedException {
                 getNewSocketThread();
             }
         }).start();
-        new Thread(() -> {
-            while (true) {
+        new ScheduledThread(10000, new ScheduledThread.Runner() {
+            @Override
+            public void run() throws IOException, InterruptedException {
                 removeClosedSockets();
             }
         }).start();

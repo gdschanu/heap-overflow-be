@@ -1,7 +1,6 @@
 package hanu.gdsc.coreProblem.services.testCasePing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 import hanu.gdsc.coreProblem.config.TestCasePingConfig;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.InvalidInputError;
@@ -43,16 +42,20 @@ public class SocketThread {
                     }
                 }
                 try {
-                    socket.close();
-                    socketIn.close();
-                    socketOut.close();
-                    closed[0] = true;
+                    close();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }
         });
-        thread.start();
+        // TODO: start this thread
+    }
+
+    private void close() throws IOException {
+        socket.close();
+        socketIn.close();
+        socketOut.close();
+        closed[0] = true;
     }
 
     public Id getCoderId() {
@@ -60,9 +63,13 @@ public class SocketThread {
     }
 
     public void send(Object payload) throws IOException {
-        String pl = objectMapper.writeValueAsString(payload);
-        System.out.println("Payload: " + pl);
-        socketOut.writeUTF(objectMapper.writeValueAsString(payload));
+        try {
+            socketOut.writeUTF(objectMapper.writeValueAsString(payload));
+            socketOut.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+            close();
+        }
     }
 
     public boolean closed() {

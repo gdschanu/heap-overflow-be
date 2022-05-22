@@ -5,6 +5,7 @@ import hanu.gdsc.coreProblem.repositories.ProblemRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionEventRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.coreProblem.repositories.TestCaseRepository;
+import hanu.gdsc.share.scheduling.ScheduledThread;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
-@AllArgsConstructor
 @Service
 public class CompleteJudgeTestCaseEventHandler {
     private final Judger judger;
@@ -23,8 +23,23 @@ public class CompleteJudgeTestCaseEventHandler {
     private final CompleteJudgeTestCaseEventQueue completeJudgeTestCaseEventQueue;
     private final StartJudgeTestCaseEventQueue startJudgeTestCaseEventQueue;
 
-    @Scheduled(fixedRate = 1000)
-    public void handle() throws IOException, InterruptedException {
+    public CompleteJudgeTestCaseEventHandler(Judger judger, ProblemRepository problemRepository, TestCaseRepository testCaseRepository, SubmissionRepository submissionRepository, SubmissionEventRepository submissionEventRepository, CompleteJudgeTestCaseEventQueue completeJudgeTestCaseEventQueue, StartJudgeTestCaseEventQueue startJudgeTestCaseEventQueue) {
+        this.judger = judger;
+        this.problemRepository = problemRepository;
+        this.testCaseRepository = testCaseRepository;
+        this.submissionRepository = submissionRepository;
+        this.submissionEventRepository = submissionEventRepository;
+        this.completeJudgeTestCaseEventQueue = completeJudgeTestCaseEventQueue;
+        this.startJudgeTestCaseEventQueue = startJudgeTestCaseEventQueue;
+        new ScheduledThread(5000, new ScheduledThread.Runner() {
+            @Override
+            public void run() throws IOException, InterruptedException {
+                handle();
+            }
+        }).start();
+    }
+
+    private void handle() throws IOException, InterruptedException {
         CompleteJudgeTestCaseEvent event = completeJudgeTestCaseEventQueue.get();
         if (event == null) {
             return;
@@ -160,6 +175,7 @@ public class CompleteJudgeTestCaseEventHandler {
                     judgeSubmission.stdMessage()
             );
         }
+
         if (event.testCaseIndex == testCases.size() - 1) {
             submissionRepository.create(submission);
             SubmissionEvent submissionEvent = SubmissionEvent.create(

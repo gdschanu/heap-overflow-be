@@ -4,6 +4,7 @@ import hanu.gdsc.coreProblem.domains.TestCase;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.coreProblem.repositories.TestCaseRepository;
 import hanu.gdsc.coreProblem.services.testCasePing.TestCasePingService;
+import hanu.gdsc.share.scheduling.ScheduledThread;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.List;
 
-@AllArgsConstructor
 @Service
 public class StartJudgeTestCaseEventHandler {
     private final Judger judger;
@@ -21,8 +21,22 @@ public class StartJudgeTestCaseEventHandler {
     private final CompleteJudgeTestCaseEventQueue completeJudgeTestCaseEventQueue;
     private final TestCasePingService testCasePingService;
 
-    @Scheduled(fixedRate = 1000)
-    public void handle() throws IOException, InterruptedException {
+    public StartJudgeTestCaseEventHandler(Judger judger, TestCaseRepository testCaseRepository, SubmissionRepository submissionRepository, StartJudgeTestCaseEventQueue startJudgeTestCaseEventQueue, CompleteJudgeTestCaseEventQueue completeJudgeTestCaseEventQueue, TestCasePingService testCasePingService) {
+        this.judger = judger;
+        this.testCaseRepository = testCaseRepository;
+        this.submissionRepository = submissionRepository;
+        this.startJudgeTestCaseEventQueue = startJudgeTestCaseEventQueue;
+        this.completeJudgeTestCaseEventQueue = completeJudgeTestCaseEventQueue;
+        this.testCasePingService = testCasePingService;
+        new ScheduledThread(5000, new ScheduledThread.Runner() {
+            @Override
+            public void run() throws IOException, InterruptedException {
+                handle();
+            }
+        }).start();
+    }
+
+    private void handle() throws IOException, InterruptedException {
         StartJudgeTestCaseEvent event = startJudgeTestCaseEventQueue.get();
         if (event == null) {
             return;

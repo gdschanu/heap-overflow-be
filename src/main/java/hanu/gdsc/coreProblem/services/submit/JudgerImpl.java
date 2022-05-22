@@ -1,9 +1,9 @@
 package hanu.gdsc.coreProblem.services.submit;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.coreProblem.config.Judge0Config;
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,8 +16,8 @@ import java.util.Base64;
 @Service
 public class JudgerImpl implements Judger {
     // > Utils
-
-    Gson gson = new GsonBuilder().create();
+    @Autowired
+    private ObjectMapper objectMapper;
 
     private String base64Encode(String s) {
         if (s == null) return s;
@@ -51,14 +51,14 @@ public class JudgerImpl implements Judger {
         request.language_id = getJudge0ProgrammingLanguageId(programmingLanguage);
         request.source_code = new String(Base64.getEncoder().encode(code.getBytes()));
         request.stdin = new String(Base64.getEncoder().encode(input.getBytes()));
-        String requestString = gson.toJson(request);
+        String requestString = objectMapper.writeValueAsString(request);
         HttpRequest httpReq = HttpRequest.newBuilder()
                 .uri(URI.create(Judge0Config.SERVER_URL + "/submissions" + "?base64_encoded=true&fields=*"))
                 .header("content-type", "application/json")
                 .method("POST", HttpRequest.BodyPublishers.ofString(requestString))
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(httpReq, HttpResponse.BodyHandlers.ofString());
-        CreateSubmissionResponse resp = gson.fromJson(response.body(), CreateSubmissionResponse.class);
+        CreateSubmissionResponse resp = objectMapper.readValue(response.body(), CreateSubmissionResponse.class);
         return resp.token;
     }
 
@@ -102,7 +102,7 @@ public class JudgerImpl implements Judger {
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        GetSubmissionByIdResponse submission = gson.fromJson(response.body(), GetSubmissionByIdResponse.class);
+        GetSubmissionByIdResponse submission = objectMapper.readValue(response.body(), GetSubmissionByIdResponse.class);
         return new Submission(
                 base64Decode(submission.stdout),
                 submission.time,

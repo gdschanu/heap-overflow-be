@@ -1,9 +1,9 @@
 package hanu.gdsc.coreProblem.services.submit;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.*;
 import hanu.gdsc.coreProblem.config.SubmitQueueConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -14,12 +14,13 @@ import java.util.concurrent.TimeoutException;
 @Service
 public class StartJudgeTestCaseEventQueueImpl implements StartJudgeTestCaseEventQueue {
     private Queue<StartJudgeTestCaseEvent> queue;
-    private Gson gson;
     private Channel channel;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     public StartJudgeTestCaseEventQueueImpl() throws IOException, TimeoutException {
         this.queue = new ConcurrentLinkedQueue();
-        this.gson = new GsonBuilder().create();
         startRabbitMQ();
     }
 
@@ -44,7 +45,7 @@ public class StartJudgeTestCaseEventQueueImpl implements StartJudgeTestCaseEvent
                                        AMQP.BasicProperties properties,
                                        byte[] body) throws IOException {
                 String message = new String(body, "UTF-8");
-                StartJudgeTestCaseEvent startJudgeTestCaseEvent = gson.fromJson(message, StartJudgeTestCaseEvent.class);
+                StartJudgeTestCaseEvent startJudgeTestCaseEvent = objectMapper.readValue(message, StartJudgeTestCaseEvent.class);
                 startJudgeTestCaseEvent.setEventId(envelope.getDeliveryTag());
                 queue.add(startJudgeTestCaseEvent);
             }
@@ -73,7 +74,7 @@ public class StartJudgeTestCaseEventQueueImpl implements StartJudgeTestCaseEvent
                 SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE,
                 SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_ROUTING_KEY,
                 new AMQP.BasicProperties(),
-                gson.toJson(event).getBytes()
+                objectMapper.writeValueAsBytes(event)
         );
     }
 }
