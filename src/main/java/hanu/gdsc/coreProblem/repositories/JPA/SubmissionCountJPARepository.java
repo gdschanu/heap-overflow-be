@@ -5,11 +5,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface SubmissionCountJPARepository extends JpaRepository<SubmissionCountEntity, String> {
     public SubmissionCountEntity findByProblemIdAndServiceToCreate(String problemId, String serviceToCreate);
 
     @Modifying
+    @Transactional
     @Query(value = " UPDATE core_problem_submission_count set " +
             " acs_count= :ACsCount, " +
             " submissions_count= :submissionsCount, " +
