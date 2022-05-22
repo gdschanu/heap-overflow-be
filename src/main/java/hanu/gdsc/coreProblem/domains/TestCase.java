@@ -42,7 +42,7 @@ public class TestCase extends VersioningDomainObject {
         );
     }
  
-    public static List<TestCase> getSortedByOrdinalTestCases(List<TestCase> testCases) {
+    public static List<TestCase> sortByOrdinal(List<TestCase> testCases) {
         List<TestCase> res = new ArrayList<>(testCases);
         res.sort(Comparator.comparingInt(tc -> tc.getOrdinal()));
         return res;

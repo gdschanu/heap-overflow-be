@@ -2,6 +2,7 @@ package hanu.gdsc.coreProblem.services.testCase;
 
 import javax.transaction.Transactional;
 
+import hanu.gdsc.share.error.NotFoundError;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coreProblem.domains.TestCase;
@@ -20,7 +21,7 @@ public class UpdateTestCaseServiceImpl implements UpdateTestCaseService {
     public void update(Input input) {   
         TestCase oldTestCase = testCaseRepository.getByProblemIdAndOrdinal(input.problemId, input.ordinal, input.serviceToCreate);
         if (oldTestCase == null) {
-            throw new BusinessLogicError("TestCase" + input.ordinal + "doesnt exist", "NOT_FOUND");
+            throw new NotFoundError("TestCase" + input.ordinal + "doesnt exist");
         }
         if (input.input != null && input.input != oldTestCase.getInput()) {
             oldTestCase.setInput(input.input);

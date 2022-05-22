@@ -3,6 +3,7 @@ package hanu.gdsc.coreProblem.services.submit;
 import hanu.gdsc.coreProblem.domains.TestCase;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.coreProblem.repositories.TestCaseRepository;
+import hanu.gdsc.coreProblem.services.testCasePing.TestCasePingService;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class StartJudgeTestCaseEventHandler {
     private final SubmissionRepository submissionRepository;
     private final StartJudgeTestCaseEventQueue startJudgeTestCaseEventQueue;
     private final CompleteJudgeTestCaseEventQueue completeJudgeTestCaseEventQueue;
+    private final TestCasePingService testCasePingService;
 
     @Scheduled(fixedRate = 1000)
     public void handle() throws IOException, InterruptedException {
@@ -26,10 +28,15 @@ public class StartJudgeTestCaseEventHandler {
             return;
         }
         List<TestCase> testCases = testCaseRepository.getByProblemId(event.problemId, event.serviceToCreate);
+        testCasePingService.ping(event.coderId, TestCasePingService.Payload.builder()
+                .currentTestCase(event.testCaseIndex + 1)
+                .totalTestCase(testCases.size())
+                .submissionId(event.submissionId)
+                .build());
         if (event.testCaseIndex > testCases.size() - 1) {
             return;
         }
-        TestCase testCase = TestCase.getSortedByOrdinalTestCases(testCases).get(event.testCaseIndex);
+        TestCase testCase = TestCase.sortByOrdinal(testCases).get(event.testCaseIndex);
         String judgeSubmissionId;
         try {
             judgeSubmissionId = judger.createSubmission(event.code, testCase.getInput(), event.programmingLanguage);

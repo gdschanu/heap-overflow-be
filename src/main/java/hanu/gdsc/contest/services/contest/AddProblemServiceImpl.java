@@ -7,6 +7,7 @@ import hanu.gdsc.coreProblem.services.problem.SearchProblemService;
 import hanu.gdsc.practiceProblem.config.ServiceName;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -25,7 +26,7 @@ public class AddProblemServiceImpl implements AddProblemService {
     public void execute(Input input) {
         Contest contest = contestRepository.getById(input.contestId);
         if (contest == null) {
-            throw new BusinessLogicError("Contest doesn't exist.", "UNEXIST_CONTEST");
+            throw new NotFoundError("Unknown contest");
         }
         Id coreProblemId = createCoreProblemService
                 .execute(hanu.gdsc.coreProblem.services.problem.CreateProblemService.Input

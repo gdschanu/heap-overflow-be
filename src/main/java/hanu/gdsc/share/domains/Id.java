@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hanu.gdsc.share.error.BusinessLogicError;
 import hanu.gdsc.share.controller.jackson.IdDeserializer;
 import hanu.gdsc.share.controller.jackson.IdSerializer;
+import hanu.gdsc.share.error.InvalidInputError;
 import org.bson.types.ObjectId;
 
 import java.util.Objects;
@@ -16,7 +17,7 @@ public class Id {
 
     public Id(String value) {
         if (!ObjectId.isValid(value)) {
-            throw new BusinessLogicError("Invalid Id: '" + value + "'.", "INVALID_ID");
+            throw new InvalidInputError("Invalid Id: '" + value + "'.");
         }
         this.value = value;
     }

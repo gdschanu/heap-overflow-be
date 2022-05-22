@@ -46,7 +46,7 @@ public class CompleteJudgeTestCaseEventHandler {
         if (event.testCaseIndex > testCases.size() - 1) {
             return;
         }
-        TestCase testCase = TestCase.getSortedByOrdinalTestCases(testCases).get(event.testCaseIndex);
+        TestCase testCase = TestCase.sortByOrdinal(testCases).get(event.testCaseIndex);
 
         Submission submission = null;
         Millisecond avgRunTime = event.totalRuntime

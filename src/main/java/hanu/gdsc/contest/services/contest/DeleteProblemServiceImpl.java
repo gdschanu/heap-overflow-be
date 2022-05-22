@@ -2,9 +2,11 @@ package hanu.gdsc.contest.services.contest;
 
 import hanu.gdsc.contest.domains.Contest;
 import hanu.gdsc.contest.domains.Problem;
+import hanu.gdsc.contest.errors.InvalidOrdinalError;
 import hanu.gdsc.contest.repositories.ContestRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -21,12 +23,12 @@ public class DeleteProblemServiceImpl implements DeleteProblemService {
     public void execute(Id contestId, int ordinal) {
         Contest contest = contestRepository.getById(contestId);
         if (contest == null) {
-            throw new BusinessLogicError("Contest doesn't exist.", "UNEXIST_CONTEST");
+            throw new NotFoundError("Unknown contest");
         }
 
         Problem problem = contest.getProblem(ordinal);
         if (problem == null) {
-            throw new BusinessLogicError("Unknown ordinal.", "UNKNOWN_ORDINAL");
+            throw new InvalidOrdinalError();
         }
 
         contest.removeProblem(ordinal);
