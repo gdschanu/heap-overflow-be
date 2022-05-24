@@ -5,7 +5,7 @@ import hanu.gdsc.coreProblem.domains.SubmissionCount;
 import hanu.gdsc.coreProblem.domains.SubmissionEvent;
 import hanu.gdsc.coreProblem.repositories.SubmissionCountRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionEventRepository;
-import hanu.gdsc.share.scheduling.ScheduledThread;
+import hanu.gdsc.share.scheduling.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,7 @@ public class ProcessSubmissionEventService {
     public ProcessSubmissionEventService(SubmissionEventRepository submissionEventRepository, SubmissionCountRepository submissionCountRepository) {
         this.submissionEventRepository = submissionEventRepository;
         this.submissionCountRepository = submissionCountRepository;
-        new ScheduledThread(10000, new ScheduledThread.Runner() {
+        new Scheduler(10000, new Scheduler.Runner() {
             @Override
             public void run() {
                 process();

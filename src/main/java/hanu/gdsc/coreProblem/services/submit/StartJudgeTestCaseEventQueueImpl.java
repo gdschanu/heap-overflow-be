@@ -74,7 +74,7 @@ public class StartJudgeTestCaseEventQueueImpl implements StartJudgeTestCaseEvent
                 SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_EXCHANGE,
                 SubmitQueueConfig.START_JUDGE_TEST_CASE_QUEUE_RABBIT_ROUTING_KEY,
                 new AMQP.BasicProperties(),
-                objectMapper.writeValueAsBytes(event)
+                objectMapper.writeValueAsString(event).getBytes()
         );
     }
 }

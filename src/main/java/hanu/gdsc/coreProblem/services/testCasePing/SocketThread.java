@@ -1,16 +1,14 @@
 package hanu.gdsc.coreProblem.services.testCasePing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hanu.gdsc.coreProblem.config.TestCasePingConfig;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.InvalidInputError;
+import hanu.gdsc.share.scheduling.Scheduler;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.time.ZonedDateTime;
 
 public class SocketThread {
     private Id coderId;
@@ -19,36 +17,27 @@ public class SocketThread {
     private final DataOutputStream socketOut;
     private final boolean closed[];
 
-    // Utils
     private static final ObjectMapper objectMapper = new ObjectMapper();
+    private final Scheduler getCoderIdThread;
 
     public SocketThread(ServerSocket serverSocket) throws Exception {
         socket = serverSocket.accept();
         socketIn = new DataInputStream(socket.getInputStream());
         socketOut = new DataOutputStream(socket.getOutputStream());
         closed = new boolean[]{false};
-        Thread thread = new Thread(new Runnable() {
+
+        getCoderIdThread = new Scheduler(5000, new Scheduler.Runner() {
             @Override
-            public void run() {
-                ZonedDateTime endTime = ZonedDateTime.now().plusSeconds(TestCasePingConfig.WAIT_FOR_CODER_ID_SECOND);
-                while (ZonedDateTime.now().isBefore(endTime)) {
-                    try {
-                        String coderIdFromSocket = socketIn.readUTF();
-                        coderId = new Id(coderIdFromSocket);
-                        return;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } catch (InvalidInputError e) {
-                    }
-                }
+            public void run() throws Exception {
                 try {
-                    close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    String coderIdFromSocket = socketIn.readUTF();
+                    coderId = new Id(coderIdFromSocket);
+                    stop();
+                } catch (Exception ignored) {
                 }
             }
         });
-        // TODO: start this thread
+        getCoderIdThread.start();
     }
 
     private void close() throws IOException {
@@ -56,6 +45,7 @@ public class SocketThread {
         socketIn.close();
         socketOut.close();
         closed[0] = true;
+        getCoderIdThread.stop();
     }
 
     public Id getCoderId() {
@@ -66,7 +56,7 @@ public class SocketThread {
         try {
             socketOut.writeUTF(objectMapper.writeValueAsString(payload));
             socketOut.flush();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             close();
         }

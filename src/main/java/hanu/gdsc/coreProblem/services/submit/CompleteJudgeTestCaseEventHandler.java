@@ -5,7 +5,7 @@ import hanu.gdsc.coreProblem.repositories.ProblemRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionEventRepository;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.coreProblem.repositories.TestCaseRepository;
-import hanu.gdsc.share.scheduling.ScheduledThread;
+import hanu.gdsc.share.scheduling.Scheduler;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class CompleteJudgeTestCaseEventHandler {
         this.submissionEventRepository = submissionEventRepository;
         this.completeJudgeTestCaseEventQueue = completeJudgeTestCaseEventQueue;
         this.startJudgeTestCaseEventQueue = startJudgeTestCaseEventQueue;
-        new ScheduledThread(5000, new ScheduledThread.Runner() {
+        new Scheduler(100, new Scheduler.Runner() {
             @Override
             public void run() throws IOException, InterruptedException {
                 handle();

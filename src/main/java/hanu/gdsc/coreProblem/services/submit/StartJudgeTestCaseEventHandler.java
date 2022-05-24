@@ -4,12 +4,13 @@ import hanu.gdsc.coreProblem.domains.TestCase;
 import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
 import hanu.gdsc.coreProblem.repositories.TestCaseRepository;
 import hanu.gdsc.coreProblem.services.testCasePing.TestCasePingService;
-import hanu.gdsc.share.scheduling.ScheduledThread;
+import hanu.gdsc.share.scheduling.Scheduler;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service
@@ -28,7 +29,7 @@ public class StartJudgeTestCaseEventHandler {
         this.startJudgeTestCaseEventQueue = startJudgeTestCaseEventQueue;
         this.completeJudgeTestCaseEventQueue = completeJudgeTestCaseEventQueue;
         this.testCasePingService = testCasePingService;
-        new ScheduledThread(5000, new ScheduledThread.Runner() {
+        new Scheduler(100, new Scheduler.Runner() {
             @Override
             public void run() throws IOException, InterruptedException {
                 handle();
