@@ -101,72 +101,16 @@ public interface Judger {
         }
     }
 
-    public static class Submission {
-        private String stdout;
-        private String time;
-        private String memory;
-        private String stderr;
-        private String compileOutput;
-        private int status;
-
-        public Submission(String stdout, String time, String memory, String stderr, String compileOutput, int status) {
-            this.stdout = stdout;
-            this.time = time;
-            this.memory = memory;
-            this.stderr = stderr;
-            this.compileOutput = compileOutput;
-            this.status = status;
-        }
-
-        public boolean processing() {
-            return status == 2;
-        }
-
-        public boolean inQueue() {
-            return status == 1;
-        }
-
-        public boolean compilationError() {
-            return compileOutput != null;
-        }
-
-        public String compilationMessage() {
-            return compileOutput == null ?
-                    "" : compileOutput;
-        }
-
-        public boolean stdError() {
-            return compileOutput != null;
-        }
-
-        public String stdMessage() {
-            return compileOutput == null ?
-                    "" : compileOutput;
-        }
-
-        public KB memory() {
-            return new KB(Double.parseDouble(memory));
-        }
-
-        public Millisecond runTime() {
-            return new Millisecond(Math.round(Double.parseDouble(time)));
-        }
-
-        public Output output() {
-            return new Output(stdout);
-        }
-
-        @Override
-        public String toString() {
-            return "Submission{" +
-                    "stdout='" + stdout + '\'' +
-                    ", time='" + time + '\'' +
-                    ", memory='" + memory + '\'' +
-                    ", stderr='" + stderr + '\'' +
-                    ", compileOutput='" + compileOutput + '\'' +
-                    ", status=" + status +
-                    '}';
-        }
+    public static interface Submission {
+        public boolean processing();
+        public boolean inQueue();
+        public boolean compilationError();
+        public String compilationMessage();
+        public boolean stdError();
+        public String stdMessage();
+        public KB memory();
+        public Millisecond runTime();
+        public Output output();
     }
 
     public String createSubmission(String code, String input, ProgrammingLanguage programmingLanguage) throws IOException, InterruptedException;

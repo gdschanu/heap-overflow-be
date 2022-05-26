@@ -1,5 +1,6 @@
 package hanu.gdsc.coreProblem.services.submissionEvent;
 
+import hanu.gdsc.coreProblem.config.SubmissionEventConfig;
 import hanu.gdsc.coreProblem.domains.Status;
 import hanu.gdsc.coreProblem.domains.SubmissionCount;
 import hanu.gdsc.coreProblem.domains.SubmissionEvent;
@@ -24,7 +25,7 @@ public class ProcessSubmissionEventService {
     public ProcessSubmissionEventService(SubmissionEventRepository submissionEventRepository, SubmissionCountRepository submissionCountRepository) {
         this.submissionEventRepository = submissionEventRepository;
         this.submissionCountRepository = submissionCountRepository;
-        new Scheduler(10000, new Scheduler.Runner() {
+        new Scheduler(SubmissionEventConfig.RATE, new Scheduler.Runner() {
             @Override
             public void run() {
                 process();

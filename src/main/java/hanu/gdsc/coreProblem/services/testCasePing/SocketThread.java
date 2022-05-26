@@ -1,6 +1,7 @@
 package hanu.gdsc.coreProblem.services.testCasePing;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hanu.gdsc.coreProblem.config.TestCasePingConfig;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.scheduling.Scheduler;
 
@@ -26,7 +27,7 @@ public class SocketThread {
         socketOut = new DataOutputStream(socket.getOutputStream());
         closed = new boolean[]{false};
 
-        getCoderIdThread = new Scheduler(5000, new Scheduler.Runner() {
+        getCoderIdThread = new Scheduler(TestCasePingConfig.GET_CODER_ID_RATE, new Scheduler.Runner() {
             @Override
             public void run() throws Exception {
                 try {

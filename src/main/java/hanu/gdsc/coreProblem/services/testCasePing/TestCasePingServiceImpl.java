@@ -19,13 +19,13 @@ public class TestCasePingServiceImpl implements TestCasePingService {
     public TestCasePingServiceImpl() throws IOException {
         serverSocket = new ServerSocket(TestCasePingConfig.PORT);
         threadList = new ArrayList<>();
-        new Scheduler(5000, new Scheduler.Runner() {
+        new Scheduler(TestCasePingConfig.GET_NEW_SOCKET_RATE, new Scheduler.Runner() {
             @Override
             public void run() throws IOException, InterruptedException {
                 getNewSocketThread();
             }
         }).start();
-        new Scheduler(15000, new Scheduler.Runner() {
+        new Scheduler(TestCasePingConfig.REMOVE_CLOSED_SOCKET_RATE, new Scheduler.Runner() {
             @Override
             public void run() throws IOException, InterruptedException {
                 removeClosedSockets();

@@ -6,6 +6,8 @@ import hanu.gdsc.share.controller.jackson.DateTimeDeserializer;
 import hanu.gdsc.share.controller.jackson.DateTimeSerializer;
 import hanu.gdsc.share.error.BusinessLogicError;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
@@ -58,5 +60,11 @@ public class DateTime {
     @Override
     public String toString() {
         return value.toString();
+    }
+
+    public long toMillis() {
+        long e = value.toInstant().toEpochMilli();
+        Instant i = Instant.ofEpochMilli(e);
+        return i.toEpochMilli();
     }
 }
