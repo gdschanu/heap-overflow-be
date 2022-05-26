@@ -54,6 +54,9 @@ public class SocketThread {
     }
 
     public void send(Object payload) throws IOException {
+        if (closed()) {
+            return;
+        }
         try {
             socketOut.writeUTF(objectMapper.writeValueAsString(payload));
             socketOut.flush();
