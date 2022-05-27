@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
-public class ProcessSubmissionEventService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSubmissionEventService.class);
+public class ConsumeSubmissionEventService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConsumeSubmissionEventService.class);
 
     private SubmissionEventRepository submissionEventRepository;
 
     private SubmissionCountRepository submissionCountRepository;
 
-    public ProcessSubmissionEventService(SubmissionEventRepository submissionEventRepository, SubmissionCountRepository submissionCountRepository) {
+    public ConsumeSubmissionEventService(SubmissionEventRepository submissionEventRepository, SubmissionCountRepository submissionCountRepository) {
         this.submissionEventRepository = submissionEventRepository;
         this.submissionCountRepository = submissionCountRepository;
         new Scheduler(SubmissionEventConfig.RATE, new Scheduler.Runner() {

@@ -3,7 +3,6 @@ package hanu.gdsc.coreProblem.services.submit;
 import hanu.gdsc.coreProblem.config.RunningSubmissionConfig;
 import hanu.gdsc.coreProblem.domains.*;
 import hanu.gdsc.coreProblem.repositories.*;
-import hanu.gdsc.coreProblem.services.testCasePing.TestCasePingService;
 import hanu.gdsc.share.scheduling.Scheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -15,7 +14,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Service
-public class ProcessRunningSubmissionService {
+public class ConsumeRunningSubmissionService {
     private ThreadPoolExecutor executor;
     private final RunningSubmissionRepository runningSubmissionRepository;
     private final TestCaseRepository testCaseRepository;
@@ -23,22 +22,20 @@ public class ProcessRunningSubmissionService {
     private final ProblemRepository problemRepository;
     private final SubmissionRepository submissionRepository;
     private final SubmissionEventRepository submissionEventRepository;
-    private final TestCasePingService testCasePingService;
 
-    public ProcessRunningSubmissionService(RunningSubmissionRepository runningSubmissionRepository,
+    public ConsumeRunningSubmissionService(RunningSubmissionRepository runningSubmissionRepository,
                                            TestCaseRepository testCaseRepository,
                                            Judger judger,
                                            ProblemRepository problemRepository,
                                            SubmissionRepository submissionRepository,
-                                           SubmissionEventRepository submissionEventRepository,
-                                           TestCasePingService testCasePingService) {
+                                           SubmissionEventRepository submissionEventRepository) {
         this.runningSubmissionRepository = runningSubmissionRepository;
         this.testCaseRepository = testCaseRepository;
         this.judger = judger;
         this.problemRepository = problemRepository;
         this.submissionRepository = submissionRepository;
         this.submissionEventRepository = submissionEventRepository;
-        this.testCasePingService = testCasePingService;
+
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(RunningSubmissionConfig.MAX_THREAD);
         new Scheduler(RunningSubmissionConfig.RATE_MILLIS, new Scheduler.Runner() {
             @Override

@@ -54,4 +54,13 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
         runningSubmissionJPARepository.save(entity);
         runningSubmission.increaseVersion();
     }
+
+    @Override
+    public RunningSubmission getById(Id id) {
+        RunningSubmissionEntity entity = runningSubmissionJPARepository.getById(id.toString());
+        if (entity == null) {
+            return null;
+        }
+        return entity.toDomain();
+    }
 }

@@ -11,4 +11,6 @@ public interface RunningSubmissionRepository {
     public void delete(Id id);
 
     public void updateClaimed(RunningSubmission runningSubmission);
+
+    public RunningSubmission getById(Id id);
 }
