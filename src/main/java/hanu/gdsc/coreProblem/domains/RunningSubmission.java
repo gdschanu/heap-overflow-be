@@ -2,9 +2,9 @@ package hanu.gdsc.coreProblem.domains;
 
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.IdentifiedDomainObject;
+import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 
-public class RunningSubmission extends IdentifiedDomainObject {
+public class RunningSubmission extends IdentitifedVersioningDomainObject {
     private Id coderId;
     private Id problemId;
     private String serviceToCreate;
@@ -12,20 +12,28 @@ public class RunningSubmission extends IdentifiedDomainObject {
     private ProgrammingLanguage programmingLanguage;
     private DateTime submittedAt;
 
-    private RunningSubmission(Id id,
-                              Id coderId,
-                              Id problemId,
-                              String serviceToCreate,
-                              String code,
-                              ProgrammingLanguage programmingLanguage,
-                              DateTime submittedAt) {
-        super(id);
+    private int judgingTestCase;
+    private int totalTestCases;
+
+    public RunningSubmission(Id id,
+                             long version,
+                             Id coderId,
+                             Id problemId,
+                             String serviceToCreate,
+                             String code,
+                             ProgrammingLanguage programmingLanguage,
+                             DateTime submittedAt,
+                             int judgingTestCase,
+                             int totalTestCases) {
+        super(id, version);
         this.coderId = coderId;
         this.problemId = problemId;
         this.serviceToCreate = serviceToCreate;
         this.code = code;
         this.programmingLanguage = programmingLanguage;
         this.submittedAt = submittedAt;
+        this.judgingTestCase = judgingTestCase;
+        this.totalTestCases = totalTestCases;
     }
 
     public static RunningSubmission create(Id coderId,
@@ -35,13 +43,24 @@ public class RunningSubmission extends IdentifiedDomainObject {
                                            ProgrammingLanguage programmingLanguage) {
         return new RunningSubmission(
                 Id.generateRandom(),
+                0L,
                 coderId,
                 problemId,
                 serviceToCreate,
                 code,
                 programmingLanguage,
-                DateTime.now()
+                DateTime.now(),
+                0,
+                0
         );
+    }
+
+    public void setJudgingTestCase(int judgingTestCase) {
+        this.judgingTestCase = judgingTestCase;
+    }
+
+    public void setTotalTestCases(int totalTestCases) {
+        this.totalTestCases = totalTestCases;
     }
 
     public Id getCoderId() {
@@ -66,5 +85,13 @@ public class RunningSubmission extends IdentifiedDomainObject {
 
     public DateTime getSubmittedAt() {
         return submittedAt;
+    }
+
+    public int getJudgingTestCase() {
+        return judgingTestCase;
+    }
+
+    public int getTotalTestCases() {
+        return totalTestCases;
     }
 }

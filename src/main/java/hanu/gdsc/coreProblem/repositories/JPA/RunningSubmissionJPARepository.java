@@ -11,4 +11,6 @@ public interface RunningSubmissionJPARepository extends JpaRepository<RunningSub
             "ORDER BY submitted_at DESC LIMIT 1",
             nativeQuery = true)
     public RunningSubmissionEntity claim(@Param("currentMillis") long currentMillis);
+
+
 }

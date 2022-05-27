@@ -20,8 +20,11 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
         runningSubmissionJPARepository.save(RunningSubmissionEntity
                 .fromDomain(runningSubmission,
                         0,
-                        System.currentTimeMillis() - 999999,
-                        0));
+                        System.currentTimeMillis() - 999999));
+    }
+
+    private long getLockedUntil() {
+        return System.currentTimeMillis() + RunningSubmissionConfig.CLAIM_SUBMISSION_LOCK_SECOND * 1000;
     }
 
     @Override
@@ -32,13 +35,23 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
             return null;
         }
         runningSubmission.setLocked(1);
-        runningSubmission.setLockedUntil(System.currentTimeMillis() + RunningSubmissionConfig.CLAIM_SUBMISSION_LOCK_SECOND * 1000);
+        runningSubmission.setLockedUntil(getLockedUntil());
         runningSubmissionJPARepository.save(runningSubmission);
-        return runningSubmission.toDomain();
+        RunningSubmission domain = runningSubmission.toDomain();
+        domain.increaseVersion();
+        return domain;
     }
 
     @Override
     public void delete(Id id) {
         runningSubmissionJPARepository.deleteById(id.toString());
+    }
+
+
+    @Override
+    public void updateClaimed(RunningSubmission runningSubmission) {
+        RunningSubmissionEntity entity = RunningSubmissionEntity.fromDomain(runningSubmission, 1, getLockedUntil());
+        runningSubmissionJPARepository.save(entity);
+        runningSubmission.increaseVersion();
     }
 }

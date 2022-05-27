@@ -9,4 +9,6 @@ public interface RunningSubmissionRepository {
     public RunningSubmission claim();
 
     public void delete(Id id);
+
+    public void updateClaimed(RunningSubmission runningSubmission);
 }

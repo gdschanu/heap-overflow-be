@@ -84,11 +84,9 @@ public class ProcessRunningSubmissionService {
         Millisecond totalRunTime = new Millisecond(0L);
         KB totalMemLimit = new KB(0);
         for (int i = 0; i < testCases.size(); i++) {
-            testCasePingService.ping(runningSubmission.getCoderId(), TestCasePingService.Payload.builder()
-                    .currentTestCase(i + 1)
-                    .totalTestCase(testCases.size())
-                    .submissionId(runningSubmission.getId())
-                    .build());
+            runningSubmission.setJudgingTestCase(i + 1);
+            runningSubmission.setTotalTestCases(testCases.size());
+            runningSubmissionRepository.updateClaimed(runningSubmission);
             TestCase testCase = testCases.get(i);
             MemoryLimit memoryLimit = problem.getMemoryLimitByProgrammingLanguage(
                     runningSubmission.getProgrammingLanguage()
