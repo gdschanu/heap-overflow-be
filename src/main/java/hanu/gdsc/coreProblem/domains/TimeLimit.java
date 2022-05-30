@@ -2,6 +2,7 @@ package hanu.gdsc.coreProblem.domains;
 
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
+import hanu.gdsc.share.error.InvalidInputError;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,9 @@ public class TimeLimit extends IdentifiedDomainObject {
     }
 
     public static TimeLimit create(CreateInput input) {
+        if (input.timeLimit.greaterThan(5)) {
+            throw new InvalidInputError("Time Limit must not be greater than 5.");
+        }
         return new TimeLimit(
                 Id.generateRandom(),
                 input.programmingLanguage,

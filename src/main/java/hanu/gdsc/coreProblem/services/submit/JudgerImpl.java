@@ -43,25 +43,41 @@ public class JudgerImpl implements Judger {
         public String stdin;
     }
 
+    private static class CreateSubmissionResponseStatus {
+        public int id;
+    }
+
     private static class CreateSubmissionResponse {
-        public String token;
+        public String stdout;
+        public String time;
+        public String memory;
+        public String stderr;
+        public String compile_output;
+        public CreateSubmissionResponseStatus status;
     }
 
 
-    public String createSubmission(String code, String input, ProgrammingLanguage programmingLanguage) throws IOException, InterruptedException {
+    public Submission createSubmission(String code, String input, ProgrammingLanguage programmingLanguage) throws IOException, InterruptedException {
         CreateSubmissionRequest request = new CreateSubmissionRequest();
         request.language_id = getJudge0ProgrammingLanguageId(programmingLanguage);
         request.source_code = new String(Base64.getEncoder().encode(code.getBytes()));
         request.stdin = new String(Base64.getEncoder().encode(input.getBytes()));
         String requestString = objectMapper.writeValueAsString(request);
         HttpRequest httpReq = HttpRequest.newBuilder()
-                .uri(URI.create(Judge0Config.SERVER_URL + "/submissions" + "?base64_encoded=true&fields=*"))
+                .uri(URI.create(Judge0Config.SERVER_URL + "/submissions" + "?base64_encoded=true&fields=*&wait=true"))
                 .header("content-type", "application/json")
                 .method("POST", HttpRequest.BodyPublishers.ofString(requestString))
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(httpReq, HttpResponse.BodyHandlers.ofString());
-        CreateSubmissionResponse resp = objectMapper.readValue(response.body(), CreateSubmissionResponse.class);
-        return resp.token;
+        CreateSubmissionResponse submission = objectMapper.readValue(response.body(), CreateSubmissionResponse.class);
+        return new SubmissionImpl(
+                base64Decode(submission.stdout),
+                submission.time,
+                submission.memory,
+                base64Decode(submission.stderr),
+                base64Decode(submission.compile_output),
+                submission.status.id
+        );
     }
 
     private int getJudge0ProgrammingLanguageId(ProgrammingLanguage programmingLanguage) {
@@ -152,37 +168,6 @@ public class JudgerImpl implements Judger {
                     '}';
         }
     }
-
-    private static class GetSubmissionByIdResponseStatus {
-        public int id;
-    }
-
-    private static class GetSubmissionByIdResponse {
-        public String stdout;
-        public String time;
-        public String memory;
-        public String stderr;
-        public String compile_output;
-        public GetSubmissionByIdResponseStatus status;
-    }
-
-    public Submission getSubmissionById(String submissionId) throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(Judge0Config.SERVER_URL + "/submissions" + "/" + submissionId + "?base64_encoded=true&fields=*"))
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        GetSubmissionByIdResponse submission = objectMapper.readValue(response.body(), GetSubmissionByIdResponse.class);
-        return new SubmissionImpl(
-                base64Decode(submission.stdout),
-                submission.time,
-                submission.memory,
-                base64Decode(submission.stderr),
-                base64Decode(submission.compile_output),
-                submission.status.id
-        );
-    }
-
     // < Get Submission
 
     // ============================================================================================

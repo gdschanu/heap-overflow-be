@@ -28,8 +28,13 @@ public class TestCase extends VersioningDomainObject {
         this.serviceToCreate = serviceToCreate;
     }
 
-    public static TestCase create(Id problemId, String input, String expectedOutput, int ordinal, boolean isSample,
-            String description, String serviceToCreate) {
+    public static TestCase create(Id problemId,
+                                  String input,
+                                  String expectedOutput,
+                                  int ordinal,
+                                  boolean isSample,
+                                  String description,
+                                  String serviceToCreate) {
         return new TestCase(
                 0,
                 problemId,

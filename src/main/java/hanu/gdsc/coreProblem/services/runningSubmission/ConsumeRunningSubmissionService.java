@@ -1,8 +1,9 @@
-package hanu.gdsc.coreProblem.services.submit;
+package hanu.gdsc.coreProblem.services.runningSubmission;
 
 import hanu.gdsc.coreProblem.config.RunningSubmissionConfig;
 import hanu.gdsc.coreProblem.domains.*;
 import hanu.gdsc.coreProblem.repositories.*;
+import hanu.gdsc.coreProblem.services.submit.Judger;
 import hanu.gdsc.share.scheduling.Scheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -80,10 +81,19 @@ public class ConsumeRunningSubmissionService {
         );
         Millisecond totalRunTime = new Millisecond(0L);
         KB totalMemLimit = new KB(0);
+
+        long timeBetweenRunningSubmissionUpdate = 3000;
+        long lastUpdate = System.currentTimeMillis() - timeBetweenRunningSubmissionUpdate;
+
         for (int i = 0; i < testCases.size(); i++) {
             runningSubmission.setJudgingTestCase(i + 1);
             runningSubmission.setTotalTestCases(testCases.size());
-            runningSubmissionRepository.updateClaimed(runningSubmission);
+
+            if (System.currentTimeMillis() - lastUpdate >= timeBetweenRunningSubmissionUpdate) {
+                runningSubmissionRepository.updateClaimed(runningSubmission);
+                lastUpdate = System.currentTimeMillis();
+            }
+
             TestCase testCase = testCases.get(i);
             MemoryLimit memoryLimit = problem.getMemoryLimitByProgrammingLanguage(
                     runningSubmission.getProgrammingLanguage()
@@ -91,16 +101,11 @@ public class ConsumeRunningSubmissionService {
             TimeLimit timeLimit = problem.getTimeLimitByProgrammingLanguage(
                     runningSubmission.getProgrammingLanguage()
             );
-            String judgeSubmissionId = judger.createSubmission(
+            Judger.Submission judgeSubmission = judger.createSubmission(
                     runningSubmission.getCode(),
                     testCase.getInput(),
                     runningSubmission.getProgrammingLanguage()
             );
-            Judger.Submission judgeSubmission = judger.getSubmissionById(judgeSubmissionId);
-            while (judgeSubmission.processing() || judgeSubmission.inQueue()) {
-                Thread.sleep(RunningSubmissionConfig.SLEEP_WAITING_FOR_SUBMISSION_MILLIS);
-                judgeSubmission = judger.getSubmissionById(judgeSubmissionId);
-            }
             totalMemLimit = totalMemLimit.plus(judgeSubmission.memory());
             totalRunTime = totalRunTime.plus(judgeSubmission.runTime());
             Millisecond avgRunTime = totalRunTime.divide(i + 1);

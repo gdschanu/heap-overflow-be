@@ -113,7 +113,5 @@ public interface Judger {
         public Output output();
     }
 
-    public String createSubmission(String code, String input, ProgrammingLanguage programmingLanguage) throws IOException, InterruptedException;
-
-    public Submission getSubmissionById(String submissionId) throws IOException, InterruptedException;
+    public Submission createSubmission(String code, String input, ProgrammingLanguage programmingLanguage) throws IOException, InterruptedException;
 }

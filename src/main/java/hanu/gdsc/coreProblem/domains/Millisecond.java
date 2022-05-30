@@ -27,6 +27,10 @@ public class Millisecond {
         return this.value > that.value;
     }
 
+    public boolean greaterThan(long that) {
+        return this.value > that;
+    }
+
     public long getValue() {
         return value;
     }
