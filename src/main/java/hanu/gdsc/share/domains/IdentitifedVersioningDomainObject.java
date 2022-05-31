@@ -15,4 +15,6 @@ public class IdentitifedVersioningDomainObject extends IdentifiedDomainObject {
     public void increaseVersion() {
         version++;
     }
+
+
 }

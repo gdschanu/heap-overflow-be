@@ -11,4 +11,6 @@ public class RunningSubmissionConfig {
     public static final int PORT = 5000;
     public static final long GET_RUNNING_SUBMISSION_INFO_RATE_MILLIS = 5000;
     public static final long GET_NEW_SOCKET_RATE_MILLIS = 5000;
+
+    public static final long UPDATE_RUNNING_SUBMISSION_RATE_MILLIS = 3000;
 }

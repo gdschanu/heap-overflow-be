@@ -94,4 +94,6 @@ public class RunningSubmission extends IdentitifedVersioningDomainObject {
     public int getTotalTestCases() {
         return totalTestCases;
     }
+
+
 }
