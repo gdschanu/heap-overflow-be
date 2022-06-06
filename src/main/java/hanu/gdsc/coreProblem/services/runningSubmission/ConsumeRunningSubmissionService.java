@@ -3,7 +3,6 @@ package hanu.gdsc.coreProblem.services.runningSubmission;
 import hanu.gdsc.coreProblem.config.RunningSubmissionConfig;
 import hanu.gdsc.coreProblem.domains.*;
 import hanu.gdsc.coreProblem.repositories.*;
-import hanu.gdsc.coreProblem.services.submit.Judger;
 import hanu.gdsc.share.scheduling.Scheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -84,7 +83,6 @@ public class ConsumeRunningSubmissionService {
         );
         Millisecond totalRunTime = new Millisecond(0L);
         KB totalMemLimit = new KB(0);
-
 
         for (int i = 0; i < testCases.size(); i++) {
             runningSubmission.setJudgingTestCase(i + 1);
