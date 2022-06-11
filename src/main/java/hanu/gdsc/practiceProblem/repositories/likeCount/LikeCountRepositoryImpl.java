@@ -1,6 +1,6 @@
-package hanu.gdsc.practiceProblem.repositories.dislike;
+package hanu.gdsc.practiceProblem.repositories.likeCount;
 
-import hanu.gdsc.practiceProblem.domains.DislikeCount;
+import hanu.gdsc.practiceProblem.domains.LikeCount;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,29 +10,29 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class DisLikeCountRepositoryImpl implements DislikeCountRepository {
+public class LikeCountRepositoryImpl implements LikeCountRepository {
     @Autowired
-    private DislikeCountJPARepository dislikeCountJPARepository;
+    private LikeCountJPARepository jpaRepository;
 
     @Override
-    public List<DislikeCount> getByProblemIds(List<Id> ids) {
-        List<DislikeCountEntity> entities = dislikeCountJPARepository
+    public List<LikeCount> getByProblemIds(List<Id> ids) {
+        List<LikeCountEntity> entities = jpaRepository
                 .findByProblemIdIn(ids.stream().map(x -> x.toString())
                         .collect(Collectors.toList()));
         return entities.stream().map(x -> x.toDomain()).collect(Collectors.toList());
     }
 
     @Override
-    public DislikeCount getByProblemId(Id id) {
+    public LikeCount getByProblemId(Id id) {
         try {
-            return dislikeCountJPARepository.findByProblemId(id.toString()).toDomain();
+            return jpaRepository.findByProblemId(id.toString()).toDomain();
         } catch (EntityNotFoundException e) {
             return null;
         }
     }
 
     @Override
-    public void create(DislikeCount dislikeCount) {
-        dislikeCountJPARepository.save(DislikeCountEntity.fromDomain(dislikeCount));
+    public void create(LikeCount cnt) {
+        jpaRepository.save(LikeCountEntity.fromDomain(cnt));
     }
 }

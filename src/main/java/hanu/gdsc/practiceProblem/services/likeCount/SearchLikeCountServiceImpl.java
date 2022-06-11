@@ -1,7 +1,7 @@
 package hanu.gdsc.practiceProblem.services.likeCount;
 
 import hanu.gdsc.practiceProblem.domains.LikeCount;
-import hanu.gdsc.practiceProblem.repositories.like.LikeCountRepository;
+import hanu.gdsc.practiceProblem.repositories.likeCount.LikeCountRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;

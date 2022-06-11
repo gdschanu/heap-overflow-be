@@ -1,6 +1,5 @@
-package hanu.gdsc.practiceProblem.repositories.like;
+package hanu.gdsc.practiceProblem.repositories.likeCount;
 
-import hanu.gdsc.practiceProblem.repositories.like.LikeCountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

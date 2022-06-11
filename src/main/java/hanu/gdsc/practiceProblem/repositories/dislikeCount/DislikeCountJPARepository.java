@@ -1,4 +1,4 @@
-package hanu.gdsc.practiceProblem.repositories.dislike;
+package hanu.gdsc.practiceProblem.repositories.dislikeCount;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

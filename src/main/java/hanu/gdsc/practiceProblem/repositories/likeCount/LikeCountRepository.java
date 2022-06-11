@@ -1,4 +1,4 @@
-package hanu.gdsc.practiceProblem.repositories.like;
+package hanu.gdsc.practiceProblem.repositories.likeCount;
 
 import hanu.gdsc.practiceProblem.domains.LikeCount;
 import hanu.gdsc.share.domains.Id;
