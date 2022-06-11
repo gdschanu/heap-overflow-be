@@ -1,7 +1,7 @@
 package hanu.gdsc.coreProblem.services.submit;
 
 import hanu.gdsc.coreProblem.domains.RunningSubmission;
-import hanu.gdsc.coreProblem.repositories.RunningSubmissionRepository;
+import hanu.gdsc.coreProblem.repositories.runningSubmission.RunningSubmissionRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

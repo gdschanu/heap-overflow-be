@@ -2,7 +2,7 @@ package hanu.gdsc.coreProblem.services.runningSubmission;
 
 import hanu.gdsc.coreProblem.config.RunningSubmissionConfig;
 import hanu.gdsc.coreProblem.domains.RunningSubmission;
-import hanu.gdsc.coreProblem.repositories.RunningSubmissionRepository;
+import hanu.gdsc.coreProblem.repositories.runningSubmission.RunningSubmissionRepository;
 import hanu.gdsc.share.scheduling.Scheduler;
 import org.springframework.stereotype.Service;
 

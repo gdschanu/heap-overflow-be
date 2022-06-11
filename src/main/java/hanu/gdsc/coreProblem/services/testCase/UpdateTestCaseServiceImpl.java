@@ -6,8 +6,7 @@ import hanu.gdsc.share.error.NotFoundError;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coreProblem.domains.TestCase;
-import hanu.gdsc.coreProblem.repositories.TestCaseRepository;
-import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.coreProblem.repositories.testCase.TestCaseRepository;
 import lombok.*;
 
 @Service

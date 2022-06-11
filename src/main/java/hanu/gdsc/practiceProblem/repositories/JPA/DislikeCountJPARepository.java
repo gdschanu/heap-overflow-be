@@ -1,7 +1,5 @@
 package hanu.gdsc.practiceProblem.repositories.JPA;
 
-import hanu.gdsc.coreProblem.repositories.entities.ProblemEntity;
-import hanu.gdsc.practiceProblem.domains.DislikeCount;
 import hanu.gdsc.practiceProblem.repositories.entities.DislikeCountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 

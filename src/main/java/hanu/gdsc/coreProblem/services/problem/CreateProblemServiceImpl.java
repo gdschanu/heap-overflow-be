@@ -2,8 +2,8 @@ package hanu.gdsc.coreProblem.services.problem;
 
 import hanu.gdsc.coreProblem.domains.Problem;
 import hanu.gdsc.coreProblem.domains.SubmissionCount;
-import hanu.gdsc.coreProblem.repositories.ProblemRepository;
-import hanu.gdsc.coreProblem.repositories.SubmissionCountRepository;
+import hanu.gdsc.coreProblem.repositories.problem.ProblemRepository;
+import hanu.gdsc.coreProblem.repositories.submissionCount.SubmissionCountRepository;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

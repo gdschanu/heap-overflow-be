@@ -1,11 +1,9 @@
 package hanu.gdsc.coreProblem.services.problem;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import hanu.gdsc.coreProblem.repositories.ProblemRepository;
+import hanu.gdsc.coreProblem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 
 @Service

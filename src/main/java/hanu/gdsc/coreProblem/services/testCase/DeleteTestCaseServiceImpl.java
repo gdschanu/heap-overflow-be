@@ -3,7 +3,7 @@ package hanu.gdsc.coreProblem.services.testCase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import hanu.gdsc.coreProblem.repositories.TestCaseRepository;
+import hanu.gdsc.coreProblem.repositories.testCase.TestCaseRepository;
 import hanu.gdsc.share.domains.Id;
 
 @Service

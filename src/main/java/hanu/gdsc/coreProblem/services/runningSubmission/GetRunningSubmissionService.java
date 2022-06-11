@@ -3,7 +3,7 @@ package hanu.gdsc.coreProblem.services.runningSubmission;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.coreProblem.config.RunningSubmissionConfig;
 import hanu.gdsc.coreProblem.domains.RunningSubmission;
-import hanu.gdsc.coreProblem.repositories.RunningSubmissionRepository;
+import hanu.gdsc.coreProblem.repositories.runningSubmission.RunningSubmissionRepository;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.scheduling.Scheduler;

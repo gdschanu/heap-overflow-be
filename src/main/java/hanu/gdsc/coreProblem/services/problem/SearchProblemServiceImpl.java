@@ -1,7 +1,7 @@
 package hanu.gdsc.coreProblem.services.problem;
 
 import hanu.gdsc.coreProblem.domains.Problem;
-import hanu.gdsc.coreProblem.repositories.ProblemRepository;
+import hanu.gdsc.coreProblem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 import org.springframework.beans.factory.annotation.Autowired;

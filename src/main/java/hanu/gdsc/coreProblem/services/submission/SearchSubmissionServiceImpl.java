@@ -2,9 +2,8 @@ package hanu.gdsc.coreProblem.services.submission;
 
 import hanu.gdsc.coreProblem.domains.FailedTestCaseDetail;
 import hanu.gdsc.coreProblem.domains.Submission;
-import hanu.gdsc.coreProblem.repositories.SubmissionRepository;
+import hanu.gdsc.coreProblem.repositories.submission.SubmissionRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.BusinessLogicError;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

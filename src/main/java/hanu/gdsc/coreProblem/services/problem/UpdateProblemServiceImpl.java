@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import hanu.gdsc.coreProblem.domains.MemoryLimit;
 import hanu.gdsc.coreProblem.domains.Problem;
 import hanu.gdsc.coreProblem.domains.TimeLimit;
-import hanu.gdsc.coreProblem.repositories.ProblemRepository;
+import hanu.gdsc.coreProblem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 @Service
