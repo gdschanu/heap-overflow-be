@@ -1,7 +1,7 @@
 package hanu.gdsc.practiceProblem.controllers.coreProblem;
 
 import hanu.gdsc.coreProblem.services.problem.SearchProblemService;
-import hanu.gdsc.practiceProblem.services.coreProblem.SearchCoreProblemProblemService;
+import hanu.gdsc.practiceProblem.services.coreProblem.problem.SearchCoreProblemProblemService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;

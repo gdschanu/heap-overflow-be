@@ -3,7 +3,7 @@ package hanu.gdsc.coderAuth.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import hanu.gdsc.coderAuth.repositories.SessionRepository;
+import hanu.gdsc.coderAuth.repositories.session.SessionRepository;
 import hanu.gdsc.share.domains.Id;
 
 @Service

@@ -8,8 +8,8 @@ import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.errors.ExpiredCode;
 import hanu.gdsc.coderAuth.errors.UnsentCode;
 import hanu.gdsc.coderAuth.errors.WrongCode;
-import hanu.gdsc.coderAuth.repositories.RegisterVerificationCodeRepository;
-import hanu.gdsc.coderAuth.repositories.UserRepository;
+import hanu.gdsc.coderAuth.repositories.registerVerificationCode.RegisterVerificationCodeRepository;
+import hanu.gdsc.coderAuth.repositories.user.UserRepository;
 import hanu.gdsc.share.domains.Id;
 
 @Service

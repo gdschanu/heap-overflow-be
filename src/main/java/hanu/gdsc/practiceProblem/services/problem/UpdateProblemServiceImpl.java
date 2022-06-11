@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import hanu.gdsc.practiceProblem.domains.Problem;
-import hanu.gdsc.practiceProblem.repositories.ProblemRepository;
+import hanu.gdsc.practiceProblem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 @Component(value = "PracticeProblem.UpdateProblemServiceImpl")

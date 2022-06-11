@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import hanu.gdsc.coreProblem.services.testCase.UpdateTestCaseService;
-import hanu.gdsc.practiceProblem.services.coreProblem.UpdateCoreProblemTestCaseService;
+import hanu.gdsc.practiceProblem.services.coreProblem.testCase.UpdateCoreProblemTestCaseService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;

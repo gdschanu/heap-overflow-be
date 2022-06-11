@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import hanu.gdsc.practiceProblem.services.coreProblem.DeleteCoreProblemTestCaseService;
+import hanu.gdsc.practiceProblem.services.coreProblem.testCase.DeleteCoreProblemTestCaseService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;

@@ -8,8 +8,8 @@ import hanu.gdsc.coderAuth.domains.HashedPassword;
 import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.errors.WrongCode;
 import hanu.gdsc.coderAuth.errors.WrongEmail;
-import hanu.gdsc.coderAuth.repositories.ForgotPasswordCodeRepository;
-import hanu.gdsc.coderAuth.repositories.UserRepository;
+import hanu.gdsc.coderAuth.repositories.forgotPasswordCode.ForgotPasswordCodeRepository;
+import hanu.gdsc.coderAuth.repositories.user.UserRepository;
 
 @Service
 public class ConfirmForgotPasswordServiceImpl implements ConfirmForgotPasswordService {

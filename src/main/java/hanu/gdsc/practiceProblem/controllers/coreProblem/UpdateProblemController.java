@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import hanu.gdsc.coreProblem.domains.ProgrammingLanguage;
 import hanu.gdsc.coreProblem.services.problem.UpdateProblemService;
-import hanu.gdsc.practiceProblem.services.coreProblem.UpdateCoreProblemProblemService;
+import hanu.gdsc.practiceProblem.services.coreProblem.problem.UpdateCoreProblemProblemService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import hanu.gdsc.practiceProblem.services.coreProblem.CreateCoreProblemTestCaseService;
+import hanu.gdsc.practiceProblem.services.coreProblem.testCase.CreateCoreProblemTestCaseService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
 

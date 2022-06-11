@@ -7,8 +7,8 @@ import hanu.gdsc.coderAuth.domains.Session;
 import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.errors.ExpiredToken;
 import hanu.gdsc.coderAuth.errors.UnconfirmedEmail;
-import hanu.gdsc.coderAuth.repositories.SessionRepository;
-import hanu.gdsc.coderAuth.repositories.UserRepository;
+import hanu.gdsc.coderAuth.repositories.session.SessionRepository;
+import hanu.gdsc.coderAuth.repositories.user.UserRepository;
 import hanu.gdsc.share.domains.Id;
 import io.jsonwebtoken.Claims;
 

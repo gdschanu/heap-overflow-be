@@ -2,8 +2,8 @@ package hanu.gdsc.contest.services.participant;
 
 import hanu.gdsc.contest.domains.Contest;
 import hanu.gdsc.contest.domains.Participant;
-import hanu.gdsc.contest.repositories.ContestRepository;
-import hanu.gdsc.contest.repositories.ParticipantRepository;
+import hanu.gdsc.contest.repositories.contest.ContestRepository;
+import hanu.gdsc.contest.repositories.participant.ParticipantRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;

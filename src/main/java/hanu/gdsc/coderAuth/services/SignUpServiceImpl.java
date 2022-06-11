@@ -6,7 +6,7 @@ import hanu.gdsc.coderAuth.domains.HashedPassword;
 import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.domains.Username;
 import hanu.gdsc.coderAuth.errors.ExistedUsernameOrEmail;
-import hanu.gdsc.coderAuth.repositories.UserRepository;
+import hanu.gdsc.coderAuth.repositories.user.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

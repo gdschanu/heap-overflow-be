@@ -7,8 +7,8 @@ import hanu.gdsc.coderAuth.domains.Email;
 import hanu.gdsc.coderAuth.domains.ForgotPasswordCode;
 import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.errors.WrongEmail;
-import hanu.gdsc.coderAuth.repositories.ForgotPasswordCodeRepository;
-import hanu.gdsc.coderAuth.repositories.UserRepository;
+import hanu.gdsc.coderAuth.repositories.forgotPasswordCode.ForgotPasswordCodeRepository;
+import hanu.gdsc.coderAuth.repositories.user.UserRepository;
 
 @Service
 public class ForgotPasswordServiceImpl implements ForgotPasswordService {

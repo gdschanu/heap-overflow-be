@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import hanu.gdsc.practiceProblem.services.coreProblem.SearchCoreProblemTestCaseService;
+import hanu.gdsc.practiceProblem.services.coreProblem.testCase.SearchCoreProblemTestCaseService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
 
