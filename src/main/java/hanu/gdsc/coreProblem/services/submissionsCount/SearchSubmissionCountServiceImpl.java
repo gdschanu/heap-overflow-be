@@ -20,5 +20,4 @@ public class SearchSubmissionCountServiceImpl implements SearchSubmissionCountSe
         }
         return submissionCount;
     }
-    
 }
