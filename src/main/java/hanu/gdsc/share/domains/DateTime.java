@@ -2,12 +2,11 @@ package hanu.gdsc.share.domains;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hanu.gdsc.share.controller.jackson.DateTimeDeserializer;
-import hanu.gdsc.share.controller.jackson.DateTimeSerializer;
+import hanu.gdsc.share.json.DateTimeDeserializer;
+import hanu.gdsc.share.json.DateTimeSerializer;
 import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 

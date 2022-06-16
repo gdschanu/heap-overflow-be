@@ -2,9 +2,8 @@ package hanu.gdsc.share.domains;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hanu.gdsc.share.error.BusinessLogicError;
-import hanu.gdsc.share.controller.jackson.IdDeserializer;
-import hanu.gdsc.share.controller.jackson.IdSerializer;
+import hanu.gdsc.share.json.IdDeserializer;
+import hanu.gdsc.share.json.IdSerializer;
 import hanu.gdsc.share.error.InvalidInputError;
 import org.bson.types.ObjectId;
 
