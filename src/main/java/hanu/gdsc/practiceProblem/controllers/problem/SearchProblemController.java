@@ -1,6 +1,7 @@
 package hanu.gdsc.practiceProblem.controllers.problem;
 
 import hanu.gdsc.practiceProblem.services.problem.SearchProblemService;
+import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -22,18 +23,13 @@ public class SearchProblemController {
 
     @GetMapping("/practiceProblem/problem/{id}")
     public ResponseEntity<?> getById(@PathVariable String id){
-        try {
+        return ControllerHandler.handle(() -> {
             SearchProblemService.Output output = servicePracticeProblemService.getById(new Id(id));
-            return new ResponseEntity<>(
-                    new ResponseBody("Found Problem", output), HttpStatus.OK
+            return new ControllerHandler.Result(
+                    "Success",
+                    output
             );
-        } catch (Throwable e) {
-            if (e instanceof BusinessLogicError) {
-                e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        });
     }
 
     @GetMapping("/practiceProblem/problem")

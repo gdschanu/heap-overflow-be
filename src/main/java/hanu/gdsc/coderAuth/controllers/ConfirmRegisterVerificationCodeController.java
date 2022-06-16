@@ -29,7 +29,7 @@ public class ConfirmRegisterVerificationCodeController {
     @PostMapping("/coderAuth/confirmRegisterVerificationCode")
     public ResponseEntity<?> confirmRegisterVerificationCode(@RequestBody Input input, @RequestHeader String token) {
         try {
-            Id coderId = authorizeService.authorizeUnconfirmedRegistration(token);
+            Id coderId = authorizeService.authorize(token);
             confirmRegisterVerificationCodeService.confirmRegisterVerificationCode(input.code, coderId);
             return new ResponseEntity<>(new ResponseBody("Success"),
             HttpStatus.OK);

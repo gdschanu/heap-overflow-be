@@ -24,7 +24,7 @@ public class SendRegisterVerificationCodeController {
     @PostMapping("/coderAuth/sendRegisterVerificationCode")
     public ResponseEntity<?> sendRegisterVerificationCode(@RequestHeader String token) {
         try {
-            Id coderId = authorizeService.authorizeUnconfirmedRegistration(token);
+            Id coderId = authorizeService.authorize(token);
             sendRegisterVerificationCodeService.sendRegisterVerificationCodeService(coderId);
             return new ResponseEntity<>(new ResponseBody("Success"), HttpStatus.OK);
         } catch (Throwable e) {
