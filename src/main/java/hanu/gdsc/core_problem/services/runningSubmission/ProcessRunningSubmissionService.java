@@ -1,15 +1,12 @@
 package hanu.gdsc.core_problem.services.runningSubmission;
 
-import hanu.gdsc.core.problem.domains.*;
-import hanu.gdsc.core_problem.repositories.submission.SubmissionRepository;
 import hanu.gdsc.core_problem.config.RunningSubmissionConfig;
-import hanu.gdsc.coreProblem.domains.*;
+import hanu.gdsc.core_problem.domains.*;
 import hanu.gdsc.core_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.core_problem.repositories.runningSubmission.RunningSubmissionRepository;
+import hanu.gdsc.core_problem.repositories.submission.SubmissionRepository;
 import hanu.gdsc.core_problem.repositories.submissionEvent.SubmissionEventRepository;
 import hanu.gdsc.core_problem.repositories.testCase.TestCaseRepository;
-import hanu.gdsc.coreSubdomain.core_problem.domains.*;
-import hanu.gdsc.core_problem.domains.*;
 import hanu.gdsc.share.scheduling.Scheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -21,7 +18,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
 @Service
-public class ConsumeRunningSubmissionService {
+public class ProcessRunningSubmissionService {
     private ThreadPoolExecutor executor;
     private final RunningSubmissionRepository runningSubmissionRepository;
     private final TestCaseRepository testCaseRepository;
@@ -31,7 +28,7 @@ public class ConsumeRunningSubmissionService {
     private final SubmissionEventRepository submissionEventRepository;
     private final UpdateRunningSubmissionQueue updateRunningSubmissionQueue;
 
-    public ConsumeRunningSubmissionService(RunningSubmissionRepository runningSubmissionRepository,
+    public ProcessRunningSubmissionService(RunningSubmissionRepository runningSubmissionRepository,
                                            TestCaseRepository testCaseRepository,
                                            Judger judger,
                                            ProblemRepository problemRepository,

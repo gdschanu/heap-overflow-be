@@ -1,13 +1,20 @@
 package hanu.gdsc.practiceProblem_problem.services.core_problem_problem;
 
-import java.util.List;
-
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
 import hanu.gdsc.core_problem.services.problem.UpdateProblemService;
+import hanu.gdsc.practiceProblem_problem.config.ServiceName;
 import hanu.gdsc.share.domains.Id;
 import lombok.Builder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public interface UpdateCoreProblemProblemService {
+import java.util.List;
+
+@Service
+public class UpdateCoreProblemProblemService {
+    @Autowired
+    private UpdateProblemService updateProblemService;
+
     @Builder
     public static class Input {
         public Id id;
@@ -18,5 +25,16 @@ public interface UpdateCoreProblemProblemService {
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
-    public void update(Input input);
+    public void update(Input input) {
+        updateProblemService.update(UpdateProblemService.Input.builder()
+                .id(input.id)
+                .serviceToCreate(ServiceName.serviceName)
+                .name(input.name)
+                .description(input.description)
+                .memoryLimits(input.memoryLimits)
+                .timeLimits(input.timeLimits)
+                .allowedProgrammingLanguages(input.allowedProgrammingLanguages)
+                .build());
+    }
+
 }

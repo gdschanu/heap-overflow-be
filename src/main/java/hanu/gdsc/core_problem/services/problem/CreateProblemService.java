@@ -3,7 +3,6 @@ package hanu.gdsc.core_problem.services.problem;
 import hanu.gdsc.core_problem.domains.MemoryLimit;
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
 import hanu.gdsc.core_problem.domains.TimeLimit;
-import hanu.gdsc.coreProblem.domains.*;
 import hanu.gdsc.share.domains.Id;
 import lombok.Builder;
 

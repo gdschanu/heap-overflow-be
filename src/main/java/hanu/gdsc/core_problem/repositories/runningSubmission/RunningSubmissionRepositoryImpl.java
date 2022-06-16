@@ -1,12 +1,14 @@
 package hanu.gdsc.core_problem.repositories.runningSubmission;
 
-import hanu.gdsc.core_problem.domains.RunningSubmission;
 import hanu.gdsc.core_problem.config.RunningSubmissionConfig;
+import hanu.gdsc.core_problem.domains.RunningSubmission;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.EntityNotFoundException;
 
 @Repository
 public class RunningSubmissionRepositoryImpl implements RunningSubmissionRepository {
@@ -55,10 +57,27 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
 
     @Override
     public RunningSubmission getById(Id id) {
-        RunningSubmissionEntity entity = runningSubmissionJPARepository.getById(id.toString());
-        if (entity == null) {
+        try {
+            RunningSubmissionEntity entity = runningSubmissionJPARepository.getById(id.toString());
+            if (entity == null) {
+                return null;
+            }
+            return entity.toDomain();
+        } catch (EntityNotFoundException e) {
             return null;
         }
-        return entity.toDomain();
+    }
+
+    @Override
+    public RunningSubmission getByIdAndCoderId(Id id, Id coderId) {
+        try {
+            RunningSubmissionEntity entity = runningSubmissionJPARepository.findByIdAndCoderId(id.toString(), coderId.toString());
+            if (entity == null) {
+                return null;
+            }
+            return entity.toDomain();
+        } catch (EntityNotFoundException e) {
+            return null;
+        }
     }
 }

@@ -1,12 +1,29 @@
 package hanu.gdsc.practiceProblem_problem.services.core_problem_submission;
 
 import hanu.gdsc.core_problem.services.submission.SearchSubmissionService;
+import hanu.gdsc.practiceProblem_problem.config.ServiceName;
 import hanu.gdsc.share.domains.Id;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface SearchCoreProblemSubmissionService {
-    public List<SearchSubmissionService.Output> get(int page, int perPage, Id problemId, Id coderId);
+@AllArgsConstructor
+@Service
+public class SearchCoreProblemSubmissionService {
+    private final SearchSubmissionService searchSubmissionService;
 
-    public SearchSubmissionService.Output getById(Id id);
+    public List<SearchSubmissionService.Output> get(int page, int perPage, Id problemId, Id coderId) {
+        return searchSubmissionService.get(
+                page,
+                perPage,
+                problemId,
+                coderId,
+                ServiceName.serviceName
+        );
+    }
+
+    public SearchSubmissionService.Output getById(Id id) {
+        return searchSubmissionService.getById(id, ServiceName.serviceName);
+    }
 }

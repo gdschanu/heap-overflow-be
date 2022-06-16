@@ -1,7 +1,21 @@
 package hanu.gdsc.practiceProblem_problem.services.core_problem_testCase;
 
-import hanu.gdsc.core_problem.services.testCase.UpdateTestCaseService;
+import org.springframework.stereotype.Service;
 
-public interface UpdateCoreProblemTestCaseService {
-    public void update(UpdateTestCaseService.Input input);
+import hanu.gdsc.core_problem.services.testCase.UpdateTestCaseService;
+import hanu.gdsc.core_problem.services.testCase.UpdateTestCaseService.Input;
+import hanu.gdsc.practiceProblem_problem.config.ServiceName;
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
+public class UpdateCoreProblemTestCaseService {
+    
+    private final UpdateTestCaseService updateTestCaseService;
+
+    public void update(Input input) {
+        input.serviceToCreate = ServiceName.serviceName;
+        updateTestCaseService.update(input);
+    }
+    
 }

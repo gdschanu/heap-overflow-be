@@ -19,13 +19,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 @Service
-public class GetRunningSubmissionService {
+public class SearchRunningSubmissionServiceImpl implements SearchRunningSubmissionService {
     private ServerSocket serverSocket;
     private final RunningSubmissionRepository runningSubmissionRepository;
     private final ObjectMapper objectMapper;
 
-    public GetRunningSubmissionService(RunningSubmissionRepository runningSubmissionRepository,
-                                       ObjectMapper objectMapper) throws IOException {
+    public SearchRunningSubmissionServiceImpl(RunningSubmissionRepository runningSubmissionRepository,
+                                              ObjectMapper objectMapper) throws IOException {
         this.runningSubmissionRepository = runningSubmissionRepository;
         this.objectMapper = objectMapper;
         serverSocket = new ServerSocket(RunningSubmissionConfig.PORT);
@@ -79,5 +79,10 @@ public class GetRunningSubmissionService {
                 }
             }
         }).start();
+    }
+
+    @Override
+    public RunningSubmission getByIdAndCoderId(Id id, Id coderId) {
+        return runningSubmissionRepository.getByIdAndCoderId(id, coderId);
     }
 }

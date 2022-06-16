@@ -1,8 +1,5 @@
 package hanu.gdsc.core_problem.repositories.submission;
 
-import hanu.gdsc.core.problem.domains.*;
-import hanu.gdsc.coreProblem.domains.*;
-import hanu.gdsc.coreSubdomain.core_problem.domains.*;
 import hanu.gdsc.core_problem.domains.*;
 import hanu.gdsc.share.domains.DateTime;
 import lombok.*;
