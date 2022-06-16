@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service(value = "PracticeProblem.CoreProblem.SubmitProblemServiceImpl")
 @AllArgsConstructor
-public class SubmitProblemServiceImpl implements SubmitProblemService {
+public class SubmitCoreProblemProblemServiceImpl implements SubmitCoreProblemProblemService {
     private final SubmitService submitService;
 
     @Override

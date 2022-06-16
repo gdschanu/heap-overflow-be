@@ -3,6 +3,7 @@ package hanu.gdsc.practiceProblemSubdomain.problemContext.services.problem;
 import hanu.gdsc.coreSubdomain.problemContext.services.submit.SubmitService;
 import hanu.gdsc.practiceProblemSubdomain.problemContext.domains.Problem;
 import hanu.gdsc.practiceProblemSubdomain.problemContext.repositories.problem.ProblemRepository;
+import hanu.gdsc.practiceProblemSubdomain.problemContext.services.core.problem.problem.SubmitCoreProblemProblemService;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class SubmitProblemServiceImpl implements SubmitProblemService {
     private ProblemRepository problemRepository;
 
-    private hanu.gdsc.practiceProblemSubdomain.problemContext.services.core.problem.problem.SubmitProblemService submitCoreProblemService;
+    private SubmitCoreProblemProblemService submitCoreProblemService;
 
     @Override
     public SubmitService.Output submit(Input input) {
@@ -20,7 +21,7 @@ public class SubmitProblemServiceImpl implements SubmitProblemService {
         if (problem == null) {
             throw new NotFoundError("Problem not found");
         }
-        return submitCoreProblemService.submit(hanu.gdsc.practiceProblemSubdomain.problemContext.services.core.problem.problem.SubmitProblemService.Input.builder()
+        return submitCoreProblemService.submit(SubmitCoreProblemProblemService.Input.builder()
                 .coderId(input.coderId)
                 .problemId(problem.getCoreProblemProblemId())
                 .code(input.code)

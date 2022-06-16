@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-public interface SubmitProblemService {
+public interface SubmitCoreProblemProblemService {
     @Builder
     @AllArgsConstructor
     @NoArgsConstructor
