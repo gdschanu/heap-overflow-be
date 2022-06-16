@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class SubmitProblemServiceImpl implements SubmitProblemService {
     private ProblemRepository problemRepository;
 
-    private hanu.gdsc.practiceProblemSubdomain.problemContext.services.coreProblem.problem.SubmitProblemService submitCoreProblemService;
+    private hanu.gdsc.practiceProblemSubdomain.problemContext.services.core.problem.problem.SubmitProblemService submitCoreProblemService;
 
     @Override
     public SubmitService.Output submit(Input input) {
@@ -20,7 +20,7 @@ public class SubmitProblemServiceImpl implements SubmitProblemService {
         if (problem == null) {
             throw new NotFoundError("Problem not found");
         }
-        return submitCoreProblemService.submit(hanu.gdsc.practiceProblemSubdomain.problemContext.services.coreProblem.problem.SubmitProblemService.Input.builder()
+        return submitCoreProblemService.submit(hanu.gdsc.practiceProblemSubdomain.problemContext.services.core.problem.problem.SubmitProblemService.Input.builder()
                 .coderId(input.coderId)
                 .problemId(problem.getCoreProblemProblemId())
                 .code(input.code)
