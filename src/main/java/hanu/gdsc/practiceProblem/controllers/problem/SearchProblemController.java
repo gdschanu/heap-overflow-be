@@ -34,18 +34,12 @@ public class SearchProblemController {
 
     @GetMapping("/practiceProblem/problem")
     public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage) {
-        try {
+        return ControllerHandler.handle(() -> {
             List<SearchProblemService.Output> output = servicePracticeProblemService.get(page, perPage);
-            return new ResponseEntity<>(
-                    new ResponseBody("Found Problems", output), HttpStatus.OK
+            return new ControllerHandler.Result(
+                    "Success",
+                    output
             );
-        } catch (Throwable e) {
-            if (e instanceof BusinessLogicError) {
-                e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
-            }
-            e.printStackTrace();
-            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        });
     }
 }
