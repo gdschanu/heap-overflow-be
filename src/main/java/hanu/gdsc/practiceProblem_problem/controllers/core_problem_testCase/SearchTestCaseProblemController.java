@@ -1,17 +1,14 @@
 package hanu.gdsc.practiceProblem_problem.controllers.core_problem_testCase;
 
-import java.util.List;
-
+import hanu.gdsc.practiceProblem_problem.services.core_problem_testCase.SearchCoreProblemTestCaseService;
+import hanu.gdsc.share.controller.ControllerHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import hanu.gdsc.practiceProblem_problem.services.core_problem_testCase.SearchCoreProblemTestCaseService;
-import hanu.gdsc.share.controller.ResponseBody;
-import hanu.gdsc.share.error.BusinessLogicError;
+import java.util.List;
 
 @RestController
 public class SearchTestCaseProblemController {
@@ -20,17 +17,12 @@ public class SearchTestCaseProblemController {
 
     @GetMapping("/practiceProblem/coreProblem/testCase/{problemId}/isSample")
     public ResponseEntity<?> getSampleTestCases(@PathVariable String problemId) {
-        try {
+        return ControllerHandler.handle(() -> {
             List<SearchCoreProblemTestCaseService.Output> outputs = searchCoreProblemTestCaseService.getSampleTestCases(new hanu.gdsc.share.domains.Id(problemId));
-            return new ResponseEntity<>(
-                new ResponseBody("Get Successfully", outputs), HttpStatus.OK
+            return new ControllerHandler.Result(
+                    "Success",
+                    outputs
             );
-        } catch (Throwable e) {
-            if (e instanceof BusinessLogicError) {
-                e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode()), HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        });
     }
 }

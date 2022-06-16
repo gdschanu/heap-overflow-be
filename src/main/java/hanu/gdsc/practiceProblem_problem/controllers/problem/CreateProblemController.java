@@ -39,7 +39,7 @@ public class CreateProblemController {
     }
 
     @PostMapping("/practiceProblem/problem")
-    public ResponseEntity<?> create(@RequestBody Input input, @RequestHeader("acces-token") String token) {
+    public ResponseEntity<?> create(@RequestBody Input input, @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             Id coderId = authorizeService.authorize(token);
             Id problemId = createPracticeProblemService.create(CreateProblemService.Input.builder()
