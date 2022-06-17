@@ -24,7 +24,7 @@ public class SubmitProblemController {
 
     @PostMapping("/practiceProblem/problem/{id}/submit")
     public ResponseEntity<?> submit(@RequestBody Input input, @PathVariable String id,
-                                    @RequestHeader("acces-token") String token) {
+                                    @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             Id coderId = authorizeService.authorize(token);
             SubmitService.Output output = submitProblemService.submit(SubmitProblemService.Input.builder()

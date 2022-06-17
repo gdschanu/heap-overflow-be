@@ -4,6 +4,7 @@ import hanu.gdsc.coderAuth_coderAuth.services.AuthorizeService;
 import hanu.gdsc.practiceProblem_problem.services.core_problem_runningSubmission.SearchRunningSubmissionService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,9 @@ import java.util.List;
 
 @RestController
 public class SearchRunningSubmissionController {
+    @Autowired
     private SearchRunningSubmissionService searchRunningSubmissionService;
+    @Autowired
     private AuthorizeService authorizeService;
 
     @GetMapping("/practiceProblem/coreProblem/runningSubmission")
