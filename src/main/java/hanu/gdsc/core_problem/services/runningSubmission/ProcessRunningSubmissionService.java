@@ -224,8 +224,8 @@ public class ProcessRunningSubmissionService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     private void saveSubmission(Submission submission, RunningSubmission runningSubmission) {
-        submissionRepository.create(submission);
-        submissionEventRepository.create(
+        submissionRepository.save(submission);
+        submissionEventRepository.save(
                 SubmissionEvent.create(
                         runningSubmission.getProblemId(),
                         submission.getStatus()

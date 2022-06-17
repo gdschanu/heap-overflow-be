@@ -23,7 +23,7 @@ public class SubmissionEventRepositoryImpl implements SubmissionEventRepository 
     }
 
     @Override
-    public void create(SubmissionEvent submissionEvent) {
+    public void save(SubmissionEvent submissionEvent) {
         eventJPARepository.save(SubmissionEventEntity.toEntity(submissionEvent));
     }
 

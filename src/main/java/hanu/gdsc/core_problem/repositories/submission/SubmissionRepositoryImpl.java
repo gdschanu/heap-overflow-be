@@ -18,7 +18,7 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
     private SubmissionJPARepository submissionJPARepository;
 
     @Override
-    public void create(Submission submission) {
+    public void save(Submission submission) {
         submissionJPARepository.save(SubmissionEntity.toEntity(submission));
     }
 
