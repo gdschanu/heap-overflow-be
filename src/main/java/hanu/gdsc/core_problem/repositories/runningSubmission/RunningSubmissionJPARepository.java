@@ -1,6 +1,7 @@
 package hanu.gdsc.core_problem.repositories.runningSubmission;
 
-import hanu.gdsc.share.domains.Id;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,5 +13,7 @@ public interface RunningSubmissionJPARepository extends JpaRepository<RunningSub
             nativeQuery = true)
     public RunningSubmissionEntity claim(@Param("currentMillis") long currentMillis);
 
-    public RunningSubmissionEntity findByIdAndCoderId(String id, String coderId);
+    public RunningSubmissionEntity findByIdAndCoderIdAndServiceToCreate(String id, String coderId, String serviceToCreate);
+
+    public Page<RunningSubmissionEntity> findByCoderIdAndServiceToCreate(String coderId, String serviceToCreate, Pageable pageable);
 }

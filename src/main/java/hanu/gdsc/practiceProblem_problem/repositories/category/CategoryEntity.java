@@ -7,7 +7,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 import hanu.gdsc.practiceProblem_problem.domains.Category;
-import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemEntity;
+import hanu.gdsc.practiceProblem_problem.repositories.problem.PPProblemEntity;
 import lombok.*;
 
 @Entity
@@ -26,7 +26,7 @@ public class CategoryEntity {
     private long version;
     private String name;
     @ManyToMany(mappedBy = "category", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<ProblemEntity> practiceProblem = new HashSet<>();
+    private Set<PPProblemEntity> practiceProblem = new HashSet<>();
     
     public static CategoryEntity toEntity(Category category) {
         return CategoryEntity.builder()

@@ -17,6 +17,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class SearchRunningSubmissionServiceImpl implements SearchRunningSubmissionService {
@@ -40,7 +42,7 @@ public class SearchRunningSubmissionServiceImpl implements SearchRunningSubmissi
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    private static class Output {
+    private static class SocketOutput {
         public Id coderId;
         public Id problemId;
         public DateTime submittedAt;
@@ -58,11 +60,11 @@ public class SearchRunningSubmissionServiceImpl implements SearchRunningSubmissi
             protected void run() throws Throwable {
                 String submissionId = in.readUTF();
                 RunningSubmission runningSubmission = runningSubmissionRepository.getById(new Id(submissionId));
-                Output output;
+                SocketOutput output;
                 if (runningSubmission == null) {
                     output = null;
                 } else {
-                    output = Output.builder()
+                    output = SocketOutput.builder()
                             .coderId(runningSubmission.getCoderId())
                             .problemId(runningSubmission.getProblemId())
                             .submittedAt(runningSubmission.getSubmittedAt())
@@ -82,7 +84,28 @@ public class SearchRunningSubmissionServiceImpl implements SearchRunningSubmissi
     }
 
     @Override
-    public RunningSubmission getByIdAndCoderId(Id id, Id coderId) {
-        return runningSubmissionRepository.getByIdAndCoderId(id, coderId);
+    public Output getByIdAndCoderId(Id id, Id coderId, String serviceToCreate) {
+        RunningSubmission runningSubmission = runningSubmissionRepository.getByIdAndCoderId(id, coderId, serviceToCreate);
+        return toOutput(runningSubmission);
+    }
+
+    @Override
+    public List<Output> getByCoderId(int page, int perPage, Id coderId, String serviceToCreate) {
+        return runningSubmissionRepository.getByCoderId(page, perPage, coderId, serviceToCreate)
+                .stream()
+                .map(item -> toOutput(item))
+                .collect(Collectors.toList());
+    }
+
+    private Output toOutput(RunningSubmission runningSubmission) {
+        return Output.builder()
+                .coderId(runningSubmission.getCoderId())
+                .problemId(runningSubmission.getProblemId())
+                .code(runningSubmission.getCode())
+                .programmingLanguage(runningSubmission.getProgrammingLanguage())
+                .submittedAt(runningSubmission.getSubmittedAt())
+                .judgingTestCase(runningSubmission.getJudgingTestCase())
+                .totalTestCases(runningSubmission.getTotalTestCases())
+                .build();
     }
 }

@@ -4,11 +4,16 @@ import hanu.gdsc.core_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.core_problem.domains.RunningSubmission;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class RunningSubmissionRepositoryImpl implements RunningSubmissionRepository {
@@ -69,9 +74,10 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
     }
 
     @Override
-    public RunningSubmission getByIdAndCoderId(Id id, Id coderId) {
+    public RunningSubmission getByIdAndCoderId(Id id, Id coderId, String serviceToCreate) {
         try {
-            RunningSubmissionEntity entity = runningSubmissionJPARepository.findByIdAndCoderId(id.toString(), coderId.toString());
+            RunningSubmissionEntity entity = runningSubmissionJPARepository
+                    .findByIdAndCoderIdAndServiceToCreate(id.toString(), coderId.toString(), serviceToCreate);
             if (entity == null) {
                 return null;
             }
@@ -79,5 +85,16 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
         } catch (EntityNotFoundException e) {
             return null;
         }
+    }
+
+    @Override
+    public List<RunningSubmission> getByCoderId(int page, int perPage, Id coderId, String serviceToCreate) {
+        Pageable pageable = PageRequest.of(page, perPage);
+        Page<RunningSubmissionEntity> runningSubmissions = runningSubmissionJPARepository
+                .findByCoderIdAndServiceToCreate(coderId.toString(), serviceToCreate, pageable);
+        return runningSubmissions
+                .stream()
+                .map(RunningSubmissionEntity::toDomain)
+                .collect(Collectors.toList());
     }
 }

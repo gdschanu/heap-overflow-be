@@ -20,7 +20,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ProblemEntity {
+public class PPProblemEntity {
     @Id
     @Column(columnDefinition = "VARCHAR(30)")
     private String id;
@@ -35,8 +35,8 @@ public class ProblemEntity {
     private Set<CategoryEntity> category = new HashSet<>();
     private String difficulty;
 
-    public static ProblemEntity toEntity(Problem problem) {
-        return ProblemEntity.builder()
+    public static PPProblemEntity toEntity(Problem problem) {
+        return PPProblemEntity.builder()
             .id(problem.getId().toString())
             .version(problem.getVersion())
             .coreProblemProblemId(problem.getCoreProblemProblemId().toString())
@@ -44,9 +44,9 @@ public class ProblemEntity {
             .build();
     }
 
-    public static Problem toDomain(ProblemEntity problemEntity) {
+    public static Problem toDomain(PPProblemEntity PPProblemEntity) {
         List<hanu.gdsc.share.domains.Id> categoryIds = new ArrayList<>();
-        for(CategoryEntity category : problemEntity.getCategory()) {
+        for(CategoryEntity category : PPProblemEntity.getCategory()) {
             categoryIds.add(new hanu.gdsc.share.domains.Id(category.getId()));
         }
         try {
@@ -59,11 +59,11 @@ public class ProblemEntity {
             );
             constructor.setAccessible(true);
             return constructor.newInstance(
-                new hanu.gdsc.share.domains.Id(problemEntity.getId()),
-                problemEntity.getVersion(),
-                new hanu.gdsc.share.domains.Id(problemEntity.getCoreProblemProblemId()),
+                new hanu.gdsc.share.domains.Id(PPProblemEntity.getId()),
+                PPProblemEntity.getVersion(),
+                new hanu.gdsc.share.domains.Id(PPProblemEntity.getCoreProblemProblemId()),
                 categoryIds,
-                Difficulty.valueOf(problemEntity.getDifficulty())
+                Difficulty.valueOf(PPProblemEntity.getDifficulty())
             );
         } catch (Exception e) {
             e.printStackTrace();
