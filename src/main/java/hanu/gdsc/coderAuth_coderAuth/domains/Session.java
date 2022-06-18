@@ -19,7 +19,7 @@ public class Session extends IdentifiedDomainObject{
         return new Session(
             id, 
             coderId, 
-            DateTime.now().plusMinutes(100));
+            DateTime.now().plusMinutes(10080));
     }
 
     public Id getCoderId() {
