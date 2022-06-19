@@ -25,7 +25,6 @@ public class CreateProblemController {
     private AuthorizeService authorizeService;
 
     public static class Input {
-        public List<Id> categoryIds;
         public Difficulty difficulty;
         public String name;
         public String description;
