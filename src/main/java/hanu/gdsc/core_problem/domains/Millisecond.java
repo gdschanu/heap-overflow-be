@@ -14,7 +14,7 @@ public class Millisecond {
         return new Millisecond(value + that.value);
     }
 
-    public Millisecond(Long millisecond) {
+    public Millisecond(long millisecond) {
         this.value = millisecond;
     }
 

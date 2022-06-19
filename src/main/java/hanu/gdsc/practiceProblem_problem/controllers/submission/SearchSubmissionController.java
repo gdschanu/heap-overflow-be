@@ -20,7 +20,7 @@ public class SearchSubmissionController {
     @Autowired
     private AuthorizeService authorizeService;
 
-    @GetMapping("/practiceProblem/test")
+    @GetMapping("/practiceProblem/submission")
     public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage,
                                  @RequestParam(required = false, name = "problemId") String problemId,
                                  @RequestParam(required = false, name = "coderId") String coderId) {
