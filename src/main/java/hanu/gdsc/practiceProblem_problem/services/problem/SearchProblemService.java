@@ -47,6 +47,10 @@ public class SearchProblemService {
         return practiceProblems.stream().map(p -> toOutput(p)).collect(Collectors.toList());
     }
 
+    public long countProblem() {
+        return problemRepository.countProblem();
+    }
+
     private Output toOutput(Problem practiceProblem) {
         return Output.builder()
                 .id(practiceProblem.getId())
