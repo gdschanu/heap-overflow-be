@@ -1,4 +1,4 @@
-package hanu.gdsc.practiceProblem_problemCategory.services.core_post;
+package hanu.gdsc.practiceProblem_problemDiscussion.services.core_post;
 
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
@@ -9,11 +9,9 @@ public interface UpdateCorePostService {
     @Getter
     public static class Input {
         private Id id;
-        private String serviceToCreate;
-
         private String title;
         private String content;
     }
 
-    public Id execute(Input input);
+    public void execute(Input input);
 }

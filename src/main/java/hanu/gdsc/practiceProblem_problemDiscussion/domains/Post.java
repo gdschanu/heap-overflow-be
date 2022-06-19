@@ -1,4 +1,4 @@
-package hanu.gdsc.practiceProblem_problemCategory.domains;
+package hanu.gdsc.practiceProblem_problemDiscussion.domains;
 
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
@@ -19,5 +19,13 @@ public class Post extends IdentifiedDomainObject {
                 problemId,
                 corePostId
         );
+    }
+
+    public Id getProblemId() {
+        return problemId;
+    }
+
+    public Id getCorePostId() {
+        return corePostId;
     }
 }

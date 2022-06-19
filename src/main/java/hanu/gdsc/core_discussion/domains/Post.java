@@ -42,4 +42,28 @@ public class Post extends IdentitifedVersioningDomainObject {
                 content,
                 serviceToCreate);
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Id getAuthor() {
+        return author;
+    }
+
+    public DateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public DateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public String getServiceToCreate() {
+        return serviceToCreate;
+    }
 }
