@@ -1,10 +1,13 @@
 package hanu.gdsc.core_problem.services.testCase;
 
 import hanu.gdsc.share.domains.Id;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 
 public interface CreateTestCaseService {
-    @Builder
+    @AllArgsConstructor
+    @Getter
     public static class Input {
         public Id problemId;
         public String input;

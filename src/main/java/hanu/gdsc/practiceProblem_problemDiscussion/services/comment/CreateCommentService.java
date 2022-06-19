@@ -1,8 +1,8 @@
 package hanu.gdsc.practiceProblem_problemDiscussion.services.comment;
 
+import hanu.gdsc.practiceProblem_problemDiscussion.config.ServiceName;
 import hanu.gdsc.practiceProblem_problemDiscussion.domains.Post;
 import hanu.gdsc.practiceProblem_problemDiscussion.repositories.post.PostRepository;
-import hanu.gdsc.practiceProblem_problemDiscussion.services.core_comment.CreateCoreCommentService;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CreateCommentService {
     private PostRepository postRepository;
-    private CreateCoreCommentService createCoreCommentService;
+    private hanu.gdsc.core_discussion.services.comment.CreateCommentService createCoreDiscussionCommentService;
 
     @AllArgsConstructor
     @Getter
@@ -26,10 +26,11 @@ public class CreateCommentService {
         Post post = postRepository.getById(input.postId);
         if (post == null)
             throw new NotFoundError("Unknown post");
-        return createCoreCommentService.create(new CreateCoreCommentService.Input(
+        return createCoreDiscussionCommentService.create(new hanu.gdsc.core_discussion.services.comment.CreateCommentService.Input(
                 input.author,
                 input.content,
                 input.parentCommentId,
+                ServiceName.serviceName,
                 post.getCorePostId()
         ));
     }

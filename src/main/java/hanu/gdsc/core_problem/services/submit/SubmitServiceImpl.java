@@ -20,8 +20,8 @@ public class SubmitServiceImpl implements SubmitService {
                 input.programmingLanguage
         );
         runningSubmissionRepository.create(runningSubmission);
-        return Output.builder()
-                .submissionId(runningSubmission.getId())
-                .build();
+        return new Output(
+                runningSubmission.getId()
+        );
     }
 }

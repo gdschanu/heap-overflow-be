@@ -9,9 +9,8 @@ import hanu.gdsc.share.domains.Id;
 import lombok.*;
 
 public interface UpdateProblemService {
-    @Builder
     @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter
     public static class Input{
         public Id id;
         public String serviceToCreate;
@@ -22,17 +21,15 @@ public interface UpdateProblemService {
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
-    @Builder
     @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter
     public static class UpdateMemoryLimitInput {
         public KB memoryLimit;
         public ProgrammingLanguage programmingLanguage;
     }
 
-    @Builder
     @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter
     public static class UpdateTimeLimitInput {
         public Millisecond timeLimit;
         public ProgrammingLanguage programmingLanguage;

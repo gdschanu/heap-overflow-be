@@ -4,12 +4,12 @@ import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 public interface SubmitService {
-    @Builder
     @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter
     public static class Input {
         public Id coderId;
         public Id problemId;
@@ -18,9 +18,8 @@ public interface SubmitService {
         public ProgrammingLanguage programmingLanguage;
     }
 
-    @Builder
     @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter
     public static class Output {
         public Id submissionId;
     }

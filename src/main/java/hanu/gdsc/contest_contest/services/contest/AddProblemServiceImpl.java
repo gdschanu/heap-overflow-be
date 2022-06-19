@@ -29,16 +29,15 @@ public class AddProblemServiceImpl implements AddProblemService {
             throw new NotFoundError("Unknown contest");
         }
         Id coreProblemId = createCoreProblemService
-                .execute(CreateProblemService.Input
-                        .builder()
-                        .name(input.createCoreProblemInput.name)
-                        .description(input.createCoreProblemInput.description)
-                        .author(input.createCoreProblemInput.author)
-                        .createMemoryLimitInputs(input.createCoreProblemInput.createMemoryLimitInputs)
-                        .createTimeLimitInputs(input.createCoreProblemInput.createTimeLimitInputs)
-                        .allowedProgrammingLanguages(input.createCoreProblemInput.allowedProgrammingLanguages)
-                        .serviceToCreate(ServiceName.serviceName)
-                        .build());
+                .execute(new CreateProblemService.Input(
+                        input.createCoreProblemInput.name,
+                        input.createCoreProblemInput.description,
+                        input.createCoreProblemInput.author,
+                        input.createCoreProblemInput.createMemoryLimitInputs,
+                        input.createCoreProblemInput.createTimeLimitInputs,
+                        input.createCoreProblemInput.allowedProgrammingLanguages,
+                        ServiceName.serviceName
+                ));
         Problem problem = Problem.create(input.ordinal, coreProblemId, input.score);
         contest.addProblem(problem);
         contestRepository.update(contest);

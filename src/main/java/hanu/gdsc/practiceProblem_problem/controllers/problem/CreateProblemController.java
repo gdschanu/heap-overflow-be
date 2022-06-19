@@ -25,17 +25,13 @@ public class CreateProblemController {
     private AuthorizeService authorizeService;
 
     public static class Input {
-        public CreateCoreProblemInput createCoreProblemInput;
         public List<Id> categoryIds;
         public Difficulty difficulty;
-    }
-
-    public static class CreateCoreProblemInput {
         public String name;
         public String description;
         public List<MemoryLimit.CreateInput> createMemoryLimitInputs;
         public List<TimeLimit.CreateInput> createTimeLimitInputs;
-        public List<ProgrammingLanguage> allowedProgrammingLanguages;   
+        public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
     @PostMapping("/practiceProblem/problem")
@@ -43,15 +39,12 @@ public class CreateProblemController {
         return ControllerHandler.handle(() -> {
             Id coderId = authorizeService.authorize(token);
             Id problemId = createPracticeProblemService.create(CreateProblemService.Input.builder()
-                    .createCoreProblemInput(CreateProblemService.CreateCoreProblemInput.builder()
-                            .name(input.createCoreProblemInput.name)
-                            .description(input.createCoreProblemInput.description)
-                            .createMemoryLimitInputs(input.createCoreProblemInput.createMemoryLimitInputs)
-                            .createTimeLimitInputs(input.createCoreProblemInput.createTimeLimitInputs)
-                            .allowedProgrammingLanguages(input.createCoreProblemInput.allowedProgrammingLanguages)
-                            .author(coderId)
-                            .build())
-                    .categoryIds(input.categoryIds)
+                    .name(input.name)
+                    .description(input.description)
+                    .createMemoryLimitInputs(input.createMemoryLimitInputs)
+                    .createTimeLimitInputs(input.createTimeLimitInputs)
+                    .allowedProgrammingLanguages(input.allowedProgrammingLanguages)
+                    .author(coderId)
                     .difficulty(input.difficulty)
                     .build());
             return new ControllerHandler.Result(

@@ -19,47 +19,16 @@ public class SearchSubmissionServiceImpl implements SearchSubmissionService {
     private SubmissionRepository submissionRepository;
 
     @Override
-    public List<Output> get(int page, int perPage, Id problemId, Id coderId, String serviceToCreate) {
-        List<Submission> submissions = submissionRepository.get(page, perPage, problemId, coderId, serviceToCreate);
-        return submissions.stream()
-                .map(s -> toOutput(s))
-                .collect(Collectors.toList());
+    public List<Submission> get(int page, int perPage, Id problemId, Id coderId, String serviceToCreate) {
+        return submissionRepository.get(page, perPage, problemId, coderId, serviceToCreate);
     }
 
     @Override
-    public Output getById(Id id, String serviceToCreate) {
+    public Submission getById(Id id, String serviceToCreate) {
         Submission submission = submissionRepository.getById(id, serviceToCreate);
         if (submission == null) {
             throw new NotFoundError("Submission not found");
         }
-        return toOutput(submission);
-    }
-
-    private static Output toOutput(Submission submission) {
-        return Output.builder()
-                .problemId(submission.getId())
-                .programmingLanguage(submission.getProgrammingLanguage())
-                .runTime(submission.getRunTime())
-                .memory(submission.getMemory())
-                .submittedAt(submission.getSubmittedAt())
-                .code(submission.getCode())
-                .status(submission.getStatus())
-                .failedTestCaseDetail(
-                        submission.getFailedTestCaseDetail() == null ? null :
-                                toOutputTestCase(submission.getFailedTestCaseDetail())
-                )
-                .coderId(submission.getCoderId())
-                .message(submission.getMessage())
-                .build();
-    }
-
-    private static FailedTestCaseDetailOutput toOutputTestCase(FailedTestCaseDetail failedTestCaseDetail) {
-        return FailedTestCaseDetailOutput.builder()
-                .failedAtLine(failedTestCaseDetail.getFailedAtLine())
-                .input(failedTestCaseDetail.getInput())
-                .actualOutput(failedTestCaseDetail.getActualOutput())
-                .expectedOutput(failedTestCaseDetail.getExpectedOutput())
-                .description(failedTestCaseDetail.getDescription())
-                .build();
+        return submission;
     }
 }
