@@ -12,7 +12,8 @@ public interface CreateCommentService {
         private String content;
         private Id parentCommentId;
         private String serviceToCreate;
+        private Id postId;
     }
-
     public Id create(Input input);
+
 }

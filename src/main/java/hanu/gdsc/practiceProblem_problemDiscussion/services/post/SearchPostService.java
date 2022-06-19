@@ -1,8 +1,8 @@
 package hanu.gdsc.practiceProblem_problemDiscussion.services.post;
 
-import hanu.gdsc.practiceProblem_problemDiscussion.config.ServiceName;
 import hanu.gdsc.practiceProblem_problemDiscussion.domains.Post;
 import hanu.gdsc.practiceProblem_problemDiscussion.repositories.post.PostRepository;
+import hanu.gdsc.practiceProblem_problemDiscussion.services.core_post.SearchCorePostService;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
@@ -11,7 +11,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public class SearchPostService {
-    private final hanu.gdsc.core_discussion.services.post.SearchPostService searchCorePostService;
+    private final SearchCorePostService searchCorePostService;
     private final PostRepository postRepository;
 
     @Getter
@@ -31,7 +31,7 @@ public class SearchPostService {
         Post post = postRepository.getById(id);
         if (post == null)
             throw new NotFoundError("Unknown post");
-        hanu.gdsc.core_discussion.domains.Post corePost = searchCorePostService.getById(post.getCorePostId(), ServiceName.serviceName);
+        hanu.gdsc.core_discussion.domains.Post corePost = searchCorePostService.getById(post.getCorePostId());
         return new Output(
                 id,
                 post.getProblemId(),
