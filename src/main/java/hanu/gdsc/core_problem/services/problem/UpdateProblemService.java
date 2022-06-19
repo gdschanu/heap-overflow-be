@@ -23,6 +23,7 @@ public interface UpdateProblemService {
 
     @AllArgsConstructor
     @Getter
+    @NoArgsConstructor
     public static class UpdateMemoryLimitInput {
         public KB memoryLimit;
         public ProgrammingLanguage programmingLanguage;
@@ -30,6 +31,7 @@ public interface UpdateProblemService {
 
     @AllArgsConstructor
     @Getter
+    @NoArgsConstructor
     public static class UpdateTimeLimitInput {
         public Millisecond timeLimit;
         public ProgrammingLanguage programmingLanguage;

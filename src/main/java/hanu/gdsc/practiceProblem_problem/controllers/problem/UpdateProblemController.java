@@ -1,12 +1,20 @@
 package hanu.gdsc.practiceProblem_problem.controllers.problem;
 
 import hanu.gdsc.coderAuth_coderAuth.services.AuthorizeService;
+import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
+import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.services.problem.UpdateProblemService;
 import hanu.gdsc.share.controller.ControllerHandler;
+import hanu.gdsc.share.domains.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Component(value = "PracticeProblem.UpdateProblemService")
@@ -16,12 +24,32 @@ public class UpdateProblemController {
     @Autowired
     private AuthorizeService authorizeService;
 
+    @AllArgsConstructor
+    @Getter
+    @NoArgsConstructor
+    public static class Input {
+        public Difficulty difficulty;
+        public String name;
+        public String description;
+        public List<hanu.gdsc.core_problem.services.problem.UpdateProblemService.UpdateMemoryLimitInput> memoryLimits;
+        public List<hanu.gdsc.core_problem.services.problem.UpdateProblemService.UpdateTimeLimitInput> timeLimits;
+        public List<ProgrammingLanguage> allowedProgrammingLanguages;
+    }
+
     @PutMapping("/practiceProblem/problem/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody UpdateProblemService.Input input,
-                                    @RequestHeader("acces-token") String token) {
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Input input,
+                                    @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             authorizeService.authorize(token);
-            updateProblemService.update(input);
+            updateProblemService.update(new UpdateProblemService.Input(
+                    new Id(id),
+                    input.difficulty,
+                    input.name,
+                    input.description,
+                    input.memoryLimits,
+                    input.timeLimits,
+                    input.allowedProgrammingLanguages
+            ));
             return new ControllerHandler.Result(
                     "Success",
                     null
