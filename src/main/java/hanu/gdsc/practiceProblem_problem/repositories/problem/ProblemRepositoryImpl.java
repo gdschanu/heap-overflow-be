@@ -52,5 +52,8 @@ public class ProblemRepositoryImpl implements ProblemRepository {
         PPProblemJpaRepository.save(ppproblemEntity);
     }
 
-
+    @Override
+    public long countProblem() {
+        return PPProblemJpaRepository.count();
+    }
 }

@@ -107,4 +107,8 @@ public class SearchProblemService {
                 coreProblem.getAllowedProgrammingLanguages()
         );
     }
+
+    public long countProblem() {
+        return problemRepository.countProblem();
+    }
 }

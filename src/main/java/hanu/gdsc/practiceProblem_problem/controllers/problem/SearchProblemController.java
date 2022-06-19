@@ -39,4 +39,15 @@ public class SearchProblemController {
             );
         });
     }
+
+    @GetMapping("/practiceProblem/countProblem")
+    public ResponseEntity<?> countProblem() {
+        return ControllerHandler.handle(() -> {
+            long output = servicePracticeProblemService.countProblem();
+            return new ControllerHandler.Result(
+                    "Success",
+                    output
+            );
+        });
+    }
 }
