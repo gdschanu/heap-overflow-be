@@ -5,6 +5,7 @@ import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -34,7 +35,7 @@ public class SearchProblemService {
     public Output getById(Id practiceProblemId) {
         Problem practiceProblem = problemRepository.getById(practiceProblemId);
         if (practiceProblem == null) {
-            throw new BusinessLogicError("Could not found problem", "NOT_FOUND");
+            throw new NotFoundError("Unknown problem");
         }
         return toOutput(practiceProblem);
     }

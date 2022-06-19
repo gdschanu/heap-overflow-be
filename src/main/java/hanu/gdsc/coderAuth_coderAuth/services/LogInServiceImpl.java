@@ -1,20 +1,17 @@
 package hanu.gdsc.coderAuth_coderAuth.services;
 
-import hanu.gdsc.coderAuth_coderAuth.domains.Email;
-import hanu.gdsc.coderAuth_coderAuth.domains.HashedPassword;
-import hanu.gdsc.coderAuth_coderAuth.domains.Session;
-import hanu.gdsc.coderAuth_coderAuth.domains.User;
-import hanu.gdsc.coderAuth_coderAuth.repositories.session.SessionRepository;
-import hanu.gdsc.coderAuth_coderAuth.repositories.user.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import hanu.gdsc.coderAuth_coderAuth.domains.Username;
+import hanu.gdsc.coderAuth_coderAuth.domains.*;
 import hanu.gdsc.coderAuth_coderAuth.errors.NonExistentUsernameOrEmail;
 import hanu.gdsc.coderAuth_coderAuth.errors.WrongPassword;
+import hanu.gdsc.coderAuth_coderAuth.repositories.session.SessionRepository;
+import hanu.gdsc.coderAuth_coderAuth.repositories.user.UserRepository;
 import hanu.gdsc.share.domains.Id;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 @Service
 public class LogInServiceImpl implements LogInService {
@@ -53,7 +50,8 @@ public class LogInServiceImpl implements LogInService {
       Session session = Session.createSession(sessionId, coderId);
       sessionRepository.save(session);
       return Jwts.builder()
-            .setId(sessionId.toString())
+              .setId(sessionId.toString())
+              .setExpiration(Date.from(session.getExpireAt().toZonedDateTime().toInstant()))
             .signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
             .compact();
    }

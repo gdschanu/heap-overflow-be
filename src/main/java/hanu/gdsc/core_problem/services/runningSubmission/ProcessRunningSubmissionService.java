@@ -87,8 +87,11 @@ public class ProcessRunningSubmissionService {
         );
         Millisecond totalRunTime = new Millisecond(0L);
         KB totalMemLimit = new KB(0);
-
-        for (int i = runningSubmission.getJudgingTestCase() - 1; i < testCases.size(); i++) {
+        int start = Math.max(
+                0,
+                runningSubmission.getJudgingTestCase() - 1
+        );
+        for (int i = start; i < testCases.size(); i++) {
             runningSubmission.setJudgingTestCase(i + 1);
             runningSubmission.setTotalTestCases(testCases.size());
             updateRunningSubmissionQueue.add(runningSubmission);
