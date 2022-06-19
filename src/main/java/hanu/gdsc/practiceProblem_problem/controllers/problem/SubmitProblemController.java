@@ -27,12 +27,13 @@ public class SubmitProblemController {
                                     @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             Id coderId = authorizeService.authorize(token);
-            SubmitService.Output output = submitProblemService.submit(SubmitProblemService.Input.builder()
-                    .problemId(new Id(id))
-                    .code(input.code)
-                    .programmingLanguage(input.programmingLanguage)
-                    .coderId(coderId)
-                    .build());
+            SubmitService.Output output = submitProblemService
+                    .submit(new SubmitProblemService.Input(
+                            coderId,
+                            new Id(id),
+                            input.code,
+                            input.programmingLanguage
+                    ));
             return new ControllerHandler.Result(
                     "Success",
                     output
