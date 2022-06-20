@@ -5,6 +5,7 @@ import hanu.gdsc.share.domains.IdentifiedDomainObject;
 import hanu.gdsc.share.error.InvalidInputError;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 public class TimeLimit extends IdentifiedDomainObject {
@@ -18,9 +19,8 @@ public class TimeLimit extends IdentifiedDomainObject {
         this.timeLimit = timeLimit;
     }
 
-    @Builder
+    @Getter
     @AllArgsConstructor
-    @NoArgsConstructor
     public static class CreateInput {
         public ProgrammingLanguage programmingLanguage;
         public Millisecond timeLimit;

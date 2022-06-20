@@ -1,6 +1,7 @@
 package hanu.gdsc.practiceProblem_problem.controllers.problem;
 
 import hanu.gdsc.coderAuth.services.AuthorizeService;
+import hanu.gdsc.core_problem.domains.MemoryLimit;
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
 import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.services.problem.UpdateProblemService;
@@ -24,32 +25,12 @@ public class UpdateProblemController {
     @Autowired
     private AuthorizeService authorizeService;
 
-    @AllArgsConstructor
-    @Getter
-    @NoArgsConstructor
-    public static class Input {
-        public Difficulty difficulty;
-        public String name;
-        public String description;
-        public List<hanu.gdsc.core_problem.services.problem.UpdateProblemService.UpdateMemoryLimitInput> memoryLimits;
-        public List<hanu.gdsc.core_problem.services.problem.UpdateProblemService.UpdateTimeLimitInput> timeLimits;
-        public List<ProgrammingLanguage> allowedProgrammingLanguages;
-    }
-
     @PutMapping("/practiceProblem/problem/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody Input input,
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody UpdateProblemService.Input input,
                                     @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             authorizeService.authorize(token);
-            updateProblemService.update(new UpdateProblemService.Input(
-                    new Id(id),
-                    input.difficulty,
-                    input.name,
-                    input.description,
-                    input.memoryLimits,
-                    input.timeLimits,
-                    input.allowedProgrammingLanguages
-            ));
+            updateProblemService.update(input);
             return new ControllerHandler.Result(
                     "Success",
                     null

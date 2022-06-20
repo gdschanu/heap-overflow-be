@@ -1,6 +1,8 @@
 package hanu.gdsc.practiceProblem_problem.services.problem;
 
+import hanu.gdsc.core_problem.domains.MemoryLimit;
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
+import hanu.gdsc.core_problem.domains.TimeLimit;
 import hanu.gdsc.practiceProblem_problem.config.ServiceName;
 import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.domains.Problem;
@@ -26,8 +28,8 @@ public class UpdateProblemService {
         public Difficulty difficulty;
         public String name;
         public String description;
-        public List<hanu.gdsc.core_problem.services.problem.UpdateProblemService.UpdateMemoryLimitInput> memoryLimits;
-        public List<hanu.gdsc.core_problem.services.problem.UpdateProblemService.UpdateTimeLimitInput> timeLimits;
+        public List<MemoryLimit.CreateInput> memoryLimits;
+        public List<TimeLimit.CreateInput> timeLimits;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 

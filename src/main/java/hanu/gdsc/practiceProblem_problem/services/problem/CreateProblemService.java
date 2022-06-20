@@ -10,6 +10,7 @@ import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,13 +21,14 @@ public class CreateProblemService {
     private final hanu.gdsc.core_problem.services.problem.CreateProblemService createCoreProblemService;
     private final ProblemRepository problemRepository;
 
-    @Builder
+    @AllArgsConstructor
+    @Getter
     public static class Input {
         public Difficulty difficulty;
         public String name;
         public String description;
-        public List<MemoryLimit.CreateInput> createMemoryLimitInputs;
-        public List<TimeLimit.CreateInput> createTimeLimitInputs;
+        public List<MemoryLimit.CreateInput> memoryLimits;
+        public List<TimeLimit.CreateInput> timeLimits;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
         public Id author;
     }
@@ -36,8 +38,8 @@ public class CreateProblemService {
                 input.name,
                 input.description,
                 input.author,
-                input.createMemoryLimitInputs,
-                input.createTimeLimitInputs,
+                input.memoryLimits,
+                input.timeLimits,
                 input.allowedProgrammingLanguages,
                 ServiceName.serviceName
         ));

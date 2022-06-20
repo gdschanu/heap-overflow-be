@@ -28,8 +28,8 @@ public class CreateProblemController {
         public Difficulty difficulty;
         public String name;
         public String description;
-        public List<MemoryLimit.CreateInput> createMemoryLimitInputs;
-        public List<TimeLimit.CreateInput> createTimeLimitInputs;
+        public List<MemoryLimit.CreateInput> memoryLimits;
+        public List<TimeLimit.CreateInput> timeLimits;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
@@ -37,15 +37,15 @@ public class CreateProblemController {
     public ResponseEntity<?> create(@RequestBody Input input, @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             Id coderId = authorizeService.authorize(token);
-            Id problemId = createPracticeProblemService.create(CreateProblemService.Input.builder()
-                    .name(input.name)
-                    .description(input.description)
-                    .createMemoryLimitInputs(input.createMemoryLimitInputs)
-                    .createTimeLimitInputs(input.createTimeLimitInputs)
-                    .allowedProgrammingLanguages(input.allowedProgrammingLanguages)
-                    .author(coderId)
-                    .difficulty(input.difficulty)
-                    .build());
+            Id problemId = createPracticeProblemService.create(new CreateProblemService.Input(
+                    input.difficulty,
+                    input.name,
+                    input.description,
+                    input.memoryLimits,
+                    input.timeLimits,
+                    input.allowedProgrammingLanguages,
+                    coderId
+            ));
             return new ControllerHandler.Result(
                     "Success",
                     problemId

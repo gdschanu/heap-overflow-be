@@ -5,6 +5,7 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 public class MemoryLimit extends IdentifiedDomainObject {
@@ -17,9 +18,8 @@ public class MemoryLimit extends IdentifiedDomainObject {
         this.memoryLimit = memoryLimit;
     }
 
-    @Builder
+    @Getter
     @AllArgsConstructor
-    @NoArgsConstructor
     public static class CreateInput {
         public ProgrammingLanguage programmingLanguage;
         public KB memoryLimit;

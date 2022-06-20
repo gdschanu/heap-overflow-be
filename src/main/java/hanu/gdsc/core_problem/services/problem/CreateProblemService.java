@@ -5,7 +5,6 @@ import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
 import hanu.gdsc.core_problem.domains.TimeLimit;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
@@ -17,8 +16,8 @@ public interface CreateProblemService {
         public String name;
         public String description;
         public Id author;
-        List<MemoryLimit.CreateInput> createMemoryLimitInputs;
-        List<TimeLimit.CreateInput> createTimeLimitInputs;
+        List<MemoryLimit.CreateInput> memoryLimits;
+        List<TimeLimit.CreateInput> timeLimits;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
         public String serviceToCreate;
     }
