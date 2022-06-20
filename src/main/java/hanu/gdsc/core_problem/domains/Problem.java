@@ -36,14 +36,6 @@ public class Problem extends IdentitifedVersioningDomainObject {
                                  List<TimeLimit.CreateInput> createTimeLimitInputs,
                                  List<ProgrammingLanguage> allowedProgrammingLanguages,
                                  String serviceToCreate) {
-        List<MemoryLimit> memoryLimits = new ArrayList<>();
-        for (MemoryLimit.CreateInput createMemLimitInp : createMemoryLimitInputs) {
-            memoryLimits.add(MemoryLimit.create(createMemLimitInp));
-        }
-        List<TimeLimit> timeLimits = new ArrayList<>();
-        for (TimeLimit.CreateInput createTimeLimitInp : createTimeLimitInputs) {
-            timeLimits.add(TimeLimit.create(createTimeLimitInp));
-        }
         Problem problem = new Problem(
                 Id.generateRandom(),
                 0,
