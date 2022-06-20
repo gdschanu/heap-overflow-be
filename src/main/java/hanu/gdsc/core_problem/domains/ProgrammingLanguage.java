@@ -1,6 +1,7 @@
 package hanu.gdsc.core_problem.domains;
 
 import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.error.InvalidInputError;
 
 public enum ProgrammingLanguage {
 
@@ -18,10 +19,9 @@ public enum ProgrammingLanguage {
             case "JAVASCRIPT":
                 return JAVASCRIPT;
             default:
-                throw new BusinessLogicError(
+                throw new InvalidInputError(
                         "Invalid programming language, valid " +
-                                "values are: [JAVA, PYTHON, CPLUSPLUS, JAVASCRIPT].",
-                        "INVALID_PROGRAMMING_LANGUAGE");
+                                "values are: [JAVA, PYTHON, CPLUSPLUS, JAVASCRIPT].");
         }
     }
 }

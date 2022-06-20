@@ -3,6 +3,7 @@ package hanu.gdsc.core_problem.domains;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.error.DuplicatedError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class Problem extends IdentitifedVersioningDomainObject {
             for (MemoryLimit.CreateInput second : createMemoryLimitInputs) {
                 if (first.programmingLanguage.equals(second.programmingLanguage)
                         && !first.equals(second)) {
-                    throw new BusinessLogicError("Having duplicate memoryLimits", "DUPLICATE");
+                    throw new DuplicatedError("Having duplicate memoryLimits");
                 }
             }
         }
@@ -46,7 +47,7 @@ public class Problem extends IdentitifedVersioningDomainObject {
             for (TimeLimit.CreateInput second : createTimeLimitInputs) {
                 if (first.programmingLanguage.equals(second.programmingLanguage)
                         && !first.equals(second)) {
-                    throw new BusinessLogicError("Having duplicate timeLimits", "DUPLICATE");
+                    throw new DuplicatedError("Having duplicate timeLimits");
                 }
             }
         }
