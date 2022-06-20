@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 public class TimeLimit extends IdentifiedDomainObject {
 
     private ProgrammingLanguage programmingLanguage;
@@ -47,5 +49,18 @@ public class TimeLimit extends IdentifiedDomainObject {
 
     public void setTimeLimit(Millisecond timeLimit) {
         this.timeLimit = timeLimit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimeLimit timeLimit = (TimeLimit) o;
+        return programmingLanguage == timeLimit.programmingLanguage;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(programmingLanguage);
     }
 }

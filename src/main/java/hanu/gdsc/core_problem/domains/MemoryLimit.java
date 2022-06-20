@@ -8,6 +8,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Objects;
+
 public class MemoryLimit extends IdentifiedDomainObject {
     private ProgrammingLanguage programmingLanguage;
     private KB memoryLimit;
@@ -43,5 +45,18 @@ public class MemoryLimit extends IdentifiedDomainObject {
 
     public void setMemoryLimit(KB memoryLimit) {
         this.memoryLimit = memoryLimit;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MemoryLimit that = (MemoryLimit) o;
+        return programmingLanguage == that.programmingLanguage;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(programmingLanguage);
     }
 }
