@@ -1,5 +1,6 @@
 package hanu.gdsc.coderAuth.services;
 
+import hanu.gdsc.share.error.UnauthorizedError;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.coderAuth.errors.InvalidToken;
@@ -15,7 +16,7 @@ public class GetClaimFromToken {
                 .parseClaimsJws(token)
                 .getBody();
         } catch (Exception e) {
-            throw new InvalidToken();
+            throw new UnauthorizedError("Invalid token");
         }
     }
 }
