@@ -16,8 +16,8 @@ public class HashedPassword {
     }
 
     public static HashedPassword fromRawPassword(String rawPassword) {
-        if (rawPassword.length() < 8) {
-            throw new InvalidPassword("Password needs at least 8 characters");
+        if (rawPassword.length() < 8 || rawPassword.length() > 15) {
+            throw new InvalidPassword("Password length should be between 3 and 15 characters");
         }
         if (!containsLetter(rawPassword) || !containsNumber(rawPassword)) {
             throw new InvalidPassword("Password need both number and letter");
