@@ -32,8 +32,8 @@ public class Session extends IdentifiedDomainObject{
 
     public boolean invalidated() {
         DateTime time = DateTime.now();
-        if(!time.isBefore(expireAt)) {
-            throw new ExpiredSession();
+        if(time.isBefore(expireAt)) {
+            return true;
         }
         return false;
     }
