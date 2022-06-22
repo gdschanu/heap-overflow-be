@@ -1,6 +1,5 @@
 package hanu.gdsc.coderAuth_coderAuth.domains;
 
-import hanu.gdsc.coderAuth_coderAuth.errors.ExpiredSession;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
