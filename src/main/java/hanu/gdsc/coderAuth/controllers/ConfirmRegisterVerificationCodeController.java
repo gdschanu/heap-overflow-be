@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.error.UnauthorizedError;
 
 @Controller
 public class ConfirmRegisterVerificationCodeController {
@@ -36,6 +37,9 @@ public class ConfirmRegisterVerificationCodeController {
         } catch (Throwable e) {
             if(e instanceof BusinessLogicError) {
                 e.printStackTrace();
+                if(e.getClass().equals(UnauthorizedError.class)) {
+                    return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.UNAUTHORIZED);
+                }
                 return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);

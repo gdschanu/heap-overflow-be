@@ -3,7 +3,8 @@ package hanu.gdsc.coderAuth.services;
 import hanu.gdsc.share.error.UnauthorizedError;
 import org.springframework.stereotype.Service;
 
-import hanu.gdsc.coderAuth.errors.InvalidToken;
+
+import hanu.gdsc.share.error.UnauthorizedError;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
