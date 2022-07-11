@@ -1,13 +1,11 @@
 package hanu.gdsc.core_like.repositories.reactedObject;
 
-import javax.persistence.EntityNotFoundException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import hanu.gdsc.core_like.domains.ReactedObject;
 import hanu.gdsc.share.domains.Id;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityNotFoundException;
 
 @Repository
 public class ReactedObjectRepositoryImpl implements ReactedObjectRepository{
@@ -15,16 +13,17 @@ public class ReactedObjectRepositoryImpl implements ReactedObjectRepository{
     private ReactedObjectJPARepository reactedObjectJpaRepository;
 
     @Override
-    @Transactional
-    public synchronized void execute(ReactedObject reactedObject) {
-        reactedObjectJpaRepository.save(ReactedObjectEntity.toEntity(reactedObject)); 
-        reactedObject.increaseVersion();
+    public void save(ReactedObject reactedObject) {
+        reactedObjectJpaRepository.save(ReactedObjectEntity.toEntity(reactedObject));
     }
 
     @Override
-    public ReactedObject getById(Id id) {
+    public ReactedObject getById(Id id, String serviceToCreate) {
         try {
-            ReactedObjectEntity reactedObjectEntity = reactedObjectJpaRepository.getById(id.toString());
+            ReactedObjectEntity reactedObjectEntity = reactedObjectJpaRepository.findByIdAndServiceToCreate(
+                    id.toString(),
+                    serviceToCreate
+            );
             return ReactedObjectEntity.toDomain(reactedObjectEntity);
         } catch (EntityNotFoundException e) {
             e.printStackTrace();

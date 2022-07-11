@@ -1,16 +1,15 @@
 package hanu.gdsc.core_like.services.reactedObject;
 
-import org.springframework.stereotype.Service;
-
-import hanu.gdsc.core_like.domains.Action;
 import hanu.gdsc.core_like.domains.ReactedObject;
 import hanu.gdsc.core_like.domains.Reaction;
 import hanu.gdsc.core_like.errors.InvalidAction;
 import hanu.gdsc.core_like.repositories.reactedObject.ReactedObjectRepository;
 import hanu.gdsc.core_like.repositories.reaction.ReactionRepository;
+import hanu.gdsc.share.error.NotFoundError;
+import org.springframework.stereotype.Service;
 
 @Service
-public class ReactServiceImpl implements ReactService{
+public class ReactServiceImpl implements ReactService {
     private final ReactedObjectRepository reactedObjectRepository;
     private final ReactionRepository reactionRepository;
 
@@ -21,85 +20,58 @@ public class ReactServiceImpl implements ReactService{
     }
 
     @Override
-    public boolean react(Input input) {
-        ReactedObject reactedObject = reactedObjectRepository.getById(input.reactedObjectId);
-        if (reactedObject != null) {
-            Reaction reaction = reactionRepository.getByCoderIdAndReactedObjectId(input.coderId, input.reactedObjectId);
-            if (reaction != null) {
-                return reactWhenExistingReaction(input, reaction, reactedObject);
-            } else {
-                return reactWhenUnexistingReaction(input, reactedObject);
-            }
+    public void react(Input input) {
+        ReactedObject reactedObject = reactedObjectRepository.getById(input.reactedObjectId, input.serviceToCreate);
+        if (reactedObject == null) {
+            throw new NotFoundError("Unknown reacted object");
         }
-        return false;
+        Reaction reaction = reactionRepository.getByCoderIdAndReactedObjectId(
+                input.coderId,
+                input.reactedObjectId,
+                input.serviceToCreate
+        );
+        if (reaction != null) {
+            reactWhenExistingReaction(input, reaction, reactedObject);
+        } else {
+            reactWhenUnexistingReaction(input, reactedObject);
+        }
     }
 
-    private boolean reactWhenExistingReaction(Input input, Reaction reaction, ReactedObject reactedObject) {
-        Action oldAction = reaction.getAction();
-        switch (input.action) {
-            case LIKE : 
-                if(oldAction.equals(Action.DISLIKE)) {
-                    reactedObject.decreaseLikeCount();
-                }
-                reaction.setAction(input.action);
-                reactedObject.increaseLikeCount();
-                reactionRepository.save(reaction);
-                reactedObjectRepository.execute(reactedObject);
-                return true;
-            case DISLIKE : 
-                if(oldAction.equals(Action.LIKE)) {
-                    reactedObject.decreaseLikeCount();
-                }
-                reaction.setAction(input.action);
-                reactedObject.increaseDislikeCount();
-                reactionRepository.save(reaction);
-                reactedObjectRepository.execute(reactedObject);
-                return true;
-            case UNLIKE : 
-                reaction.setAction(input.action);
-                reactedObject.decreaseLikeCount();
-                reactionRepository.save(reaction);
-                reactedObjectRepository.execute(reactedObject);
-                return true;
-            case UNDISLIKE :
-                reaction.setAction(input.action); 
-                reactedObject.decreaseDislikeCount();
-                reactionRepository.save(reaction);
-                reactedObjectRepository.execute(reactedObject);
-                return true;
-        }
-        return false;
+    private void reactWhenExistingReaction(Input input, Reaction reaction, ReactedObject reactedObject) {
+        reaction.setAction(input.action, reactedObject);
+        reactionRepository.save(reaction);
+        reactedObjectRepository.save(reactedObject);
     }
 
-    private boolean reactWhenUnexistingReaction(Input input, ReactedObject reactedObject) {
+    private void reactWhenUnexistingReaction(Input input, ReactedObject reactedObject) {
         switch (input.action) {
-            case LIKE : 
+            case LIKE:
                 Reaction like = Reaction.create(
-                    input.coderId,
-                    input.reactedObjectId,
-                    input.action
+                        input.coderId,
+                        input.reactedObjectId,
+                        input.action,
+                        input.serviceToCreate
                 );
                 reactionRepository.save(like);
                 reactedObject.increaseLikeCount();
-                reactedObjectRepository.execute(reactedObject);
-                return true;
-            case DISLIKE : 
+                reactedObjectRepository.save(reactedObject);
+                return;
+            case DISLIKE:
                 Reaction dislike = Reaction.create(
-                    input.coderId,
-                    input.reactedObjectId,
-                    input.action
+                        input.coderId,
+                        input.reactedObjectId,
+                        input.action,
+                        input.serviceToCreate
                 );
                 reactionRepository.save(dislike);
                 reactedObject.increaseDislikeCount();
-                reactedObjectRepository.execute(reactedObject);
-                return true;
-            case UNLIKE : 
+                reactedObjectRepository.save(reactedObject);
+                return;
+            case UNLIKE:
                 throw new InvalidAction("Could not unlike this object");
-
-            case UNDISLIKE :
+            case UNDISLIKE:
                 throw new InvalidAction("Could not undislike this object");
         }
-        return false;
     }
     
 }

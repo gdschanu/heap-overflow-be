@@ -5,13 +5,11 @@ import lombok.*;
 
 public interface CreateReactedObjectService {
     
-    @Builder
     @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter
     public static class Input {
-        public Id objectId;
-        public String serviceToCreate;
+        private String serviceToCreate;
     }
 
-    public void create(Input input);
+    public Id create(Input input);
 }

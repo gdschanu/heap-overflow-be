@@ -2,18 +2,21 @@ package hanu.gdsc.core_like.services.reactedObject;
 
 import hanu.gdsc.core_like.domains.Action;
 import hanu.gdsc.share.domains.Id;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public interface ReactService {
     
-    @Builder
     @AllArgsConstructor
-    @NoArgsConstructor
+    @Getter
     public static class Input {
         public Id reactedObjectId;
         public Id coderId;
         public Action action;
+        public String serviceToCreate;
     }
 
-    public boolean react(Input input);
+    public void react(Input input);
 }

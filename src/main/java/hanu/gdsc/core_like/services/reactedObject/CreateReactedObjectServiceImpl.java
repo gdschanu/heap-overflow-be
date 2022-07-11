@@ -1,9 +1,9 @@
 package hanu.gdsc.core_like.services.reactedObject;
 
-import org.springframework.stereotype.Service;
-
 import hanu.gdsc.core_like.domains.ReactedObject;
 import hanu.gdsc.core_like.repositories.reactedObject.ReactedObjectRepository;
+import hanu.gdsc.share.domains.Id;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CreateReactedObjectServiceImpl implements CreateReactedObjectService{
@@ -14,11 +14,11 @@ public class CreateReactedObjectServiceImpl implements CreateReactedObjectServic
     }
 
     @Override
-    public void create(Input input) {
+    public Id create(Input input) {
         ReactedObject reactedObject = ReactedObject.create(
-            input.objectId,
-            input.serviceToCreate
+                input.getServiceToCreate()
         );
-        reactedObjectRepository.execute(reactedObject);
+        reactedObjectRepository.save(reactedObject);
+        return reactedObject.getId();
     }
 }

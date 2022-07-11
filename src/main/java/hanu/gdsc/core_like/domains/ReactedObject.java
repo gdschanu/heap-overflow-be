@@ -15,9 +15,9 @@ public class ReactedObject extends IdentitifedVersioningDomainObject{
         this.serviceToCreate = serviceToCreate;
     }
 
-    public static ReactedObject create(Id objectId,String serviceToCreate) {
+    public static ReactedObject create(String serviceToCreate) {
         return new ReactedObject(
-            objectId,
+            Id.generateRandom(),
             0,
             0,
             0,

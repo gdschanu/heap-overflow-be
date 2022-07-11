@@ -1,13 +1,11 @@
 package hanu.gdsc.core_like.repositories.reaction;
 
-import javax.persistence.EntityNotFoundException;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
 import hanu.gdsc.core_like.domains.Reaction;
 import hanu.gdsc.share.domains.Id;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityNotFoundException;
 
 @Repository
 public class ReactionRepositoryImpl implements ReactionRepository {
@@ -15,10 +13,14 @@ public class ReactionRepositoryImpl implements ReactionRepository {
     private ReactionJPARepository reactionJpaRepository;
 
     @Override
-    public Reaction getByCoderIdAndReactedObjectId(Id coderId, Id reactionObjectId) {
+    public Reaction getByCoderIdAndReactedObjectId(Id coderId, Id reactionObjectId, String serviceToCreate) {
         try {
-            ReactionEntity reactionEntiy = reactionJpaRepository.getByCoderIdAndReactedObjectId(coderId.toString(), reactionObjectId.toString());
-            if(reactionEntiy != null) {
+            ReactionEntity reactionEntiy = reactionJpaRepository.getByCoderIdAndReactedObjectIdAndServiceToCreate(
+                    coderId.toString(),
+                    reactionObjectId.toString(),
+                    serviceToCreate
+            );
+            if (reactionEntiy != null) {
                 return ReactionEntity.toDomain(reactionEntiy);
             }
             return null;
@@ -29,10 +31,8 @@ public class ReactionRepositoryImpl implements ReactionRepository {
     }
 
     @Override
-    @Transactional
-    public synchronized void save(Reaction reaction) {
+    public void save(Reaction reaction) {
         reactionJpaRepository.save(ReactionEntity.toEntity(reaction));
-        reaction.increaseVersion();
     }
     
 }

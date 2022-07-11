@@ -5,7 +5,7 @@ import hanu.gdsc.share.domains.Id;
 
 public interface ReactedObjectRepository {
     
-    public void execute(final ReactedObject reactedObject);
+    public void save(ReactedObject reactedObject);
 
-    public ReactedObject getById(final Id id);
+    public ReactedObject getById(Id id, String serviceToCreate);
 }
