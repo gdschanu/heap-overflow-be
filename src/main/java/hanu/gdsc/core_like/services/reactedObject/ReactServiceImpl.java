@@ -2,6 +2,7 @@ package hanu.gdsc.core_like.services.reactedObject;
 
 import org.springframework.stereotype.Service;
 
+import hanu.gdsc.core_like.domains.Action;
 import hanu.gdsc.core_like.domains.ReactedObject;
 import hanu.gdsc.core_like.domains.Reaction;
 import hanu.gdsc.core_like.errors.InvalidAction;
@@ -34,59 +35,38 @@ public class ReactServiceImpl implements ReactService{
     }
 
     private boolean reactWhenExistingReaction(Input input, Reaction reaction, ReactedObject reactedObject) {
-        if (input.action == reaction.getAction()) {
-            throw new InvalidAction("Could not " + input.action.toString() + " this object");
-        }
+        Action oldAction = reaction.getAction();
         switch (input.action) {
             case LIKE : 
-                if (reaction.getAction().toString().equals("DISLIKE") || reaction.getAction().toString().equals("UNLIKE") || reaction.getAction().toString().equals("UNDISLIKE")) {
-                    reaction.setAction(input.action);
-                    reactedObject.increaseLikeCount();
-                    if(reaction.getAction().toString().equals("DISLIKE")) {
-                        reactedObject.decreaseDislikeCount();
-                    }
-                    reactionRepository.save(reaction);
-                    reactedObjectRepository.execute(reactedObject);
-                    return true;
-                } else {
-                    throw new InvalidAction("Could not like this object");
+                if(oldAction.equals(Action.DISLIKE)) {
+                    reactedObject.decreaseLikeCount();
                 }
-
-            case DISLIKE : 
-                if (reaction.getAction().toString().equals("LIKE") || reaction.getAction().toString().equals("UNDISLIKE") || reaction.getAction().toString().equals("UNLIKE")) {
-                    reaction.setAction(input.action);
-                    reactedObject.increaseDislikeCount();
-                    if (reaction.getAction().toString().equals("LIKE")) {
-                        reactedObject.decreaseLikeCount();
-                    }
-                    reactionRepository.save(reaction);
-                    reactedObjectRepository.execute(reactedObject);
-                    return true;
-                } else {
-                    throw new InvalidAction("Could not dislike this object");
-                }
-
-            case UNLIKE : 
-            if (reaction.getAction().toString().equals("LIKE")) {
+                reaction.setAction(input.action);
+                reactedObject.increaseLikeCount();
                 reactionRepository.save(reaction);
+                reactedObjectRepository.execute(reactedObject);
+                return true;
+            case DISLIKE : 
+                if(oldAction.equals(Action.LIKE)) {
+                    reactedObject.decreaseLikeCount();
+                }
+                reaction.setAction(input.action);
+                reactedObject.increaseDislikeCount();
+                reactionRepository.save(reaction);
+                reactedObjectRepository.execute(reactedObject);
+                return true;
+            case UNLIKE : 
+                reaction.setAction(input.action);
                 reactedObject.decreaseLikeCount();
                 reactionRepository.save(reaction);
                 reactedObjectRepository.execute(reactedObject);
                 return true;
-            } else {
-                throw new InvalidAction("Could not unlike this object");
-            }
-
             case UNDISLIKE :
-            if (reaction.getAction().toString().equals("DISLIKE")) {
-                reaction.setAction(input.action);
+                reaction.setAction(input.action); 
                 reactedObject.decreaseDislikeCount();
                 reactionRepository.save(reaction);
                 reactedObjectRepository.execute(reactedObject);
                 return true;
-            } else {
-                throw new InvalidAction("Could not undislike this object");
-            }
         }
         return false;
     }

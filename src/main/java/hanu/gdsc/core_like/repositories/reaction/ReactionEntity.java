@@ -15,7 +15,6 @@ import lombok.*;
 @Entity
 @Table(name = "core_like_reaction")
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

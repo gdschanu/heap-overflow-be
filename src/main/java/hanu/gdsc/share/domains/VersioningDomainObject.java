@@ -10,4 +10,8 @@ public class VersioningDomainObject {
     public long getVersion() {
         return version;
     }
+
+    public void increaseVersion() {
+        version++;
+    }
 }

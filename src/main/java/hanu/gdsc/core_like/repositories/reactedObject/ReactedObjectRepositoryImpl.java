@@ -4,7 +4,6 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import hanu.gdsc.core_like.domains.ReactedObject;
@@ -16,9 +15,10 @@ public class ReactedObjectRepositoryImpl implements ReactedObjectRepository{
     private ReactedObjectJPARepository reactedObjectJpaRepository;
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void execute(ReactedObject reactedObject) {
+    @Transactional
+    public synchronized void execute(ReactedObject reactedObject) {
         reactedObjectJpaRepository.save(ReactedObjectEntity.toEntity(reactedObject)); 
+        reactedObject.increaseVersion();
     }
 
     @Override

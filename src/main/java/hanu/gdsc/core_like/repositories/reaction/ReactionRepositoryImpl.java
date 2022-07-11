@@ -4,7 +4,6 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import hanu.gdsc.core_like.domains.Reaction;
@@ -30,9 +29,10 @@ public class ReactionRepositoryImpl implements ReactionRepository {
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void save(Reaction reaction) {
+    @Transactional
+    public synchronized void save(Reaction reaction) {
         reactionJpaRepository.save(ReactionEntity.toEntity(reaction));
+        reaction.increaseVersion();
     }
     
 }
