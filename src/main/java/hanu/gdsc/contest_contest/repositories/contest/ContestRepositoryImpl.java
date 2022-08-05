@@ -45,4 +45,9 @@ public class ContestRepositoryImpl implements ContestRepository {
                 .map(x -> x.toDomain())
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public long count() {
+        return contestJPARepository.count();
+    }
 }
