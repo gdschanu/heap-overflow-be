@@ -1,13 +1,11 @@
 package hanu.gdsc.core_problem.services.problem;
 
-import hanu.gdsc.core_like.services.reactedObject.CreateReactedObjectService;
 import hanu.gdsc.core_problem.domains.Problem;
 import hanu.gdsc.core_problem.domains.SubmissionCount;
 import hanu.gdsc.core_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.core_problem.repositories.submissionCount.SubmissionCountRepository;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
