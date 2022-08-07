@@ -9,7 +9,6 @@ import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import org.springframework.stereotype.Component;
 
@@ -34,7 +33,7 @@ public class CreateProblemService {
     }
 
     public Id create(Input input) {
-        Id coreProblemId = createCoreProblemService.execute(new hanu.gdsc.core_problem.services.problem.CreateProblemService.Input(
+        Id coreProblemId = createCoreProblemService.create(new hanu.gdsc.core_problem.services.problem.CreateProblemService.Input(
                 input.name,
                 input.description,
                 input.author,

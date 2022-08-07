@@ -11,8 +11,9 @@ public class Coder {
     private String slogan;
     private Gender gender;
     private String address;
+    private int rank;
 
-    public Coder(Id id, String name, Url avatar, Phone phone, String university, String slogan, Gender gender, String address) {
+    public Coder(Id id, String name, Url avatar, Phone phone, String university, String slogan, Gender gender, String address, int rank) {
         this.id = id;
         this.name = name;
         this.avatar = avatar;
@@ -21,6 +22,7 @@ public class Coder {
         this.slogan = slogan;
         this.gender = gender;
         this.address = address;
+        this.rank = rank;
     }
 
     public static Coder create() {
@@ -32,8 +34,8 @@ public class Coder {
                 null,
                 null,
                 null,
-                null
-        );
+                null,
+                0);
     }
 
     public Id getId() {
@@ -66,5 +68,13 @@ public class Coder {
 
     public String getAddress() {
         return address;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }

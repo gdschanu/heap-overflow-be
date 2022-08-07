@@ -7,6 +7,9 @@ import javax.persistence.Table;
 
 import hanu.gdsc.coder.domains.Coder;
 
+import hanu.gdsc.coder.domains.Gender;
+import hanu.gdsc.coder.domains.Phone;
+import hanu.gdsc.coder.domains.Url;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +34,8 @@ public class CoderEntity {
     private String slogan;
     private String gender;
     private String address;
+    @Column(name = "coder_rank")
+    private int rank;
 
     public static CoderEntity fromDomains(Coder coder) {  
         return CoderEntity.builder()
@@ -42,6 +47,20 @@ public class CoderEntity {
         .slogan(coder.getSlogan())
         .gender(coder.getGender() == null ? null : coder.getGender().toString())
         .address(coder.getAddress())
+                .rank(coder.getRank())
         .build();
+    }
+    public Coder toDomain() {
+        return new Coder(
+                new hanu.gdsc.share.domains.Id(id),
+                name,
+                new Url(avatar),
+                new Phone(phone),
+                university,
+                slogan,
+                Gender.valueOf(gender),
+                address,
+                rank
+        );
     }
 }

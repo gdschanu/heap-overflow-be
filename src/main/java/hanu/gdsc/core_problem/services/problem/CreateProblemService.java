@@ -22,5 +22,7 @@ public interface CreateProblemService {
         public String serviceToCreate;
     }
 
-    public Id execute(Input input);
+    public Id create(Input input);
+
+    public List<Id> createMany(List<Input> inputs);
 }

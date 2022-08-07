@@ -53,7 +53,7 @@ public class DateTime {
     }
 
     public DateTime plusMinutes(int i) {
-        return new DateTime(value.plusMinutes(15));
+        return new DateTime(value.plusMinutes(i));
     }
 
     @Override

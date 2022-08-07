@@ -1,6 +1,7 @@
 package hanu.gdsc.core_problem.domains;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
 import lombok.AllArgsConstructor;
@@ -21,10 +22,15 @@ public class MemoryLimit extends IdentifiedDomainObject {
     }
 
     @Getter
-    @AllArgsConstructor
     public static class CreateInput {
-        public ProgrammingLanguage programmingLanguage;
-        public KB memoryLimit;
+        private ProgrammingLanguage programmingLanguage;
+        private KB memoryLimit;
+
+        public CreateInput(@JsonProperty("programmingLanguage") ProgrammingLanguage programmingLanguage,
+                           @JsonProperty("memoryLimit") KB memoryLimit) {
+            this.programmingLanguage = programmingLanguage;
+            this.memoryLimit = memoryLimit;
+        }
     }
 
     public static MemoryLimit create(CreateInput input) {

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class SubmissionCountRepositoryImpl implements SubmissionCountRepository {
@@ -15,6 +17,13 @@ public class SubmissionCountRepositoryImpl implements SubmissionCountRepository 
     @Override
     public void create(SubmissionCount submissionCount) {
         submissionCountJPARepository.save(SubmissionCountEntity.toEntity(submissionCount));
+    }
+
+    @Override
+    public void createMany(List<SubmissionCount> submissions) {
+        submissionCountJPARepository.saveAll(submissions.stream()
+                .map(submission -> SubmissionCountEntity.toEntity(submission))
+                .collect(Collectors.toList()));
     }
 
     @Override

@@ -10,9 +10,13 @@ public interface ProblemRepository {
 
     public void create(Problem problem);
 
+    public void createMany(List<Problem> problems);
+
     public void update(Problem problem);
 
     public List<Problem> getByIds(List<Id> ids, String serviceToCreate);
 
     public void deleteById(Id id);
+
+    public void deleteByIds(List<Id> ids);
 }

@@ -13,4 +13,6 @@ public interface ContestRepository {
     public Contest getById(Id id);
 
     public List<Contest> get(int page, int perPage);
+
+    public long count();
 }

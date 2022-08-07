@@ -1,14 +1,12 @@
 package hanu.gdsc.contest_contest.domains;
 
-import hanu.gdsc.contest_contest.errors.InvalidStartDateError;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.error.InvalidInputError;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Contest extends IdentitifedVersioningDomainObject {
     private String name;
@@ -16,25 +14,35 @@ public class Contest extends IdentitifedVersioningDomainObject {
     private DateTime startAt;
     private DateTime endAt;
     private Id createdBy;
-    private List<Problem> problems;
+    private List<ContestProblem> contestProblems;
 
-    private Contest(Id id, long version, String name, String description, DateTime startAt, DateTime endAt, Id createdBy, List<Problem> problems) {
+    private Contest(Id id,
+                    long version,
+                    String name,
+                    String description,
+                    DateTime startAt,
+                    DateTime endAt,
+                    Id createdBy,
+                    List<ContestProblem> contestProblems) {
         super(id, version);
         this.name = name;
         this.description = description;
         this.startAt = startAt;
         this.endAt = endAt;
         this.createdBy = createdBy;
-        this.problems = problems;
+        this.contestProblems = contestProblems;
     }
 
-    public static Contest create(String name, String description, DateTime startAt, DateTime endAt, Id authorId) {
-        if (startAt.isBefore(DateTime.now())) {
-            throw new InvalidStartDateError("Thời gian bắt đầu phải muộn hơn hiện tại.");
-        }
-        if (endAt.isBefore(startAt) || endAt.equals(startAt)) {
-            throw new BusinessLogicError("Thời gian kết thúc phải muộn hơn thời gian bắt đầu.", "INVALID_ENDDATE");
-        }
+    public static Contest create(String name,
+                                 String description,
+                                 DateTime startAt,
+                                 DateTime endAt,
+                                 Id authorId,
+                                 List<ContestProblem> problems) {
+        validateStartAtEndAt(startAt, endAt);
+        validateProblems(problems);
+        problems = new ArrayList<>(problems);
+        problems.sort(Comparator.comparingInt(ContestProblem::getOrdinal));
         return new Contest(
                 Id.generateRandom(),
                 0,
@@ -43,50 +51,63 @@ public class Contest extends IdentitifedVersioningDomainObject {
                 startAt,
                 endAt,
                 authorId,
-                new ArrayList<>()
+                problems
         );
+    }
+
+    public void setProblems(List<ContestProblem> problems) {
+        validateProblems(problems);
+        problems = new ArrayList<>(problems);
+        problems.sort(Comparator.comparingInt(ContestProblem::getOrdinal));
+        this.contestProblems = problems;
+    }
+
+    public static void validateProblems(List<ContestProblem> problems) {
+        Set<Integer> ordinalSet = new HashSet<>();
+        for (ContestProblem problem : problems) {
+            if (problem == null) {
+                throw new InvalidInputError("Contest problem cannot be null")
+                        ;
+            }
+            if (ordinalSet.contains(problem.getOrdinal())) {
+                throw new InvalidInputError("Duplicated ordinal: " + problem.getOrdinal());
+            }
+            ordinalSet.add(problem.getOrdinal());
+        }
+    }
+
+    public static void validateStartAtEndAt(DateTime startAt, DateTime endAt) {
+        if (startAt.isBefore(DateTime.now())) {
+            throw new InvalidInputError("Thời gian bắt đầu phải muộn hơn hiện tại.");
+        }
+        if (endAt.equals(startAt) || endAt.isBefore(startAt)) {
+            throw new InvalidInputError("Thời gian kết thúc phải muộn hơn thời gian bắt đầu.");
+        }
     }
 
     public void setStartAtAndEndAt(DateTime startAt, DateTime endAt) {
         if (started() || ended()) {
             throw new BusinessLogicError("Kì thi đang diễn ra hoặc đã kết thúc, không được phép update thời gian.", "CAN_NOT_UPDATE");
         }
-        if (startAt.isBefore(DateTime.now())) {
-            throw new BusinessLogicError("Thời gian bắt đầu phải muộn hơn hiện tại.", "INVALID_STARTDATE");
-        }
-        if (endAt.equals(startAt) || endAt.isBefore(startAt)) {
-            throw new BusinessLogicError("Thời gian kết thúc phải muộn hơn thời gian bắt đầu.", "INVALID_ENDDATE");
-        }
+        validateStartAtEndAt(startAt, endAt);
         setStartAt(startAt);
         setEndAt(endAt);
     }
 
-    public void addProblem(Problem probToAdd) {
-        for (Problem addedProb : problems) {
-            if (addedProb.getOrdinal() == probToAdd.getOrdinal()) {
-                throw new BusinessLogicError("Duplicate problem ordinal.", "DUPLICATE_PROBLEM_ORDINAL");
-            }
-            if (addedProb.getCoreProblemId().equals(probToAdd.getCoreProblemId())) {
-                throw new BusinessLogicError("Duplicate problem.", "DUPLICATE_CORE_PROBLEM_ID");
-            }
-        }
-        problems.add(probToAdd);
-    }
-
     public void removeProblem(int ordinal) {
-        for (int i = 0; i < problems.size(); i++) {
-            if (problems.get(i).getOrdinal() == ordinal) {
-                problems.remove(i);
+        for (int i = 0; i < contestProblems.size(); i++) {
+            if (contestProblems.get(i).getOrdinal() == ordinal) {
+                contestProblems.remove(i);
                 return;
             }
         }
         throw new BusinessLogicError("Unknown ordinal.", "UNKNOWN_ORDINAL");
     }
 
-    public Problem getProblem(int ordinal) {
-        for (Problem problem : problems) {
-            if (problem.getOrdinal() == ordinal) {
-                return problem;
+    public ContestProblem getProblem(int ordinal) {
+        for (ContestProblem contestProblem : contestProblems) {
+            if (contestProblem.getOrdinal() == ordinal) {
+                return contestProblem;
             }
         }
         return null;
@@ -137,7 +158,7 @@ public class Contest extends IdentitifedVersioningDomainObject {
         return createdBy;
     }
 
-    public List<Problem> getProblems() {
-        return Collections.unmodifiableList(problems);
+    public List<ContestProblem> getProblems() {
+        return Collections.unmodifiableList(contestProblems);
     }
 }
