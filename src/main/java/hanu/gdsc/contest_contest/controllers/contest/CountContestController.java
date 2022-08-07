@@ -1,6 +1,6 @@
 package hanu.gdsc.contest_contest.controllers.contest;
 
-import hanu.gdsc.contest_contest.services.contest.CountContestService;
+import hanu.gdsc.contest_contest.services.contest.SearchContestService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class CountContestController {
 
     @Autowired
-    public CountContestService countContestService;
+    public SearchContestService searchContestService;
 
     @GetMapping("/contest/contest/countContest")
     public ResponseEntity<?> countContest() {
         try {
-            return new ResponseEntity<>(new ResponseBody("Success", countContestService.countContest()), HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseBody("Success", searchContestService.countContest()), HttpStatus.OK);
         } catch (Throwable e) {
             e.printStackTrace();
             if(e.getClass().equals(BusinessLogicError.class)) {

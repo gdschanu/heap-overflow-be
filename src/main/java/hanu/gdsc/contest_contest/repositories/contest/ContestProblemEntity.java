@@ -1,6 +1,6 @@
 package hanu.gdsc.contest_contest.repositories.contest;
 
-import hanu.gdsc.contest_contest.domains.Problem;
+import hanu.gdsc.contest_contest.domains.ContestProblem;
 import lombok.*;
 
 import javax.persistence.*;
@@ -26,20 +26,20 @@ public class ContestProblemEntity {
     @JoinColumn(name = "contest_id", columnDefinition = "VARCHAR(30)")
     private ContestEntity contest;
 
-    public static ContestProblemEntity fromDomain(Problem problem, ContestEntity contestEntity) {
+    public static ContestProblemEntity fromDomain(ContestProblem contestProblem, ContestEntity contestEntity) {
         return ContestProblemEntity.builder()
-                .id(contestEntity.getId().toString() + "#" + problem.getOrdinal())
-                .version(problem.getVersion())
-                .ordinal(problem.getOrdinal())
-                .coreProblemId(problem.getCoreProblemId().toString())
-                .score(problem.getScore())
+                .id(contestEntity.getId().toString() + "#" + contestProblem.getOrdinal())
+                .version(contestProblem.getVersion())
+                .ordinal(contestProblem.getOrdinal())
+                .coreProblemId(contestProblem.getCoreProblemId().toString())
+                .score(contestProblem.getScore())
                 .contest(contestEntity)
                 .build();
     }
 
-    public Problem toDomain() {
+    public ContestProblem toDomain() {
         try {
-            Constructor<Problem> con = Problem.class.getDeclaredConstructor(
+            Constructor<ContestProblem> con = ContestProblem.class.getDeclaredConstructor(
                     Long.TYPE,
                     Integer.TYPE,
                     hanu.gdsc.share.domains.Id.class,

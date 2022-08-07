@@ -34,6 +34,7 @@ public class CoderEntity {
     private String slogan;
     private String gender;
     private String address;
+    @Column(name = "coder_rank")
     private int rank;
 
     public static CoderEntity fromDomains(Coder coder) {  

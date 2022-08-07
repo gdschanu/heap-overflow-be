@@ -32,6 +32,13 @@ public class ProblemRepositoryImpl implements ProblemRepository {
     }
 
     @Override
+    public void createMany(List<Problem> problems) {
+        problemJPARepository.saveAll(problems.stream()
+                .map(problem -> ProblemEntity.toEntity(problem))
+                .collect(Collectors.toList()));
+    }
+
+    @Override
     public void update(Problem problem) {
         problemJPARepository.save(ProblemEntity.toEntity(problem));
     }
@@ -49,6 +56,15 @@ public class ProblemRepositoryImpl implements ProblemRepository {
     @Override
     public void deleteById(Id id) {
         problemJPARepository.deleteById(id.toString());
+    }
+
+    @Override
+    public void deleteByIds(List<Id> ids) {
+        problemJPARepository.deleteAllById(
+                ids.stream()
+                        .map(id -> id.toString())
+                        .collect(Collectors.toList())
+        );
     }
 
 
