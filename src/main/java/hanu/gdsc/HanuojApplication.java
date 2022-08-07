@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 
 @SpringBootApplication
 @EnableScheduling
