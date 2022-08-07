@@ -54,4 +54,17 @@ public class SearchContestController {
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/contest/contest/countContest")
+    public ResponseEntity<?> countContest() {
+        try {
+            return new ResponseEntity<>(new ResponseBody("Success", searchContestService.countContest()), HttpStatus.OK);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            if(e.getClass().equals(BusinessLogicError.class)) {
+                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

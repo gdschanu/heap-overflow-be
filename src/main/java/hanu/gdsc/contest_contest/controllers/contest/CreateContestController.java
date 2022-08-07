@@ -26,7 +26,7 @@ public class CreateContestController {
         public String description;
         public String startAt;
         public String endAt;
-        private List<CreateContestService.CreateProblemInput> problems;
+        public List<CreateContestService.CreateProblemInput> problems;
     }
 
     @PostMapping("/contest/contest")

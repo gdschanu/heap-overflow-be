@@ -1,5 +1,6 @@
 package hanu.gdsc.core_problem.domains;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
 import hanu.gdsc.share.error.InvalidInputError;
@@ -22,10 +23,15 @@ public class TimeLimit extends IdentifiedDomainObject {
     }
 
     @Getter
-    @AllArgsConstructor
     public static class CreateInput {
-        public ProgrammingLanguage programmingLanguage;
-        public Millisecond timeLimit;
+        private ProgrammingLanguage programmingLanguage;
+        private Millisecond timeLimit;
+
+        public CreateInput(@JsonProperty("programmingLanguage") ProgrammingLanguage programmingLanguage,
+                           @JsonProperty("timeLimit") Millisecond timeLimit) {
+            this.programmingLanguage = programmingLanguage;
+            this.timeLimit = timeLimit;
+        }
     }
 
     public static TimeLimit create(CreateInput input) {

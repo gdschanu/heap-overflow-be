@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -56,6 +57,8 @@ public class CreateProblemServiceImpl implements CreateProblemService {
             submissionCounts.add(SubmissionCount.create(problem.getId(), inputs.get(0).serviceToCreate));
         problemRepository.createMany(problems);
         submissionCountRepository.createMany(submissionCounts);
-        return null;
+        return problems.stream()
+                .map(problem -> problem.getId())
+                .collect(Collectors.toList());
     }
 }

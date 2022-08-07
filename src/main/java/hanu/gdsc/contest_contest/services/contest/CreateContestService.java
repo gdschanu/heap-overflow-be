@@ -1,5 +1,7 @@
 package hanu.gdsc.contest_contest.services.contest;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import hanu.gdsc.contest_contest.config.ServiceName;
 import hanu.gdsc.contest_contest.domains.Contest;
 import hanu.gdsc.contest_contest.domains.ContestProblem;
@@ -26,7 +28,6 @@ public class CreateContestService {
     private final ContestRepository contestRepository;
     private final CreateProblemService createProblemService;
 
-    @AllArgsConstructor
     @Getter
     public static class CreateProblemInput {
         private int ordinal;
@@ -36,6 +37,23 @@ public class CreateContestService {
         private List<MemoryLimit.CreateInput> memoryLimits;
         private List<TimeLimit.CreateInput> timeLimits;
         private List<ProgrammingLanguage> allowedProgrammingLanguages;
+
+        @JsonCreator
+        public CreateProblemInput(@JsonProperty("ordinal") int ordinal,
+                                  @JsonProperty("score") int score,
+                                  @JsonProperty("name") String name,
+                                  @JsonProperty("description") String description,
+                                  @JsonProperty("memoryLimits") List<MemoryLimit.CreateInput> memoryLimits,
+                                  @JsonProperty("timeLimits") List<TimeLimit.CreateInput> timeLimits,
+                                  @JsonProperty("allowedProgrammingLanguages") List<ProgrammingLanguage> allowedProgrammingLanguages) {
+            this.ordinal = ordinal;
+            this.score = score;
+            this.name = name;
+            this.description = description;
+            this.memoryLimits = memoryLimits;
+            this.timeLimits = timeLimits;
+            this.allowedProgrammingLanguages = allowedProgrammingLanguages;
+        }
     }
 
     @AllArgsConstructor
