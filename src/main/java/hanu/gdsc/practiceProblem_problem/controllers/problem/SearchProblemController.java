@@ -3,17 +3,16 @@ package hanu.gdsc.practiceProblem_problem.controllers.problem;
 import hanu.gdsc.practiceProblem_problem.services.problem.SearchProblemService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 
 @RestController
+@Tag(name = "PracticeProblem" , description = "Rest-API endpoint for Practice Problem")
 public class SearchProblemController {
     @Autowired
     private SearchProblemService servicePracticeProblemService;
@@ -44,6 +43,17 @@ public class SearchProblemController {
     public ResponseEntity<?> countProblem() {
         return ControllerHandler.handle(() -> {
             long output = servicePracticeProblemService.countProblem();
+            return new ControllerHandler.Result(
+                    "Success",
+                    output
+            );
+        });
+    }
+
+    @GetMapping("/practiceProblem/recommendProblem")
+    public ResponseEntity<?> getRecommendProblem(@RequestBody int count) {
+        return ControllerHandler.handle(() -> {
+            List<SearchProblemService.Output> output = servicePracticeProblemService.getRecommendProblem(count);
             return new ControllerHandler.Result(
                     "Success",
                     output

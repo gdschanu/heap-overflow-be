@@ -56,4 +56,12 @@ public class ProblemRepositoryImpl implements ProblemRepository {
     public long countProblem() {
         return PPProblemJpaRepository.count();
     }
+
+    public List<Problem> getRecommendProblem(int count) {
+        Pageable pageable = PageRequest.of(0, count);
+        Page<PPProblemEntity> entities = PPProblemJpaRepository.getRecommendProblem(pageable);
+        return entities.getContent()
+                .stream().map(PPProblemEntity::toDomain)
+                .collect(Collectors.toList());
+    }
 }

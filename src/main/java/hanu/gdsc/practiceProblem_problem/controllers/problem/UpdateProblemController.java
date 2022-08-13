@@ -7,6 +7,7 @@ import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.services.problem.UpdateProblemService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @RestController
 @Component(value = "PracticeProblem.UpdateProblemService")
+@Tag(name = "PracticeProblem" , description = "Rest-API endpoint for Practice Problem")
 public class UpdateProblemController {
     @Autowired
     private UpdateProblemService updateProblemService;
