@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @Component(value = "PracticeProblem.UpdateProblemService")
-@Tag(name = "PracticeProblem-Problem" , description = "Rest-API endpoint for Practice Problem")
+@Tag(name = "Practice Problem-Problem" , description = "Rest-API endpoint for Practice Problem")
 public class UpdateProblemController {
     @Autowired
     private UpdateProblemService updateProblemService;

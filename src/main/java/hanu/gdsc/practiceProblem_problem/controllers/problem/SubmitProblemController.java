@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Tag(name = "PracticeProblem-Problem" , description = "Rest-API endpoint for Practice Problem")
+@Tag(name = "Practice Problem-Problem" , description = "Rest-API endpoint for Practice Problem")
 public class SubmitProblemController {
     @Autowired
     private SubmitProblemService submitProblemService;

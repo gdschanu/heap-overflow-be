@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@Tag(name = "PracticeProblem-Submission" , description = "Rest-API endpoint for Practice Problem")
+@Tag(name = "Practice Problem-Submission" , description = "Rest-API endpoint for Practice Problem")
 public class SearchSubmissionController {
     @Autowired
     private SearchSubmissionService searchSubmissionService;

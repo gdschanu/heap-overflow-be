@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-@Tag(name = "PracticeProblem-Problem" , description = "Rest-API endpoint for Practice Problem")
+@Tag(name = "Practice Problem-Problem" , description = "Rest-API endpoint for Practice Problem")
 public class SearchProblemController {
     @Autowired
     private SearchProblemService servicePracticeProblemService;
