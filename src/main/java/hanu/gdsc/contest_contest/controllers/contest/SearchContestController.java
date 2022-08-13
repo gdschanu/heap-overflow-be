@@ -22,7 +22,7 @@ public class SearchContestController {
     @Autowired
     private SearchContestService searchContestService;
 
-    @GetMapping("/contest/")
+    @GetMapping("/contest")
     public ResponseEntity<?> searchContest(@RequestParam int page,
                                            @RequestParam int perPage) {
         try {
