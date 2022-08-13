@@ -29,4 +29,6 @@ public interface SearchRunningSubmissionService {
     public Output getByIdAndCoderId(Id id, Id coderId, String serviceToCreate);
 
     public List<Output> getByCoderId(int page, int perPage, Id coderId, String serviceToCreate);
+
+    public Output getById(Id id, String serviceToCreate);
 }

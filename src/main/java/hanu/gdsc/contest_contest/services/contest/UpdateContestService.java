@@ -43,18 +43,18 @@ public class UpdateContestService {
     @AllArgsConstructor
     @Getter
     public static class Input {
-        public Id contestId;
-        public String name;
-        public String description;
-        public DateTime startAt;
-        public DateTime endAt;
+        private Id id;
+        private String name;
+        private String description;
+        private DateTime startAt;
+        private DateTime endAt;
         private List<UpdateProblemInput> problems;
         private Id updatedBy;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     public void execute(Input input) {
-        Contest contest = contestRepository.getById(input.contestId);
+        Contest contest = contestRepository.getById(input.id);
         if (contest == null) {
             throw new BusinessLogicError("Contest không tồn tại.", "NOT_FOUND");
         }

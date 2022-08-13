@@ -10,6 +10,7 @@ import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class CreateProblemService {
     private final ProblemRepository problemRepository;
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
         public Difficulty difficulty;
         public String name;

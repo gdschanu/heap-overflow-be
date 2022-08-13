@@ -6,6 +6,8 @@ import hanu.gdsc.core_problem.services.submit.SubmitService;
 import hanu.gdsc.practiceProblem_problem.services.problem.SubmitProblemService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +19,8 @@ public class SubmitProblemController {
     @Autowired
     private AuthorizeService authorizeService;
 
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Input {
         public String code;
         public ProgrammingLanguage programmingLanguage;

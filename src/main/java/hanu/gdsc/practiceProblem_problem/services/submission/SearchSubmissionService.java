@@ -9,6 +9,7 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public class SearchSubmissionService {
     private final hanu.gdsc.core_problem.services.submission.SearchSubmissionService searchCoreProblemSubmissionService;
     private final ProblemRepository problemRepository;
 
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Builder
     public static class FailedTestCaseDetailOutput {
         public Integer failedAtLine;
@@ -30,6 +33,8 @@ public class SearchSubmissionService {
 
     }
 
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Builder
     public static class Output {
         public Id problemId;

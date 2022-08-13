@@ -1,4 +1,4 @@
-package hanu.gdsc.core_problem.config;
+package hanu.gdsc.practiceProblem_problem.config;
 
 public class RunningSubmissionConfig {
     public static final int MAX_THREAD = 2;

@@ -11,6 +11,7 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class UpdateProblemService {
     private final hanu.gdsc.core_problem.services.problem.UpdateProblemService updateCoreProblemService;
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
         public Id problemId;
         public Difficulty difficulty;
