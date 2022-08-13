@@ -24,9 +24,9 @@ public class LogInController {
     @PostMapping("/coderAuth/logIn")
     public ResponseEntity<?> logIn(@RequestBody Input input) {
         try {
-            String token = logInService.logInService(input.usernameOrEmail, input.password);
+            LogInService.Output output = logInService.logInService(input.usernameOrEmail, input.password);
             return new ResponseEntity<>(
-                    new ResponseBody("Success", token),
+                    new ResponseBody("Success", output),
                     HttpStatus.OK);
         } catch (Throwable e) {
             if(e instanceof BusinessLogicError) {

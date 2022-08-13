@@ -1,5 +1,6 @@
 package hanu.gdsc.coderAuth.controllers;
 
+import hanu.gdsc.coderAuth.services.LogInService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ public class SignUpController {
     @Autowired
     private SignUpService signUpService;
 
+    @Autowired
+    private LogInService logInService;
+
     public static class Input {
         public String email;
         public String username;
@@ -26,8 +30,9 @@ public class SignUpController {
     public ResponseEntity<?> signUp(@RequestBody Input input) {
         try {
             signUpService.signUpService(input.email, input.username, input.password);
+            LogInService.Output output = logInService.logInService(input.email, input.password);
             return new ResponseEntity<>(
-                    new ResponseBody("Success"), HttpStatus.OK);
+                    new ResponseBody("Success", output), HttpStatus.OK);
         } catch (Throwable e) {
             if(e instanceof BusinessLogicError) {
                 e.printStackTrace();

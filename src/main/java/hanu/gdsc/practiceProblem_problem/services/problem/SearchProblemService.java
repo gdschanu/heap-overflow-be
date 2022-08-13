@@ -70,8 +70,17 @@ public class SearchProblemService {
                 page,
                 perPage
         );
+        return toListOutPut(practiceProblems);
+    }
+
+    public List<Output> getRecommendProblem(int count) {
+        List<Problem> recommendProblems = problemRepository.getRecommendProblem(count);
+        return toListOutPut(recommendProblems);
+    }
+
+    private List<Output> toListOutPut(List<Problem> problems) {
         List<hanu.gdsc.core_problem.domains.Problem> coreProblems = searchCoreProblemProblemService.getByIds(
-                practiceProblems.stream()
+                problems.stream()
                         .map(Problem::getCoreProblemProblemId)
                         .collect(Collectors.toList()),
                 ServiceName.serviceName
@@ -79,7 +88,7 @@ public class SearchProblemService {
         Map<Id, hanu.gdsc.core_problem.domains.Problem> coreProblemsIdMap = new HashMap<>();
         for (hanu.gdsc.core_problem.domains.Problem coreProb : coreProblems)
             coreProblemsIdMap.put(coreProb.getId(), coreProb);
-        return practiceProblems.stream()
+        return problems.stream()
                 .map(p -> toOutput(p, coreProblemsIdMap.get(p.getCoreProblemProblemId())))
                 .collect(Collectors.toList());
     }

@@ -15,4 +15,6 @@ public interface ProblemRepository {
     public void update(Problem problem);
 
     public long countProblem();
+
+    public List<Problem> getRecommendProblem(int count);
 }

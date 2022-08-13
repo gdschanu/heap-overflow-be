@@ -22,7 +22,7 @@ public class LogInServiceImpl implements LogInService {
    private SessionRepository sessionRepository;
 
    @Override
-   public String logInService(String usernameOrEmail, String password) {
+   public Output logInService(String usernameOrEmail, String password) {
       User user;
       if (Email.isValidEmail(usernameOrEmail)) {
          Email email = new Email(usernameOrEmail);
@@ -38,7 +38,12 @@ public class LogInServiceImpl implements LogInService {
          throw new NonExistentUsernameOrEmail();
       }
       if (user.getPassword().toHashedPasswordString().equals(HashedPassword.fromRawPassword(password).toHashedPasswordString())) {
-         return createToken(coderId);
+         String token = createToken(coderId);
+         return Output.builder()
+         .username(user.getUsername().toString())
+                 .coderId(coderId.toString())
+                 .token(token)
+         .build();
       } else {
          throw new WrongPassword();
       }

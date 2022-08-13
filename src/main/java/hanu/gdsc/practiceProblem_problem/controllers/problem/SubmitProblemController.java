@@ -8,11 +8,14 @@ import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@Tag(name = "PracticeProblem" , description = "Rest-API endpoint for Practice Problem")
 public class SubmitProblemController {
     @Autowired
     private SubmitProblemService submitProblemService;
@@ -21,13 +24,16 @@ public class SubmitProblemController {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class Input {
+    @Schema(title = "Submit", description = "Data transfer object for PracticeProblem to submit" )
+    public static class InputSubmit {
+        @Schema(description = "specify the code of problem", example = "String", required = true)
         public String code;
+        @Schema(description = "specify the programming language of problem", example = "JAVA", required = true)
         public ProgrammingLanguage programmingLanguage;
     }
 
     @PostMapping("/practiceProblem/problem/{id}/submit")
-    public ResponseEntity<?> submit(@RequestBody Input input, @PathVariable String id,
+    public ResponseEntity<?> submit(@RequestBody InputSubmit input, @PathVariable String id,
                                     @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             Id coderId = authorizeService.authorize(token);
