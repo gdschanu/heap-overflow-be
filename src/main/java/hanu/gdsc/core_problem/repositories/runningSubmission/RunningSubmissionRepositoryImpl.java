@@ -1,7 +1,7 @@
 package hanu.gdsc.core_problem.repositories.runningSubmission;
 
-import hanu.gdsc.practiceProblem_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.core_problem.domains.RunningSubmission;
+import hanu.gdsc.practiceProblem_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -68,7 +68,7 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
                 return null;
             }
             return entity.toDomain();
-        } catch (EntityNotFoundException e) {
+        } catch (Exception e) {
             return null;
         }
     }

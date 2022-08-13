@@ -9,6 +9,7 @@ import hanu.gdsc.share.scheduling.Scheduler;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+@Service
 public class SearchRunningSubmissionService {
     private ServerSocket serverSocket;
     private final hanu.gdsc.core_problem.services.runningSubmission.SearchRunningSubmissionService
