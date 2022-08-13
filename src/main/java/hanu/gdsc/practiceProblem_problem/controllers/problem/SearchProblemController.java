@@ -12,7 +12,7 @@ import java.util.List;
 
 
 @RestController
-@Tag(name = "PracticeProblem" , description = "Rest-API endpoint for Practice Problem")
+@Tag(name = "PracticeProblem-Problem" , description = "Rest-API endpoint for Practice Problem")
 public class SearchProblemController {
     @Autowired
     private SearchProblemService servicePracticeProblemService;
@@ -39,7 +39,7 @@ public class SearchProblemController {
         });
     }
 
-    @GetMapping("/practiceProblem/countProblem")
+    @GetMapping("/practiceProblem/problem/count")
     public ResponseEntity<?> countProblem() {
         return ControllerHandler.handle(() -> {
             long output = servicePracticeProblemService.countProblem();
@@ -50,8 +50,8 @@ public class SearchProblemController {
         });
     }
 
-    @GetMapping("/practiceProblem/recommendProblem")
-    public ResponseEntity<?> getRecommendProblem(@RequestBody int count) {
+    @GetMapping("/practiceProblem/problem/recommended")
+    public ResponseEntity<?> getRecommendProblem(@RequestParam  int count) {
         return ControllerHandler.handle(() -> {
             List<SearchProblemService.Output> output = servicePracticeProblemService.getRecommendProblem(count);
             return new ControllerHandler.Result(

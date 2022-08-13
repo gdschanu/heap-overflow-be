@@ -1,17 +1,21 @@
 package hanu.gdsc.coderAuth.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import hanu.gdsc.coderAuth.services.ForgotPasswordService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@Tag(name = "Coder Auth" , description = "Rest-API endpoint for Coder Auth")
 public class ForgotPasswordController {
     @Autowired
     private ForgotPasswordService forgotPasswordService;
@@ -20,7 +24,7 @@ public class ForgotPasswordController {
         public String email;
     }
 
-    @PutMapping("/coderAuth/forgotPassword")
+    @PostMapping("/coderAuth/password/forgot")
     public ResponseEntity<?> forgotPassword(@RequestBody Input input) {
         try {
             forgotPasswordService.forgotPassword(input.email);

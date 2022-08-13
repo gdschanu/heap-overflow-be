@@ -4,6 +4,7 @@ import hanu.gdsc.coderAuth.services.AuthorizeService;
 import hanu.gdsc.practiceProblem_problem.services.submission.SearchSubmissionService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@Tag(name = "PracticeProblem-Submission" , description = "Rest-API endpoint for Practice Problem")
 public class SearchSubmissionController {
     @Autowired
     private SearchSubmissionService searchSubmissionService;

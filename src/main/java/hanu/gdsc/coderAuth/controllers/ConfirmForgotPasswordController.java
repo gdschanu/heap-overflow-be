@@ -1,17 +1,21 @@
 package hanu.gdsc.coderAuth.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import hanu.gdsc.coderAuth.services.ConfirmForgotPasswordService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@Tag(name = "Coder Auth" , description = "Rest-API endpoint for Coder Auth")
 public class ConfirmForgotPasswordController {
     @Autowired
     private ConfirmForgotPasswordService confirmForgotPasswordService;
@@ -22,7 +26,7 @@ public class ConfirmForgotPasswordController {
         public String newPassword;
     }
 
-    @PutMapping("/coderAuth/confirmForgotPassword")
+    @PostMapping("/coderAuth/password/confirmForgotten")
     public ResponseEntity<?> confirmForgotPassword(@RequestBody Input input) {
         try {
             confirmForgotPasswordService.confirmForgotPassword(input.email, input.code, input.newPassword);

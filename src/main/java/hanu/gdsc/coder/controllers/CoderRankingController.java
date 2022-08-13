@@ -4,21 +4,24 @@ import hanu.gdsc.coder.domains.Coder;
 import hanu.gdsc.coder.services.CoderRankingService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Controller
+@RestController
+@Tag(name = "Coder" , description = "Rest-API endpoint for Coder")
 public class CoderRankingController {
 
     @Autowired
     public CoderRankingService coderRankingService;
 
-    @GetMapping("/coder/coderRanking")
+    @GetMapping("/coder/rank")
     public ResponseEntity<?> coderRanking() {
         try {
             List<Coder> sortedRankingCoders = coderRankingService.getAllCoderRankingSorted();

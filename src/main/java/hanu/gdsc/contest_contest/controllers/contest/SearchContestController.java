@@ -5,6 +5,7 @@ import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@Tag(name = "Contest" , description = "Rest-API endpoint for Contest")
 public class SearchContestController {
     @Autowired
     private SearchContestService searchContestService;
 
-    @GetMapping("/contest/contest")
+    @GetMapping("/contest/")
     public ResponseEntity<?> searchContest(@RequestParam int page,
                                            @RequestParam int perPage) {
         try {
@@ -38,7 +40,7 @@ public class SearchContestController {
         } 
     }
 
-    @GetMapping("/contest/contest/{id}")
+    @GetMapping("/contest/{id}")
     public ResponseEntity<?> searchContest(@PathVariable String id) {
         try {
             SearchContestService.OutputContest contest = searchContestService.getById(new Id(id));
@@ -55,7 +57,7 @@ public class SearchContestController {
         }
     }
 
-    @GetMapping("/contest/contest/countContest")
+    @GetMapping("/contest/count")
     public ResponseEntity<?> countContest() {
         try {
             return new ResponseEntity<>(new ResponseBody("Success", searchContestService.countContest()), HttpStatus.OK);

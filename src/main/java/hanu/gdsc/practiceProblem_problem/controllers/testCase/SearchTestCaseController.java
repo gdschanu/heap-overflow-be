@@ -2,6 +2,7 @@ package hanu.gdsc.practiceProblem_problem.controllers.testCase;
 
 import hanu.gdsc.practiceProblem_problem.services.testCase.SearchTestCaseService;
 import hanu.gdsc.share.controller.ControllerHandler;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@Tag(name = "PracticeProblem-TestCase" , description = "Rest-API endpoint for Practice Problem")
 public class SearchTestCaseController {
     @Autowired
     private SearchTestCaseService searchTestCaseService;

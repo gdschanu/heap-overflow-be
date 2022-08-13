@@ -2,6 +2,7 @@ package hanu.gdsc.coderAuth.controllers;
 
 import hanu.gdsc.coderAuth.services.AuthorizeService;
 import hanu.gdsc.coderAuth.services.ConfirmRegisterVerificationCodeService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +15,10 @@ import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 import hanu.gdsc.share.error.UnauthorizedError;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@Tag(name = "Coder Auth" , description = "Rest-API endpoint for Coder Auth")
 public class ConfirmRegisterVerificationCodeController {
     @Autowired
     private ConfirmRegisterVerificationCodeService confirmRegisterVerificationCodeService;
@@ -27,7 +30,7 @@ public class ConfirmRegisterVerificationCodeController {
         public String code;
     }
 
-    @PostMapping("/coderAuth/confirmRegisterVerificationCode")
+    @PostMapping("/coderAuth/registerVerificationCode/confirm")
     public ResponseEntity<?> confirmRegisterVerificationCode(@RequestBody Input input, @RequestHeader String token) {
         try {
             Id coderId = authorizeService.authorize(token);

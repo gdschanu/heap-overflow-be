@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@Tag(name = "PracticeProblem" , description = "Rest-API endpoint for Practice Problem")
+@Tag(name = "PracticeProblem-Problem" , description = "Rest-API endpoint for Practice Problem")
 public class CreateProblemController {
     @Autowired
     private CreateProblemService createPracticeProblemService;
