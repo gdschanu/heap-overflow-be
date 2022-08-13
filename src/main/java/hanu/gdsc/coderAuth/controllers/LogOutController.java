@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 import hanu.gdsc.share.controller.ResponseBody;
@@ -20,7 +21,7 @@ public class LogOutController {
     @Autowired
     private LogOutService logOutService;
 
-    @DeleteMapping("/coderAuth/logOut")
+    @PostMapping("/coderAuth/logOut")
     public ResponseEntity<?> logOut(@RequestHeader String token) {
         try {
             logOutService.logOut(token);
