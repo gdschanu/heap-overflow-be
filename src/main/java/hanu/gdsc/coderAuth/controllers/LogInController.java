@@ -1,5 +1,6 @@
 package hanu.gdsc.coderAuth.controllers;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,13 +20,16 @@ public class LogInController {
     @Autowired
     private LogInService logInService;
 
-    public static class Input {
+    @Schema(title = "LogIn", description = "Data transfer object to log in")
+    public static class InputLogIn {
+        @Schema(description = "specify the email or username of user to log in", example = "hihi@gmail.com", required = true)
         public String usernameOrEmail;
+        @Schema(description = "specify the password to log in", example = "*********", required = true)
         public String password;
     }
 
     @PostMapping("/coderAuth/logIn")
-    public ResponseEntity<?> logIn(@RequestBody Input input) {
+    public ResponseEntity<?> logIn(@RequestBody InputLogIn input) {
         try {
             LogInService.Output output = logInService.logInService(input.usernameOrEmail, input.password);
             return new ResponseEntity<>(

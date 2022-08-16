@@ -25,12 +25,12 @@ public class TimeLimit extends IdentifiedDomainObject {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class CreateInput {
+    public static class CreateInputTL {
         public ProgrammingLanguage programmingLanguage;
         public Millisecond timeLimit;
     }
 
-    public static TimeLimit create(CreateInput input) {
+    public static TimeLimit create(CreateInputTL input) {
         if (input.timeLimit.greaterThan(2000)) {
             throw new InvalidInputError("Time Limit must not be greater than 2000 millisecond.");
         }

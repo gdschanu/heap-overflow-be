@@ -2,12 +2,17 @@ package hanu.gdsc.share.controller;
 
 import hanu.gdsc.share.error.BusinessLogicError;
 import hanu.gdsc.share.error.UnauthorizedError;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class ControllerHandler {
+
+    @Schema(title = "Response")
     public static class Result {
+        @Schema(description = "specify the message of response", example = "Success", required = true)
         private String message;
+        @Schema(description = "specify the data of response", example = "", required = true)
         private Object data;
 
         public Result(String message, Object data) {

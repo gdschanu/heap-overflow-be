@@ -28,13 +28,13 @@ public class UpdateProblemServiceImpl implements UpdateProblemService{
         }
         if (input.memoryLimits != null) {
             problem.clearMemoryLimits();
-            for (MemoryLimit.CreateInput inp : input.memoryLimits) {
+            for (MemoryLimit.CreateInputML inp : input.memoryLimits) {
                 problem.addMemoryLimit(MemoryLimit.create(inp));
             }
         }
         if (input.timeLimits != null) {
             problem.clearTimeLimits();
-            for (TimeLimit.CreateInput inp : input.timeLimits) {
+            for (TimeLimit.CreateInputTL inp : input.timeLimits) {
                 problem.addTimeLimit(TimeLimit.create(inp));
             }
         }

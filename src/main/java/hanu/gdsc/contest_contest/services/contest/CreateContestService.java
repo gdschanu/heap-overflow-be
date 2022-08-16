@@ -12,6 +12,7 @@ import hanu.gdsc.core_problem.domains.TimeLimit;
 import hanu.gdsc.core_problem.services.problem.CreateProblemService;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;
@@ -29,13 +30,21 @@ public class CreateContestService {
     private final CreateProblemService createProblemService;
 
     @Getter
+    @Schema(title = "create problem input", description = "Data transfer object for problem to create in contest")
     public static class CreateProblemInput {
+        @Schema(description = "specify the ordinal of problem", example = "1", required = true)
         private int ordinal;
+        @Schema(description = "specify the score of problem", example = "10", required = true)
         private int score;
+        @Schema(description = "specify the name of problem", example = "Sum array", required = true)
         private String name;
+        @Schema(description = "specify the description of problem", example = "blablablablabla", required = true)
         private String description;
-        private List<MemoryLimit.CreateInput> memoryLimits;
-        private List<TimeLimit.CreateInput> timeLimits;
+        @Schema(description = "specify the input to create memory limit of problem", required = true)
+        private List<MemoryLimit.CreateInputML> memoryLimits;
+        @Schema(description = "specify the input to create time limit of problem", required = true)
+        private List<TimeLimit.CreateInputTL> timeLimits;
+        @Schema(description = "specify the programming language of problem", required = true)
         private List<ProgrammingLanguage> allowedProgrammingLanguages;
 
         @JsonCreator
@@ -43,8 +52,8 @@ public class CreateContestService {
                                   @JsonProperty("score") int score,
                                   @JsonProperty("name") String name,
                                   @JsonProperty("description") String description,
-                                  @JsonProperty("memoryLimits") List<MemoryLimit.CreateInput> memoryLimits,
-                                  @JsonProperty("timeLimits") List<TimeLimit.CreateInput> timeLimits,
+                                  @JsonProperty("memoryLimits") List<MemoryLimit.CreateInputML> memoryLimits,
+                                  @JsonProperty("timeLimits") List<TimeLimit.CreateInputTL> timeLimits,
                                   @JsonProperty("allowedProgrammingLanguages") List<ProgrammingLanguage> allowedProgrammingLanguages) {
             this.ordinal = ordinal;
             this.score = score;

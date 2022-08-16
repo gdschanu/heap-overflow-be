@@ -24,12 +24,12 @@ public class MemoryLimit extends IdentifiedDomainObject {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class CreateInput {
+    public static class CreateInputML {
         public ProgrammingLanguage programmingLanguage;
         public KB memoryLimit;
     }
 
-    public static MemoryLimit create(CreateInput input) {
+    public static MemoryLimit create(CreateInputML input) {
         return new MemoryLimit(
                 Id.generateRandom(),
                 input.programmingLanguage,

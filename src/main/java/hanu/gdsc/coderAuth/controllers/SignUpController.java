@@ -1,6 +1,7 @@
 package hanu.gdsc.coderAuth.controllers;
 
 import hanu.gdsc.coderAuth.services.LogInService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,14 +24,18 @@ public class SignUpController {
     @Autowired
     private LogInService logInService;
 
-    public static class Input {
+    @Schema(title = "sign up", description = "Data transfer object for coder auth to sign up")
+    public static class InputSignUp {
+        @Schema(description = "specify the email of user", example = "hihi@gmail.com", required = true)
         public String email;
+        @Schema(description = "specify the username of user", example = "DatKhoaiTo", required = true)
         public String username;
+        @Schema(description = "specify the password of contest", example = "*********", required = true)
         public String password;
     }
 
     @PostMapping("/coderAuth/signUp")
-    public ResponseEntity<?> signUp(@RequestBody Input input) {
+    public ResponseEntity<?> signUp(@RequestBody InputSignUp input) {
         try {
             signUpService.signUpService(input.email, input.username, input.password);
             LogInService.Output output = logInService.logInService(input.email, input.password);

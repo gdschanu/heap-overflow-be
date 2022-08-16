@@ -8,6 +8,9 @@ import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.services.problem.CreateProblemService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -39,11 +42,30 @@ public class CreateProblemController {
         public String name;
         @Schema(description = "specify the description of problem", example = "blalblalba", required = true)
         public String description;
-        public List<MemoryLimit.CreateInput> memoryLimits;
-        public List<TimeLimit.CreateInput> timeLimits;
+        public List<MemoryLimit.CreateInputML> memoryLimits;
+        public List<TimeLimit.CreateInputTL> timeLimits;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
+    @Operation(
+            summary = "Create the practice problem",
+            responses = {@ApiResponse(
+                    responseCode = "200",
+                    description = "Entity successfully created.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = ControllerHandler.Result.class)
+                            )
+                    }
+            ), @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized"
+            ), @ApiResponse(
+                    responseCode = "400",
+                    description = "invalid request"
+            )}
+    )
     @PostMapping("/practiceProblem/problem")
     public ResponseEntity<?> create(@RequestBody InputCreate input, @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
