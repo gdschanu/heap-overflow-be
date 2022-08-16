@@ -35,15 +35,18 @@ public class CreateProblemController {
     @AllArgsConstructor
     @NoArgsConstructor
     @Schema(title = "Create", description = "Data transfer object for PracticeProblem to create" )
-    public static class InputCreate{
+    public static class InputCreateProblem{
         @Schema(description = "specify the difficulty of problem", example = "EASY", required = true)
         public Difficulty difficulty;
         @Schema(description = "specify the name of problem", example = "Calculate Sum array", required = true)
         public String name;
         @Schema(description = "specify the description of problem", example = "blalblalba", required = true)
         public String description;
+        @Schema
         public List<MemoryLimit.CreateInputML> memoryLimits;
+        @Schema
         public List<TimeLimit.CreateInputTL> timeLimits;
+        @Schema
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
@@ -55,7 +58,7 @@ public class CreateProblemController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = ControllerHandler.Result.class)
+                                    schema = @Schema(implementation = Id.class, example = "hihi")
                             )
                     }
             ), @ApiResponse(
@@ -67,9 +70,9 @@ public class CreateProblemController {
             )}
     )
     @PostMapping("/practiceProblem/problem")
-    public ResponseEntity<?> create(@RequestBody InputCreate input, @RequestHeader("access-token") String token) {
+    public ResponseEntity<?> create(@RequestBody InputCreateProblem input) {
         return ControllerHandler.handle(() -> {
-            Id coderId = authorizeService.authorize(token);
+//            Id coderId = authorizeService.authorize(token);
             Id problemId = createPracticeProblemService.create(new CreateProblemService.Input(
                     input.difficulty,
                     input.name,
@@ -77,7 +80,7 @@ public class CreateProblemController {
                     input.memoryLimits,
                     input.timeLimits,
                     input.allowedProgrammingLanguages,
-                    coderId
+                    Id.generateRandom()
             ));
             return new ControllerHandler.Result(
                     "Success",

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
 import hanu.gdsc.share.error.InvalidInputError;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,8 +26,11 @@ public class TimeLimit extends IdentifiedDomainObject {
 
     @AllArgsConstructor
     @NoArgsConstructor
+    @Schema(title = "Create", description = "Data transfer object for PracticeProblem to create" )
     public static class CreateInputTL {
+        @Schema(description = "", example = "JAVA")
         public ProgrammingLanguage programmingLanguage;
+        @Schema(description = "", example = "1000")
         public Millisecond timeLimit;
     }
 
