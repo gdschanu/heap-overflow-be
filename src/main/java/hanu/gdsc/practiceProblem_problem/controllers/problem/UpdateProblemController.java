@@ -28,7 +28,7 @@ public class UpdateProblemController {
     private AuthorizeService authorizeService;
 
     @PutMapping("/practiceProblem/problem/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody UpdateProblemService.Input input,
+    public ResponseEntity<?> update(@PathVariable String id, @RequestBody UpdateProblemService.InputUpdate input,
                                     @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             authorizeService.authorize(token);

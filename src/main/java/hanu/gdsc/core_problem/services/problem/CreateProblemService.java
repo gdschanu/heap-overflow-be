@@ -16,8 +16,8 @@ public interface CreateProblemService {
         public String name;
         public String description;
         public Id author;
-        List<MemoryLimit.CreateInput> memoryLimits;
-        List<TimeLimit.CreateInput> timeLimits;
+        List<MemoryLimit.CreateInputML> memoryLimits;
+        List<TimeLimit.CreateInputTL> timeLimits;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
         public String serviceToCreate;
     }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,12 +25,15 @@ public class MemoryLimit extends IdentifiedDomainObject {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    public static class CreateInput {
+    @Schema(title = "create")
+    public static class CreateInputML {
+        @Schema(description = "", example = "JAVA")
         public ProgrammingLanguage programmingLanguage;
+        @Schema(description = "", example = "1000")
         public KB memoryLimit;
     }
 
-    public static MemoryLimit create(CreateInput input) {
+    public static MemoryLimit create(CreateInputML input) {
         return new MemoryLimit(
                 Id.generateRandom(),
                 input.programmingLanguage,

@@ -2,6 +2,7 @@ package hanu.gdsc.coderAuth.controllers;
 
 import hanu.gdsc.coderAuth.services.AuthorizeService;
 import hanu.gdsc.coderAuth.services.ConfirmRegisterVerificationCodeService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,12 +27,14 @@ public class ConfirmRegisterVerificationCodeController {
     @Autowired
     private AuthorizeService authorizeService;
 
-    public static class Input{
+    @Schema(title = "Confirm", description = "Data transfer object for Contest to create")
+    public static class InputConfirmRegister{
+        @Schema(description = "specify the code to confirm register", example = "iloveu3000", required = true)
         public String code;
     }
 
     @PostMapping("/coderAuth/registerVerificationCode/confirm")
-    public ResponseEntity<?> confirmRegisterVerificationCode(@RequestBody Input input, @RequestHeader String token) {
+    public ResponseEntity<?> confirmRegisterVerificationCode(@RequestBody InputConfirmRegister input, @RequestHeader String token) {
         try {
             Id coderId = authorizeService.authorize(token);
             confirmRegisterVerificationCodeService.confirmRegisterVerificationCode(input.code, coderId);

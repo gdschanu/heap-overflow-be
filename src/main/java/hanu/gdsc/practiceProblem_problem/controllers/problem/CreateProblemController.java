@@ -8,6 +8,9 @@ import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.services.problem.CreateProblemService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -32,22 +35,44 @@ public class CreateProblemController {
     @AllArgsConstructor
     @NoArgsConstructor
     @Schema(title = "Create", description = "Data transfer object for PracticeProblem to create" )
-    public static class InputCreate{
+    public static class InputCreateProblem{
         @Schema(description = "specify the difficulty of problem", example = "EASY", required = true)
         public Difficulty difficulty;
         @Schema(description = "specify the name of problem", example = "Calculate Sum array", required = true)
         public String name;
         @Schema(description = "specify the description of problem", example = "blalblalba", required = true)
         public String description;
-        public List<MemoryLimit.CreateInput> memoryLimits;
-        public List<TimeLimit.CreateInput> timeLimits;
+        @Schema
+        public List<MemoryLimit.CreateInputML> memoryLimits;
+        @Schema
+        public List<TimeLimit.CreateInputTL> timeLimits;
+        @Schema
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
+    @Operation(
+            summary = "Create the practice problem",
+            responses = {@ApiResponse(
+                    responseCode = "200",
+                    description = "Entity successfully created.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = Id.class, example = "hihi")
+                            )
+                    }
+            ), @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized"
+            ), @ApiResponse(
+                    responseCode = "400",
+                    description = "invalid request"
+            )}
+    )
     @PostMapping("/practiceProblem/problem")
-    public ResponseEntity<?> create(@RequestBody InputCreate input, @RequestHeader("access-token") String token) {
+    public ResponseEntity<?> create(@RequestBody InputCreateProblem input) {
         return ControllerHandler.handle(() -> {
-            Id coderId = authorizeService.authorize(token);
+//            Id coderId = authorizeService.authorize(token);
             Id problemId = createPracticeProblemService.create(new CreateProblemService.Input(
                     input.difficulty,
                     input.name,
@@ -55,7 +80,7 @@ public class CreateProblemController {
                     input.memoryLimits,
                     input.timeLimits,
                     input.allowedProgrammingLanguages,
-                    coderId
+                    Id.generateRandom()
             ));
             return new ControllerHandler.Result(
                     "Success",

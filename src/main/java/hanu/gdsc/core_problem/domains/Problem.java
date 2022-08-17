@@ -32,8 +32,8 @@ public class Problem extends IdentitifedVersioningDomainObject {
     public static Problem create(String name,
                                  String description,
                                  Id author,
-                                 List<MemoryLimit.CreateInput> createMemoryLimitInputs,
-                                 List<TimeLimit.CreateInput> createTimeLimitInputs,
+                                 List<MemoryLimit.CreateInputML> createMemoryLimitInputs,
+                                 List<TimeLimit.CreateInputTL> createTimeLimitInputs,
                                  List<ProgrammingLanguage> allowedProgrammingLanguages,
                                  String serviceToCreate) {
         Problem problem = new Problem(
@@ -47,10 +47,10 @@ public class Problem extends IdentitifedVersioningDomainObject {
                 allowedProgrammingLanguages,
                 serviceToCreate
         );
-        for (MemoryLimit.CreateInput mem : createMemoryLimitInputs) {
+        for (MemoryLimit.CreateInputML mem : createMemoryLimitInputs) {
             problem.addMemoryLimit(MemoryLimit.create(mem));
         }
-        for (TimeLimit.CreateInput input : createTimeLimitInputs) {
+        for (TimeLimit.CreateInputTL input : createTimeLimitInputs) {
             problem.addTimeLimit(TimeLimit.create(input));
         }
         return problem;

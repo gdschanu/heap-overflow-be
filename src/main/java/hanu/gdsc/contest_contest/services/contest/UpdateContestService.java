@@ -35,8 +35,8 @@ public class UpdateContestService {
         private int score;
         private String name;
         private String description;
-        private List<MemoryLimit.CreateInput> memoryLimits;
-        private List<TimeLimit.CreateInput> timeLimits;
+        private List<MemoryLimit.CreateInputML> memoryLimits;
+        private List<TimeLimit.CreateInputTL> timeLimits;
         private List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 

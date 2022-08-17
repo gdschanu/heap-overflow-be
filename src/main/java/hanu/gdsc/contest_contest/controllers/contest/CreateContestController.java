@@ -5,6 +5,7 @@ import hanu.gdsc.contest_contest.services.contest.CreateContestService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,16 +24,22 @@ public class CreateContestController {
     @Autowired
     private AuthorizeService authorizeService;
 
-    public static class Input {
+    @Schema(title = "Create contest", description = "Data transfer object for Contest to create" )
+    public static class InputCreateContest {
+        @Schema(description = "specify the name of contest", example = "contest 2020", required = true)
         public String name;
+        @Schema(description = "specify the description of contest", example = "blablalbalbalba", required = true)
         public String description;
+        @Schema(description = "specify the start date of contest", example = "1/1/2022", required = true)
         public String startAt;
+        @Schema(description = "specify the end date of contest", example = "10/1/2022", required = true)
         public String endAt;
+        @Schema(description = "specify the input to create problem of contest", required = true)
         public List<CreateContestService.CreateProblemInput> problems;
     }
 
     @PostMapping("/contest/")
-    public ResponseEntity<?> createContest(@RequestBody Input input, @RequestHeader("access-token") String token) {
+    public ResponseEntity<?> createContest(@RequestBody CreateContestController.InputCreateContest input, @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             Id coderId = authorizeService.authorize(token);
             Id id = createContestService.create(new CreateContestService.Input(

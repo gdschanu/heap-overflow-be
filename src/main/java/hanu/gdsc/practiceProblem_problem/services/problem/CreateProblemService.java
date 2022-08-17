@@ -27,8 +27,8 @@ public class CreateProblemService {
         public Difficulty difficulty;
         public String name;
         public String description;
-        public List<MemoryLimit.CreateInput> memoryLimits;
-        public List<TimeLimit.CreateInput> timeLimits;
+        public List<MemoryLimit.CreateInputML> memoryLimits;
+        public List<TimeLimit.CreateInputTL> timeLimits;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
         public Id author;
     }

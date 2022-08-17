@@ -20,7 +20,7 @@ public class CreateTestCaseController {
     private AuthorizeService authorizeService;
 
     @PostMapping("/practiceProblem/testCase")
-    public ResponseEntity<?> create(@RequestBody CreateTestCaseService.Input input, @RequestHeader("access-token") String token) {
+    public ResponseEntity<?> create(@RequestBody CreateTestCaseService.InputCreate input, @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             authorizeService.authorize(token);
             service.execute(input);
