@@ -25,15 +25,10 @@ public class UpdateProblemService {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    @Schema(title = "Update", description = "Data transfer object for PracticeProblem to update")
     public static class InputUpdate {
-        @Schema(description = "specify the id of problem", example = "627778618119e29412c16201", required = true)
         public Id problemId;
-        @Schema(description = "specify the difficulty of problem", example = "EASY", required = true)
         public Difficulty difficulty;
-        @Schema(description = "specify the name of problem", example = "Sum Array", required = true)
         public String name;
-        @Schema(description = "specify the description of problem", example = "blablalbalba", required = true)
         public String description;
         public List<MemoryLimit.CreateInputML> memoryLimits;
         public List<TimeLimit.CreateInputTL> timeLimits;
