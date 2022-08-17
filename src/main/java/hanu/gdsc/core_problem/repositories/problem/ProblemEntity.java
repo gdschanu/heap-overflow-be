@@ -26,7 +26,7 @@ public class ProblemEntity {
     @Column(columnDefinition = "VARCHAR(30)")
     private String id;
     private String name;
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
     @Column(columnDefinition = "VARCHAR(30)")
     private String authorId;

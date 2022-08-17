@@ -26,7 +26,7 @@ public class SubmissionEntity {
     private Long runTimeInMillis;
     private Double memoryInKB;
     private String submittedAtInZonedDateTime;
-    @Column(columnDefinition = "MEDIUMTEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String code;
     private String status;
     @OneToOne(cascade = CascadeType.ALL)
