@@ -160,6 +160,9 @@ public class JudgerImpl implements Judger {
         }
 
         public Output output() {
+            if (stdout == null) {
+                return new Output("");
+            }
             return new Output(stdout);
         }
     }
