@@ -61,9 +61,9 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
     }
 
     @Override
-    public RunningSubmission getById(Id id) {
+    public RunningSubmission getById(Id id, String serviceToCreate) {
         try {
-            RunningSubmissionEntity entity = runningSubmissionJPARepository.getById(id.toString());
+            RunningSubmissionEntity entity = runningSubmissionJPARepository.findByIdAndServiceToCreate(id.toString(), serviceToCreate);
             if (entity == null) {
                 return null;
             }

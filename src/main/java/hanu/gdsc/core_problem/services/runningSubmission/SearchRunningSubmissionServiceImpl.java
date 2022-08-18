@@ -37,7 +37,7 @@ public class SearchRunningSubmissionServiceImpl implements SearchRunningSubmissi
 
     @Override
     public Output getById(Id id, String serviceToCreate) {
-        RunningSubmission runningSubmission = runningSubmissionRepository.getById(id);
+        RunningSubmission runningSubmission = runningSubmissionRepository.getById(id, serviceToCreate);
         if (runningSubmission == null) return null;
         return toOutput(runningSubmission);
     }

@@ -16,4 +16,6 @@ public interface RunningSubmissionJPARepository extends JpaRepository<RunningSub
     public RunningSubmissionEntity findByIdAndCoderIdAndServiceToCreate(String id, String coderId, String serviceToCreate);
 
     public Page<RunningSubmissionEntity> findByCoderIdAndServiceToCreate(String coderId, String serviceToCreate, Pageable pageable);
+
+    public RunningSubmissionEntity findByIdAndServiceToCreate(String id, String serviceToCreate);
 }
