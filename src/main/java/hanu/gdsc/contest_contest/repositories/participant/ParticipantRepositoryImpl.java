@@ -16,8 +16,8 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
     public void create(Participant participant) {
         participantJPARepository.save(ParticipantEntity.fromDomains(participant));
     }
-    public List<Participant> getAll() {
-        return participantJPARepository.findAll().stream().map(x -> x.toDomain()).collect(Collectors.toList());
+    public List<Participant> findByContestId() {
+        return participantJPARepository.findByContestId().stream().map(x -> x.toDomain()).collect(Collectors.toList());
     }
 
 }
