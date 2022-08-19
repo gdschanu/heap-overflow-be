@@ -4,6 +4,7 @@ import hanu.gdsc.contest_contest.domains.ProblemScore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.lang.reflect.Constructor;
 
 @Entity
 @Table(name = "contest_problem_score")
@@ -33,5 +34,15 @@ public class ProblemScoreEntity {
                 .score(problemScore.getScore())
                 .tryCount(problemScore.getTryCount())
                 .build();
+    }
+    public ProblemScore toDomain() {
+        try {
+            Constructor<ProblemScore> con = ProblemScore.class.getDeclaredConstructor();
+            con.setAccessible(true);
+            return con.newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }
