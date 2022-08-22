@@ -8,6 +8,7 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 public class CreatePostService {
@@ -15,13 +16,13 @@ public class CreatePostService {
     private final SearchProblemService searchProblemService;
     private final PostRepository postRepository;
 
-    @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Input {
-        private Id problemId;
-        private String title;
-        private Id author;
-        private String content;
+        public Id problemId;
+        public String title;
+        public Id author;
+        public String content;
     }
 
     public Id execute(Input input) {
@@ -31,9 +32,9 @@ public class CreatePostService {
             throw new NotFoundError("Unknown problem, cannot create post for an unexist problem");
         }
         Id corePostId = createCoreDiscussionPostService.execute(new hanu.gdsc.core_discussion.services.post.CreatePostService .Input(
-                input.getTitle(),
-                input.getAuthor(),
-                input.getContent(),
+                input.title,
+                input.author,
+                input.content,
                 ServiceName.serviceName
         ));
         Post post = Post.create(input.problemId, corePostId);

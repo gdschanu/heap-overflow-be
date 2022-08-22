@@ -3,16 +3,17 @@ package hanu.gdsc.core_discussion.services.post;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public interface UpdatePostService {
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
-        private Id id;
-        private String serviceToCreate;
+        public Id id;
+        public String serviceToCreate;
 
-        private String title;
-        private String content;
+        public String title;
+        public String content;
     }
 
     public Id execute(Input input);

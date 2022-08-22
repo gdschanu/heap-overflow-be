@@ -14,6 +14,7 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,35 +28,35 @@ public class SearchContestService {
     private final SearchProblemService searchCoreProblemService;
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class OutputMemoryLimit {
-        private ProgrammingLanguage programmingLanguage;
-        private KB memoryLimit;
+        public ProgrammingLanguage programmingLanguage;
+        public KB memoryLimit;
     }
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class OutputTimeLimit {
-        private ProgrammingLanguage programmingLanguage;
-        private Millisecond timeLimit;
+        public ProgrammingLanguage programmingLanguage;
+        public Millisecond timeLimit;
     }
 
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class OutputProblem {
         public int ordinal;
         public int score;
-        private String name;
-        private String description;
-        private Id author;
-        private List<OutputMemoryLimit> memoryLimits;
-        private List<OutputTimeLimit> timeLimits;
-        private List<ProgrammingLanguage> allowedProgrammingLanguages;
+        public String name;
+        public String description;
+        public Id author;
+        public List<OutputMemoryLimit> memoryLimits;
+        public List<OutputTimeLimit> timeLimits;
+        public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class OutputContest {
         public Id id;
         public String name;

@@ -7,6 +7,7 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 public class UpdatePostService {
@@ -14,11 +15,11 @@ public class UpdatePostService {
     private final PostRepository postRepository;
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
-        private Id id;
-        private String title;
-        private String content;
+        public Id id;
+        public String title;
+        public String content;
     }
 
     public void execute(Input input) {

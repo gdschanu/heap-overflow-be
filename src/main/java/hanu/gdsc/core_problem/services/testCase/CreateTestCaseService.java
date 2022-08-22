@@ -4,10 +4,11 @@ import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public interface CreateTestCaseService {
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
         public Id problemId;
         public String input;

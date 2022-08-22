@@ -8,7 +8,7 @@ import lombok.*;
 
 public interface UpdateProblemService {
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input{
         public Id id;
         public String serviceToCreate;

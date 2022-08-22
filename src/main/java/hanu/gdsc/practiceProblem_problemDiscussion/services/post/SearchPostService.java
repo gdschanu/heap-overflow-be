@@ -8,22 +8,23 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 public class SearchPostService {
     private final hanu.gdsc.core_discussion.services.post.SearchPostService searchCoreDiscussionPostService;
     private final PostRepository postRepository;
 
-    @Getter
+    @NoArgsConstructor
     @AllArgsConstructor
     public static class Output {
-        private Id id;
-        private Id problemId;
-        private String title;
-        private Id author;
-        private DateTime createdAt;
-        private DateTime updatedAt;
-        private String content;
+        public Id id;
+        public Id problemId;
+        public String title;
+        public Id author;
+        public DateTime createdAt;
+        public DateTime updatedAt;
+        public String content;
 
     }
 

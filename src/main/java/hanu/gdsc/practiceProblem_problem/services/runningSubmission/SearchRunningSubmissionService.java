@@ -72,11 +72,11 @@ public class SearchRunningSubmissionService {
                     output = null;
                 } else {
                     output = new SocketOutput(
-                            runningSubmission.getCoderId(),
-                            runningSubmission.getProblemId(),
-                            runningSubmission.getSubmittedAt(),
-                            runningSubmission.getJudgingTestCase(),
-                            runningSubmission.getTotalTestCases()
+                            runningSubmission.coderId,
+                            runningSubmission.problemId,
+                            runningSubmission.submittedAt,
+                            runningSubmission.judgingTestCase,
+                            runningSubmission.totalTestCases
                     );
                 }
                 try {

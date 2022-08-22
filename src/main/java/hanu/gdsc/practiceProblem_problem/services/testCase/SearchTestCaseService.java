@@ -22,7 +22,6 @@ public class SearchTestCaseService {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    @Getter
     public static class Output {
         public boolean isSample;
         public Id problemId;

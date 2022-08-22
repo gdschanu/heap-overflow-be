@@ -14,16 +14,17 @@ import java.util.List;
 public interface SearchRunningSubmissionService {
 
     @Builder
-    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Output {
-        private Id coderId;
-        private Id problemId;
-        private String code;
-        private ProgrammingLanguage programmingLanguage;
-        private DateTime submittedAt;
+        public Id coderId;
+        public Id problemId;
+        public String code;
+        public ProgrammingLanguage programmingLanguage;
+        public DateTime submittedAt;
 
-        private int judgingTestCase;
-        private int totalTestCases;
+        public int judgingTestCase;
+        public int totalTestCases;
     }
 
     public Output getByIdAndCoderId(Id id, Id coderId, String serviceToCreate);

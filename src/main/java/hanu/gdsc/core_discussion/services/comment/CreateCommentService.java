@@ -3,16 +3,17 @@ package hanu.gdsc.core_discussion.services.comment;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 public interface CreateCommentService {
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
-        private Id author;
-        private String content;
-        private Id parentCommentId;
-        private String serviceToCreate;
-        private Id postId;
+        public Id author;
+        public String content;
+        public Id parentCommentId;
+        public String serviceToCreate;
+        public Id postId;
     }
     public Id create(Input input);
 

@@ -6,9 +6,9 @@ import lombok.*;
 public interface CreateReactedObjectService {
     
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
-        private String serviceToCreate;
+        public String serviceToCreate;
     }
 
     public Id create(Input input);
