@@ -24,6 +24,7 @@ public class RunningSubmissionEntity {
     @Column(columnDefinition = "VARCHAR(30)")
     private String problemId;
     private String serviceToCreate;
+    @Column(columnDefinition = "LONGTEXT")
     private String code;
     private String programmingLanguage;
     private long submittedAt;

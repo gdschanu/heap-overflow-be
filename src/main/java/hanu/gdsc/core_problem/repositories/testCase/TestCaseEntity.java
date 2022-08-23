@@ -21,10 +21,13 @@ public class TestCaseEntity {
     @Version
     private long version;
     private String problemId;
+    @Column(columnDefinition = "LONGTEXT")
     private String input;
+    @Column(columnDefinition = "LONGTEXT")
     private String expectedOutput;
     private int ordinal;
     private boolean isSample;
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
     private String serviceToCreate;
 

@@ -1,6 +1,7 @@
 package hanu.gdsc.practiceProblem_problem.services.submission;
 
 import hanu.gdsc.core_problem.domains.*;
+import hanu.gdsc.core_problem.repositories.runningSubmission.RunningSubmissionRepository;
 import hanu.gdsc.practiceProblem_problem.config.ServiceName;
 import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
@@ -8,7 +9,6 @@ import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,6 @@ public class SearchSubmissionService {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
     public static class FailedTestCaseDetailOutput {
         public Integer failedAtLine;
         public String input;
@@ -35,8 +34,8 @@ public class SearchSubmissionService {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
     public static class Output {
+        public Id id;
         public Id problemId;
         public ProgrammingLanguage programmingLanguage;
         public Millisecond runTime;
@@ -69,30 +68,29 @@ public class SearchSubmissionService {
     }
 
     private Output toOutput(Submission submission) {
-        return Output.builder()
-                .problemId(submission.getId())
-                .programmingLanguage(submission.getProgrammingLanguage())
-                .runTime(submission.getRunTime())
-                .memory(submission.getMemory())
-                .submittedAt(submission.getSubmittedAt())
-                .code(submission.getCode())
-                .status(submission.getStatus())
-                .failedTestCaseDetail(
-                        submission.getFailedTestCaseDetail() == null ? null :
-                                toOutputTestCase(submission.getFailedTestCaseDetail())
-                )
-                .coderId(submission.getCoderId())
-                .message(submission.getMessage())
-                .build();
+        return new Output(
+                submission.getId(),
+                submission.getProblemId(),
+                submission.getProgrammingLanguage(),
+                submission.getRunTime(),
+                submission.getMemory(),
+                submission.getSubmittedAt(),
+                submission.getCode(),
+                submission.getStatus(),
+                submission.getFailedTestCaseDetail() == null ? null :
+                        toOutputTestCase(submission.getFailedTestCaseDetail()),
+                submission.getCoderId(),
+                submission.getMessage()
+        );
     }
 
     private FailedTestCaseDetailOutput toOutputTestCase(FailedTestCaseDetail failedTestCaseDetail) {
-        return FailedTestCaseDetailOutput.builder()
-                .failedAtLine(failedTestCaseDetail.getFailedAtLine())
-                .input(failedTestCaseDetail.getInput())
-                .actualOutput(failedTestCaseDetail.getActualOutput())
-                .expectedOutput(failedTestCaseDetail.getExpectedOutput())
-                .description(failedTestCaseDetail.getDescription())
-                .build();
+        return new FailedTestCaseDetailOutput(
+                failedTestCaseDetail.getFailedAtLine(),
+                failedTestCaseDetail.getInput(),
+                failedTestCaseDetail.getActualOutput(),
+                failedTestCaseDetail.getExpectedOutput(),
+                failedTestCaseDetail.getDescription()
+        );
     }
 }

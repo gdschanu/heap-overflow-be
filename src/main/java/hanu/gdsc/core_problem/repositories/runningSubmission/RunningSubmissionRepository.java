@@ -14,7 +14,7 @@ public interface RunningSubmissionRepository {
 
     public void updateClaimed(RunningSubmission runningSubmission);
 
-    public RunningSubmission getById(Id id);
+    public RunningSubmission getById(Id id, String serviceToCreate);
 
     public RunningSubmission getByIdAndCoderId(Id id, Id coderId, String serviceToCreate);
 

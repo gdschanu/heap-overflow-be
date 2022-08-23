@@ -2,12 +2,10 @@ package hanu.gdsc.core_problem.domains;
 
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
-import hanu.gdsc.share.error.DuplicatedError;
 import hanu.gdsc.share.error.InvalidInputError;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Problem extends IdentitifedVersioningDomainObject {
     private String name;
@@ -47,12 +45,12 @@ public class Problem extends IdentitifedVersioningDomainObject {
                 allowedProgrammingLanguages,
                 serviceToCreate
         );
-        for (MemoryLimit.CreateInputML mem : createMemoryLimitInputs) {
-            problem.addMemoryLimit(MemoryLimit.create(mem));
-        }
-        for (TimeLimit.CreateInputTL input : createTimeLimitInputs) {
-            problem.addTimeLimit(TimeLimit.create(input));
-        }
+        problem.setTimeLimits(createTimeLimitInputs.stream()
+                .map(i -> TimeLimit.create(i))
+                .collect(Collectors.toList()));
+        problem.setMemoryLimits(createMemoryLimitInputs.stream()
+                .map(i -> MemoryLimit.create(i))
+                .collect(Collectors.toList()));
         return problem;
     }
 
@@ -102,34 +100,32 @@ public class Problem extends IdentitifedVersioningDomainObject {
         this.name = name;
     }
 
-    public void addMemoryLimit(MemoryLimit memoryLimit) {
-        if (memoryLimit == null)
-            throw new InvalidInputError("memoryLimit must be not null");
-        for (MemoryLimit existed : memoryLimits)
-            if (existed.equals(memoryLimit))
-                throw new DuplicatedError("Duplicated memory limit");
-        memoryLimits.add(memoryLimit);
+    public void setTimeLimits(List<TimeLimit> timeLimits) {
+        Set<ProgrammingLanguage> existed = new HashSet<>();
+        for (TimeLimit timeLimit : timeLimits) {
+            if (existed.contains(timeLimit.getProgrammingLanguage())) {
+                throw new InvalidInputError("Contains duplicate time limit");
+            }
+            existed.add(timeLimit.getProgrammingLanguage());
+        }
+        this.timeLimits = timeLimits;
     }
 
-    public void addTimeLimit(TimeLimit timeLimit) {
-        if (timeLimit == null)
-            throw new InvalidInputError("timeLimit must be not null");
-        for (TimeLimit existed : timeLimits)
-            if (existed.equals(timeLimit))
-                throw new DuplicatedError("Duplicated time limit");
-        timeLimits.add(timeLimit);
-    }
-
-    public void clearMemoryLimits() {
-        memoryLimits.clear();
-    }
-
-    public void clearTimeLimits() {
-        timeLimits.clear();
+    public void setMemoryLimits(List<MemoryLimit> memoryLimits) {
+        Set<ProgrammingLanguage> existed = new HashSet<>();
+        for (MemoryLimit memoryLimit : memoryLimits) {
+            if (existed.contains(memoryLimit.getMemoryLimit())) {
+                throw new InvalidInputError("Contains duplicate memory limit");
+            }
+            existed.add(memoryLimit.getProgrammingLanguage());
+        }
+        this.memoryLimits = memoryLimits;
     }
 
     public void setAllowedProgrammingLanguages(List<ProgrammingLanguage> allowedProgrammingLanguages) {
-        this.allowedProgrammingLanguages = allowedProgrammingLanguages;
+        this.allowedProgrammingLanguages = new HashSet<>(allowedProgrammingLanguages)
+                .stream()
+                .collect(Collectors.toList());
     }
 
     public void setDescription(String description) {

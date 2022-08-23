@@ -26,13 +26,14 @@ public class SubmissionEntity {
     private Long runTimeInMillis;
     private Double memoryInKB;
     private String submittedAtInZonedDateTime;
-    @Column(columnDefinition = "MEDIUMTEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String code;
     private String status;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "failed_test_case_detail_id", referencedColumnName = "id", columnDefinition = "VARCHAR(30)")
     private FailedTestCaseDetailEntity failedTestCaseDetail;
     private String serviceToCreate;
+    @Column(columnDefinition = "LONGTEXT")
     private String message;
 
     public static SubmissionEntity toEntity(Submission submission) {

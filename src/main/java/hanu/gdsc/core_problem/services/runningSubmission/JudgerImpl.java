@@ -129,7 +129,7 @@ public class JudgerImpl implements Judger {
         }
 
         public boolean compilationError() {
-            return compileOutput != null;
+           return status == 6;
         }
 
         public String compilationMessage() {
@@ -147,14 +147,22 @@ public class JudgerImpl implements Judger {
         }
 
         public KB memory() {
+            if (memory == null)
+                return new KB(0);
             return new KB(Double.parseDouble(memory));
         }
 
         public Millisecond runTime() {
+            if (time == null) {
+                return new Millisecond(0);
+            }
             return new Millisecond(Math.round(Double.parseDouble(time)));
         }
 
         public Output output() {
+            if (stdout == null) {
+                return new Output("");
+            }
             return new Output(stdout);
         }
     }

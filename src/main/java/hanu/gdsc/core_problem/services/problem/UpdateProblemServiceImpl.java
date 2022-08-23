@@ -6,8 +6,9 @@ import hanu.gdsc.core_problem.domains.TimeLimit;
 import hanu.gdsc.core_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,16 +28,14 @@ public class UpdateProblemServiceImpl implements UpdateProblemService{
             problem.setDescription(input.description);
         }
         if (input.memoryLimits != null) {
-            problem.clearMemoryLimits();
-            for (MemoryLimit.CreateInputML inp : input.memoryLimits) {
-                problem.addMemoryLimit(MemoryLimit.create(inp));
-            }
+            problem.setMemoryLimits(input.memoryLimits.stream()
+                    .map(inp -> MemoryLimit.create(inp))
+                    .collect(Collectors.toList()));
         }
         if (input.timeLimits != null) {
-            problem.clearTimeLimits();
-            for (TimeLimit.CreateInputTL inp : input.timeLimits) {
-                problem.addTimeLimit(TimeLimit.create(inp));
-            }
+            problem.setTimeLimits(input.timeLimits.stream()
+                    .map(inp -> TimeLimit.create(inp))
+                    .collect(Collectors.toList()));
         }
         if (input.allowedProgrammingLanguages != null) {
             problem.setAllowedProgrammingLanguages(input.allowedProgrammingLanguages);

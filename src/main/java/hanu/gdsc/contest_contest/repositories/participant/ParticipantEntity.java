@@ -1,9 +1,13 @@
 package hanu.gdsc.contest_contest.repositories.participant;
 
+import hanu.gdsc.contest_contest.domains.Contest;
 import hanu.gdsc.contest_contest.domains.Participant;
+import hanu.gdsc.contest_contest.repositories.contest.ContestRepository;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
+import java.lang.reflect.Constructor;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,5 +42,28 @@ public class ParticipantEntity {
                         .map(x -> ProblemScoreEntity.fromDomains(x))
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    public Participant toDomain() {
+        try {
+            Constructor<Participant> con = Participant.class.getDeclaredConstructor(
+                    hanu.gdsc.share.domains.Id.class,
+                    hanu.gdsc.share.domains.Id.class,
+                    Integer.class,
+                    List.class
+            );
+            con.setAccessible(true);
+            return con.newInstance(
+                    new hanu.gdsc.share.domains.Id(coderId),
+                    new hanu.gdsc.share.domains.Id(contestId),
+                    participantRank,
+                    problemScores.stream()
+                            .map(x -> x.toDomain())
+                            .collect(Collectors.toList())
+                    );
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
+        }
     }
 }
