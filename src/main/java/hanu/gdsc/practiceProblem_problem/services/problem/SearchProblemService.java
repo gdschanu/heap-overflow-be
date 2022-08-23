@@ -9,6 +9,7 @@ import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,28 +29,43 @@ public class SearchProblemService {
 
     @AllArgsConstructor
     @NoArgsConstructor
+    @Schema(title = "output", description = "Data transfer object for PracticeProblem to render")
     public static class Output {
+        @Schema(example = "123456789abcd12abc13")
         public Id id;
+        @Schema(example = "HARD")
         public Difficulty difficulty;
+        @Schema(example = "Sum Array")
         public String name;
+        @Schema(example = "blablabla")
         public String description;
+        @Schema(example = "112412421abcd12abc124214")
         public Id author;
+        @Schema
         public List<OutputMemoryLimit> memoryLimits;
+        @Schema
         public List<OutputTimeLimit> timeLimits;
+        @Schema
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
     @AllArgsConstructor
     @NoArgsConstructor
+    @Schema
     public static class OutputMemoryLimit {
+        @Schema(example = "JAVA")
         public ProgrammingLanguage programmingLanguage;
+        @Schema(example = "1000")
         public KB memoryLimit;
     }
 
     @AllArgsConstructor
     @NoArgsConstructor
+    @Schema
     public static class OutputTimeLimit {
+        @Schema(example = "JAVA")
         public ProgrammingLanguage programmingLanguage;
+        @Schema(example = "1000")
         public Millisecond timeLimit;
     }
 

@@ -58,15 +58,17 @@ public class CreateProblemController {
                     content = {
                             @Content(
                                     mediaType = "application/json",
-                                    schema = @Schema(implementation = Id.class, example = "hihi")
+                                    schema = @Schema(example = "123123123a213123")
                             )
                     }
             ), @ApiResponse(
                     responseCode = "401",
-                    description = "Unauthorized"
+                    description = "Unauthorized",
+                    content = {@Content()}
             ), @ApiResponse(
                     responseCode = "400",
-                    description = "invalid request"
+                    description = "invalid request",
+                    content = {@Content()}
             )}
     )
     @PostMapping("/practiceProblem/problem")

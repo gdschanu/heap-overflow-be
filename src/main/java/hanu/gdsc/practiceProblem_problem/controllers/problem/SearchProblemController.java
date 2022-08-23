@@ -3,6 +3,10 @@ package hanu.gdsc.practiceProblem_problem.controllers.problem;
 import hanu.gdsc.practiceProblem_problem.services.problem.SearchProblemService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,27 @@ public class SearchProblemController {
     @Autowired
     private SearchProblemService servicePracticeProblemService;
 
+    @Operation(
+            summary = "Search the practice problem by id",
+            responses = {@ApiResponse(
+                    responseCode = "200",
+                    description = "Entity successfully found.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = SearchProblemService.Output.class)
+                            )
+                    }
+            ), @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = {@Content()}
+            ), @ApiResponse(
+                    responseCode = "400",
+                    description = "invalid request",
+                    content = {@Content()}
+            )}
+    )
     @GetMapping("/practiceProblem/problem/{id}")
     public ResponseEntity<?> getById(@PathVariable String id){
         return ControllerHandler.handle(() -> {
