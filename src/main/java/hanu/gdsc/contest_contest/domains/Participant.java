@@ -23,7 +23,7 @@ public class Participant extends VersioningDomainObject {
     }
 
     public static Participant create(Id coderId, Contest contest) {
-        if (!contest.ended()) {
+        if (contest.ended()) {
             throw new BusinessLogicError("Không thể thêm thí sinh, kì thi đã kết thúc.", "CAN_NOT_CREATE");
         }
         return new Participant(
