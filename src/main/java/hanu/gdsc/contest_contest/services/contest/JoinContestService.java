@@ -1,11 +1,13 @@
 package hanu.gdsc.contest_contest.services.contest;
 
+import hanu.gdsc.contest_contest.domains.Participant;
 import hanu.gdsc.contest_contest.repositories.contest.ContestRepository;
 import hanu.gdsc.contest_contest.repositories.participant.ParticipantRepository;
 import hanu.gdsc.contest_contest.services.participant.CreateParticipantService;
 import hanu.gdsc.contest_contest.services.participant.CreateParticipantServiceImpl;
 import hanu.gdsc.contest_contest.services.participant.SearchParticipantService;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.error.BusinessLogicError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +29,15 @@ public class JoinContestService {
         createParticipantService.execute(coderId, contestId);
     }
 
-    public boolean checkIfCoderJoinContest(Id coderId) {
-        if (searchParticipantService.getById(coderId) != null) {
-            return false;
+    public boolean checkIfCoderJoinContest(Id coderId, Id contestId) {
+        Participant participant = searchParticipantService.getByCoderId(coderId);
+        if (participant == null) {
+            throw new BusinessLogicError("Coder không tồn tại", "NOT_FOUND");
         } else {
-            return true;
+            if(!participant.getContestId().toString().equals(contestId.toString())) {
+                throw new BusinessLogicError("Coder không tham gia contest này","NOT_PARTICIPANT");
+            }
         }
+        return true;
     }
 }
