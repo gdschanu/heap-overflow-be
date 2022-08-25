@@ -3,6 +3,8 @@ package hanu.gdsc.practiceProblem_problem.services.runningSubmission;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.practiceProblem_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.practiceProblem_problem.config.ServiceName;
+import hanu.gdsc.practiceProblem_problem.domains.Problem;
+import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.scheduling.Scheduler;
@@ -23,9 +25,11 @@ public class SearchRunningSubmissionService {
     private final hanu.gdsc.core_problem.services.runningSubmission.SearchRunningSubmissionService
             searchCoreRunningSubmissionService;
     private final ObjectMapper objectMapper;
+    private final ProblemRepository problemRepository;
 
     public SearchRunningSubmissionService(hanu.gdsc.core_problem.services.runningSubmission.SearchRunningSubmissionService searchCoreRunningSubmissionService,
-                                          ObjectMapper objectMapper) throws IOException {
+                                          ObjectMapper objectMapper,
+                                          ProblemRepository problemRepository) throws IOException {
         this.searchCoreRunningSubmissionService = searchCoreRunningSubmissionService;
         this.objectMapper = objectMapper;
         serverSocket = new ServerSocket(RunningSubmissionConfig.PORT);
@@ -35,6 +39,7 @@ public class SearchRunningSubmissionService {
                 getNewSocketThread();
             }
         }).start();
+        this.problemRepository = problemRepository;
     }
 
     @AllArgsConstructor
@@ -95,8 +100,15 @@ public class SearchRunningSubmissionService {
                          Id coderId,
                          int page,
                          int perPage) {
+        Id coreProblemId = null;
+        if (problemId != null) {
+            Problem problem = problemRepository.getById(problemId);
+            if (problem != null) {
+                coreProblemId = problem.getCoreProblemProblemId();
+            }
+        }
         return searchCoreRunningSubmissionService.getByProblemIdAndCoderId(
-                problemId,
+                coreProblemId,
                 coderId,
                 page,
                 perPage,
