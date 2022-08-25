@@ -1,24 +1,22 @@
-package hanu.gdsc.practiceProblem_problem.controllers.submission;
+package hanu.gdsc.practiceProblem_problem.controllers.runningSubmission;
 
-import hanu.gdsc.coderAuth.services.AuthorizeService;
-import hanu.gdsc.practiceProblem_problem.services.submission.SearchSubmissionService;
+import hanu.gdsc.practiceProblem_problem.services.runningSubmission.SearchRunningSubmissionService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-@Tag(name = "Practice Problem-Submission" , description = "Rest-API endpoint for Practice Problem")
-public class SearchSubmissionController {
+@Tag(name = "Practice Problem-Running Submission", description = "Rest-API endpoint for Practice Problem")
+public class SearchRunningSubmissionController {
     @Autowired
-    private SearchSubmissionService searchSubmissionService;
+    private SearchRunningSubmissionService searchRunningSubmissionService;
 
     @GetMapping("/practiceProblem/submission")
     public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage,
@@ -27,18 +25,9 @@ public class SearchSubmissionController {
         return ControllerHandler.handle(() -> {
             Id problem = problemId == null ? null : new Id(problemId);
             Id coder = coderId == null ? null : new Id(coderId);
-            List<SearchSubmissionService.Output> output = searchSubmissionService.get(page, perPage, problem, coder);
-            return new ControllerHandler.Result(
-                    "Success",
-                    output
-            );
-        });
-    }
-
-    @GetMapping("/practiceProblem/submission/{id}")
-    public ResponseEntity<?> getById(@PathVariable String id) {
-        return ControllerHandler.handle(() -> {
-            SearchSubmissionService.Output output = searchSubmissionService.getById(new Id(id));
+            List<hanu.gdsc.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output> output =
+                    searchRunningSubmissionService
+                            .getRunningSubmissions(problem, coder, page, perPage);
             return new ControllerHandler.Result(
                     "Success",
                     output

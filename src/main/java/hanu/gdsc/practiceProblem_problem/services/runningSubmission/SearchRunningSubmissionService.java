@@ -7,7 +7,6 @@ import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.scheduling.Scheduler;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +15,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
 
 @Service
 public class SearchRunningSubmissionService {
@@ -88,5 +88,19 @@ public class SearchRunningSubmissionService {
                 }
             }
         }).start();
+    }
+
+    public List<hanu.gdsc.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output>
+    getRunningSubmissions(Id problemId,
+                         Id coderId,
+                         int page,
+                         int perPage) {
+        return searchCoreRunningSubmissionService.getByProblemIdAndCoderId(
+                problemId,
+                coderId,
+                page,
+                perPage,
+                ServiceName.serviceName
+        );
     }
 }

@@ -22,23 +22,28 @@ public class SearchRunningSubmissionServiceImpl implements SearchRunningSubmissi
     }
 
     @Override
-    public Output getByIdAndCoderId(Id id, Id coderId, String serviceToCreate) {
-        RunningSubmission runningSubmission = runningSubmissionRepository.getByIdAndCoderId(id, coderId, serviceToCreate);
-        return toOutput(runningSubmission);
-    }
-
-    @Override
-    public List<Output> getByCoderId(int page, int perPage, Id coderId, String serviceToCreate) {
-        return runningSubmissionRepository.getByCoderId(page, perPage, coderId, serviceToCreate)
-                .stream()
-                .map(item -> toOutput(item))
+    public List<Output> getByProblemIdAndCoderId(Id problemId,
+                                                 Id coderId,
+                                                 int page,
+                                                 int perPage,
+                                                 String serviceToCreate) {
+        List<RunningSubmission> runningSubmissions = runningSubmissionRepository.getByProblemIdAndCoderId(
+                problemId,
+                coderId,
+                page,
+                perPage,
+                serviceToCreate
+        );
+        return runningSubmissions.stream()
+                .map(s -> toOutput(s))
                 .collect(Collectors.toList());
     }
 
     @Override
     public Output getById(Id id, String serviceToCreate) {
         RunningSubmission runningSubmission = runningSubmissionRepository.getById(id, serviceToCreate);
-        if (runningSubmission == null) return null;
+        if (runningSubmission == null)
+            return null;
         return toOutput(runningSubmission);
     }
 

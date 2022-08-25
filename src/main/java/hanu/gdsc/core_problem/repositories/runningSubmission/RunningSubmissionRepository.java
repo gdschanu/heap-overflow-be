@@ -16,7 +16,9 @@ public interface RunningSubmissionRepository {
 
     public RunningSubmission getById(Id id, String serviceToCreate);
 
-    public RunningSubmission getByIdAndCoderId(Id id, Id coderId, String serviceToCreate);
-
-    public List<RunningSubmission> getByCoderId(int page, int perPage, Id coderId, String serviceToCreate);
+    public List<RunningSubmission> getByProblemIdAndCoderId(Id problemId,
+                                                            Id coderId,
+                                                            int page,
+                                                            int perPage,
+                                                            String serviceToCreate);
 }

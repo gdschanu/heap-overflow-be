@@ -64,4 +64,9 @@ public class ProblemRepositoryImpl implements ProblemRepository {
                 .stream().map(PPProblemEntity::toDomain)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteById(Id id) {
+        PPProblemJpaRepository.deleteById(id.toString());
+    }
 }
