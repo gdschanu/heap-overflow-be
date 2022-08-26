@@ -6,5 +6,5 @@ import hanu.gdsc.share.domains.Id;
 import java.util.List;
 
 public interface GetParticipantsService {
-    public List<Participant> getParticipants(Id contestId);
+    public List<Participant> getParticipants(Id contestId, int page, int perPage);
 }
