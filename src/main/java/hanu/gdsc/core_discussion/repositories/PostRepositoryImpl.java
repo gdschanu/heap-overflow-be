@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class PostRepositoryImpl implements PostRepository{
@@ -14,16 +16,28 @@ public class PostRepositoryImpl implements PostRepository{
 
     @Override
     public Id save(Post post) {
-        postJPARepository.save(PostEntity.toEntity(post));
+        postJPARepository.save(PPostEntity.toEntity(post));
         return post.getId();
     }
 
     @Override
     public Post getById(Id id, String serviceToCreate) {
         try {
-            return PostEntity.toDomain(postJPARepository.getByIdAndServiceToCreate(id.toString(), serviceToCreate));
+            return PPostEntity.toDomain(postJPARepository.getByIdAndServiceToCreate(id.toString(), serviceToCreate));
         } catch (EntityNotFoundException e) {
             return null;
         }
+    }
+
+    @Override
+    public List<Post> getByIds(List<Id> ids, String serviceToCreate) {
+        return postJPARepository.findByIdInAndServiceToCreate(
+                        ids.stream()
+                                .map(id -> id.toString())
+                                .collect(Collectors.toList()),
+                        serviceToCreate
+                ).stream()
+                .map(p -> PPostEntity.toDomain(p))
+                .collect(Collectors.toList());
     }
 }

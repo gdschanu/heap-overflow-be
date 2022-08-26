@@ -11,14 +11,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class SearchPostServiceImpl implements SearchPostService{
+public class SearchPostServiceImpl implements SearchPostService {
     @Autowired
     private PostRepository postRepository;
 
     @Override
     public Post getById(Id id, String serviceToCreate) {
         Post post = postRepository.getById(id, serviceToCreate);
-        if(Objects.nonNull(post)) {
+        if (Objects.nonNull(post)) {
             return post;
         } else {
             throw new NotFoundError("Not Found This Post");
@@ -26,7 +26,7 @@ public class SearchPostServiceImpl implements SearchPostService{
     }
 
     @Override
-    public List<Post> get(int page, int perPage) {
-        return null;
+    public List<Post> getByIds(List<Id> ids, String serviceToCreate) {
+        return postRepository.getByIds(ids, serviceToCreate);
     }
 }

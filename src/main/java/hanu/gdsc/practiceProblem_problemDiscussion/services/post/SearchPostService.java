@@ -11,6 +11,10 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @AllArgsConstructor
 @Component(value = "PracticeProbem.SearchPostService")
 public class SearchPostService {
@@ -54,5 +58,42 @@ public class SearchPostService {
                 corePost.getUpdatedAt(),
                 corePost.getContent()
         );
+    }
+
+    public List<Output> getPosts(Id problemId,
+                                 Id coderId,
+                                 int page,
+                                 int perPage) {
+        List<Post> posts = postRepository.getPosts(
+                problemId,
+                coderId,
+                page,
+                perPage
+        );
+        List<hanu.gdsc.core_discussion.domains.Post> corePosts = searchCoreDiscussionPostService.getByIds(
+                posts.stream()
+                        .map(post -> post.getCorePostId())
+                        .collect(Collectors.toList()),
+                ServiceName.serviceName
+        );
+        if (posts.size() != corePosts.size())
+            return new ArrayList<>();
+        List<Output> outputs = new ArrayList<>();
+        for (Post post : posts) {
+            for (hanu.gdsc.core_discussion.domains.Post corePost : corePosts) {
+                if (post.getCorePostId().equals(corePost.getId())) {
+                    outputs.add(new Output(
+                            post.getId(),
+                            post.getProblemId(),
+                            corePost.getTitle(),
+                            corePost.getAuthor(),
+                            corePost.getCreatedAt(),
+                            corePost.getUpdatedAt(),
+                            corePost.getContent()
+                    ));
+                }
+            }
+        }
+        return outputs;
     }
 }

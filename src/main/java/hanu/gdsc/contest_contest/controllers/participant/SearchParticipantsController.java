@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@Tag(name = "Contest-Participant", description = "Rest-API endpoint for Contest Participant")
+@Tag(name = "Contest - Participant", description = "Rest-API endpoint for Contest Participant")
 public class SearchParticipantsController {
     @Autowired
     private GetParticipantsService getParticipantsService;

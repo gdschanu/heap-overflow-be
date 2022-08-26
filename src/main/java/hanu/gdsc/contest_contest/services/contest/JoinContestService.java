@@ -4,7 +4,6 @@ import hanu.gdsc.contest_contest.domains.Participant;
 import hanu.gdsc.contest_contest.repositories.contest.ContestRepository;
 import hanu.gdsc.contest_contest.repositories.participant.ParticipantRepository;
 import hanu.gdsc.contest_contest.services.participant.CreateParticipantService;
-import hanu.gdsc.contest_contest.services.participant.CreateParticipantServiceImpl;
 import hanu.gdsc.contest_contest.services.participant.SearchParticipantService;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -23,9 +22,10 @@ public class JoinContestService {
     @Autowired
     private SearchParticipantService searchParticipantService;
 
+    @Autowired
+    private CreateParticipantService createParticipantService;
+
     public void joinContest(Id coderId, Id contestId) {
-        CreateParticipantService createParticipantService =
-                new CreateParticipantServiceImpl(contestRepository, participantRepository);
         createParticipantService.execute(coderId, contestId);
     }
 

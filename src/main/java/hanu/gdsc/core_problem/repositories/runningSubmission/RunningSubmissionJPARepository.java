@@ -15,7 +15,11 @@ public interface RunningSubmissionJPARepository extends JpaRepository<RunningSub
             nativeQuery = true)
     public RunningSubmissionEntity claim(@Param("currentMillis") long currentMillis);
 
-    public Page<RunningSubmissionEntity> findByProblemIdAndCoderIdAndServiceToCreate(String id, String coderId, String serviceToCreate, Pageable pageable);
+    public Page<RunningSubmissionEntity> findByProblemIdAndCoderIdAndServiceToCreate(String problemId, String coderId, String serviceToCreate, Pageable pageable);
+
+    public Page<RunningSubmissionEntity> findByProblemIdAndServiceToCreate(String problemId, String serviceToCreate, Pageable pageable);
+
+    public Page<RunningSubmissionEntity> findByServiceToCreate(String serviceToCreate, Pageable pageable);
 
     public Page<RunningSubmissionEntity> findByCoderIdAndServiceToCreate(String coderId, String serviceToCreate, Pageable pageable);
 

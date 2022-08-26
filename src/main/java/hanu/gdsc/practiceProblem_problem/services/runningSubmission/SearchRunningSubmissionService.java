@@ -107,12 +107,20 @@ public class SearchRunningSubmissionService {
                 coreProblemId = problem.getCoreProblemProblemId();
             }
         }
-        return searchCoreRunningSubmissionService.getByProblemIdAndCoderId(
+        List<hanu.gdsc.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output>
+                outputs = searchCoreRunningSubmissionService.getByProblemIdAndCoderId(
                 coreProblemId,
                 coderId,
                 page,
                 perPage,
                 ServiceName.serviceName
         );
+        if (problemId != null) {
+            for (hanu.gdsc.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output
+                    output : outputs) {
+                output.problemId = problemId;
+            }
+        }
+        return outputs;
     }
 }

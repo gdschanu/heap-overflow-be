@@ -13,7 +13,7 @@ import java.lang.reflect.Constructor;
 @Setter
 @Getter
 @Builder
-public class PostEntity {
+public class PPostEntity {
     @Id
     private String id;
     @Version
@@ -29,8 +29,8 @@ public class PostEntity {
     private String content;
     private String serviceToCreate;
 
-    public static PostEntity toEntity(Post post) {
-        return PostEntity.builder()
+    public static PPostEntity toEntity(Post post) {
+        return PPostEntity.builder()
                 .id(post.getId().toString())
                 .version(post.getVersion())
                 .title(post.getTitle())
@@ -42,7 +42,7 @@ public class PostEntity {
                 .build();
     }
 
-    public static Post toDomain(PostEntity postEntity) {
+    public static Post toDomain(PPostEntity postEntity) {
         try {
             Constructor<Post> constructor = Post.class.getDeclaredConstructor(
                     hanu.gdsc.share.domains.Id.class,

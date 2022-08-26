@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@Tag(name = "Practice Problem-Running Submission", description = "Rest-API endpoint for Practice Problem")
+@Tag(name = "Practice Problem - Running Submission", description = "Rest-API endpoint for Practice Problem")
 public class SearchRunningSubmissionController {
     @Autowired
     private SearchRunningSubmissionService searchRunningSubmissionService;
 
-    @GetMapping("/practiceProblem/submission")
+    @GetMapping("/practiceProblem/runningSubmission")
     public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage,
                                  @RequestParam(required = false, name = "problemId") String problemId,
                                  @RequestParam(required = false, name = "coderId") String coderId) {

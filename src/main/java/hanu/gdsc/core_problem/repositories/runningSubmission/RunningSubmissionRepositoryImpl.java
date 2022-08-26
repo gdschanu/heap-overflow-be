@@ -79,12 +79,32 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
                                                             int perPage,
                                                             String serviceToCreate) {
         Pageable pageable = PageRequest.of(page, perPage);
-        Page<RunningSubmissionEntity> entities = runningSubmissionJPARepository
-                .findByProblemIdAndCoderIdAndServiceToCreate(
-                        problemId.toString(),
-                        coderId.toString(),
-                        serviceToCreate,
-                        pageable);
+        Page<RunningSubmissionEntity> entities = null;
+        if (problemId == null && coderId == null) {
+            entities = runningSubmissionJPARepository
+                    .findByServiceToCreate(
+                            serviceToCreate,
+                            pageable);
+        } else if (problemId == null && coderId != null) {
+            entities = runningSubmissionJPARepository
+                    .findByCoderIdAndServiceToCreate(
+                            coderId.toString(),
+                            serviceToCreate,
+                            pageable);
+        } else if (problemId != null && coderId == null) {
+            entities = runningSubmissionJPARepository
+                    .findByProblemIdAndServiceToCreate(
+                            problemId.toString(),
+                            serviceToCreate,
+                            pageable);
+        } else if (problemId != null && coderId != null) {
+            entities = runningSubmissionJPARepository
+                    .findByProblemIdAndCoderIdAndServiceToCreate(
+                            problemId.toString(),
+                            coderId.toString(),
+                            serviceToCreate,
+                            pageable);
+        }
         return entities.getContent()
                 .stream()
                 .map(e -> e.toDomain())

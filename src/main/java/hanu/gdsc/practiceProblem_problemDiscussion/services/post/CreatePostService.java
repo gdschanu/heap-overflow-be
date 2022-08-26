@@ -24,18 +24,14 @@ public class CreatePostService {
     @AllArgsConstructor
     @NoArgsConstructor
     @Schema(title = "create", description = "Data transfer object for Discussion to create")
-    public static class InputCreatePost {
-        @Schema(description = "specify Id of the problem want to create post", example = "62aeff0d9081bab25998b0d1", required = true)
+    public static class Input {
         public Id problemId;
-        @Schema(description = "specify title of the discussion want to create post", example = "how to solve this problem with java", required = true)
         public String title;
-        @Schema(description = "specify the Id of author who are create post", example = "62aeff0d9081bab25998b0d2", required = true)
         public Id author;
-        @Schema(description = "specify the content of the discussion to create post", example = "blalalblablablablalbalbalba", required = true)
         public String content;
     }
 
-    public Id execute(InputCreatePost input) {
+    public Id execute(Input input) {
         try {
             searchProblemService.getById(input.problemId);
         } catch (NotFoundError error) {

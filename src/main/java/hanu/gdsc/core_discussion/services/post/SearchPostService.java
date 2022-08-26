@@ -8,5 +8,5 @@ import java.util.List;
 public interface SearchPostService {
     public Post getById(Id id, String serviceToCreate);
 
-    public List<Post> get(int page, int perPage);
+    public List<Post> getByIds(List<Id> ids, String serviceToCreate);
 }

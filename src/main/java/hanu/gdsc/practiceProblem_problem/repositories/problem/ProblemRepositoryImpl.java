@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityNotFoundException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,8 +29,10 @@ public class ProblemRepositoryImpl implements ProblemRepository {
     @Override
     public Problem getById(Id id) {
         try {
-            PPProblemEntity PPProblemEntity = PPProblemJpaRepository.getById(id.toString());
-            return PPProblemEntity.toDomain(PPProblemEntity);
+            Optional<PPProblemEntity> e = PPProblemJpaRepository.findById(id.toString());
+            if (e.isEmpty())
+                return null;
+            return PPProblemEntity.toDomain(e.get());
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
             return null;
