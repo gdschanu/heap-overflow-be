@@ -15,7 +15,8 @@ public class GetParticipantsServiceImpl implements GetParticipantsService {
     private ParticipantRepository participantRepository;
 
     @Override
-    public List<Participant> getParticipants(Id contestId) {
-        return participantRepository.findByContestId(contestId);
+    public List<Participant> getParticipants(Id contestId, int page, int perPage) {
+        List<Participant> participants = participantRepository.get(contestId, page, perPage);
+        return participants;
     }
 }

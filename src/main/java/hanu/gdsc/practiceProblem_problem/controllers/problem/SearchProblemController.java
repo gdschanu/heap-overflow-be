@@ -1,13 +1,22 @@
 package hanu.gdsc.practiceProblem_problem.controllers.problem;
 
+import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.services.problem.SearchProblemService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -17,6 +26,36 @@ public class SearchProblemController {
     @Autowired
     private SearchProblemService servicePracticeProblemService;
 
+    @Data
+    @AllArgsConstructor
+    public class FakeDataProgress {
+        private Difficulty difficulty;
+        private int done;
+        private int problems;
+        private int percentage;
+    }
+
+    @Operation(
+            summary = "Search the practice problem by id",
+            responses = {@ApiResponse(
+                    responseCode = "200",
+                    description = "Entity successfully found.",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(implementation = SearchProblemService.Output.class)
+                            )
+                    }
+            ), @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = {@Content()}
+            ), @ApiResponse(
+                    responseCode = "400",
+                    description = "invalid request",
+                    content = {@Content()}
+            )}
+    )
     @GetMapping("/practiceProblem/problem/{id}")
     public ResponseEntity<?> getById(@PathVariable String id){
         return ControllerHandler.handle(() -> {
@@ -57,6 +96,37 @@ public class SearchProblemController {
             return new ControllerHandler.Result(
                     "Success",
                     output
+            );
+        });
+    }
+
+    @GetMapping("/practiceProblem/problem/progress")
+    public ResponseEntity<?> getProgress() {
+        return ControllerHandler.handle(() -> {
+            FakeDataProgress fakeDataProgressEasy = new FakeDataProgress(
+                    Difficulty.EASY,
+                    10,
+                    100,
+                    10
+            );
+            FakeDataProgress fakeDataProgressMedium = new FakeDataProgress(
+                    Difficulty.MEDIUM,
+                    20,
+                    100,
+                    20
+            );
+            FakeDataProgress fakeDataProgressHard = new FakeDataProgress(
+                    Difficulty.HARD,
+                    50,
+                    100,
+                    50
+            );
+            List<FakeDataProgress> listOutput = new ArrayList<>(
+                    Arrays.asList(fakeDataProgressEasy, fakeDataProgressMedium, fakeDataProgressHard)
+            );
+            return new ControllerHandler.Result(
+                    "Success",
+                    listOutput
             );
         });
     }
