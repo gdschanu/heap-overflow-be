@@ -1,26 +1,24 @@
 package hanu.gdsc.contest_contest.controllers.contest;
 
+import hanu.gdsc.coderAuth.services.AuthorizeService;
 import hanu.gdsc.contest_contest.services.contest.JoinContestService;
 import hanu.gdsc.share.controller.ControllerHandler;
-import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.BusinessLogicError;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@AllArgsConstructor
 @Tag(name = "Contest" , description = "Rest-API endpoint for Contest")
 public class JoinContestController {
-
-    @Autowired
-    private JoinContestService joinContestService;
+    private final JoinContestService joinContestService;
+    private final AuthorizeService authorizeService;
 
     @Operation(
             summary = "join contest",
@@ -76,10 +74,11 @@ public class JoinContestController {
             )}
     )
     @GetMapping("/contest/checkIfCoderJoinContest/{coderId}")
-    public ResponseEntity<?> CheckIfCoderJoinContest(@PathVariable String coderId) {
+    public ResponseEntity<?> CheckIfCoderJoinContest(@RequestHeader("access-token") String token, @PathVariable String contestId) {
         return ControllerHandler.handle(() -> {
             //should return page
-            Boolean check = joinContestService.checkIfCoderJoinContest(new Id(coderId));
+            Id coderId = authorizeService.authorize(token);
+            Boolean check = joinContestService.checkIfCoderJoinContest(coderId, new Id(contestId));
             return new ControllerHandler.Result(
                     "Success",
                     check

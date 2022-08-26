@@ -21,4 +21,9 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
         return participantJPARepository.findByContestId(contestId.toString()).stream().map(x -> x.toDomain()).collect(Collectors.toList());
     }
 
+    @Override
+    public Participant findByCoderId(Id coderId) {
+        return participantJPARepository.findByCoderId(coderId.toString()).toDomain();
+    }
+
 }

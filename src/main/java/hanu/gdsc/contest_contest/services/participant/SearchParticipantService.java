@@ -9,4 +9,6 @@ public interface SearchParticipantService {
     public Participant getById(Id participantId);
 
     public List<Participant> search(int page, int perPage);
+
+    Participant getByCoderId(Id coderId);
 }

@@ -37,6 +37,7 @@ public class ParticipantEntity {
                 .id(participant.getCoderId() + "#" + participant.getContestId())
                 .version(participant.getVersion())
                 .coderId(participant.getCoderId().toString())
+                .contestId(participant.getContestId().toString())
                 .participantRank(participant.getRank())
                 .problemScores(participant.getProblemScores().stream()
                         .map(x -> ProblemScoreEntity.fromDomains(x))
@@ -47,13 +48,15 @@ public class ParticipantEntity {
     public Participant toDomain() {
         try {
             Constructor<Participant> con = Participant.class.getDeclaredConstructor(
+                    long.class,
                     hanu.gdsc.share.domains.Id.class,
                     hanu.gdsc.share.domains.Id.class,
-                    Integer.class,
+                    int.class,
                     List.class
             );
             con.setAccessible(true);
             return con.newInstance(
+                    version,
                     new hanu.gdsc.share.domains.Id(coderId),
                     new hanu.gdsc.share.domains.Id(contestId),
                     participantRank,

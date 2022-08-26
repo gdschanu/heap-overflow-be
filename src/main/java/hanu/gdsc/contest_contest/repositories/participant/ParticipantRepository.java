@@ -8,4 +8,5 @@ import java.util.List;
 public interface ParticipantRepository {
     public void create  (Participant participant);
     public List<Participant> findByContestId(Id contestId);
+    Participant findByCoderId(Id coderId);
 }

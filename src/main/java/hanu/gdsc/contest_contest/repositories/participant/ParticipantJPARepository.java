@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ParticipantJPARepository extends JpaRepository<ParticipantEntity, String> {
     public List<ParticipantEntity> findByContestId(String contestId);
+
+    ParticipantEntity findByCoderId(String coderId);
 }
