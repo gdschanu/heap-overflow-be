@@ -61,12 +61,10 @@ public class SearchPostService {
     }
 
     public List<Output> getPosts(Id problemId,
-                                 Id coderId,
                                  int page,
                                  int perPage) {
         List<Post> posts = postRepository.getPosts(
                 problemId,
-                coderId,
                 page,
                 perPage
         );

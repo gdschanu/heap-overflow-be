@@ -11,7 +11,6 @@ public interface PostRepository {
     public Post getById(Id id);
 
     public List<Post> getPosts(Id problemId,
-                               Id coderId,
                                int page,
                                int perPage);
 }

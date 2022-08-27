@@ -29,29 +29,17 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public List<Post> getPosts(Id problemId,
-                               Id coderId,
                                int page,
                                int perPage) {
         Pageable pageable = PageRequest.of(page, perPage);
         Page<PPPostEntity> entities = null;
-        if (problemId == null && coderId == null) {
+        if (problemId == null) {
             entities = pPPostJpaRepository
                     .findAll(pageable);
-        } else if (problemId == null && coderId != null) {
+        } else  {
             entities = pPPostJpaRepository
                     .findByProblemId(
-                            coderId.toString(),
-                            pageable);
-        } else if (problemId != null && coderId == null) {
-            entities = pPPostJpaRepository
-                    .findByCoderId(
                             problemId.toString(),
-                            pageable);
-        } else if (problemId != null && coderId != null) {
-            entities = pPPostJpaRepository
-                    .findByProblemIdAndCoderId(
-                            problemId.toString(),
-                            coderId.toString(),
                             pageable);
         }
         return entities.getContent()
