@@ -54,7 +54,7 @@ public class SearchRunningSubmissionController {
     @EventListener(ApplicationReadyEvent.class)
     public void getRunningSubmissionById() throws UnknownHostException {
         Configuration config = new Configuration();
-        config.setHostname(String.valueOf(InetAddress.getLocalHost()));
+        config.setHostname(RunningSubmissionConfig.IP);
         config.setPort(RunningSubmissionConfig.PORT);
         config.setOrigin("*");
         server = new SocketIOServer(config);

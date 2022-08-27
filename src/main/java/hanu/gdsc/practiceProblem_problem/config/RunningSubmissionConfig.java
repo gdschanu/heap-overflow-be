@@ -13,4 +13,6 @@ public class RunningSubmissionConfig {
     public static final long UPDATE_RUNNING_SUBMISSION_RATE_MILLIS = 3000;
 
     public static final long DELETE_JUDGER_SUBMISSION_RATE_MILLIS = 5000;
+
+    public static final String IP = "103.183.113.65";
 }
