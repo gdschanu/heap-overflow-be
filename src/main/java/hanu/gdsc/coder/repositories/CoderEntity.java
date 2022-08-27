@@ -54,11 +54,11 @@ public class CoderEntity {
         return new Coder(
                 new hanu.gdsc.share.domains.Id(id),
                 name,
-                new Url(avatar),
-                new Phone(phone),
+                avatar == null ? null : new Url(avatar),
+                phone == null ? null : new Phone(phone) ,
                 university,
                 slogan,
-                Gender.valueOf(gender),
+                gender == null ? null : Gender.valueOf(gender),
                 address,
                 rank
         );
