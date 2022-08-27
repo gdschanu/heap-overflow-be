@@ -72,4 +72,15 @@ public class ProblemRepositoryImpl implements ProblemRepository {
     public void deleteById(Id id) {
         PPProblemJpaRepository.deleteById(id.toString());
     }
+
+    @Override
+    public Problem getByCoreProblemProblemId(Id coreProblemProblemId) {
+        try {
+            PPProblemEntity e = PPProblemJpaRepository
+                    .findByCoreProblemProblemId(coreProblemProblemId.toString());
+            return PPProblemEntity.toDomain(e);
+        } catch (EntityNotFoundException e) {
+            return null;
+        }
+    }
 }
