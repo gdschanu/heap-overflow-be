@@ -52,7 +52,7 @@ public class SearchRunningSubmissionController {
     @EventListener(ApplicationReadyEvent.class)
     public void getRunningSubmissionById() {
         Configuration config = new Configuration();
-        config.setHostname("localhost");
+        config.setHostname("103.183.113.65");
         config.setPort(RunningSubmissionConfig.PORT);
         config.setOrigin("*");
         server = new SocketIOServer(config);
