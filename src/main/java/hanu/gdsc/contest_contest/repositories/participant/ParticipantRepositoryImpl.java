@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -22,8 +23,9 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
     }
 
     @Override
-    public Participant findByCoderId(Id coderId) {
-        return participantJPARepository.findByCoderId(coderId.toString()).toDomain();
+    public Participant getByCoderId(Id coderId) {
+        ParticipantEntity entity = participantJPARepository.findByCoderId(coderId.toString());
+        return entity == null ? null : entity.toDomain();
     }
 
     @Override
@@ -36,4 +38,13 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public Participant getById(String id) {
+        Optional<ParticipantEntity> entity = participantJPARepository.findById(id);
+        if(entity.isEmpty()) {
+            return null;
+        } else {
+            return entity.get().toDomain();
+        }
+    }
 }
