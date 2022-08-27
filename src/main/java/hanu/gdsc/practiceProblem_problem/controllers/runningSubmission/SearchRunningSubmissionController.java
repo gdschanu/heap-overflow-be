@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PreDestroy;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 @RestController
@@ -50,9 +52,9 @@ public class SearchRunningSubmissionController {
     private SocketIOServer server = null;
 
     @EventListener(ApplicationReadyEvent.class)
-    public void getRunningSubmissionById() {
+    public void getRunningSubmissionById() throws UnknownHostException {
         Configuration config = new Configuration();
-        config.setHostname("103.183.113.65");
+        config.setHostname(String.valueOf(InetAddress.getLocalHost()));
         config.setPort(RunningSubmissionConfig.PORT);
         config.setOrigin("*");
         server = new SocketIOServer(config);
