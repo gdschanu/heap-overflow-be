@@ -54,6 +54,7 @@ public class SearchRunningSubmissionController {
         Configuration config = new Configuration();
         config.setHostname("localhost");
         config.setPort(RunningSubmissionConfig.PORT);
+        config.setOrigin("*");
         server = new SocketIOServer(config);
         server.addEventListener("GET_RUNNING_SUBMISSION", String.class, new DataListener<String>() {
             @Override
