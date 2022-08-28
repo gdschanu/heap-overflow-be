@@ -2,6 +2,7 @@ package hanu.gdsc.coder.repositories;
 
 import hanu.gdsc.coder.domains.Coder;
 
+import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -28,5 +30,11 @@ public class CoderRepositoryImpl implements CoderRepository {
                 PageRequest.of(page, perPage, Sort.by("rank").descending())
         );
         return coderEntities != null ? coderEntities.stream().map(x -> x.toDomain()).collect(Collectors.toList()) : null;
+    }
+
+    @Override
+    public Coder getById(Id id) {
+        CoderEntity coder = coderJpaRepository.getById(id.toString());
+        return coder.toDomain();
     }
 }

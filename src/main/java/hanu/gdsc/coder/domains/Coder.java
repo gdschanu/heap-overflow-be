@@ -5,6 +5,7 @@ import hanu.gdsc.share.domains.Id;
 public class Coder {
     private Id id;
     private String name;
+    private int age;
     private Url avatar;
     private Phone phone;
     private String university;
@@ -13,9 +14,10 @@ public class Coder {
     private String address;
     private int rank;
 
-    public Coder(Id id, String name, Url avatar, Phone phone, String university, String slogan, Gender gender, String address, int rank) {
+    public Coder(Id id, String name, int age, Url avatar, Phone phone, String university, String slogan, Gender gender, String address, int rank) {
         this.id = id;
         this.name = name;
+        this.age = age;
         this.avatar = avatar;
         this.phone = phone;
         this.university = university;
@@ -29,6 +31,7 @@ public class Coder {
         return new Coder(
                 Id.generateRandom(),
                 null,
+                0,
                 null,
                 null,
                 null,
@@ -44,6 +47,10 @@ public class Coder {
 
     public String getName() {
         return name;
+    }
+
+    public int getAge() {
+        return age;
     }
 
     public Url getAvatar() {
