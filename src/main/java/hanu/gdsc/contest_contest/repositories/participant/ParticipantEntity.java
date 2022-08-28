@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Builder
 public class ParticipantEntity {
     @Id
-    @Column(columnDefinition = "VARCHAR(30)")
+    @Column(columnDefinition = "VARCHAR(60)")
     private String id;
     @Version
     private long version;

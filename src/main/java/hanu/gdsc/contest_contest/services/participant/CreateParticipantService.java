@@ -23,6 +23,17 @@ public class CreateParticipantService {
         if (contest == null) {
             throw new BusinessLogicError("Contest không tồn tại.", "NOT_FOUND");
         }
+
+        Participant existedParticipant = participantRepository.getById(coderId.toString() + "#" + contestId.toString());
+        if(existedParticipant != null) {
+            throw new BusinessLogicError("Coder đã tham gia contest này", "PARTICIPATED");
+        }
+
+        Participant existedParticipantInAnother = participantRepository.getByCoderId(coderId);
+        if(existedParticipantInAnother != null) {
+            throw new BusinessLogicError("Coder đang tham gia contest khác", "PARTICIPATED_IN_ANOTHER");
+        }
+
         Participant participant = Participant.create(coderId, contest);
         participantRepository.create(participant);
 

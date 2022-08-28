@@ -23,6 +23,6 @@ public class SearchParticipantService {
     }
 
     public Participant getByCoderId(Id coderId) {
-        return participantRepository.findByCoderId(coderId);
+        return participantRepository.getByCoderId(coderId);
     }
 }
