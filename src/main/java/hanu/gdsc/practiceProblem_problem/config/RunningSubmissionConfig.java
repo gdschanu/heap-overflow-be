@@ -1,5 +1,9 @@
 package hanu.gdsc.practiceProblem_problem.config;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
+
+@Configuration
 public class RunningSubmissionConfig {
     public static  int MAX_THREAD = 2;
     public static  int RATE_MILLIS = 5000;
@@ -14,5 +18,11 @@ public class RunningSubmissionConfig {
 
     public static  long DELETE_JUDGER_SUBMISSION_RATE_MILLIS = 5000;
 
-    public static  String IP = "103.183.113.65";
+    public static  String IP = "localhost";
+
+    public RunningSubmissionConfig(Environment environment) {
+        if (environment.getProperty("IP") != null) {
+            IP = environment.getProperty("IP");
+        }
+    }
 }
