@@ -79,7 +79,7 @@ public class SearchPostController {
     )
     @GetMapping("/practiceProblem/post")
     public ResponseEntity<?> getPosts(@RequestParam int page, @RequestParam int perPage,
-                                      @RequestParam(required = false, name = "problemId") String problemId){
+                                      @RequestParam String problemId){
         return ControllerHandler.handle(() -> {
             Id problem = problemId == null ? null : new Id(problemId);
             List<SearchPostService.Output> output = searchPostService.getPosts(
