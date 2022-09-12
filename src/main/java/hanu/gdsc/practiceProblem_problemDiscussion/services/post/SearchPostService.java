@@ -96,4 +96,8 @@ public class SearchPostService {
         }
         return outputs;
     }
+
+    public long countPosts(Id problemId) {
+        return postRepository.countPosts(problemId);
+    }
 }

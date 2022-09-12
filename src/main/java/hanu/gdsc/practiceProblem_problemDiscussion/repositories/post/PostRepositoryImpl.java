@@ -40,4 +40,10 @@ public class PostRepositoryImpl implements PostRepository {
                 .map(e -> PPPostEntity.toDomain(e))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public long countPosts(Id problemId) {
+        return pPPostJpaRepository
+                .countByProblemId(problemId.toString());
+    }
 }

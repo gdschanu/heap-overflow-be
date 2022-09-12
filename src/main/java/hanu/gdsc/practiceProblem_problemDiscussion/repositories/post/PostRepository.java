@@ -13,4 +13,6 @@ public interface PostRepository {
     public List<Post> getPosts(Id problemId,
                                int page,
                                int perPage);
+
+    public long countPosts(Id problemId);
 }
