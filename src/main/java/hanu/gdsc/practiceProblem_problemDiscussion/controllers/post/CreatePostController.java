@@ -12,10 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
@@ -28,8 +25,6 @@ public class CreatePostController {
     @NoArgsConstructor
     @Schema(title = "create", description = "Data transfer object for Discussion to create")
     public static class InputCreatePost {
-        @Schema(description = "specify Id of the problem want to create post", example = "62aeff0d9081bab25998b0d1", required = true)
-        public Id problemId;
         @Schema(description = "specify title of the discussion want to create post", example = "how to solve this problem with java", required = true)
         public String title;
         @Schema(description = "specify the content of the discussion to create post", example = "blalalblablablablalbalbalba", required = true)
@@ -57,13 +52,14 @@ public class CreatePostController {
                     content = {@Content()}
             )}
     )
-    @PostMapping("practiceProblem/post")
+    @PostMapping("practiceProblem/{problemId}/post")
     public ResponseEntity<?> create(@RequestBody InputCreatePost input,
+                                    @PathVariable("problemId") String problemId,
                                     @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             Id coderId = authorizeService.authorize(token);
             Id postId = createPostService.execute(new CreatePostService.Input(
-                    input.problemId,
+                    new Id(problemId),
                     input.title,
                     coderId,
                     input.content
