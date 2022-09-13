@@ -7,6 +7,7 @@ import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,11 +20,10 @@ public class GetCoderInfoController {
     @Autowired
     private AuthorizeService authorizeService;
 
-    @GetMapping("/coder")
-    public ResponseEntity<?> getCoderInfo(@RequestHeader("access-token") String token) {
+    @GetMapping("/coder/{coderId}")
+    public ResponseEntity<?> getCoderInfo(@PathVariable String coderId) {
         return ControllerHandler.handle(() -> {
-            Id coderId = authorizeService.authorize(token);
-            GetCoderService.OutputInfo output = getCoderService.getCoderInfo(coderId);
+            GetCoderService.OutputInfo output = getCoderService.getCoderInfo(new Id(coderId));
             return new ControllerHandler.Result("Success", output);
         });
     }
