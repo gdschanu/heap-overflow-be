@@ -49,6 +49,7 @@ public class SearchRunningSubmissionServiceImpl implements SearchRunningSubmissi
 
     private Output toOutput(RunningSubmission runningSubmission) {
         return Output.builder()
+                .id(runningSubmission.getId())
                 .coderId(runningSubmission.getCoderId())
                 .problemId(runningSubmission.getProblemId())
                 .code(runningSubmission.getCode())

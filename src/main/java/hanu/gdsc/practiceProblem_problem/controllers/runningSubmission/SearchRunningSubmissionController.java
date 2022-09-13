@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PreDestroy;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
@@ -63,7 +62,10 @@ public class SearchRunningSubmissionController {
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
                 hanu.gdsc.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output
                         output = searchRunningSubmissionService.getById(new Id(s));
-                socketIOClient.sendEvent("RETURN_RUNNING_SUBMISSION", output);
+                if (output != null)
+                    socketIOClient.sendEvent("RETURN_RUNNING_SUBMISSION", output);
+                else
+                    socketIOClient.sendEvent("RETURN_RUNNING_SUBMISSION", s);
             }
         });
         server.start();

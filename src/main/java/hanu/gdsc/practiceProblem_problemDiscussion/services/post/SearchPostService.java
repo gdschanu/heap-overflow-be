@@ -9,6 +9,7 @@ import hanu.gdsc.share.error.NotFoundError;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component(value = "PracticeProbem.SearchPostService")
+@Slf4j
 public class SearchPostService {
     private final hanu.gdsc.core_discussion.services.post.SearchPostService searchCoreDiscussionPostService;
     private final PostRepository postRepository;
@@ -75,7 +77,7 @@ public class SearchPostService {
                 ServiceName.serviceName
         );
         if (posts.size() != corePosts.size())
-            return new ArrayList<>();
+            log.error("Post size != Core Post size for practice problem " + problemId);
         List<Output> outputs = new ArrayList<>();
         for (Post post : posts) {
             for (hanu.gdsc.core_discussion.domains.Post corePost : corePosts) {
@@ -93,5 +95,9 @@ public class SearchPostService {
             }
         }
         return outputs;
+    }
+
+    public long countPosts(Id problemId) {
+        return postRepository.countPosts(problemId);
     }
 }

@@ -13,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 @AllArgsConstructor
 @Component(value = "PracticeProblem.CreatePostService")
@@ -31,6 +33,7 @@ public class CreatePostService {
         public String content;
     }
 
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     public Id execute(Input input) {
         try {
             searchProblemService.getById(input.problemId);

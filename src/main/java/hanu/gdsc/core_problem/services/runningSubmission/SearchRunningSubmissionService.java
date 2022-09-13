@@ -15,6 +15,7 @@ public interface SearchRunningSubmissionService {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Output {
+        public Id id;
         public Id coderId;
         public Id problemId;
         public String code;

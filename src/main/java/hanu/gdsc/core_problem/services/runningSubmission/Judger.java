@@ -102,8 +102,6 @@ public interface Judger {
     }
 
     public static interface Submission {
-        public boolean processing();
-        public boolean inQueue();
         public boolean compilationError();
         public String compilationMessage();
         public boolean stdError();

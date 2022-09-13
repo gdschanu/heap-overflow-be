@@ -2,10 +2,10 @@ package hanu.gdsc.core_problem.services.runningSubmission;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.core_problem.config.Judge0Config;
-import hanu.gdsc.practiceProblem_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.core_problem.domains.KB;
 import hanu.gdsc.core_problem.domains.Millisecond;
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
+import hanu.gdsc.practiceProblem_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.share.scheduling.Scheduler;
 import org.springframework.stereotype.Service;
 
@@ -78,14 +78,27 @@ public class JudgerImpl implements Judger {
                 .build();
         HttpResponse<String> response = HttpClient.newHttpClient().send(httpReq, HttpResponse.BodyHandlers.ofString());
         CreateSubmissionResponse submission = objectMapper.readValue(response.body(), CreateSubmissionResponse.class);
-        submissionTokenToDeleteQueue.add(submission.token);
+        if (response.statusCode() == 201)
+            submissionTokenToDeleteQueue.add(submission.token);
+        else {
+            return new SubmissionImpl(
+                    "",
+                    null,
+                    null,
+                    null,
+                    null,
+                    -1,
+                    response.body()
+            );
+        }
         return new SubmissionImpl(
                 base64Decode(submission.stdout),
                 submission.time,
                 submission.memory,
                 base64Decode(submission.stderr),
                 base64Decode(submission.compile_output),
-                submission.status.id
+                submission.status.id,
+                ""
         );
     }
 
@@ -111,21 +124,22 @@ public class JudgerImpl implements Judger {
         private String compileOutput;
         private int status;
 
-        public SubmissionImpl(String stdout, String time, String memory, String stderr, String compileOutput, int status) {
+        private String stdMessage;
+
+        public SubmissionImpl(String stdout,
+                              String time,
+                              String memory,
+                              String stderr,
+                              String compileOutput,
+                              int status,
+                              String stdMessage) {
             this.stdout = stdout;
             this.time = time;
             this.memory = memory;
             this.stderr = stderr;
             this.compileOutput = compileOutput;
             this.status = status;
-        }
-
-        public boolean processing() {
-            return status == 2;
-        }
-
-        public boolean inQueue() {
-            return status == 1;
+            this.stdMessage = stdMessage;
         }
 
         public boolean compilationError() {
@@ -138,12 +152,11 @@ public class JudgerImpl implements Judger {
         }
 
         public boolean stdError() {
-            return compileOutput != null;
+            return status == -1;
         }
 
         public String stdMessage() {
-            return compileOutput == null ?
-                    "" : compileOutput;
+            return stdMessage;
         }
 
         public KB memory() {
@@ -167,7 +180,7 @@ public class JudgerImpl implements Judger {
         }
     }
 
-    private Queue<String> submissionTokenToDeleteQueue = new ConcurrentLinkedQueue<>();
+    private static Queue<String> submissionTokenToDeleteQueue = new ConcurrentLinkedQueue<>();
 
     private void deleteSubmission() {
         String submissionToDelete = submissionTokenToDeleteQueue.poll();

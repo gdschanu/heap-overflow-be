@@ -77,9 +77,9 @@ public class SearchPostController {
                     content = {@Content()}
             )}
     )
-    @GetMapping("/practiceProblem/post")
+    @GetMapping("/practiceProblem/{problemId}/post")
     public ResponseEntity<?> getPosts(@RequestParam int page, @RequestParam int perPage,
-                                      @RequestParam(required = false, name = "problemId") String problemId){
+                                      @PathVariable("problemId") String problemId){
         return ControllerHandler.handle(() -> {
             Id problem = problemId == null ? null : new Id(problemId);
             List<SearchPostService.Output> output = searchPostService.getPosts(
@@ -90,6 +90,18 @@ public class SearchPostController {
             return new ControllerHandler.Result(
                     "Success",
                     output
+            );
+        });
+    }
+
+    @GetMapping("/practiceProblem/{problemId}/post/count")
+    public ResponseEntity<?> getPosts(@PathVariable("problemId") String problemId) {
+        return ControllerHandler.handle(() -> {
+            System.out.println(problemId);
+            long count = searchPostService.countPosts(new Id(problemId));
+            return new ControllerHandler.Result(
+                    "Success",
+                    count
             );
         });
     }

@@ -1,6 +1,5 @@
 package hanu.gdsc.practiceProblem_problemDiscussion.repositories.post;
 
-import hanu.gdsc.core_discussion.repositories.post.PostEntity;
 import hanu.gdsc.practiceProblem_problemDiscussion.domains.Post;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,19 +31,19 @@ public class PostRepositoryImpl implements PostRepository {
                                int page,
                                int perPage) {
         Pageable pageable = PageRequest.of(page, perPage);
-        Page<PPPostEntity> entities = null;
-        if (problemId == null) {
-            entities = pPPostJpaRepository
-                    .findAll(pageable);
-        } else  {
-            entities = pPPostJpaRepository
-                    .findByProblemId(
-                            problemId.toString(),
-                            pageable);
-        }
+        Page<PPPostEntity> entities = pPPostJpaRepository
+                .findByProblemId(
+                        problemId.toString(),
+                        pageable);
         return entities.getContent()
                 .stream()
                 .map(e -> PPPostEntity.toDomain(e))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public long countPosts(Id problemId) {
+        return pPPostJpaRepository
+                .countByProblemId(problemId.toString());
     }
 }
