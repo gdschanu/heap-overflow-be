@@ -74,7 +74,7 @@ public class ContestEntity {
                     new DateTime(endAt),
                     new hanu.gdsc.share.domains.Id(createdBy),
                     problems.stream().map(x -> x.toDomain()).collect(Collectors.toList()),
-                    new DateTime(createdAt)
+                    createdAt == null ? DateTime.now() : new DateTime(createdAt) // TODO: remove this
             );
         } catch (Exception e) {
             e.printStackTrace();
