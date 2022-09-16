@@ -1,5 +1,6 @@
 package hanu.gdsc.contest_contest.domains;
 
+import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.VersioningDomainObject;
 import hanu.gdsc.share.error.BusinessLogicError;
@@ -13,13 +14,20 @@ public class Participant extends VersioningDomainObject {
     private Id contestId;
     private int rank;
     private List<ProblemScore> problemScores;
+    private DateTime createdAt;
 
-    private Participant(long version, Id coderId, Id contestId, int rank, List<ProblemScore> problemScores) {
+    private Participant(long version,
+                        Id coderId,
+                        Id contestId,
+                        int rank,
+                        List<ProblemScore> problemScores,
+                        DateTime createdAt) {
         super(version);
         this.coderId = coderId;
         this.contestId = contestId;
         this.rank = rank;
         this.problemScores = problemScores;
+        this.createdAt = createdAt;
     }
 
     public static Participant create(Id coderId, Contest contest) {
@@ -31,8 +39,13 @@ public class Participant extends VersioningDomainObject {
                 coderId,
                 contest.getId(),
                 0,
-                new ArrayList<>()
+                new ArrayList<>(),
+                DateTime.now()
         );
+    }
+
+    public DateTime getCreatedAt() {
+        return createdAt;
     }
 
     @Override

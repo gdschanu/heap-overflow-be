@@ -30,6 +30,8 @@ public class ContestEntity {
     private String createdBy;
     @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL)
     private List<ContestProblemEntity> problems;
+    private String createdAt;
+    private long createdAtMillis;
 
     public static ContestEntity fromDomain(Contest contest) {
         ContestEntity res = ContestEntity.builder()
@@ -40,6 +42,8 @@ public class ContestEntity {
                 .startAt(contest.getStartAt().toString())
                 .endAt(contest.getEndAt().toString())
                 .createdBy(contest.getCreatedBy().toString())
+                .createdAt(contest.getCreatedAt().toString())
+                .createdAtMillis(contest.getCreatedAt().toMillis())
                 .build();
         res.setProblems(contest.getProblems().stream()
                 .map(x -> ContestProblemEntity.fromDomain(x, res))
@@ -57,7 +61,8 @@ public class ContestEntity {
                     DateTime.class,
                     DateTime.class,
                     hanu.gdsc.share.domains.Id.class,
-                    List.class
+                    List.class,
+                    DateTime.class
             );
             con.setAccessible(true);
             return con.newInstance(
@@ -68,7 +73,8 @@ public class ContestEntity {
                     new DateTime(startAt),
                     new DateTime(endAt),
                     new hanu.gdsc.share.domains.Id(createdBy),
-                    problems.stream().map(x -> x.toDomain()).collect(Collectors.toList())
+                    problems.stream().map(x -> x.toDomain()).collect(Collectors.toList()),
+                    new DateTime(createdAt)
             );
         } catch (Exception e) {
             e.printStackTrace();

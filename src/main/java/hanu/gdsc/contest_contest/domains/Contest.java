@@ -15,6 +15,7 @@ public class Contest extends IdentitifedVersioningDomainObject {
     private DateTime endAt;
     private Id createdBy;
     private List<ContestProblem> contestProblems;
+    private DateTime createdAt;
 
     private Contest(Id id,
                     long version,
@@ -23,7 +24,8 @@ public class Contest extends IdentitifedVersioningDomainObject {
                     DateTime startAt,
                     DateTime endAt,
                     Id createdBy,
-                    List<ContestProblem> contestProblems) {
+                    List<ContestProblem> contestProblems,
+                    DateTime createdAt) {
         super(id, version);
         this.name = name;
         this.description = description;
@@ -31,6 +33,7 @@ public class Contest extends IdentitifedVersioningDomainObject {
         this.endAt = endAt;
         this.createdBy = createdBy;
         this.contestProblems = contestProblems;
+        this.createdAt = createdAt;
     }
 
     public static Contest create(String name,
@@ -51,8 +54,13 @@ public class Contest extends IdentitifedVersioningDomainObject {
                 startAt,
                 endAt,
                 authorId,
-                problems
+                problems,
+                DateTime.now()
         );
+    }
+
+    public DateTime getCreatedAt() {
+        return createdAt;
     }
 
     public void setProblems(List<ContestProblem> problems) {
