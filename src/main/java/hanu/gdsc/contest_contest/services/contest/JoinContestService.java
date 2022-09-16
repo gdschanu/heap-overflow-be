@@ -35,7 +35,7 @@ public class JoinContestService {
             throw new BusinessLogicError("Coder không tồn tại", "NOT_FOUND");
         } else {
             if(!participant.getContestId().toString().equals(contestId.toString())) {
-                throw new BusinessLogicError("Coder không tham gia contest này","NOT_PARTICIPANT");
+                return false;
             }
         }
         return true;

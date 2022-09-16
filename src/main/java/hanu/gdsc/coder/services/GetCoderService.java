@@ -28,6 +28,7 @@ public class GetCoderService {
 
     @Builder
     public static class OutputInfo {
+        public String coderId;
         public String name;
         public int age;
         public String university;
@@ -40,6 +41,7 @@ public class GetCoderService {
 
     private static OutputInfo toOutputInfo(Coder coder) {
         return OutputInfo.builder()
+                .coderId(coder.getId().toString())
                 .name(coder.getName())
                 .age(coder.getAge())
                 .university(coder.getUniversity())
