@@ -113,7 +113,43 @@ public class ProcessRunningSubmissionService {
             Millisecond avgRunTime = totalRunTime.divide(i + 1);
             KB avgMemLimit = totalMemLimit.divide(i + 1);
             Submission submission = null;
-            if (judgeSubmission.compilationError()) {
+            if (memoryLimit == null) {
+                submission = Submission.createWithId(
+                        runningSubmission.getId(),
+                        runningSubmission.getProblemId(),
+                        runningSubmission.getProgrammingLanguage(),
+                        avgRunTime,
+                        avgMemLimit,
+                        runningSubmission.getCode(),
+                        Status.STDE,
+                        FailedTestCaseDetail.fromTestCase(
+                                0,
+                                "",
+                                testCase
+                        ),
+                        runningSubmission.getServiceToCreate(),
+                        runningSubmission.getCoderId(),
+                        "No memory limit."
+                );
+            } else if (timeLimit == null) {
+                submission = Submission.createWithId(
+                        runningSubmission.getId(),
+                        runningSubmission.getProblemId(),
+                        runningSubmission.getProgrammingLanguage(),
+                        avgRunTime,
+                        avgMemLimit,
+                        runningSubmission.getCode(),
+                        Status.STDE,
+                        FailedTestCaseDetail.fromTestCase(
+                                0,
+                                "",
+                                testCase
+                        ),
+                        runningSubmission.getServiceToCreate(),
+                        runningSubmission.getCoderId(),
+                        "No time limit."
+                );
+            } else if (judgeSubmission.compilationError()) {
                 submission = Submission.createWithId(
                         runningSubmission.getId(),
                         runningSubmission.getProblemId(),

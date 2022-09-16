@@ -51,6 +51,14 @@ public class Problem extends IdentitifedVersioningDomainObject {
         problem.setMemoryLimits(createMemoryLimitInputs.stream()
                 .map(i -> MemoryLimit.create(i))
                 .collect(Collectors.toList()));
+        for (ProgrammingLanguage programmingLanguage : allowedProgrammingLanguages) {
+            if (problem.getMemoryLimitByProgrammingLanguage(programmingLanguage) == null) {
+                throw new InvalidInputError("Programming language " + programmingLanguage + " doesn't have memory limit.");
+            }
+            if (problem.getTimeLimitByProgrammingLanguage(programmingLanguage) == null) {
+                throw new InvalidInputError("Programming language " + programmingLanguage + " doesn't have time limit.");
+            }
+        }
         return problem;
     }
 
