@@ -25,8 +25,8 @@ public class PPProblemEntity {
     @Column(columnDefinition = "VARCHAR(30)")
     private String coreProblemProblemId;
     private String difficulty;
-    @Column(columnDefinition = "DATETIME")
-    private Instant createdAt;
+    @Column(columnDefinition = "VARCHAR(100)")
+    private String createdAt;
     private long createdAtMillis;
 
     public static PPProblemEntity toEntity(Problem problem) {
@@ -35,7 +35,7 @@ public class PPProblemEntity {
                 .version(problem.getVersion())
                 .coreProblemProblemId(problem.getCoreProblemProblemId().toString())
                 .difficulty(problem.getDifficulty().toString())
-                .createdAt(Instant.parse(problem.getCreatedAt().toString()))
+                .createdAt(problem.getCreatedAt().toString())
                 .createdAtMillis(problem.getCreatedAt().toMillis())
             .build();
     }

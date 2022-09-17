@@ -52,7 +52,7 @@ public class CreatePostController {
                     content = {@Content()}
             )}
     )
-    @PostMapping("practiceProblem/{problemId}/post")
+    @PostMapping("practiceProblem/problem/{problemId}/post")
     public ResponseEntity<?> create(@RequestBody InputCreatePost input,
                                     @PathVariable("problemId") String problemId,
                                     @RequestHeader("access-token") String token) {

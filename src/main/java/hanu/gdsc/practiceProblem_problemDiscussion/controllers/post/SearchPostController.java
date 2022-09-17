@@ -77,7 +77,7 @@ public class SearchPostController {
                     content = {@Content()}
             )}
     )
-    @GetMapping("/practiceProblem/{problemId}/post")
+    @GetMapping("/practiceProblem/problem/{problemId}/post")
     public ResponseEntity<?> getPosts(@RequestParam int page, @RequestParam int perPage,
                                       @PathVariable("problemId") String problemId){
         return ControllerHandler.handle(() -> {
@@ -94,7 +94,7 @@ public class SearchPostController {
         });
     }
 
-    @GetMapping("/practiceProblem/{problemId}/post/count")
+    @GetMapping("/practiceProblem/problem/{problemId}/post/count")
     public ResponseEntity<?> getPosts(@PathVariable("problemId") String problemId) {
         return ControllerHandler.handle(() -> {
             System.out.println(problemId);
