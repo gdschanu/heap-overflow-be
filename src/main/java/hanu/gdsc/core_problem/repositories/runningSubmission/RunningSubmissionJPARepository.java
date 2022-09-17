@@ -23,6 +23,4 @@ public interface RunningSubmissionJPARepository extends JpaRepository<RunningSub
 
     public RunningSubmissionEntity findByIdAndServiceToCreate(String id, String serviceToCreate);
 
-    @Query(value = "DELETE FROM hanucode.core_problem_running_submission WHERE id = :id;", nativeQuery = true)
-    public void customDelete(@Param("id") String id);
 }
