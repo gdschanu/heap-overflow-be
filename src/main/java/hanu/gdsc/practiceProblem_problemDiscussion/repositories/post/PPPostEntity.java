@@ -3,6 +3,7 @@ package hanu.gdsc.practiceProblem_problemDiscussion.repositories.post;
 import hanu.gdsc.practiceProblem_problemDiscussion.domains.Post;
 import lombok.*;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -17,6 +18,7 @@ import java.lang.reflect.Constructor;
 @Builder
 public class PPPostEntity {
     @Id
+    @Column(columnDefinition = "VARCHAR(30)")
     private String id;
     private String problemId;
     private String corePostId;

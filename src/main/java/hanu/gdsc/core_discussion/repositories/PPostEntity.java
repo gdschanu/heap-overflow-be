@@ -15,6 +15,7 @@ import java.lang.reflect.Constructor;
 @Builder
 public class PPostEntity {
     @Id
+    @Column(columnDefinition = "VARCHAR(30)")
     private String id;
     @Version
     private Long version;
