@@ -48,7 +48,7 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
 
     @Override
     public void delete(Id id) {
-        runningSubmissionJPARepository.deleteById(id.toString());
+        runningSubmissionJPARepository.customDelete(id.toString());
     }
 
 

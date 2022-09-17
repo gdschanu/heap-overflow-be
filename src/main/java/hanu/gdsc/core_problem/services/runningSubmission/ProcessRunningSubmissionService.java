@@ -263,6 +263,7 @@ public class ProcessRunningSubmissionService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
     private void saveSubmission(Submission submission, RunningSubmission runningSubmission) {
+        runningSubmissionRepository.delete(runningSubmission.getId());
         submissionRepository.save(submission);
         submissionEventRepository.save(
                 SubmissionEvent.create(
@@ -270,6 +271,5 @@ public class ProcessRunningSubmissionService {
                         submission.getStatus()
                 )
         );
-        runningSubmissionRepository.delete(runningSubmission.getId());
     }
 }
