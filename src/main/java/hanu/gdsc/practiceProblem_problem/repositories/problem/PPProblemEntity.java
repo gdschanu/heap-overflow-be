@@ -1,18 +1,13 @@
 package hanu.gdsc.practiceProblem_problem.repositories.problem;
 
-import java.lang.reflect.Constructor;
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import javax.persistence.*;
-
 import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.share.domains.DateTime;
 import lombok.*;
+
+import javax.persistence.*;
+import java.lang.reflect.Constructor;
+import java.time.Instant;
 
 @Entity
 @Table(name = "practice_problem_problem")
@@ -32,14 +27,16 @@ public class PPProblemEntity {
     private String difficulty;
     @Column(columnDefinition = "DATETIME")
     private Instant createdAt;
+    private long createdAtMillis;
 
     public static PPProblemEntity toEntity(Problem problem) {
         return PPProblemEntity.builder()
-            .id(problem.getId().toString())
-            .version(problem.getVersion())
-            .coreProblemProblemId(problem.getCoreProblemProblemId().toString())
-            .difficulty(problem.getDifficulty().toString())
-            .createdAt(Instant.parse(problem.getCreatedAt().toString()))
+                .id(problem.getId().toString())
+                .version(problem.getVersion())
+                .coreProblemProblemId(problem.getCoreProblemProblemId().toString())
+                .difficulty(problem.getDifficulty().toString())
+                .createdAt(Instant.parse(problem.getCreatedAt().toString()))
+                .createdAtMillis(problem.getCreatedAt().toMillis())
             .build();
     }
 

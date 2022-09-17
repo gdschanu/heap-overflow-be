@@ -10,10 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component(value = "PracticeProblem.ProblemRepositoryImpl")
@@ -42,8 +40,8 @@ public class ProblemRepositoryImpl implements ProblemRepository {
 
     @Override
     public List<Problem> get(int page, int perPage) {
-        Pageable pageable = PageRequest.of(page , perPage, Sort.by("createdAt").descending());
-        Page<PPProblemEntity> entities =  PPProblemJpaRepository.findAll(pageable);
+        Pageable pageable = PageRequest.of(page, perPage, Sort.by("createdAtMillis").descending());
+        Page<PPProblemEntity> entities = PPProblemJpaRepository.findAll(pageable);
         return entities.getContent()
                 .stream().map(
                         e -> PPProblemEntity.toDomain(e)
