@@ -35,6 +35,7 @@ public class SubmissionEntity {
     private String serviceToCreate;
     @Column(columnDefinition = "LONGTEXT")
     private String message;
+    private long submittedAtMillis;
 
     public static SubmissionEntity toEntity(Submission submission) {
         SubmissionEntity e = SubmissionEntity.builder()
@@ -49,6 +50,7 @@ public class SubmissionEntity {
                 .serviceToCreate(submission.getServiceToCreate())
                 .coderId(submission.getCoderId().toString())
                 .message(submission.getMessage())
+                .submittedAtMillis(submission.getSubmittedAt().toMillis())
                 .build();
         e.setFailedTestCaseDetail(submission.getFailedTestCaseDetail() == null ? null :
                 FailedTestCaseDetailEntity.fromDomain(submission.getFailedTestCaseDetail(), e));

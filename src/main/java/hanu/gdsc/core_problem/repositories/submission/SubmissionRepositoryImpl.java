@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityNotFoundException;
@@ -24,7 +25,7 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
 
     @Override
     public List<Submission> get(int page, int perPage, Id problemId, Id coderId, String serviceToCreate) {
-        Pageable pageable = PageRequest.of(page, perPage);
+        Pageable pageable = PageRequest.of(page, perPage, Sort.by("submittedAtMillis").descending());
         Page<SubmissionEntity> submissionsEntity;
         if (problemId != null && coderId != null) {
             submissionsEntity = submissionJPARepository.findByProblemIdAndCoderIdAndServiceToCreate(problemId.toString(),

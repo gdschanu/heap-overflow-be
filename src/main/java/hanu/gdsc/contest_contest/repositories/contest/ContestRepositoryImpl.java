@@ -4,7 +4,9 @@ import hanu.gdsc.contest_contest.domains.Contest;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -38,8 +40,9 @@ public class ContestRepositoryImpl implements ContestRepository {
 
     @Override
     public List<Contest> get(int page, int perPage) {
+        Pageable pageable = PageRequest.of(page, perPage, Sort.by("createdAtMillis").descending());
         Page<ContestEntity> entities = contestJPARepository
-                .findAll(Pageable.ofSize(perPage).withPage(page));
+                .findAll(pageable);
         return entities.getContent()
                 .stream()
                 .map(x -> x.toDomain())

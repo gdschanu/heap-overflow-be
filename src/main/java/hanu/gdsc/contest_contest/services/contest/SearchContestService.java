@@ -66,6 +66,7 @@ public class SearchContestService {
         public Id createdBy;
         public List<OutputProblem> problems;
         public long version;
+        public DateTime createdAt;
     }
 
     private OutputContest toOutput(Contest contest, List<OutputProblem> problems) {
@@ -77,7 +78,8 @@ public class SearchContestService {
                 contest.getEndAt(),
                 contest.getCreatedBy(),
                 problems,
-                contest.getVersion()
+                contest.getVersion(),
+                contest.getCreatedAt()
         );
     }
 
