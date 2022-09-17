@@ -6,6 +6,8 @@ import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -27,6 +29,7 @@ public class SearchRunningSubmissionService {
         this.problemRepository = problemRepository;
     }
 
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public hanu.gdsc.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output
     getById(Id id) {
         hanu.gdsc.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output
@@ -41,6 +44,7 @@ public class SearchRunningSubmissionService {
         return rsp;
     }
 
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public List<hanu.gdsc.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output>
     getRunningSubmissions(Id problemId,
                           Id coderId,
