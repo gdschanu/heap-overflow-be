@@ -25,7 +25,7 @@ public class SubmitServiceImpl implements SubmitService {
                 input.serviceToCreate,
                 input.code,
                 input.programmingLanguage,
-                Math.min(1, testCases),
+                0,
                 testCases
         );
         runningSubmissionRepository.create(runningSubmission);
