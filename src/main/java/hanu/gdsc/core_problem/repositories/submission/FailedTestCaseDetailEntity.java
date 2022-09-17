@@ -3,9 +3,8 @@ package hanu.gdsc.core_problem.repositories.submission;
 import hanu.gdsc.core_problem.domains.FailedTestCaseDetail;
 import lombok.*;
 
-import java.lang.reflect.Constructor;
-
 import javax.persistence.*;
+import java.lang.reflect.Constructor;
 
 @Entity
 @Table(name = "core_problem_failed_test_case_detail")
@@ -19,9 +18,13 @@ public class FailedTestCaseDetailEntity {
     @Id
     private String id;
     private int failedAtLine;
+    @Column(columnDefinition = "LONGTEXT")
     private String input;
+    @Column(columnDefinition = "LONGTEXT")
     private String actualOutput;
+    @Column(columnDefinition = "LONGTEXT")
     private String expectedOutput;
+    @Column(columnDefinition = "LONGTEXT")
     private String description;
     @OneToOne(mappedBy = "failedTestCaseDetail")
     private SubmissionEntity submission;

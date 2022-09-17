@@ -1,5 +1,9 @@
 package hanu.gdsc.core_discussion.services.post;
 
+import hanu.gdsc.core_discussion.domains.Post;
+import hanu.gdsc.share.domains.Id;
+import lombok.AllArgsConstructor;
+
 import hanu.gdsc.core_discussion.repositories.PostRepository;
 import hanu.gdsc.core_discussion.domains.Post;
 
@@ -15,10 +19,10 @@ public class CreatePostServiceImpl implements CreatePostService {
     @Override
     public Id execute(Input input) {
         Post post = Post.create(
-                input.getTitle(),
-                input.getAuthor(),
-                input.getContent(),
-                input.getServiceToCreate()
+                input.title,
+                input.author,
+                input.content,
+                input.serviceToCreate
         );
         postRepository.save(post);
         return post.getId();

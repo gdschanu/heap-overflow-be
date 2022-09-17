@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public interface ReactService {
     
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
         public Id reactedObjectId;
         public Id coderId;

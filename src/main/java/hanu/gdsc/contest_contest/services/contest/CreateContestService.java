@@ -15,6 +15,7 @@ import hanu.gdsc.share.domains.Id;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,51 +30,35 @@ public class CreateContestService {
     private final ContestRepository contestRepository;
     private final CreateProblemService createProblemService;
 
-    @Getter
+    @AllArgsConstructor
+    @NoArgsConstructor
     @Schema(title = "create problem input", description = "Data transfer object for problem to create in contest")
     public static class CreateProblemInput {
         @Schema(description = "specify the ordinal of problem", example = "1", required = true)
-        private int ordinal;
+        public int ordinal;
         @Schema(description = "specify the score of problem", example = "10", required = true)
-        private int score;
+        public int score;
         @Schema(description = "specify the name of problem", example = "Sum array", required = true)
-        private String name;
+        public String name;
         @Schema(description = "specify the description of problem", example = "blablablablabla", required = true)
-        private String description;
+        public String description;
         @Schema(description = "specify the input to create memory limit of problem", required = true)
-        private List<MemoryLimit.CreateInputML> memoryLimits;
+        public List<MemoryLimit.CreateInputML> memoryLimits;
         @Schema(description = "specify the input to create time limit of problem", required = true)
-        private List<TimeLimit.CreateInputTL> timeLimits;
+        public List<TimeLimit.CreateInputTL> timeLimits;
         @Schema(description = "specify the programming language of problem", required = true)
-        private List<ProgrammingLanguage> allowedProgrammingLanguages;
-
-        @JsonCreator
-        public CreateProblemInput(@JsonProperty("ordinal") int ordinal,
-                                  @JsonProperty("score") int score,
-                                  @JsonProperty("name") String name,
-                                  @JsonProperty("description") String description,
-                                  @JsonProperty("memoryLimits") List<MemoryLimit.CreateInputML> memoryLimits,
-                                  @JsonProperty("timeLimits") List<TimeLimit.CreateInputTL> timeLimits,
-                                  @JsonProperty("allowedProgrammingLanguages") List<ProgrammingLanguage> allowedProgrammingLanguages) {
-            this.ordinal = ordinal;
-            this.score = score;
-            this.name = name;
-            this.description = description;
-            this.memoryLimits = memoryLimits;
-            this.timeLimits = timeLimits;
-            this.allowedProgrammingLanguages = allowedProgrammingLanguages;
-        }
+        public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
-        private String name;
-        private String description;
-        private DateTime startAt;
-        private DateTime endAt;
-        private Id createdBy;
-        private List<CreateProblemInput> problems;
+        public String name;
+        public String description;
+        public DateTime startAt;
+        public DateTime endAt;
+        public Id createdBy;
+        public List<CreateProblemInput> problems;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

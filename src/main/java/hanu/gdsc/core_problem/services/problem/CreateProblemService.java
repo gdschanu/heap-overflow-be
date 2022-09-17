@@ -6,12 +6,13 @@ import hanu.gdsc.core_problem.domains.TimeLimit;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 public interface CreateProblemService {
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
         public String name;
         public String description;

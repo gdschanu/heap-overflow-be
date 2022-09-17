@@ -1,12 +1,12 @@
 package hanu.gdsc.contest_contest.repositories.participant;
 
-import hanu.gdsc.share.domains.Id;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
 
-public interface ParticipantJPARepository extends JpaRepository<ParticipantEntity, String> {
-    public List<ParticipantEntity> findByContestId(String contestId);
+public interface ParticipantJPARepository extends PagingAndSortingRepository<ParticipantEntity, String> {
+    public List<ParticipantEntity> findByContestId(String contestId, Pageable pageable);
 
     ParticipantEntity findByCoderId(String coderId);
 }

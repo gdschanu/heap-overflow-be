@@ -17,4 +17,8 @@ public interface ProblemRepository {
     public long countProblem();
 
     public List<Problem> getRecommendProblem(int count);
+
+    public void deleteById(Id id);
+
+    public Problem getByCoreProblemProblemId(Id coreProblemProblemId);
 }

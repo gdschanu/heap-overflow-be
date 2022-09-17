@@ -9,5 +9,6 @@ public interface PPProblemJPARepository extends JpaRepository<PPProblemEntity, S
 
     @Query("SELECT p FROM PPProblemEntity p ORDER BY function('RAND')")
     Page<PPProblemEntity> getRecommendProblem(Pageable pageable);
-    
+
+    PPProblemEntity findByCoreProblemProblemId(String id);
 }

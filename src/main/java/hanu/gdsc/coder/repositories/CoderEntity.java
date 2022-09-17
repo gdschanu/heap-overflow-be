@@ -28,6 +28,7 @@ public class CoderEntity {
     @Column(columnDefinition = "VARCHAR(30)")
     private String id;
     private String name;
+    private int age;
     private String avatar;
     private String phone;
     private String university;
@@ -40,7 +41,7 @@ public class CoderEntity {
     public static CoderEntity fromDomains(Coder coder) {  
         return CoderEntity.builder()
         .id(coder.getId().toString())
-        .name(coder.getName())
+        .name(coder.getName()).age(coder.getAge())
         .avatar(coder.getAvatar() == null ? null : coder.getAvatar().toString())
         .phone(coder.getPhone() == null ? null : coder.getPhone().toString())
         .university(coder.getUniversity())
@@ -54,11 +55,12 @@ public class CoderEntity {
         return new Coder(
                 new hanu.gdsc.share.domains.Id(id),
                 name,
-                new Url(avatar),
-                new Phone(phone),
+                age,
+                avatar == null ? null : new Url(avatar),
+                phone == null ? null : new Phone(phone) ,
                 university,
                 slogan,
-                Gender.valueOf(gender),
+                gender == null ? null : Gender.valueOf(gender),
                 address,
                 rank
         );

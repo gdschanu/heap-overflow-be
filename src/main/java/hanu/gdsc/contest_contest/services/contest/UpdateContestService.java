@@ -14,6 +14,7 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.BusinessLogicError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,27 +30,27 @@ public class UpdateContestService {
 
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class UpdateProblemInput {
-        private int ordinal;
-        private int score;
-        private String name;
-        private String description;
-        private List<MemoryLimit.CreateInputML> memoryLimits;
-        private List<TimeLimit.CreateInputTL> timeLimits;
-        private List<ProgrammingLanguage> allowedProgrammingLanguages;
+        public int ordinal;
+        public int score;
+        public String name;
+        public String description;
+        public List<MemoryLimit.CreateInputML> memoryLimits;
+        public List<TimeLimit.CreateInputTL> timeLimits;
+        public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
-        private Id id;
-        private String name;
-        private String description;
-        private DateTime startAt;
-        private DateTime endAt;
-        private List<UpdateProblemInput> problems;
-        private Id updatedBy;
+        public Id id;
+        public String name;
+        public String description;
+        public DateTime startAt;
+        public DateTime endAt;
+        public List<UpdateProblemInput> problems;
+        public Id updatedBy;
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)

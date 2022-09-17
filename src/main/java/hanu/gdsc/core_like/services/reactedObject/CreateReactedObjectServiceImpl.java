@@ -16,7 +16,7 @@ public class CreateReactedObjectServiceImpl implements CreateReactedObjectServic
     @Override
     public Id create(Input input) {
         ReactedObject reactedObject = ReactedObject.create(
-                input.getServiceToCreate()
+                input.serviceToCreate
         );
         reactedObjectRepository.save(reactedObject);
         return reactedObject.getId();

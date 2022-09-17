@@ -1,10 +1,8 @@
 package hanu.gdsc.contest_contest.repositories.participant;
 
-import hanu.gdsc.contest_contest.domains.Contest;
 import hanu.gdsc.contest_contest.domains.Participant;
-import hanu.gdsc.contest_contest.repositories.contest.ContestRepository;
+import hanu.gdsc.share.domains.DateTime;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.lang.reflect.Constructor;
@@ -20,7 +18,7 @@ import java.util.stream.Collectors;
 @Builder
 public class ParticipantEntity {
     @Id
-    @Column(columnDefinition = "VARCHAR(30)")
+    @Column(columnDefinition = "VARCHAR(60)")
     private String id;
     @Version
     private long version;
@@ -31,6 +29,8 @@ public class ParticipantEntity {
     private int participantRank; // "rank" trùng với từ khóa của SQL
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL)
     private List<ProblemScoreEntity> problemScores;
+    private String createdAt;
+    private long createdAtMillis;
 
     public static ParticipantEntity fromDomains(Participant participant) {
         return ParticipantEntity.builder()
@@ -42,6 +42,8 @@ public class ParticipantEntity {
                 .problemScores(participant.getProblemScores().stream()
                         .map(x -> ProblemScoreEntity.fromDomains(x))
                         .collect(Collectors.toList()))
+                .createdAt(participant.getCreatedAt().toString())
+                .createdAtMillis(participant.getCreatedAt().toMillis())
                 .build();
     }
 
@@ -52,7 +54,8 @@ public class ParticipantEntity {
                     hanu.gdsc.share.domains.Id.class,
                     hanu.gdsc.share.domains.Id.class,
                     int.class,
-                    List.class
+                    List.class,
+                    DateTime.class
             );
             con.setAccessible(true);
             return con.newInstance(
@@ -62,8 +65,9 @@ public class ParticipantEntity {
                     participantRank,
                     problemScores.stream()
                             .map(x -> x.toDomain())
-                            .collect(Collectors.toList())
-                    );
+                            .collect(Collectors.toList()),
+                    new DateTime(createdAt)
+            );
         } catch (Exception e) {
             e.printStackTrace();
             throw new Error(e);

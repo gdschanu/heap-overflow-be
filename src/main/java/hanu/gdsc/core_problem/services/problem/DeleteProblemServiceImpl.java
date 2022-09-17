@@ -14,7 +14,7 @@ public class DeleteProblemServiceImpl implements DeleteProblemService{
     private ProblemRepository problemRepository;
 
     @Override
-    public void delete(Id id) {
+    public void deleteById(Id id) {
         problemRepository.deleteById(id);
     }
 

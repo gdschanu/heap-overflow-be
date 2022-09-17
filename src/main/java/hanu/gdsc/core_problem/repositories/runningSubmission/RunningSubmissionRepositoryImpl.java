@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -74,27 +73,41 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
     }
 
     @Override
-    public RunningSubmission getByIdAndCoderId(Id id, Id coderId, String serviceToCreate) {
-        try {
-            RunningSubmissionEntity entity = runningSubmissionJPARepository
-                    .findByIdAndCoderIdAndServiceToCreate(id.toString(), coderId.toString(), serviceToCreate);
-            if (entity == null) {
-                return null;
-            }
-            return entity.toDomain();
-        } catch (EntityNotFoundException e) {
-            return null;
-        }
-    }
-
-    @Override
-    public List<RunningSubmission> getByCoderId(int page, int perPage, Id coderId, String serviceToCreate) {
+    public List<RunningSubmission> getByProblemIdAndCoderId(Id problemId,
+                                                            Id coderId,
+                                                            int page,
+                                                            int perPage,
+                                                            String serviceToCreate) {
         Pageable pageable = PageRequest.of(page, perPage);
-        Page<RunningSubmissionEntity> runningSubmissions = runningSubmissionJPARepository
-                .findByCoderIdAndServiceToCreate(coderId.toString(), serviceToCreate, pageable);
-        return runningSubmissions
+        Page<RunningSubmissionEntity> entities = null;
+        if (problemId == null && coderId == null) {
+            entities = runningSubmissionJPARepository
+                    .findByServiceToCreate(
+                            serviceToCreate,
+                            pageable);
+        } else if (problemId == null && coderId != null) {
+            entities = runningSubmissionJPARepository
+                    .findByCoderIdAndServiceToCreate(
+                            coderId.toString(),
+                            serviceToCreate,
+                            pageable);
+        } else if (problemId != null && coderId == null) {
+            entities = runningSubmissionJPARepository
+                    .findByProblemIdAndServiceToCreate(
+                            problemId.toString(),
+                            serviceToCreate,
+                            pageable);
+        } else if (problemId != null && coderId != null) {
+            entities = runningSubmissionJPARepository
+                    .findByProblemIdAndCoderIdAndServiceToCreate(
+                            problemId.toString(),
+                            coderId.toString(),
+                            serviceToCreate,
+                            pageable);
+        }
+        return entities.getContent()
                 .stream()
-                .map(RunningSubmissionEntity::toDomain)
+                .map(e -> e.toDomain())
                 .collect(Collectors.toList());
     }
 }

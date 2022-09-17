@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Tag(name = "Practice Problem-TestCase" , description = "Rest-API endpoint for Practice Problem")
+@Tag(name = "Practice Problem - TestCase" , description = "Rest-API endpoint for Practice Problem")
 public class CreateTestCaseController {
     @Autowired
     private CreateTestCaseService service;

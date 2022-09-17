@@ -2,11 +2,12 @@ package hanu.gdsc.share.domains;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import hanu.gdsc.share.error.BusinessLogicError;
 import hanu.gdsc.share.json.DateTimeDeserializer;
 import hanu.gdsc.share.json.DateTimeSerializer;
-import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.time.Instant;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
@@ -25,6 +26,13 @@ public class DateTime {
         } catch (Exception e) {
             throw new BusinessLogicError("Thời gian không hợp lệ: '" + value + "'", "NOT_VALID_DATE");
         }
+    }
+
+    public static DateTime fromMillis(long value) {
+        ZoneId zoneId = ZoneId.systemDefault();
+        Instant instant = Instant.ofEpochMilli(value);
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(instant, zoneId);
+        return new DateTime(zonedDateTime);
     }
 
     public ZonedDateTime toZonedDateTime() {

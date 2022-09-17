@@ -7,6 +7,7 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 public class CreateCommentService {
@@ -14,12 +15,12 @@ public class CreateCommentService {
     private hanu.gdsc.core_discussion.services.comment.CreateCommentService createCoreDiscussionCommentService;
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
-        private Id postId;
-        private Id author;
-        private String content;
-        private Id parentCommentId;
+        public Id postId;
+        public Id author;
+        public String content;
+        public Id parentCommentId;
     }
 
     public Id execute(Input input) {

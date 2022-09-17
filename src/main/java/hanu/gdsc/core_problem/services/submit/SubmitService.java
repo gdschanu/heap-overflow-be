@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 public interface SubmitService {
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Input {
         public Id coderId;
         public Id problemId;
@@ -19,7 +19,7 @@ public interface SubmitService {
     }
 
     @AllArgsConstructor
-    @Getter
+    @NoArgsConstructor
     public static class Output {
         public Id submissionId;
     }

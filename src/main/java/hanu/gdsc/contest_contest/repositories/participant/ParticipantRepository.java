@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface ParticipantRepository {
     public void create  (Participant participant);
-    public List<Participant> findByContestId(Id contestId);
-    Participant findByCoderId(Id coderId);
+    Participant getByCoderId(Id coderId);
+    List<Participant> get(Id contestId, int page, int perPage);
+    Participant getById(String id);
 }

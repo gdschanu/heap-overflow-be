@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@Tag(name = "Practice Problem-TestCase" , description = "Rest-API endpoint for Practice Problem")
+@Tag(name = "Practice Problem - TestCase" , description = "Rest-API endpoint for Practice Problem")
 public class SearchTestCaseController {
     @Autowired
     private SearchTestCaseService searchTestCaseService;

@@ -2,6 +2,7 @@ package hanu.gdsc.coder.controllers;
 
 import hanu.gdsc.coder.domains.Coder;
 import hanu.gdsc.coder.services.GetTopCodersService;
+import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.error.BusinessLogicError;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,18 +23,11 @@ public class GetTopCodersController {
     private GetTopCodersService getTopCodersService;
 
     @GetMapping("/coder/top")
-    public ResponseEntity<?> getTopCoder(@RequestParam int num) {
-        try {
-            List<Coder> topCoders = getTopCodersService.getTopCoders(num);
-            return new ResponseEntity<>(new ResponseBody("Success", topCoders),
-                    HttpStatus.OK);
-        } catch (Throwable e) {
-            e.printStackTrace();
-            if(e instanceof BusinessLogicError) {
-                e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<?> getTopCoder(@RequestParam int page,
+                                         @RequestParam int perPage) {
+        return ControllerHandler.handle(() -> {
+            List<Coder> topCoders = getTopCodersService.getTopCoders(page, perPage);
+            return new ControllerHandler.Result("Success", topCoders);}
+        );
     }
 }

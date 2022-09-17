@@ -15,12 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@Tag(name = "Practice Problem-Submission" , description = "Rest-API endpoint for Practice Problem")
+@Tag(name = "Practice Problem - Submission" , description = "Rest-API endpoint for Practice Problem")
 public class SearchSubmissionController {
     @Autowired
     private SearchSubmissionService searchSubmissionService;
-    @Autowired
-    private AuthorizeService authorizeService;
 
     @GetMapping("/practiceProblem/submission")
     public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage,

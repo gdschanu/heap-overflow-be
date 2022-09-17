@@ -41,10 +41,11 @@ public class JoinContestController {
                     content = {@Content()}
             )}
     )
-    @PostMapping("/contest/joinContest/{coderId}/{contestId}")
-    public ResponseEntity<?> joinContest(@PathVariable String coderId, @PathVariable String contestId) {
+    @PostMapping("/contest/{contestId}/join")
+    public ResponseEntity<?> joinContest(@PathVariable String contestId, @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
-            joinContestService.joinContest(new Id(coderId), new Id(contestId));
+            Id coderId = authorizeService.authorize(token);
+            joinContestService.joinContest(coderId, new Id(contestId));
             return new ControllerHandler.Result(
                     "Success",
                     null
@@ -73,12 +74,12 @@ public class JoinContestController {
                     content = {@Content()}
             )}
     )
-    @GetMapping("/contest/checkIfCoderJoinContest/{coderId}")
+    @GetMapping("/contest/{contestId}/joined")
     public ResponseEntity<?> CheckIfCoderJoinContest(@RequestHeader("access-token") String token, @PathVariable String contestId) {
         return ControllerHandler.handle(() -> {
             //should return page
             Id coderId = authorizeService.authorize(token);
-            Boolean check = joinContestService.checkIfCoderJoinContest(coderId, new Id(contestId));
+            boolean check = joinContestService.checkIfCoderJoinContest(coderId, new Id(contestId));
             return new ControllerHandler.Result(
                     "Success",
                     check

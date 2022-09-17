@@ -13,6 +13,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 @AllArgsConstructor
 @Component(value = "PracticeProblem.CreatePostService")
@@ -21,31 +23,27 @@ public class CreatePostService {
     private final SearchProblemService searchProblemService;
     private final PostRepository postRepository;
 
-    @Getter
     @AllArgsConstructor
     @NoArgsConstructor
     @Schema(title = "create", description = "Data transfer object for Discussion to create")
-    public static class InputCreatePost {
-        @Schema(description = "specify Id of the problem want to create post", example = "62aeff0d9081bab25998b0d1", required = true)
-        private Id problemId;
-        @Schema(description = "specify title of the discussion want to create post", example = "how to solve this problem with java", required = true)
-        private String title;
-        @Schema(description = "specify the Id of author who are create post", example = "62aeff0d9081bab25998b0d2", required = true)
-        private Id author;
-        @Schema(description = "specify the content of the discussion to create post", example = "blalalblablablablalbalbalba", required = true)
-        private String content;
+    public static class Input {
+        public Id problemId;
+        public String title;
+        public Id author;
+        public String content;
     }
 
-    public Id execute(InputCreatePost input) {
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    public Id execute(Input input) {
         try {
             searchProblemService.getById(input.problemId);
         } catch (NotFoundError error) {
             throw new NotFoundError("Unknown problem, cannot create post for an unexist problem");
         }
-        Id corePostId = createCoreDiscussionPostService.execute(new hanu.gdsc.core_discussion.services.post.CreatePostService.Input(
-                input.getTitle(),
-                input.getAuthor(),
-                input.getContent(),
+        Id corePostId = createCoreDiscussionPostService.execute(new hanu.gdsc.core_discussion.services.post.CreatePostService .Input(
+                input.title,
+                input.author,
+                input.content,
                 ServiceName.serviceName
         ));
         Post post = Post.create(input.problemId, corePostId);

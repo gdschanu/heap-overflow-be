@@ -2,7 +2,11 @@ package hanu.gdsc.core_discussion.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PostJPARepository extends JpaRepository<PostEntity, String> {
+import java.util.List;
 
-    PostEntity getByIdAndServiceToCreate(String id, String serviceToCreate);
+public interface PostJPARepository extends JpaRepository<PPostEntity, String> {
+
+    PPostEntity getByIdAndServiceToCreate(String id, String serviceToCreate);
+
+    List<PPostEntity> findByIdInAndServiceToCreate(List<String> ids, String serviceToCreate);
 }
