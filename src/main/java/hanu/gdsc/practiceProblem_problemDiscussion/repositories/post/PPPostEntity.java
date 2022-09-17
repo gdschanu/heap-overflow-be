@@ -1,6 +1,7 @@
 package hanu.gdsc.practiceProblem_problemDiscussion.repositories.post;
 
 import hanu.gdsc.practiceProblem_problemDiscussion.domains.Post;
+import hanu.gdsc.share.domains.DateTime;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -40,13 +41,16 @@ public class PPPostEntity {
             Constructor<Post> constructor = Post.class.getDeclaredConstructor(
                     hanu.gdsc.share.domains.Id.class,
                     hanu.gdsc.share.domains.Id.class,
-                    hanu.gdsc.share.domains.Id.class
+                    hanu.gdsc.share.domains.Id.class,
+                    DateTime.class
             );
             constructor.setAccessible(true);
             return constructor.newInstance(
                     new hanu.gdsc.share.domains.Id(postEntity.getId()),
                     new hanu.gdsc.share.domains.Id(postEntity.getProblemId()),
-                    new hanu.gdsc.share.domains.Id(postEntity.getCorePostId())
+                    new hanu.gdsc.share.domains.Id(postEntity.getCorePostId()),
+                    new DateTime(postEntity.getCreatedAt())
+
             );
         } catch (Exception e) {
             e.printStackTrace();
