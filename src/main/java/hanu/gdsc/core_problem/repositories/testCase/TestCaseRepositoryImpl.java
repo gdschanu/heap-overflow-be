@@ -1,15 +1,13 @@
 package hanu.gdsc.core_problem.repositories.testCase;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
-
 import hanu.gdsc.core_problem.domains.TestCase;
+import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import hanu.gdsc.share.domains.Id;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class TestCaseRepositoryImpl implements TestCaseRepository{
@@ -40,20 +38,25 @@ public class TestCaseRepositoryImpl implements TestCaseRepository{
     @Override
     public void deleteById(Id id, String serviceToDelete) {
         testCaseJpaRepository.deleteByIdAndServiceToCreate(
-            id.toString(),
-            serviceToDelete
+                id.toString(),
+                serviceToDelete
         );
-        
+
+    }
+
+    @Override
+    public int count(Id problemId) {
+        return testCaseJpaRepository.countByProblemId(problemId.toString());
     }
 
     @Override
     public TestCase getByProblemIdAndOrdinal(Id problemId, int ordinal, String serviceToCreate) {
         return TestCaseEntity.toDomain(
-            testCaseJpaRepository.getByProblemIdAndOrdinalAndServiceToCreate(
-                problemId.toString(),
-                ordinal,
-                serviceToCreate)
-            );
+                testCaseJpaRepository.getByProblemIdAndOrdinalAndServiceToCreate(
+                        problemId.toString(),
+                        ordinal,
+                        serviceToCreate)
+        );
     }
 
     @Override

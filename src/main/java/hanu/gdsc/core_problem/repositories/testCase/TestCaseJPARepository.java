@@ -25,4 +25,6 @@ public interface TestCaseJPARepository extends JpaRepository<TestCaseEntity, Str
     @Query(value = "DELETE FROM core_problem_test_case WHERE id = :id AND service_to_create = :serviceToCreate",
         nativeQuery = true)
     public void deleteByIdAndServiceToCreate(String id, String serviceToCreate);
+
+    public int countByProblemId(String problemId);
 }

@@ -12,4 +12,6 @@ public interface TestCaseRepository {
     public TestCase getByProblemIdAndOrdinal(Id problemId, int ordinal, String serviceToCreate);
     public void update(TestCase testCase);
     public void deleteById(Id id, String serviceToDelete);
+
+    public int count(Id problemId);
 }

@@ -40,7 +40,9 @@ public class RunningSubmission extends IdentitifedVersioningDomainObject {
                                            Id problemId,
                                            String serviceToCreate,
                                            String code,
-                                           ProgrammingLanguage programmingLanguage) {
+                                           ProgrammingLanguage programmingLanguage,
+                                           int judgingTestCase,
+                                           int totalTestCases) {
         return new RunningSubmission(
                 Id.generateRandom(),
                 0L,
@@ -50,8 +52,8 @@ public class RunningSubmission extends IdentitifedVersioningDomainObject {
                 code,
                 programmingLanguage,
                 DateTime.now(),
-                0,
-                0
+                judgingTestCase,
+                totalTestCases
         );
     }
 
