@@ -20,12 +20,16 @@ public class PPPostEntity {
     private String id;
     private String problemId;
     private String corePostId;
+    private String createdAt;
+    private long createdAtMillis;
 
     public static PPPostEntity toEntity(Post post) {
         return PPPostEntity.builder()
                 .id(post.getId().toString())
                 .problemId(post.getProblemId().toString())
                 .corePostId(post.getCorePostId().toString())
+                .createdAt(post.getCreatedAt().toString())
+                .createdAtMillis(post.getCreatedAt().toMillis())
                 .build();
     }
 
