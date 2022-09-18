@@ -72,7 +72,7 @@ public class TestCase extends VersioningDomainObject {
     public String shorten(String s) {
         final int maxChars = 7000;
         if (s.length() > maxChars)
-            return s.substring(0, maxChars - 1);
+            return s.substring(0, maxChars - 1) + "\n...";
         return s;
     }
 
