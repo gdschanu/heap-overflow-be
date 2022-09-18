@@ -50,6 +50,11 @@ public class TestCaseRepositoryImpl implements TestCaseRepository{
     }
 
     @Override
+    public void deleteByProblemId(Id id) {
+        testCaseJpaRepository.deleteByProblemId(id.toString());
+    }
+
+    @Override
     public TestCase getByProblemIdAndOrdinal(Id problemId, int ordinal, String serviceToCreate) {
         return TestCaseEntity.toDomain(
                 testCaseJpaRepository.getByProblemIdAndOrdinalAndServiceToCreate(

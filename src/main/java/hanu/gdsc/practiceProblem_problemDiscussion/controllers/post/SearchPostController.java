@@ -97,7 +97,6 @@ public class SearchPostController {
     @GetMapping("/practiceProblem/problem/{problemId}/post/count")
     public ResponseEntity<?> getPosts(@PathVariable("problemId") String problemId) {
         return ControllerHandler.handle(() -> {
-            System.out.println(problemId);
             long count = searchPostService.countPosts(new Id(problemId));
             return new ControllerHandler.Result(
                     "Success",

@@ -27,4 +27,6 @@ public interface TestCaseJPARepository extends JpaRepository<TestCaseEntity, Str
     public void deleteByIdAndServiceToCreate(String id, String serviceToCreate);
 
     public int countByProblemId(String problemId);
+
+    public void deleteByProblemId(String problemId);
 }
