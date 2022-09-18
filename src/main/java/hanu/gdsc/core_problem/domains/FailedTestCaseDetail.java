@@ -28,26 +28,18 @@ public class FailedTestCaseDetail extends IdentifiedDomainObject {
         return new FailedTestCaseDetail(
                 Id.generateRandom(),
                 failedAtLine,
-                testCase.getInput(),
-                actualOutput,
-                testCase.getExpectedOutput(),
+                testCase.getShortenedInput(),
+                shorten(actualOutput),
+                testCase.getShortenedExpectedOutput(),
                 testCase.getDescription()
         );
     }
 
-    public static FailedTestCaseDetail create(int failedAtLine,
-                                              String input,
-                                              String actualOutput,
-                                              String expectedOutput,
-                                              String description) {
-        return new FailedTestCaseDetail(
-                Id.generateRandom(),
-                failedAtLine,
-                input,
-                actualOutput,
-                expectedOutput,
-                description
-        );
+    public static String shorten(String s) {
+        final int maxChars = 7000;
+        if (s.length() > maxChars)
+            return s.substring(0, maxChars - 1);
+        return s;
     }
 
     public int getFailedAtLine() {

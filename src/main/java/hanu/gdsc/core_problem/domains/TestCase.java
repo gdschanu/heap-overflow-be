@@ -61,6 +61,21 @@ public class TestCase extends VersioningDomainObject {
         return input;
     }
 
+    public String getShortenedInput() {
+        return shorten(input);
+    }
+
+    public String getShortenedExpectedOutput() {
+        return shorten(expectedOutput);
+    }
+
+    public String shorten(String s) {
+        final int maxChars = 7000;
+        if (s.length() > maxChars)
+            return s.substring(0, maxChars - 1);
+        return s;
+    }
+
     public String getExpectedOutput() {
         return expectedOutput;
     }
