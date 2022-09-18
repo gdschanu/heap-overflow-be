@@ -5,7 +5,7 @@ import org.springframework.core.env.Environment;
 
 @Configuration
 public class RunningSubmissionConfig {
-    public static  int MAX_THREAD = 2;
+    public static  int MAX_THREAD = 1;
     public static  int RATE_MILLIS = 5000;
     public static  int CLAIM_SUBMISSION_LOCK_SECOND = 60 * 5;
 

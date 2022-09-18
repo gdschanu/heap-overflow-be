@@ -35,8 +35,8 @@ public class TimeLimit extends IdentifiedDomainObject {
     }
 
     public static TimeLimit create(CreateInputTL input) {
-        if (input.timeLimit.greaterThan(2000)) {
-            throw new InvalidInputError("Time Limit must not be greater than 2000 millisecond.");
+        if (input.timeLimit.greaterThan(10000)) {
+            throw new InvalidInputError("Time Limit must not be greater than 5000 millisecond.");
         }
         return new TimeLimit(
                 Id.generateRandom(),
