@@ -169,7 +169,7 @@ public class JudgerImpl implements Judger {
             if (time == null) {
                 return new Millisecond(0);
             }
-            return new Millisecond(Math.round(Double.parseDouble(time)));
+            return Millisecond.fromSecond(Float.parseFloat(time));
         }
 
         public Output output() {

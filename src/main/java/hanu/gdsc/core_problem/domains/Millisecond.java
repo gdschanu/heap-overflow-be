@@ -19,7 +19,7 @@ public class Millisecond {
     }
 
     public static Millisecond fromSecond(Float val) {
-        long m = (long) (val * 1000);
+        long m = Math.round(val * 1000);
         return new Millisecond(m);
     }
 
