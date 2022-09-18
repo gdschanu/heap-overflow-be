@@ -261,7 +261,7 @@ public class ProcessRunningSubmissionService {
         }
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     private void saveSubmission(Submission submission, RunningSubmission runningSubmission) {
         runningSubmissionRepository.delete(runningSubmission.getId());
         submissionRepository.save(submission);
