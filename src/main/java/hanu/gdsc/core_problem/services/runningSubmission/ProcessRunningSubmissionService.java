@@ -85,8 +85,8 @@ public class ProcessRunningSubmissionService {
                 runningSubmission.getProblemId(),
                 runningSubmission.getServiceToCreate()
         );
-        Millisecond totalRunTime = new Millisecond(0L);
-        KB totalMemLimit = new KB(0);
+        Millisecond maxRunTime = new Millisecond(0L);
+        KB maxMem = new KB(0);
         int start = Math.max(
                 0,
                 runningSubmission.getJudgingTestCase() - 1
@@ -108,18 +108,16 @@ public class ProcessRunningSubmissionService {
                     testCase.getInput(),
                     runningSubmission.getProgrammingLanguage()
             );
-            totalMemLimit = totalMemLimit.plus(judgeSubmission.memory());
-            totalRunTime = totalRunTime.plus(judgeSubmission.runTime());
-            Millisecond avgRunTime = totalRunTime.divide(i + 1);
-            KB avgMemLimit = totalMemLimit.divide(i + 1);
+            maxMem = KB.max(maxMem, judgeSubmission.memory());
+            maxRunTime = Millisecond.max(maxRunTime, judgeSubmission.runTime());
             Submission submission = null;
             if (memoryLimit == null) {
                 submission = Submission.createWithId(
                         runningSubmission.getId(),
                         runningSubmission.getProblemId(),
                         runningSubmission.getProgrammingLanguage(),
-                        avgRunTime,
-                        avgMemLimit,
+                        maxRunTime,
+                        maxMem,
                         runningSubmission.getCode(),
                         Status.STDE,
                         FailedTestCaseDetail.fromTestCase(
@@ -136,8 +134,8 @@ public class ProcessRunningSubmissionService {
                         runningSubmission.getId(),
                         runningSubmission.getProblemId(),
                         runningSubmission.getProgrammingLanguage(),
-                        avgRunTime,
-                        avgMemLimit,
+                        maxRunTime,
+                        maxMem,
                         runningSubmission.getCode(),
                         Status.STDE,
                         FailedTestCaseDetail.fromTestCase(
@@ -154,8 +152,8 @@ public class ProcessRunningSubmissionService {
                         runningSubmission.getId(),
                         runningSubmission.getProblemId(),
                         runningSubmission.getProgrammingLanguage(),
-                        avgRunTime,
-                        avgMemLimit,
+                        maxRunTime,
+                        maxMem,
                         runningSubmission.getCode(),
                         Status.CE,
                         FailedTestCaseDetail.fromTestCase(
@@ -172,8 +170,8 @@ public class ProcessRunningSubmissionService {
                         runningSubmission.getId(),
                         runningSubmission.getProblemId(),
                         runningSubmission.getProgrammingLanguage(),
-                        avgRunTime,
-                        avgMemLimit,
+                        maxRunTime,
+                        maxMem,
                         runningSubmission.getCode(),
                         Status.STDE,
                         FailedTestCaseDetail.fromTestCase(
@@ -190,8 +188,8 @@ public class ProcessRunningSubmissionService {
                         runningSubmission.getId(),
                         runningSubmission.getProblemId(),
                         runningSubmission.getProgrammingLanguage(),
-                        avgRunTime,
-                        avgMemLimit,
+                        maxRunTime,
+                        maxMem,
                         runningSubmission.getCode(),
                         Status.MLE,
                         FailedTestCaseDetail.fromTestCase(
@@ -208,8 +206,8 @@ public class ProcessRunningSubmissionService {
                         runningSubmission.getId(),
                         runningSubmission.getProblemId(),
                         runningSubmission.getProgrammingLanguage(),
-                        avgRunTime,
-                        avgMemLimit,
+                        maxRunTime,
+                        maxMem,
                         runningSubmission.getCode(),
                         Status.TLE,
                         FailedTestCaseDetail.fromTestCase(
@@ -226,8 +224,8 @@ public class ProcessRunningSubmissionService {
                         runningSubmission.getId(),
                         runningSubmission.getProblemId(),
                         runningSubmission.getProgrammingLanguage(),
-                        avgRunTime,
-                        avgMemLimit,
+                        maxRunTime,
+                        maxMem,
                         runningSubmission.getCode(),
                         Status.WA,
                         FailedTestCaseDetail.fromTestCase(
@@ -244,8 +242,8 @@ public class ProcessRunningSubmissionService {
                         runningSubmission.getId(),
                         runningSubmission.getProblemId(),
                         runningSubmission.getProgrammingLanguage(),
-                        avgRunTime,
-                        avgMemLimit,
+                        maxRunTime,
+                        maxMem,
                         runningSubmission.getCode(),
                         Status.AC,
                         null,

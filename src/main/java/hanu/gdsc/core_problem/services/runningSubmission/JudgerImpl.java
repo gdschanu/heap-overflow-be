@@ -6,6 +6,7 @@ import hanu.gdsc.core_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.core_problem.domains.KB;
 import hanu.gdsc.core_problem.domains.Millisecond;
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
+import hanu.gdsc.core_problem.domains.TimeLimit;
 import hanu.gdsc.share.scheduling.Scheduler;
 import org.springframework.stereotype.Service;
 
@@ -47,6 +48,7 @@ public class JudgerImpl implements Judger {
         public int language_id;
         public String source_code;
         public String stdin;
+        public long cpu_time_limit;
     }
 
     private static class CreateSubmissionResponseStatus {
@@ -69,6 +71,7 @@ public class JudgerImpl implements Judger {
         request.language_id = getJudge0ProgrammingLanguageId(programmingLanguage);
         request.source_code = new String(Base64.getEncoder().encode(code.getBytes()));
         request.stdin = new String(Base64.getEncoder().encode(input.getBytes()));
+        request.cpu_time_limit = TimeLimit.MAX.toSecond();
         String requestString = objectMapper.writeValueAsString(request);
         HttpRequest httpReq = HttpRequest.newBuilder()
                 .uri(URI.create(Judge0Config.SERVER_URL + "/submissions" + "?base64_encoded=true&fields=*&wait=true"))
@@ -177,6 +180,19 @@ public class JudgerImpl implements Judger {
                 return new Output("");
             }
             return new Output(stdout);
+        }
+
+        @Override
+        public String toString() {
+            return "SubmissionImpl{" +
+                    "stdout='" + stdout + '\'' +
+                    ", time='" + time + '\'' +
+                    ", memory='" + memory + '\'' +
+                    ", stderr='" + stderr + '\'' +
+                    ", compileOutput='" + compileOutput + '\'' +
+                    ", status=" + status +
+                    ", stdMessage='" + stdMessage + '\'' +
+                    '}';
         }
     }
 

@@ -1,14 +1,10 @@
 package hanu.gdsc.core_problem.domains;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentifiedDomainObject;
 import hanu.gdsc.share.error.InvalidInputError;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Objects;
@@ -17,6 +13,8 @@ public class TimeLimit extends IdentifiedDomainObject {
 
     private ProgrammingLanguage programmingLanguage;
     private Millisecond timeLimit;
+
+    public static final Millisecond MAX = new Millisecond(10000);
 
     private TimeLimit(Id id, ProgrammingLanguage programmingLanguage, Millisecond timeLimit) {
         super(id);
@@ -35,7 +33,7 @@ public class TimeLimit extends IdentifiedDomainObject {
     }
 
     public static TimeLimit create(CreateInputTL input) {
-        if (input.timeLimit.greaterThan(10000)) {
+        if (input.timeLimit.greaterThan(MAX)) {
             throw new InvalidInputError("Time Limit must not be greater than 10000 millisecond.");
         }
         return new TimeLimit(
@@ -68,5 +66,10 @@ public class TimeLimit extends IdentifiedDomainObject {
     @Override
     public int hashCode() {
         return Objects.hash(programmingLanguage);
+    }
+
+    @Override
+    public String toString() {
+        return timeLimit.toString();
     }
 }

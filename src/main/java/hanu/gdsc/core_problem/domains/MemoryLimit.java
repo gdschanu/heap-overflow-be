@@ -65,4 +65,9 @@ public class MemoryLimit extends IdentifiedDomainObject {
     public int hashCode() {
         return Objects.hash(programmingLanguage);
     }
+
+    @Override
+    public String toString() {
+        return memoryLimit.toString();
+    }
 }

@@ -10,6 +10,12 @@ import hanu.gdsc.core_problem.json.KBSerializer;
 public class KB {
     private double value;
 
+    public static KB max(KB a, KB b) {
+        if (a.greaterThan(b))
+            return a;
+        return b;
+    }
+
     public KB(long value) {
         this.value = value;
     }

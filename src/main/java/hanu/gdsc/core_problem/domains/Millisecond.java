@@ -10,12 +10,22 @@ import hanu.gdsc.core_problem.json.MillisecondSerializer;
 public class Millisecond {
     private long value;
 
+    public static Millisecond max(Millisecond a, Millisecond b) {
+        if (a.greaterThan(b))
+            return a;
+        return b;
+    }
+
     public Millisecond plus(Millisecond that) {
         return new Millisecond(value + that.value);
     }
 
     public Millisecond(long millisecond) {
         this.value = millisecond;
+    }
+
+    public long toSecond() {
+        return value / 1000;
     }
 
     public static Millisecond fromSecond(Float val) {
