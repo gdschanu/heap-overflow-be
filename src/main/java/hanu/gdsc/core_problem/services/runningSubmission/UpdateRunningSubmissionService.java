@@ -1,6 +1,6 @@
 package hanu.gdsc.core_problem.services.runningSubmission;
 
-import hanu.gdsc.practiceProblem_problem.config.RunningSubmissionConfig;
+import hanu.gdsc.core_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.core_problem.domains.RunningSubmission;
 import hanu.gdsc.core_problem.repositories.runningSubmission.RunningSubmissionRepository;
 import hanu.gdsc.share.scheduling.Scheduler;

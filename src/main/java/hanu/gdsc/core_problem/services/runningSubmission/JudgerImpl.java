@@ -2,10 +2,10 @@ package hanu.gdsc.core_problem.services.runningSubmission;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.core_problem.config.Judge0Config;
+import hanu.gdsc.core_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.core_problem.domains.KB;
 import hanu.gdsc.core_problem.domains.Millisecond;
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
-import hanu.gdsc.practiceProblem_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.share.scheduling.Scheduler;
 import org.springframework.stereotype.Service;
 
