@@ -255,6 +255,7 @@ public class ProcessRunningSubmissionService {
 
             if (i == testCases.size() - 1 || !submission.getStatus().equals(Status.AC)) {
                 saveSubmission(submission, runningSubmission);
+                break;
             }
         }
     }

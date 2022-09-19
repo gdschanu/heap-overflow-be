@@ -2,12 +2,13 @@ package hanu.gdsc.core_problem.domains;
 
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.VersioningDomainObject;
+import hanu.gdsc.share.error.InvalidInputError;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class TestCase extends VersioningDomainObject {
+public class TestCase {
     private Id problemId;
     private String input;
     private String expectedOutput;
@@ -16,9 +17,8 @@ public class TestCase extends VersioningDomainObject {
     private String description;
     private String serviceToCreate;
 
-    private TestCase(long version, Id problemId, String input, String expectedOutput, int ordinal, boolean isSample,
+    private TestCase(Id problemId, String input, String expectedOutput, int ordinal, boolean isSample,
                     String description, String serviceToCreate) {
-        super(version);
         this.problemId = problemId;
         this.input = input;
         this.expectedOutput = expectedOutput;
@@ -35,8 +35,20 @@ public class TestCase extends VersioningDomainObject {
                                   boolean isSample,
                                   String description,
                                   String serviceToCreate) {
+        final int maxBytes = 1000000;
+        try {
+            final byte[] inputBytes = input.getBytes();
+            if (inputBytes.length > maxBytes)
+                throw new InvalidInputError("Input is too big, max bytes is " + maxBytes +
+                        ", actual bytes is " + inputBytes.length);
+            final byte[] outputBytes = expectedOutput.getBytes();
+            if (outputBytes.length > maxBytes)
+                throw new InvalidInputError("Output is too big, max bytes is " + maxBytes+
+                        ", actual bytes is " + outputBytes.length);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return new TestCase(
-                0,
                 problemId,
                 input,
                 expectedOutput,

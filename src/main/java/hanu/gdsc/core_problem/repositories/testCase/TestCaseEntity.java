@@ -18,8 +18,6 @@ public class TestCaseEntity {
     @Id
     @Column(columnDefinition = "VARCHAR(30)")
     private String id;
-    @Version
-    private long version;
     private String problemId;
     @Column(columnDefinition = "LONGTEXT")
     private String input;
@@ -34,7 +32,6 @@ public class TestCaseEntity {
     public static TestCaseEntity toEntity(TestCase testCase) {
         return TestCaseEntity.builder()
                 .id(testCase.getProblemId() + "#" + testCase.getOrdinal())
-                .version(testCase.getVersion())
                 .problemId(testCase.getProblemId().toString())
                 .input(testCase.getInput())
                 .expectedOutput(testCase.getExpectedOutput())
@@ -48,7 +45,6 @@ public class TestCaseEntity {
     public static TestCase toDomain(TestCaseEntity testCaseEntity) {
         try {
             Constructor<TestCase> constructor = TestCase.class.getDeclaredConstructor(
-                Long.TYPE,
                 hanu.gdsc.share.domains.Id.class,
                 String.class,
                 String.class,
@@ -59,7 +55,6 @@ public class TestCaseEntity {
             );
             constructor.setAccessible(true);
             return constructor.newInstance(
-                testCaseEntity.getVersion(),
                 new hanu.gdsc.share.domains.Id(testCaseEntity.getProblemId()),
                 testCaseEntity.getInput(),
                 testCaseEntity.getExpectedOutput(),
