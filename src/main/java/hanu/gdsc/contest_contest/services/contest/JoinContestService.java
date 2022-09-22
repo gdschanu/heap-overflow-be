@@ -10,6 +10,8 @@ import hanu.gdsc.share.error.BusinessLogicError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class JoinContestService {
 
@@ -30,12 +32,14 @@ public class JoinContestService {
     }
 
     public boolean checkIfCoderJoinContest(Id coderId, Id contestId) {
-        Participant participant = searchParticipantService.getByCoderId(coderId);
-        if (participant == null) {
-            throw new BusinessLogicError("Coder không tồn tại", "NOT_FOUND");
+        List<Participant> participants = searchParticipantService.getByCoderId(coderId);
+        if (participants == null) {
+            return false;
         } else {
-            if(!participant.getContestId().toString().equals(contestId.toString())) {
-                return false;
+            for(Participant participant: participants) {
+                if(!participant.getContestId().toString().equals(contestId.toString())) {
+                    return false;
+                } break;
             }
         }
         return true;

@@ -22,7 +22,7 @@ public class SearchParticipantService {
         return null;
     }
 
-    public Participant getByCoderId(Id coderId) {
+    public List<Participant> getByCoderId(Id coderId) {
         return participantRepository.getByCoderId(coderId);
     }
 }

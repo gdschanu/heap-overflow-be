@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class CreateParticipantService {
@@ -29,7 +31,7 @@ public class CreateParticipantService {
             throw new BusinessLogicError("Coder đã tham gia contest này", "PARTICIPATED");
         }
 
-        Participant existedParticipantInAnother = participantRepository.getByCoderId(coderId);
+        List<Participant> existedParticipantInAnother = participantRepository.getByCoderId(coderId);
         if(existedParticipantInAnother != null) {
             throw new BusinessLogicError("Coder đang tham gia contest khác", "PARTICIPATED_IN_ANOTHER");
         }

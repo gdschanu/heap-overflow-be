@@ -23,9 +23,9 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
     }
 
     @Override
-    public Participant getByCoderId(Id coderId) {
-        ParticipantEntity entity = participantJPARepository.findByCoderId(coderId.toString());
-        return entity == null ? null : entity.toDomain();
+    public List<Participant> getByCoderId(Id coderId) {
+        List<ParticipantEntity> entity = participantJPARepository.findByCoderId(coderId.toString());
+        return entity == null ? null : entity.stream().map(x -> x.toDomain()).collect(Collectors.toList());
     }
 
     @Override
