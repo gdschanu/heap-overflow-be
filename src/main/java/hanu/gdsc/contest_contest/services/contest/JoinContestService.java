@@ -38,10 +38,10 @@ public class JoinContestService {
         } else {
             for(Participant participant: participants) {
                 if(!participant.getContestId().toString().equals(contestId.toString())) {
-                    return false;
-                } break;
+                    return true;
+                }
             }
+            return false;
         }
-        return true;
     }
 }
