@@ -37,7 +37,7 @@ public class JoinContestService {
             return false;
         } else {
             for(Participant participant: participants) {
-                if(!participant.getContestId().toString().equals(contestId.toString())) {
+                if(participant.getContestId().toString().equals(contestId.toString())) {
                     return true;
                 }
             }
