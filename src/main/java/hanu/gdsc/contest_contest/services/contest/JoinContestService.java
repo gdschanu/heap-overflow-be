@@ -37,11 +37,11 @@ public class JoinContestService {
             return false;
         } else {
             for(Participant participant: participants) {
-                if(!participant.getContestId().toString().equals(contestId.toString())) {
-                    return false;
-                } break;
+                if(participant.getContestId().toString().equals(contestId.toString())) {
+                    return true;
+                }
             }
+            return false;
         }
-        return true;
     }
 }
