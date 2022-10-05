@@ -26,10 +26,10 @@ public class SearchParticipantsController {
     @GetMapping("/participant/{contestId}")
     public ResponseEntity<?> searchContest(@PathVariable String contestId, @RequestParam int page, @RequestParam int perPage) {
         return ControllerHandler.handle(() -> {
-            List<Participant> participants = getParticipantsService.getParticipants(new Id(contestId), page, perPage);
+            List<GetParticipantsService.OutputParticipant> outputParticipants = getParticipantsService.getParticipants(new Id(contestId), page, perPage);
             return new ControllerHandler.Result(
                     "Success",
-                    participants
+                    outputParticipants
             );
         });
     }

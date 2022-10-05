@@ -32,7 +32,7 @@ public class CreateParticipantService {
         }
 
         List<Participant> existedParticipantInAnother = participantRepository.getByCoderId(coderId);
-        if(existedParticipantInAnother != null) {
+        if(existedParticipantInAnother.size() != 0) {
             throw new BusinessLogicError("Coder đang tham gia contest khác", "PARTICIPATED_IN_ANOTHER");
         }
 
