@@ -20,14 +20,14 @@ public class CoderRepositoryImpl implements CoderRepository {
     private CoderJpaRepository coderJpaRepository;
 
     @Override
-    public void create(Coder coder) {
+    public void save(Coder coder) {
         coderJpaRepository.save(CoderEntity.fromDomains(coder));
     }
 
     @Override
     public List<Coder> get(int page, int perPage) {
         Page<CoderEntity> coderEntities = coderJpaRepository.findAll(
-                PageRequest.of(page, perPage, Sort.by("rank").descending())
+                PageRequest.of(page, perPage)
         );
         return coderEntities != null ? coderEntities.stream().map(x -> x.toDomain()).collect(Collectors.toList()) : null;
     }

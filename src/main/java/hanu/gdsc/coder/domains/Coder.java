@@ -27,17 +27,24 @@ public class Coder {
         this.rank = rank;
     }
 
-    public static Coder create() {
+    public static Coder create(String name,
+                               int age,
+                               Url avatar,
+                               Phone phone,
+                               String university,
+                               String slogan,
+                               Gender gender,
+                               String address) {
         return new Coder(
                 Id.generateRandom(),
-                null,
-                0,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
+                name,
+                age,
+                avatar,
+                phone,
+                university,
+                slogan,
+                gender,
+                address,
                 0);
     }
 
