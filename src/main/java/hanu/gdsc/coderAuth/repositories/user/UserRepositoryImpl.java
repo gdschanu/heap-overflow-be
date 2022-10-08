@@ -8,6 +8,9 @@ import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.domains.Username;
 import hanu.gdsc.share.domains.Id;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
@@ -42,6 +45,14 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User getByCoderId(Id coderId) {
         return userJPARepository.getByCoderId(coderId.toString()).toDomain();
+    }
+
+    @Override
+    public List<User> getByCoderIds(List<Id> coderIds) {
+        List<User> users = userJPARepository.getByCoderIds
+                (coderIds.stream().map(x -> x.toString()).collect(Collectors.toList()))
+                .stream().map(x -> x.toDomain()).collect(Collectors.toList());
+        return users;
     }
 
 }

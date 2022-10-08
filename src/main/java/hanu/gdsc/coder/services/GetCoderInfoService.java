@@ -2,7 +2,6 @@ package hanu.gdsc.coder.services;
 
 import hanu.gdsc.coder.domains.Coder;
 import hanu.gdsc.coder.repositories.CoderRepository;
-import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.repositories.user.UserRepository;
 import hanu.gdsc.share.domains.Id;
 import lombok.Builder;
@@ -10,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GetCoderService {
+public class GetCoderInfoService {
 
     @Autowired
     private CoderRepository coderRepository;
@@ -20,10 +19,6 @@ public class GetCoderService {
 
     public OutputInfo getCoderInfo(Id id) {
         return toOutputInfo(coderRepository.getById(id));
-    }
-
-    public OutputAccount getCoderAccount(Id id) {
-        return toOutputAccount(userRepository.getByCoderId(id));
     }
 
     @Builder
@@ -50,17 +45,5 @@ public class GetCoderService {
                 .gender(coder.getGender() == null ? null : coder.getGender().toString())
                 .phone(coder.getPhone() == null ? null : coder.getPhone().toString())
                 .address(coder.getAddress()).build();
-    }
-
-    @Builder
-    public static class OutputAccount {
-        public String username;
-        public String email;
-    }
-
-    public static OutputAccount toOutputAccount(User user) {
-        return OutputAccount.builder()
-                .username(user.getUsername() == null ? null : user.getUsername().toString())
-                .email(user.getEmail() == null ? null : user.getEmail().toString()).build();
     }
 }
