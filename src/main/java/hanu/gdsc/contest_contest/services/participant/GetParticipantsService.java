@@ -38,6 +38,7 @@ public class GetParticipantsService {
     public List<OutputParticipant> getParticipants(Id contestId, int page, int perPage) {
         List<Participant> participants = participantRepository.get(contestId, page, perPage);
         List<OutputParticipant> outputParticipants = new ArrayList<>();
+        // TODO: optimize this
         for(Participant participant : participants) {
             User user = userRepository.getByCoderId(participant.getCoderId());
             Username username = user.getUsername();

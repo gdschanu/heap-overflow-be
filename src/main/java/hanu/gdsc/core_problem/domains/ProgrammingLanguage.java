@@ -1,8 +1,14 @@
 package hanu.gdsc.core_problem.domains;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import hanu.gdsc.practiceProblem_problem.json.ProgrammingLanguageDeserializer;
+import hanu.gdsc.practiceProblem_problem.json.ProgrammingLanguageSerializer;
 import hanu.gdsc.share.error.BusinessLogicError;
 import hanu.gdsc.share.error.InvalidInputError;
 
+@JsonSerialize(using = ProgrammingLanguageSerializer.class)
+@JsonDeserialize(using = ProgrammingLanguageDeserializer.class)
 public enum ProgrammingLanguage {
 
     JAVA, PYTHON, CPLUSPLUS, JAVASCRIPT;

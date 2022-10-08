@@ -1,7 +1,13 @@
 package hanu.gdsc.coder.domains;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import hanu.gdsc.coder.json.PhoneDeserializer;
+import hanu.gdsc.coder.json.PhoneSerializer;
 import hanu.gdsc.share.error.BusinessLogicError;
 
+@JsonSerialize(using = PhoneSerializer.class)
+@JsonDeserialize(using = PhoneDeserializer.class)
 public class Phone {
     private String value;
 
