@@ -5,9 +5,8 @@ import hanu.gdsc.practiceProblem_problem.config.ServiceName;
 import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +30,10 @@ public class SearchTestCaseService {
         public String description;
     }
 
-    public List<Output> getSampleTestcasesOfProblem(Id problemId) {
+    public List<Output> getSampleTestcasesOfProblem(Id problemId) throws NotFoundException {
         Problem problem = problemRepository.getById(problemId);
         if (problem == null)
-            throw new NotFoundError("Unknown problem, problem must be exist in order to have test case");
+            throw new NotFoundException("Unknown problem, problem must be exist in order to have test case");
         return searchCoreTestCaseService.getSampleTestCases(
                         problem.getCoreProblemProblemId(),
                         ServiceName.serviceName

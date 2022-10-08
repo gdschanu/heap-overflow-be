@@ -4,9 +4,8 @@ import hanu.gdsc.practiceProblem_problemDiscussion.config.ServiceName;
 import hanu.gdsc.practiceProblem_problemDiscussion.domains.Post;
 import hanu.gdsc.practiceProblem_problemDiscussion.repositories.post.PostRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
@@ -22,10 +21,10 @@ public class UpdatePostService {
         public String content;
     }
 
-    public void execute(Input input) {
+    public void execute(Input input) throws NotFoundException {
         Post post = postRepository.getById(input.id);
         if (post == null)
-            throw new NotFoundError("Unknown post");
+            throw new NotFoundException("Unknown post");
         updateCoreDiscussionPostService.execute(new hanu.gdsc.core_discussion.services.post.UpdatePostService.Input(
                 post.getCorePostId(),
                 ServiceName.serviceName,

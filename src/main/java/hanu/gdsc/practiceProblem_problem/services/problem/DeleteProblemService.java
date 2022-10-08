@@ -4,7 +4,7 @@ import hanu.gdsc.core_problem.repositories.testCase.TestCaseRepository;
 import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -18,10 +18,10 @@ public class DeleteProblemService {
     private TestCaseRepository testCaseRepository;
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void deleteById(Id id) {
+    public void deleteById(Id id) throws NotFoundException {
         Problem problem = problemRepository.getById(id);
         if (problem == null)
-            throw new NotFoundError("Unknown problem.");
+            throw new NotFoundException("Unknown problem.");
         deleteCoreProblemService.deleteById(problem.getCoreProblemProblemId());
         problemRepository.deleteById(id);
         testCaseRepository.deleteByProblemId(id);

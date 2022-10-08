@@ -1,7 +1,10 @@
 package hanu.gdsc.core_like.services.reactedObject;
 
 import hanu.gdsc.core_like.domains.Action;
+import hanu.gdsc.core_like.exceptions.InvalidActionException;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidStateException;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,5 +21,5 @@ public interface ReactService {
         public String serviceToCreate;
     }
 
-    public void react(Input input);
+    public void react(Input input) throws NotFoundException, InvalidActionException;
 }

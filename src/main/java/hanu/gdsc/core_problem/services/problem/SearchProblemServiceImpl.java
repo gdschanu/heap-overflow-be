@@ -3,7 +3,8 @@ package hanu.gdsc.core_problem.services.problem;
 import hanu.gdsc.core_problem.domains.Problem;
 import hanu.gdsc.core_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.exceptions.BusinessLogicException;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +16,10 @@ public class SearchProblemServiceImpl implements SearchProblemService {
     private ProblemRepository problemRepository;
 
     @Override
-    public Problem getById(Id id, String serviceToCreate) {
+    public Problem getById(Id id, String serviceToCreate) throws NotFoundException {
         Problem problem = problemRepository.getById(id, serviceToCreate);
         if (problem == null) {
-            throw new BusinessLogicError("Could not found problem", "NOT_FOUND");
+            throw new NotFoundException("Could not found problem");
         }
         return problem;
     }

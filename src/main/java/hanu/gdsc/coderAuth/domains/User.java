@@ -1,6 +1,6 @@
 package hanu.gdsc.coderAuth.domains;
 
-import hanu.gdsc.coderAuth.errors.ConfirmedUser;
+import hanu.gdsc.coderAuth.exceptions.ConfirmedUserException;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
 
@@ -46,12 +46,11 @@ public class User extends IdentitifedVersioningDomainObject{
     public void setPassword(HashedPassword password) {
         this.password = password;
     }
-    
-    public void confirmRegistration() {
-        if(registrationConfirmed == true) {
-            throw new ConfirmedUser();
-        }
-        else {
+
+    public void confirmRegistration() throws ConfirmedUserException {
+        if (registrationConfirmed == true) {
+            throw new ConfirmedUserException();
+        } else {
             this.registrationConfirmed = true;
         }
     }

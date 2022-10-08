@@ -2,7 +2,7 @@ package hanu.gdsc.core_problem.domains;
 
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
-import hanu.gdsc.share.error.InvalidInputError;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,7 +33,7 @@ public class Problem extends IdentitifedVersioningDomainObject {
                                  List<MemoryLimit.CreateInputML> createMemoryLimitInputs,
                                  List<TimeLimit.CreateInputTL> createTimeLimitInputs,
                                  List<ProgrammingLanguage> allowedProgrammingLanguages,
-                                 String serviceToCreate) {
+                                 String serviceToCreate) throws InvalidInputException {
         Problem problem = new Problem(
                 Id.generateRandom(),
                 0,
@@ -45,18 +45,19 @@ public class Problem extends IdentitifedVersioningDomainObject {
                 allowedProgrammingLanguages,
                 serviceToCreate
         );
-        problem.setTimeLimits(createTimeLimitInputs.stream()
-                .map(i -> TimeLimit.create(i))
-                .collect(Collectors.toList()));
+        final List<TimeLimit> timeLimits = new ArrayList<>();
+        for (TimeLimit.CreateInputTL inputTL : createTimeLimitInputs)
+            timeLimits.add(TimeLimit.create(inputTL));
+        problem.setTimeLimits(timeLimits);
         problem.setMemoryLimits(createMemoryLimitInputs.stream()
                 .map(i -> MemoryLimit.create(i))
                 .collect(Collectors.toList()));
         for (ProgrammingLanguage programmingLanguage : allowedProgrammingLanguages) {
             if (problem.getMemoryLimitByProgrammingLanguage(programmingLanguage) == null) {
-                throw new InvalidInputError("Programming language " + programmingLanguage + " doesn't have memory limit.");
+                throw new InvalidInputException("Programming language " + programmingLanguage + " doesn't have memory limit.");
             }
             if (problem.getTimeLimitByProgrammingLanguage(programmingLanguage) == null) {
-                throw new InvalidInputError("Programming language " + programmingLanguage + " doesn't have time limit.");
+                throw new InvalidInputException("Programming language " + programmingLanguage + " doesn't have time limit.");
             }
         }
         return problem;
@@ -108,22 +109,22 @@ public class Problem extends IdentitifedVersioningDomainObject {
         this.name = name;
     }
 
-    public void setTimeLimits(List<TimeLimit> timeLimits) {
+    public void setTimeLimits(List<TimeLimit> timeLimits) throws InvalidInputException {
         Set<ProgrammingLanguage> existed = new HashSet<>();
         for (TimeLimit timeLimit : timeLimits) {
             if (existed.contains(timeLimit.getProgrammingLanguage())) {
-                throw new InvalidInputError("Contains duplicate time limit");
+                throw new InvalidInputException("Contains duplicate time limit");
             }
             existed.add(timeLimit.getProgrammingLanguage());
         }
         this.timeLimits = timeLimits;
     }
 
-    public void setMemoryLimits(List<MemoryLimit> memoryLimits) {
+    public void setMemoryLimits(List<MemoryLimit> memoryLimits) throws InvalidInputException {
         Set<ProgrammingLanguage> existed = new HashSet<>();
         for (MemoryLimit memoryLimit : memoryLimits) {
             if (existed.contains(memoryLimit.getMemoryLimit())) {
-                throw new InvalidInputError("Contains duplicate memory limit");
+                throw new InvalidInputException("Contains duplicate memory limit");
             }
             existed.add(memoryLimit.getProgrammingLanguage());
         }

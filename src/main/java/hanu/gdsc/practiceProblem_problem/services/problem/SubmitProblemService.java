@@ -6,10 +6,9 @@ import hanu.gdsc.practiceProblem_problem.config.ServiceName;
 import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.InvalidInputException;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,10 +29,10 @@ public class SubmitProblemService {
     }
 
 
-    public SubmitService.Output submit(Input input) {
+    public SubmitService.Output submit(Input input) throws NotFoundException, InvalidInputException {
         Problem problem = problemRepository.getById(input.problemId);
         if (problem == null) {
-            throw new NotFoundError("Problem not found");
+            throw new NotFoundException("Problem not found");
         }
         return submitCoreProblemService.submit(new SubmitService.Input(
                 input.coderId,

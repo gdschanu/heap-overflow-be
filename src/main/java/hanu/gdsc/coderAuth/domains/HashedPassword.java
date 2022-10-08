@@ -5,8 +5,8 @@ import java.security.NoSuchAlgorithmException;
 
 import javax.xml.bind.DatatypeConverter;
 
-import hanu.gdsc.coderAuth.errors.InvalidPassword;
-import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.exceptions.BusinessLogicException;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 
 public class HashedPassword {
     private String hashedPassword;
@@ -15,12 +15,12 @@ public class HashedPassword {
         this.hashedPassword = hashedPassword;
     }
 
-    public static HashedPassword fromRawPassword(String rawPassword) {
+    public static HashedPassword fromRawPassword(String rawPassword) throws InvalidInputException {
         if (rawPassword.length() < 3 || rawPassword.length() > 15) {
-            throw new InvalidPassword("Password length should be between 3 and 15 characters");
+            throw new InvalidInputException("Password length should be between 3 and 15 characters");
         }
         if (!containsLetter(rawPassword) || !containsNumber(rawPassword)) {
-            throw new InvalidPassword("Password need both number and letter");
+            throw new InvalidInputException("Password need both number and letter");
         }
         String hashedPassword = encode(rawPassword);
         return new HashedPassword(hashedPassword);
@@ -75,7 +75,7 @@ public class HashedPassword {
                 return myHash;
             } catch (NoSuchAlgorithmException e) {
                 e.printStackTrace();
-                throw new BusinessLogicError("No such algorithm exception", "NO_SUCH_ALGORITHM");
+                throw new RuntimeException("No such algorithm exception");
             }
     }
 }

@@ -8,10 +8,10 @@ import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.BusinessLogicError;
-import io.swagger.v3.oas.annotations.media.Schema;
+import hanu.gdsc.share.exceptions.BusinessLogicException;
+import hanu.gdsc.share.exceptions.InvalidInputException;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -35,10 +35,10 @@ public class UpdateProblemService {
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
-    public void update(InputUpdate input) {
+    public void update(InputUpdate input) throws NotFoundException, InvalidInputException {
         Problem problem = problemRepository.getById(input.problemId);
         if (problem == null) {
-            throw new BusinessLogicError("problem doesn't exist.", "NOT_FOUND");
+            throw new NotFoundException("problem doesn't exist.");
         }
         if (input.difficulty != null) {
             problem.setDifficulty(input.difficulty);

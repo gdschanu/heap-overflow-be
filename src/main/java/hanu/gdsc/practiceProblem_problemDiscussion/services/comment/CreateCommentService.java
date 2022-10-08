@@ -4,9 +4,8 @@ import hanu.gdsc.practiceProblem_problemDiscussion.config.ServiceName;
 import hanu.gdsc.practiceProblem_problemDiscussion.domains.Post;
 import hanu.gdsc.practiceProblem_problemDiscussion.repositories.post.PostRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
@@ -23,10 +22,10 @@ public class CreateCommentService {
         public Id parentCommentId;
     }
 
-    public Id execute(Input input) {
+    public Id execute(Input input) throws NotFoundException {
         Post post = postRepository.getById(input.postId);
         if (post == null)
-            throw new NotFoundError("Unknown post");
+            throw new NotFoundException("Unknown post");
         return createCoreDiscussionCommentService.create(new hanu.gdsc.core_discussion.services.comment.CreateCommentService.Input(
                 input.author,
                 input.content,

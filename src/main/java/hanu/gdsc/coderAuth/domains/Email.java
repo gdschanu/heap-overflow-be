@@ -1,14 +1,14 @@
 package hanu.gdsc.coderAuth.domains;
 
-import hanu.gdsc.coderAuth.errors.InvalidEmail;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 
 public class Email {
     private String value;
 
-    public Email(String value) {
+    public Email(String value) throws InvalidInputException {
         this.value = value;
-        if(!isValidEmail(value)) {
-            throw new InvalidEmail();
+        if (!isValidEmail(value)) {
+            throw new InvalidInputException("Invalid email: " + value + ".");
         }
     }
 

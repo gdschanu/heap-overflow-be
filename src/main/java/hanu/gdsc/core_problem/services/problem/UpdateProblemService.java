@@ -4,6 +4,8 @@ import java.util.List;
 
 import hanu.gdsc.core_problem.domains.*;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.*;
 
 public interface UpdateProblemService {
@@ -19,5 +21,5 @@ public interface UpdateProblemService {
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
     }
 
-    public void update(Input input);
+    public void update(Input input) throws NotFoundException, InvalidInputException;
 }

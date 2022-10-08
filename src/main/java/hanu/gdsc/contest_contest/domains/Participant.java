@@ -1,9 +1,9 @@
 package hanu.gdsc.contest_contest.domains;
 
+import hanu.gdsc.contest_contest.exception.ContestEndedException;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.VersioningDomainObject;
-import hanu.gdsc.share.error.BusinessLogicError;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +30,9 @@ public class Participant extends VersioningDomainObject {
         this.createdAt = createdAt;
     }
 
-    public static Participant create(Id coderId, Contest contest) {
+    public static Participant create(Id coderId, Contest contest) throws ContestEndedException {
         if (contest.ended()) {
-            throw new BusinessLogicError("Không thể thêm thí sinh, kì thi đã kết thúc.", "CAN_NOT_CREATE");
+            throw new ContestEndedException();
         }
         return new Participant(
                 0,

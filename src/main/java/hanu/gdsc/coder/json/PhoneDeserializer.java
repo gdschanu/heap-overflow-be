@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import hanu.gdsc.coder.domains.Phone;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 
 import java.io.IOException;
 
@@ -19,6 +20,10 @@ public class PhoneDeserializer extends StdDeserializer<Phone> {
 
     @Override
     public Phone deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
-        return new Phone(jsonParser.getValueAsString());
+        try {
+            return new Phone(jsonParser.getValueAsString());
+        } catch (InvalidInputException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
