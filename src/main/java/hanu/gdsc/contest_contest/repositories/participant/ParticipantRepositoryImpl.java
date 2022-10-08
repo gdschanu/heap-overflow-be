@@ -18,7 +18,7 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
     private ParticipantJPARepository participantJPARepository;
 
     @Override
-    public void create(Participant participant) {
+    public void save(Participant participant) {
         participantJPARepository.save(ParticipantEntity.fromDomains(participant));
     }
 
