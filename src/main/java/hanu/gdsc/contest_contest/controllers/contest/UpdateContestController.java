@@ -1,9 +1,11 @@
 package hanu.gdsc.contest_contest.controllers.contest;
 
 import hanu.gdsc.contest_contest.services.contest.UpdateContestService;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RestController
 public class UpdateContestController {
     public static class Input {
         public String name;
@@ -12,4 +14,5 @@ public class UpdateContestController {
         public String endAt;
         public List<UpdateContestService.UpdateProblemInput> problems;
     }
+
 }

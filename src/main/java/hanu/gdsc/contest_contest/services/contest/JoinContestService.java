@@ -1,11 +1,8 @@
 package hanu.gdsc.contest_contest.services.contest;
 
 import hanu.gdsc.contest_contest.domains.Participant;
-<<<<<<< HEAD
 import hanu.gdsc.contest_contest.domains.ParticipantCount;
-=======
 import hanu.gdsc.contest_contest.exception.ContestEndedException;
->>>>>>> ac6a0db65f7a56ddb504018446d5ecd3f1d34891
 import hanu.gdsc.contest_contest.repositories.contest.ContestRepository;
 import hanu.gdsc.contest_contest.repositories.participant.ParticipantRepository;
 import hanu.gdsc.contest_contest.repositories.participantCount.ParticipantCountRepositoy;
@@ -33,14 +30,10 @@ public class JoinContestService {
     @Autowired
     private CreateParticipantService createParticipantService;
 
-<<<<<<< HEAD
     @Autowired
     private ParticipantCountRepositoy participantCountRepositoy;
 
-    public void joinContest(Id coderId, Id contestId) {
-=======
     public void joinContest(Id coderId, Id contestId) throws ContestEndedException, NotFoundException {
->>>>>>> ac6a0db65f7a56ddb504018446d5ecd3f1d34891
         createParticipantService.execute(coderId, contestId);
         ParticipantCount participantCount  = participantCountRepositoy.getByContestId(contestId);
         participantCount.increaseNum();
