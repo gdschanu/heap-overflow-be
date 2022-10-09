@@ -45,14 +45,14 @@ public class ProblemTest {
         /*
         {
             "timeLimits":[
-                {"programmingLanguage":"JAVA","timeLimit":{"value":1000}},
-                {"programmingLanguage":"CPLUSPLUS","timeLimit":{"value":2000}}
+                {"programmingLanguage":"JAVA","timeLimit":{"value":5000}},
+                {"programmingLanguage":"CPLUSPLUS","timeLimit":{"value":5000}}
             ]
         }
         {
             "memoryLimits":[
-                {"programmingLanguage":"JAVA","memoryLimit":{"value":100.0}},
-                {"programmingLanguage":"CPLUSPLUS","memoryLimit":{"value":200.0}}
+                {"programmingLanguage":"JAVA","memoryLimit":{"value":60000000.0}},
+                {"programmingLanguage":"CPLUSPLUS","memoryLimit":{"value":60000000.0}}
             ]
         }
         */

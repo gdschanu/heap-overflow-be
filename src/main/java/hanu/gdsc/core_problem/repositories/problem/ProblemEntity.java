@@ -29,7 +29,9 @@ public class ProblemEntity {
     private String description;
     @Column(columnDefinition = "VARCHAR(30)")
     private String authorId;
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String timeLimits;
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String memoryLimits;
     private String allowedProgrammingLanguages;
     @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
