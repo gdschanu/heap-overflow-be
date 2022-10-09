@@ -3,7 +3,9 @@ package hanu.gdsc.contest_contest.services.contest;
 import hanu.gdsc.contest_contest.config.ServiceName;
 import hanu.gdsc.contest_contest.domains.Contest;
 import hanu.gdsc.contest_contest.domains.ContestProblem;
+import hanu.gdsc.contest_contest.domains.ParticipantCount;
 import hanu.gdsc.contest_contest.repositories.contest.ContestRepository;
+import hanu.gdsc.contest_contest.repositories.participantCount.ParticipantCountRepositoy;
 import hanu.gdsc.core_problem.domains.KB;
 import hanu.gdsc.core_problem.domains.Millisecond;
 import hanu.gdsc.core_problem.domains.Problem;
@@ -13,7 +15,6 @@ import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 public class SearchContestService {
     private final ContestRepository contestRepository;
     private final SearchProblemService searchCoreProblemService;
+
+    private final ParticipantCountRepositoy participantCountRepositoy;
 
     @AllArgsConstructor
     @NoArgsConstructor
@@ -67,9 +70,11 @@ public class SearchContestService {
         public List<OutputProblem> problems;
         public long version;
         public DateTime createdAt;
+        public long numberOfParticipant;
     }
 
     private OutputContest toOutput(Contest contest, List<OutputProblem> problems) {
+        ParticipantCount participantCount = participantCountRepositoy.getByContestId(contest.getId());
         return new OutputContest(
                 contest.getId(),
                 contest.getName(),
@@ -79,7 +84,8 @@ public class SearchContestService {
                 contest.getCreatedBy(),
                 problems,
                 contest.getVersion(),
-                contest.getCreatedAt()
+                contest.getCreatedAt(),
+                participantCount.getNum()
         );
     }
 
@@ -158,5 +164,9 @@ public class SearchContestService {
 
     public long countContest() {
         return contestRepository.count();
+    }
+
+    public long countContestParticipant(Id contestId) {
+        return participantCountRepositoy.getByContestId(contestId).getNum();
     }
 }

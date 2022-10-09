@@ -41,11 +41,16 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
 
     @Override
     public Participant getById(String id) {
-        Optional<ParticipantEntity> entity = participantJPARepository.findById(id);
+        Optional<ParticipantEntity> entity = participantJPARepository.findById(id.toString());
         if(entity.isEmpty()) {
             return null;
         } else {
             return entity.get().toDomain();
         }
+    }
+
+    @Override
+    public long countByContestId(Id contestId) {
+        return participantJPARepository.counByContestId(contestId.toString());
     }
 }

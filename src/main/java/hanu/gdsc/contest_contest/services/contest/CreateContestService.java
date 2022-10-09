@@ -1,11 +1,11 @@
 package hanu.gdsc.contest_contest.services.contest;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import hanu.gdsc.contest_contest.config.ServiceName;
 import hanu.gdsc.contest_contest.domains.Contest;
 import hanu.gdsc.contest_contest.domains.ContestProblem;
+import hanu.gdsc.contest_contest.domains.ParticipantCount;
 import hanu.gdsc.contest_contest.repositories.contest.ContestRepository;
+import hanu.gdsc.contest_contest.repositories.participantCount.ParticipantCountRepositoy;
 import hanu.gdsc.core_problem.domains.MemoryLimit;
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
 import hanu.gdsc.core_problem.domains.TimeLimit;
@@ -14,7 +14,6 @@ import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -29,6 +28,8 @@ import java.util.stream.Collectors;
 public class CreateContestService {
     private final ContestRepository contestRepository;
     private final CreateProblemService createProblemService;
+
+    private final ParticipantCountRepositoy participantCountRepositoy;
 
     @AllArgsConstructor
     @NoArgsConstructor
@@ -94,6 +95,7 @@ public class CreateContestService {
                 contestProblems
         );
         contestRepository.create(contest);
+        participantCountRepositoy.save(ParticipantCount.create(contest.getId()));
         return contest.getId();
     }
 }

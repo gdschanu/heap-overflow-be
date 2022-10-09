@@ -26,7 +26,8 @@ public class CreateParticipantService {
             throw new BusinessLogicError("Contest không tồn tại.", "NOT_FOUND");
         }
 
-        Participant existedParticipant = participantRepository.getById(coderId.toString() + "#" + contestId.toString());
+        Participant existedParticipant = participantRepository.getById(
+                coderId.toString() + "#" + contestId.toString());
         if(existedParticipant != null) {
             throw new BusinessLogicError("Coder đã tham gia contest này", "PARTICIPATED");
         }

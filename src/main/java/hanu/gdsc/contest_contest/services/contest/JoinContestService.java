@@ -1,8 +1,10 @@
 package hanu.gdsc.contest_contest.services.contest;
 
 import hanu.gdsc.contest_contest.domains.Participant;
+import hanu.gdsc.contest_contest.domains.ParticipantCount;
 import hanu.gdsc.contest_contest.repositories.contest.ContestRepository;
 import hanu.gdsc.contest_contest.repositories.participant.ParticipantRepository;
+import hanu.gdsc.contest_contest.repositories.participantCount.ParticipantCountRepositoy;
 import hanu.gdsc.contest_contest.services.participant.CreateParticipantService;
 import hanu.gdsc.contest_contest.services.participant.SearchParticipantService;
 import hanu.gdsc.share.domains.Id;
@@ -27,8 +29,14 @@ public class JoinContestService {
     @Autowired
     private CreateParticipantService createParticipantService;
 
+    @Autowired
+    private ParticipantCountRepositoy participantCountRepositoy;
+
     public void joinContest(Id coderId, Id contestId) {
         createParticipantService.execute(coderId, contestId);
+        ParticipantCount participantCount  = participantCountRepositoy.getByContestId(contestId);
+        participantCount.increaseNum();
+        participantCountRepositoy.save(participantCount);
     }
 
     public boolean checkIfCoderJoinContest(Id coderId, Id contestId) {
