@@ -1,6 +1,7 @@
 package hanu.gdsc.core_problem.services.testCase;
 
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,5 +20,5 @@ public interface CreateTestCaseService {
         public String serviceToCreate;
     }
 
-    public void create(Input input);
+    public void create(Input input) throws InvalidInputException;
 }
