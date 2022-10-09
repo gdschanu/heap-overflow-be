@@ -10,6 +10,7 @@ import hanu.gdsc.coder.domains.Coder;
 import hanu.gdsc.coder.domains.Gender;
 import hanu.gdsc.coder.domains.Phone;
 import hanu.gdsc.coder.domains.Url;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -51,7 +52,7 @@ public class CoderEntity {
                 .rank(coder.getRank())
         .build();
     }
-    public Coder toDomain() {
+    public Coder toDomain() throws InvalidInputException {
         return new Coder(
                 new hanu.gdsc.share.domains.Id(id),
                 name,

@@ -5,14 +5,11 @@ import hanu.gdsc.practiceProblem_problemDiscussion.config.ServiceName;
 import hanu.gdsc.practiceProblem_problemDiscussion.domains.Post;
 import hanu.gdsc.practiceProblem_problemDiscussion.repositories.post.PostRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,11 +31,11 @@ public class CreatePostService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Id execute(Input input) {
+    public Id execute(Input input) throws NotFoundException {
         try {
             searchProblemService.getById(input.problemId);
-        } catch (NotFoundError error) {
-            throw new NotFoundError("Unknown problem, cannot create post for an unexist problem");
+        } catch (NotFoundException e) {
+            throw new NotFoundException("Unknown problem, cannot create post for an unexist problem");
         }
         Id corePostId = createCoreDiscussionPostService.execute(new hanu.gdsc.core_discussion.services.post.CreatePostService .Input(
                 input.title,

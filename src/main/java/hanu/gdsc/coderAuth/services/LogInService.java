@@ -1,11 +1,12 @@
 package hanu.gdsc.coderAuth.services;
 
 import hanu.gdsc.coderAuth.domains.*;
-import hanu.gdsc.coderAuth.errors.NonExistentUsernameOrEmail;
-import hanu.gdsc.coderAuth.errors.WrongPassword;
+import hanu.gdsc.coderAuth.exceptions.NonExistentUsernameOrEmailException;
+import hanu.gdsc.coderAuth.exceptions.WrongPasswordException;
 import hanu.gdsc.coderAuth.repositories.session.SessionRepository;
 import hanu.gdsc.coderAuth.repositories.user.UserRepository;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Builder;
@@ -29,7 +30,7 @@ public class LogInService {
       public String token;
    }
 
-   public Output logInService(String usernameOrEmail, String password) {
+   public Output logInService(String usernameOrEmail, String password) throws NonExistentUsernameOrEmailException, InvalidInputException, WrongPasswordException {
       User user;
       if (Email.isValidEmail(usernameOrEmail)) {
          Email email = new Email(usernameOrEmail);
@@ -42,7 +43,7 @@ public class LogInService {
       if (user != null) {
          coderId = user.getId();
       } else {
-         throw new NonExistentUsernameOrEmail();
+         throw new NonExistentUsernameOrEmailException();
       }
       if (user.getPassword().toHashedPasswordString().equals(HashedPassword.fromRawPassword(password).toHashedPasswordString())) {
          String token = createToken(coderId);
@@ -52,7 +53,7 @@ public class LogInService {
                  .token(token)
          .build();
       } else {
-         throw new WrongPassword();
+         throw new WrongPasswordException();
       }
    }
 

@@ -2,10 +2,11 @@ package hanu.gdsc.core_like.services.reactedObject;
 
 import hanu.gdsc.core_like.domains.ReactedObject;
 import hanu.gdsc.core_like.domains.Reaction;
-import hanu.gdsc.core_like.errors.InvalidAction;
+import hanu.gdsc.core_like.exceptions.InvalidActionException;
 import hanu.gdsc.core_like.repositories.reactedObject.ReactedObjectRepository;
 import hanu.gdsc.core_like.repositories.reaction.ReactionRepository;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.InvalidStateException;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,10 +21,10 @@ public class ReactServiceImpl implements ReactService {
     }
 
     @Override
-    public void react(Input input) {
+    public void react(Input input) throws NotFoundException, InvalidActionException {
         ReactedObject reactedObject = reactedObjectRepository.getById(input.reactedObjectId, input.serviceToCreate);
         if (reactedObject == null) {
-            throw new NotFoundError("Unknown reacted object");
+            throw new NotFoundException("Unknown reacted object");
         }
         Reaction reaction = reactionRepository.getByCoderIdAndReactedObjectId(
                 input.coderId,
@@ -37,13 +38,13 @@ public class ReactServiceImpl implements ReactService {
         }
     }
 
-    private void reactWhenExistingReaction(Input input, Reaction reaction, ReactedObject reactedObject) {
+    private void reactWhenExistingReaction(Input input, Reaction reaction, ReactedObject reactedObject) throws InvalidActionException {
         reaction.setAction(input.action, reactedObject);
         reactionRepository.save(reaction);
         reactedObjectRepository.save(reactedObject);
     }
 
-    private void reactWhenUnexistingReaction(Input input, ReactedObject reactedObject) {
+    private void reactWhenUnexistingReaction(Input input, ReactedObject reactedObject) throws InvalidActionException {
         switch (input.action) {
             case LIKE:
                 Reaction like = Reaction.create(
@@ -68,9 +69,9 @@ public class ReactServiceImpl implements ReactService {
                 reactedObjectRepository.save(reactedObject);
                 return;
             case UNLIKE:
-                throw new InvalidAction("Could not unlike this object");
+                throw new InvalidActionException("Could not unlike this object");
             case UNDISLIKE:
-                throw new InvalidAction("Could not undislike this object");
+                throw new InvalidActionException("Could not undislike this object");
         }
     }
     

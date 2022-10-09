@@ -1,8 +1,7 @@
 package hanu.gdsc.core_problem.domains;
 
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.domains.VersioningDomainObject;
-import hanu.gdsc.share.error.InvalidInputError;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -39,11 +38,11 @@ public class TestCase {
         try {
             final byte[] inputBytes = input.getBytes();
             if (inputBytes.length > maxBytes)
-                throw new InvalidInputError("Input is too big, max bytes is " + maxBytes +
+                throw new InvalidInputException("Input is too big, max bytes is " + maxBytes +
                         ", actual bytes is " + inputBytes.length);
             final byte[] outputBytes = expectedOutput.getBytes();
             if (outputBytes.length > maxBytes)
-                throw new InvalidInputError("Output is too big, max bytes is " + maxBytes+
+                throw new InvalidInputException("Output is too big, max bytes is " + maxBytes+
                         ", actual bytes is " + outputBytes.length);
         } catch (Exception e) {
             throw new RuntimeException(e);

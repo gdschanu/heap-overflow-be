@@ -4,14 +4,15 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hanu.gdsc.practiceProblem_problem.json.DifficultyDeserializer;
 import hanu.gdsc.practiceProblem_problem.json.DifficultySerializer;
-import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.exceptions.BusinessLogicException;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 
 @JsonSerialize(using = DifficultySerializer.class)
 @JsonDeserialize(using = DifficultyDeserializer.class)
 public enum Difficulty {
     EASY, MEDIUM, HARD;
 
-    public static Difficulty from(String val) {
+    public static Difficulty from(String val) throws InvalidInputException {
         switch (val) {
             case "EASY":
                 return EASY;
@@ -20,10 +21,9 @@ public enum Difficulty {
             case "HARD":
                 return HARD;
             default:
-                throw new BusinessLogicError(
+                throw new InvalidInputException(
                         "Invalid difficulty, valid " +
-                                "values are: [EASY, MEDIUM, HARD].",
-                        "INVALID_DIFFICULTY");
+                                "values are: [EASY, MEDIUM, HARD].");
         }
     }
 }

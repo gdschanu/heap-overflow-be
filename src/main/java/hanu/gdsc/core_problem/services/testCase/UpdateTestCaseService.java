@@ -1,6 +1,7 @@
 package hanu.gdsc.core_problem.services.testCase;
 
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.*;
 
 public interface UpdateTestCaseService {
@@ -17,5 +18,5 @@ public interface UpdateTestCaseService {
         public String serviceToCreate;
     }
 
-    public void update(Input input);
+    public void update(Input input) throws NotFoundException;
 }

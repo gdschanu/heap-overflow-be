@@ -8,10 +8,9 @@ import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -69,10 +68,10 @@ public class SearchProblemService {
         public Millisecond timeLimit;
     }
 
-    public Output getById(Id practiceProblemId) {
+    public Output getById(Id practiceProblemId) throws NotFoundException {
         Problem practiceProblem = problemRepository.getById(practiceProblemId);
         if (practiceProblem == null) {
-            throw new NotFoundError("Unknown problem");
+            throw new NotFoundException("Unknown problem");
         }
         hanu.gdsc.core_problem.domains.Problem coreProblem = searchCoreProblemProblemService.getById(
                 practiceProblem.getCoreProblemProblemId(),

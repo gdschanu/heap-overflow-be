@@ -13,7 +13,7 @@ import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
 import hanu.gdsc.core_problem.services.problem.SearchProblemService;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -114,10 +114,10 @@ public class SearchContestService {
         );
     }
 
-    public OutputContest getById(Id contestId) {
+    public OutputContest getById(Id contestId) throws NotFoundException {
         Contest contest = contestRepository.getById(contestId);
         if (contest == null) {
-            throw new NotFoundError("Contest doesn't exist");
+            throw new NotFoundException("Contest doesn't exist");
         }
         List<Problem> coreProblems = searchCoreProblemService.getByIds(
                 contest.getProblems()

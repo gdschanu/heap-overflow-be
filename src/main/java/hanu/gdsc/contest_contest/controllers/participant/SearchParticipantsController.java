@@ -1,6 +1,10 @@
 package hanu.gdsc.contest_contest.controllers.participant;
 
+<<<<<<< HEAD
 import hanu.gdsc.contest_contest.services.participant.SearchParticipantService;
+=======
+import hanu.gdsc.contest_contest.services.participant.GetParticipantsService;
+>>>>>>> ac6a0db65f7a56ddb504018446d5ecd3f1d34891
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
 import io.swagger.v3.oas.annotations.tags.Tag;

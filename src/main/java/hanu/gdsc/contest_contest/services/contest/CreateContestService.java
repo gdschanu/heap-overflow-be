@@ -12,6 +12,7 @@ import hanu.gdsc.core_problem.domains.TimeLimit;
 import hanu.gdsc.core_problem.services.problem.CreateProblemService;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -63,7 +64,7 @@ public class CreateContestService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public Id create(Input input) {
+    public Id create(Input input) throws InvalidInputException {
         List<Id> coreProblemIds = createProblemService
                 .createMany(input.problems
                         .stream()

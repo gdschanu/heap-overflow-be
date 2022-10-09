@@ -4,12 +4,11 @@ import hanu.gdsc.practiceProblem_problem.config.ServiceName;
 import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.InvalidInputException;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -36,10 +35,10 @@ public class CreateTestCaseService {
         public String description;
     }
 
-    public void execute(InputCreate input) {
+    public void execute(InputCreate input) throws NotFoundException, InvalidInputException {
         Problem problem = problemRepository.getById(new Id(input.problemId));
         if (problem == null)
-            throw new NotFoundError("Unknown problem");
+            throw new NotFoundException("Unknown problem");
         createCoreTestCaseService.create(new hanu.gdsc.core_problem.services.testCase.CreateTestCaseService.Input(
                 problem.getCoreProblemProblemId(),
                 input.input,

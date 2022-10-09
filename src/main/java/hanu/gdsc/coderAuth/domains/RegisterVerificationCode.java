@@ -2,7 +2,7 @@ package hanu.gdsc.coderAuth.domains;
 
 import java.util.Random;
 
-import hanu.gdsc.coderAuth.errors.ExpiredCode;
+import hanu.gdsc.coderAuth.exceptions.ExpiredCodeException;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 
@@ -42,10 +42,10 @@ public class RegisterVerificationCode {
         return String.valueOf(randomCode);
     }
 
-    public boolean invalidate() {
+    public boolean invalidate() throws ExpiredCodeException {
         DateTime time = DateTime.now();
         if(!time.isBefore(expireAt)) {
-            throw new ExpiredCode("Register verification code is expired");
+            throw new ExpiredCodeException("Register verification code is expired");
         }
         return false;
     }

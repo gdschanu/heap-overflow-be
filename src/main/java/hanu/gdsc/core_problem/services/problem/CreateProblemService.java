@@ -4,6 +4,7 @@ import hanu.gdsc.core_problem.domains.MemoryLimit;
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
 import hanu.gdsc.core_problem.domains.TimeLimit;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public interface CreateProblemService {
         public String serviceToCreate;
     }
 
-    public Id create(Input input);
+    public Id create(Input input) throws InvalidInputException;
 
-    public List<Id> createMany(List<Input> inputs);
+    public List<Id> createMany(List<Input> inputs) throws InvalidInputException;
 }

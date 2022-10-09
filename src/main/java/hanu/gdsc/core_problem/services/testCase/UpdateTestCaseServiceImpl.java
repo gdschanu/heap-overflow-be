@@ -2,7 +2,7 @@ package hanu.gdsc.core_problem.services.testCase;
 
 import javax.transaction.Transactional;
 
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import hanu.gdsc.core_problem.domains.TestCase;
@@ -17,10 +17,10 @@ public class UpdateTestCaseServiceImpl implements UpdateTestCaseService {
 
     @Override
     @Transactional
-    public void update(Input input) {   
+    public void update(Input input) throws NotFoundException {
         TestCase oldTestCase = testCaseRepository.getByProblemIdAndOrdinal(input.problemId, input.ordinal, input.serviceToCreate);
         if (oldTestCase == null) {
-            throw new NotFoundError("TestCase" + input.ordinal + "doesnt exist");
+            throw new NotFoundException("TestCase" + input.ordinal + "doesnt exist");
         }
         if (input.input != null && input.input != oldTestCase.getInput()) {
             oldTestCase.setInput(input.input);

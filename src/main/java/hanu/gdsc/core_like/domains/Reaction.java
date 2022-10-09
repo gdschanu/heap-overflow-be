@@ -1,8 +1,9 @@
 package hanu.gdsc.core_like.domains;
 
-import hanu.gdsc.core_like.errors.InvalidAction;
+import hanu.gdsc.core_like.exceptions.InvalidActionException;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.VersioningDomainObject;
+import hanu.gdsc.share.exceptions.InvalidStateException;
 
 public class Reaction extends VersioningDomainObject {
     private Id coderId;
@@ -41,9 +42,9 @@ public class Reaction extends VersioningDomainObject {
         return action;
     }
 
-    public void setAction(Action action, ReactedObject reactedObject) {
+    public void setAction(Action action, ReactedObject reactedObject) throws InvalidActionException {
         if (action.equals(this.action)) {
-            throw new InvalidAction("Could not " + action + " this object");
+            throw new InvalidActionException("Could not " + action + " this object");
         }
         Action oldAction = this.action;
         switch (action) {
@@ -55,7 +56,7 @@ public class Reaction extends VersioningDomainObject {
                         reactedObject.decreaseDislikeCount();
                     return;
                 } else {
-                    throw new InvalidAction("Could not like this object");
+                    throw new InvalidActionException("Could not like this object");
                 }
             case DISLIKE : 
                 if (this.action.equals(Action.LIKE) || this.action.equals(Action.UNLIKE) || this.action.equals(Action.UNDISLIKE)) {
@@ -65,7 +66,7 @@ public class Reaction extends VersioningDomainObject {
                         reactedObject.decreaseLikeCount();
                     return;
                 } else {
-                    throw new InvalidAction("Could not dislike this object");
+                    throw new InvalidActionException("Could not dislike this object");
                 }
             case UNLIKE : 
                 if (this.action.equals(Action.LIKE)) {
@@ -73,7 +74,7 @@ public class Reaction extends VersioningDomainObject {
                     reactedObject.decreaseLikeCount();
                     return;
                 } else {
-                    throw new InvalidAction("Could not unlike this object");
+                    throw new InvalidActionException("Could not unlike this object");
                 }
             case UNDISLIKE :
                 if (this.action.equals(Action.DISLIKE)) {
@@ -81,10 +82,10 @@ public class Reaction extends VersioningDomainObject {
                     reactedObject.decreaseDislikeCount();
                     return;
                 } else {
-                    throw new InvalidAction("Could not undislike this object");
+                    throw new InvalidActionException("Could not undislike this object");
                 }
             default : 
-                 throw new InvalidAction("Invalid action!");
+                 throw new InvalidActionException("Invalid action!");
         }
     }
 

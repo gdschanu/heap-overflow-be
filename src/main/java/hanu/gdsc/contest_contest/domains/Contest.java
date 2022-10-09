@@ -3,8 +3,9 @@ package hanu.gdsc.contest_contest.domains;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.domains.IdentitifedVersioningDomainObject;
-import hanu.gdsc.share.error.BusinessLogicError;
-import hanu.gdsc.share.error.InvalidInputError;
+import hanu.gdsc.share.exceptions.BusinessLogicException;
+import hanu.gdsc.share.exceptions.InvalidInputException;
+import hanu.gdsc.share.exceptions.InvalidStateException;
 
 import java.util.*;
 
@@ -41,7 +42,7 @@ public class Contest extends IdentitifedVersioningDomainObject {
                                  DateTime startAt,
                                  DateTime endAt,
                                  Id authorId,
-                                 List<ContestProblem> problems) {
+                                 List<ContestProblem> problems) throws InvalidInputException {
         validateStartAtEndAt(startAt, endAt);
         validateProblems(problems);
         problems = new ArrayList<>(problems);
@@ -63,53 +64,52 @@ public class Contest extends IdentitifedVersioningDomainObject {
         return createdAt;
     }
 
-    public void setProblems(List<ContestProblem> problems) {
+    public void setProblems(List<ContestProblem> problems) throws InvalidInputException {
         validateProblems(problems);
         problems = new ArrayList<>(problems);
         problems.sort(Comparator.comparingInt(ContestProblem::getOrdinal));
         this.contestProblems = problems;
     }
 
-    public static void validateProblems(List<ContestProblem> problems) {
+    public static void validateProblems(List<ContestProblem> problems) throws InvalidInputException {
         Set<Integer> ordinalSet = new HashSet<>();
         for (ContestProblem problem : problems) {
             if (problem == null) {
-                throw new InvalidInputError("Contest problem cannot be null")
-                        ;
+                throw new InvalidInputException("Contest problem cannot be null");
             }
             if (ordinalSet.contains(problem.getOrdinal())) {
-                throw new InvalidInputError("Duplicated ordinal: " + problem.getOrdinal());
+                throw new InvalidInputException("Duplicated ordinal: " + problem.getOrdinal());
             }
             ordinalSet.add(problem.getOrdinal());
         }
     }
 
-    public static void validateStartAtEndAt(DateTime startAt, DateTime endAt) {
+    public static void validateStartAtEndAt(DateTime startAt, DateTime endAt) throws InvalidInputException {
         if (startAt.isBefore(DateTime.now())) {
-            throw new InvalidInputError("Thời gian bắt đầu phải muộn hơn hiện tại.");
+            throw new InvalidInputException("Start time must be in the future");
         }
         if (endAt.equals(startAt) || endAt.isBefore(startAt)) {
-            throw new InvalidInputError("Thời gian kết thúc phải muộn hơn thời gian bắt đầu.");
+            throw new InvalidInputException("Endt time must be after start time");
         }
     }
 
-    public void setStartAtAndEndAt(DateTime startAt, DateTime endAt) {
+    public void setStartAtAndEndAt(DateTime startAt, DateTime endAt) throws InvalidStateException, InvalidInputException {
         if (started() || ended()) {
-            throw new BusinessLogicError("Kì thi đang diễn ra hoặc đã kết thúc, không được phép update thời gian.", "CAN_NOT_UPDATE");
+            throw new InvalidStateException("Contest is happening or ended, cannot update start time and end time");
         }
         validateStartAtEndAt(startAt, endAt);
         setStartAt(startAt);
         setEndAt(endAt);
     }
 
-    public void removeProblem(int ordinal) {
+    public void removeProblem(int ordinal) throws InvalidInputException {
         for (int i = 0; i < contestProblems.size(); i++) {
             if (contestProblems.get(i).getOrdinal() == ordinal) {
                 contestProblems.remove(i);
                 return;
             }
         }
-        throw new BusinessLogicError("Unknown ordinal.", "UNKNOWN_ORDINAL");
+        throw new InvalidInputException("Unknown ordinal.");
     }
 
     public ContestProblem getProblem(int ordinal) {

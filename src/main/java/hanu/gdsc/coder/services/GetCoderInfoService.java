@@ -4,6 +4,7 @@ import hanu.gdsc.coder.domains.Coder;
 import hanu.gdsc.coder.repositories.CoderRepository;
 import hanu.gdsc.coderAuth.repositories.user.UserRepository;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class GetCoderInfoService {
     @Autowired
     private UserRepository userRepository;
 
-    public OutputInfo getCoderInfo(Id id) {
+    public OutputInfo getCoderInfo(Id id) throws InvalidInputException {
         return toOutputInfo(coderRepository.getById(id));
     }
 
