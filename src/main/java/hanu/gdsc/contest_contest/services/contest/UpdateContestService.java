@@ -17,6 +17,7 @@ import hanu.gdsc.share.exceptions.InvalidStateException;
 import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
+@Service
 public class UpdateContestService {
     private final ContestRepository contestRepository;
     private final CreateProblemService createCoreProblemService;
