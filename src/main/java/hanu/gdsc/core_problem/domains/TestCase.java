@@ -33,20 +33,16 @@ public class TestCase {
                                   int ordinal,
                                   boolean isSample,
                                   String description,
-                                  String serviceToCreate) {
+                                  String serviceToCreate) throws InvalidInputException {
         final int maxBytes = 1000000;
-        try {
-            final byte[] inputBytes = input.getBytes();
-            if (inputBytes.length > maxBytes)
-                throw new InvalidInputException("Input is too big, max bytes is " + maxBytes +
-                        ", actual bytes is " + inputBytes.length);
-            final byte[] outputBytes = expectedOutput.getBytes();
-            if (outputBytes.length > maxBytes)
-                throw new InvalidInputException("Output is too big, max bytes is " + maxBytes+
-                        ", actual bytes is " + outputBytes.length);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        final byte[] inputBytes = input.getBytes();
+        if (inputBytes.length > maxBytes)
+            throw new InvalidInputException("Input is too big, max bytes is " + maxBytes +
+                    ", actual bytes is " + inputBytes.length);
+        final byte[] outputBytes = expectedOutput.getBytes();
+        if (outputBytes.length > maxBytes)
+            throw new InvalidInputException("Output is too big, max bytes is " + maxBytes +
+                    ", actual bytes is " + outputBytes.length);
         return new TestCase(
                 problemId,
                 input,
