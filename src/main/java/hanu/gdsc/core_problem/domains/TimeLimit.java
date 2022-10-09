@@ -9,15 +9,14 @@ import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-public class TimeLimit extends IdentifiedDomainObject {
+public class TimeLimit {
 
     private ProgrammingLanguage programmingLanguage;
     private Millisecond timeLimit;
 
     public static final Millisecond MAX = new Millisecond(10000);
 
-    private TimeLimit(Id id, ProgrammingLanguage programmingLanguage, Millisecond timeLimit) {
-        super(id);
+    private TimeLimit(ProgrammingLanguage programmingLanguage, Millisecond timeLimit) {
         this.programmingLanguage = programmingLanguage;
         this.timeLimit = timeLimit;
     }
@@ -37,7 +36,6 @@ public class TimeLimit extends IdentifiedDomainObject {
             throw new InvalidInputException("Time Limit must not be greater than 10000 millisecond.");
         }
         return new TimeLimit(
-                Id.generateRandom(),
                 input.programmingLanguage,
                 input.timeLimit
         );
