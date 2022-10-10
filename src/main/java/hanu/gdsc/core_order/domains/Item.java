@@ -92,14 +92,25 @@ public class Item extends IdentitifedVersioningDomainObject {
     }
 
     public void decreaseQuantity(int value) throws InsufficientQuantityException, InvalidInputException {
+        // validate input
         if (quantity <= 0) {
             throw new InvalidInputException("Cannot decrease '" + value + "' from quantity.");
         }
+        // logic
         if (value > quantity) {
             throw new InsufficientQuantityException("Insufficient quantity, you are trying to buy "
                     + value + ", but item '" + name + "' has only " + quantity + " left on stock.");
         }
         quantity -= value;
+    }
+
+    public void increaseQuantity(int value) throws InvalidInputException {
+        // validate input
+        if (quantity <= 0) {
+            throw new InvalidInputException("Cannot increase value '" + value + "' to quantity.");
+        }
+        // logic
+        quantity += value;
     }
 
     public String getName() {
