@@ -1,23 +1,22 @@
 package hanu.gdsc.coderAuth.services;
 
-import hanu.gdsc.share.error.UnauthorizedError;
+import hanu.gdsc.share.exceptions.UnauthorizedException;
 import org.springframework.stereotype.Service;
 
 
-import hanu.gdsc.share.error.UnauthorizedError;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
 @Service
 public class GetClaimFromToken {
-    public Claims getClaims(String token) {
+    public Claims getClaims(String token) throws UnauthorizedException {
         try {
             return Jwts.parser()
                 .setSigningKey("Hanuoj".getBytes())
                 .parseClaimsJws(token)
                 .getBody();
         } catch (Exception e) {
-            throw new UnauthorizedError("Invalid token");
+            throw new UnauthorizedException("Invalid token");
         }
     }
 }

@@ -1,11 +1,15 @@
 package hanu.gdsc.share.controller;
 
-import hanu.gdsc.share.error.BusinessLogicError;
-import hanu.gdsc.share.error.UnauthorizedError;
+import hanu.gdsc.share.exceptions.BusinessLogicException;
+import hanu.gdsc.share.exceptions.RuntimeBusinessLogicException;
+import hanu.gdsc.share.exceptions.UnauthorizedException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
+@ControllerAdvice
 public class ControllerHandler {
 
     @Schema(title = "Response")
@@ -23,7 +27,7 @@ public class ControllerHandler {
 
     @FunctionalInterface
     public static interface Runnable {
-        public Result run();
+        public Result run() throws BusinessLogicException;
     }
 
     public static ResponseEntity<?> handle(Runnable runner) {
@@ -34,18 +38,30 @@ public class ControllerHandler {
                     HttpStatus.OK
             );
         } catch (Throwable e) {
-            if (e instanceof BusinessLogicError) {
+            if (e instanceof BusinessLogicException) {
                 HttpStatus status = HttpStatus.BAD_REQUEST;
-                if (e instanceof UnauthorizedError)
+                if (e instanceof UnauthorizedException)
                     status = HttpStatus.UNAUTHORIZED;
-                e.printStackTrace();
                 return new ResponseEntity<>(
-                        new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null),
+                        new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode(), null),
                         status
+                );
+            } else if (e instanceof RuntimeBusinessLogicException) {
+                return new ResponseEntity<>(
+                        new ResponseBody(e.getMessage(), ((RuntimeBusinessLogicException) e).getCode(), null),
+                        HttpStatus.BAD_REQUEST
                 );
             }
             e.printStackTrace();
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+
+    @ExceptionHandler(RuntimeBusinessLogicException.class)
+    public ResponseEntity<?> handleRuntimeBusinessLogicError(RuntimeBusinessLogicException e) {
+        return new ResponseEntity<>(
+                new ResponseBody(e.getMessage(), ((RuntimeBusinessLogicException) e).getCode(), null),
+                HttpStatus.BAD_REQUEST
+        );
     }
 }

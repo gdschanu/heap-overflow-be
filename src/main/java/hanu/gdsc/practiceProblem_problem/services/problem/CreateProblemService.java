@@ -8,6 +8,7 @@ import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.domains.Problem;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,7 @@ public class CreateProblemService {
         public Id author;
     }
 
-    public Id create(Input input) {
+    public Id create(Input input) throws InvalidInputException {
         Id coreProblemId = createCoreProblemService.create(new hanu.gdsc.core_problem.services.problem.CreateProblemService.Input(
                 input.name,
                 input.description,

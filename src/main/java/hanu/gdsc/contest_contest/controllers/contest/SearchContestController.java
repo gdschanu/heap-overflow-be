@@ -3,7 +3,7 @@ package hanu.gdsc.contest_contest.controllers.contest;
 import hanu.gdsc.contest_contest.services.contest.SearchContestService;
 import hanu.gdsc.share.controller.ResponseBody;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.exceptions.BusinessLogicException;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +32,9 @@ public class SearchContestController {
                     HttpStatus.OK
             );
         } catch (Throwable e) {
-            if(e instanceof BusinessLogicError) {
+            if(e instanceof BusinessLogicException) {
                 e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         } 
@@ -49,9 +49,9 @@ public class SearchContestController {
                     HttpStatus.OK
             );
         } catch (Throwable e) {
-            if(e instanceof BusinessLogicError) {
+            if(e instanceof BusinessLogicException) {
                 e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -63,8 +63,21 @@ public class SearchContestController {
             return new ResponseEntity<>(new ResponseBody("Success", searchContestService.countContest()), HttpStatus.OK);
         } catch (Throwable e) {
             e.printStackTrace();
-            if(e.getClass().equals(BusinessLogicError.class)) {
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicError) e).getCode(), null), HttpStatus.BAD_REQUEST);
+            if (e.getClass().equals(BusinessLogicException.class)) {
+                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode(), null), HttpStatus.BAD_REQUEST);
+            }
+            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/contest/countParticipant/{contestId}")
+    public ResponseEntity<?> countContestParticipant(@PathVariable String contestId) {
+        try {
+            return new ResponseEntity<>(new ResponseBody("Success", searchContestService.countContestParticipant(
+                    new Id(contestId))), HttpStatus.OK);
+        } catch (Throwable e) {
+            e.printStackTrace();
+            if (e.getClass().equals(BusinessLogicException.class)) {
+                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode(), null), HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -1,9 +1,9 @@
 package hanu.gdsc.core_problem.services.submission;
 
 import hanu.gdsc.core_problem.domains.*;
-import hanu.gdsc.share.domains.DateTime;
+import hanu.gdsc.practiceProblem_problem.exceptions.SubmissionIsBeingJudgedException;
 import hanu.gdsc.share.domains.Id;
-import lombok.Builder;
+import hanu.gdsc.share.exceptions.NotFoundException;
 
 import java.util.List;
 
@@ -15,6 +15,6 @@ public interface SearchSubmissionService {
                                 Id coderId,
                                 String serviceToCreate);
 
-    public Submission getById(Id id, String serviceToCreate);
+    public Submission getById(Id id, String serviceToCreate) throws SubmissionIsBeingJudgedException, NotFoundException;
 }
 

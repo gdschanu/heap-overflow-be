@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import hanu.gdsc.share.domains.DateTime;
+import hanu.gdsc.share.exceptions.InvalidInputException;
+import hanu.gdsc.share.exceptions.RuntimeInvalidInputException;
 
 import java.io.IOException;
 
@@ -21,6 +23,10 @@ public class DateTimeDeserializer extends StdDeserializer<DateTime> {
 
     @Override
     public DateTime deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
-        return new DateTime(jsonParser.getValueAsString());
+        try {
+            return new DateTime(jsonParser.getValueAsString());
+        } catch (InvalidInputException e) {
+            throw new RuntimeInvalidInputException(e.getMessage());
+        }
     }
 }

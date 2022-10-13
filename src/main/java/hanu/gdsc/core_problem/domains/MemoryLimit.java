@@ -13,12 +13,11 @@ import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
-public class MemoryLimit extends IdentifiedDomainObject {
+public class MemoryLimit {
     private ProgrammingLanguage programmingLanguage;
     private KB memoryLimit;
 
-    private MemoryLimit(Id id, ProgrammingLanguage programmingLanguage, KB memoryLimit) {
-        super(id);
+    private MemoryLimit(ProgrammingLanguage programmingLanguage, KB memoryLimit) {
         this.programmingLanguage = programmingLanguage;
         this.memoryLimit = memoryLimit;
     }
@@ -35,7 +34,6 @@ public class MemoryLimit extends IdentifiedDomainObject {
 
     public static MemoryLimit create(CreateInputML input) {
         return new MemoryLimit(
-                Id.generateRandom(),
                 input.programmingLanguage,
                 input.memoryLimit
         );

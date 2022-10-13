@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 
 import hanu.gdsc.core_like.domains.Action;
+import hanu.gdsc.share.exceptions.InvalidInputException;
+import hanu.gdsc.share.exceptions.RuntimeInvalidInputException;
 
 public class ActionDeserializer extends StdDeserializer<Action>{
 
@@ -21,7 +23,11 @@ public class ActionDeserializer extends StdDeserializer<Action>{
 
     @Override
     public Action deserialize(JsonParser jsonParser, DeserializationContext deserializationContext) throws IOException, JacksonException {
-        return Action.from(jsonParser.getValueAsString());
+        try {
+            return Action.from(jsonParser.getValueAsString());
+        } catch (InvalidInputException e) {
+            throw new RuntimeInvalidInputException(e.getMessage());
+        }
     }
 
 

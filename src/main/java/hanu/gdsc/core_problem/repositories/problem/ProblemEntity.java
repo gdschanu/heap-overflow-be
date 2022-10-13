@@ -2,16 +2,15 @@ package hanu.gdsc.core_problem.repositories.problem;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import hanu.gdsc.core_problem.domains.MemoryLimit;
 import hanu.gdsc.core_problem.domains.Problem;
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
+import hanu.gdsc.core_problem.domains.TimeLimit;
 import lombok.*;
 
 import javax.persistence.*;
-
 import java.lang.reflect.Constructor;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -30,15 +29,27 @@ public class ProblemEntity {
     private String description;
     @Column(columnDefinition = "VARCHAR(30)")
     private String authorId;
-    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<TimeLimitEntity> timeLimits = new HashSet<>();
-    @OneToMany(mappedBy = "problem", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<MemoryLimitEntity> memoryLimits = new HashSet<>();
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String timeLimits;
+    @Column(columnDefinition = "MEDIUMTEXT")
+    private String memoryLimits;
     private String allowedProgrammingLanguages;
     @Column(name = "version", columnDefinition = "integer DEFAULT 0", nullable = false)
     @Version
     private Long version;
     private String serviceToCreate;
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    private static class TimeLimitsWrapper {
+        public List<TimeLimit> timeLimits;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    private static class MemLimitsWrapper {
+        public List<MemoryLimit> memoryLimits;
+    }
 
     public static ProblemEntity toEntity(Problem problem) {
         GsonBuilder builder = new GsonBuilder();
@@ -53,21 +64,11 @@ public class ProblemEntity {
                 .name(problem.getName())
                 .description(problem.getDescription())
                 .authorId(problem.getAuthor().toString())
-                .timeLimits(problem.getTimeLimits().stream()
-                        .map(timeLimit -> TimeLimitEntity.toEntity(timeLimit))
-                        .collect(Collectors.toSet()))
-                .memoryLimits(problem.getMemoryLimits().stream()
-                        .map(memoryLimit -> MemoryLimitEntity.toEntity(memoryLimit))
-                        .collect(Collectors.toSet()))
+                .timeLimits(gson.toJson(new TimeLimitsWrapper(problem.getTimeLimits())))
+                .memoryLimits(gson.toJson(new MemLimitsWrapper(problem.getMemoryLimits())))
                 .allowedProgrammingLanguages(gson.toJson(programmingLangs))
                 .serviceToCreate(problem.getServiceToCreate())
                 .build();
-        for (TimeLimitEntity timeLimitEntity : problemEntity.getTimeLimits()) {
-            timeLimitEntity.setProblem(problemEntity);
-        }
-        for (MemoryLimitEntity memoryLimitEntity : problemEntity.getMemoryLimits()) {
-            memoryLimitEntity.setProblem(problemEntity);
-        }
         return problemEntity;
     }
 
@@ -94,12 +95,8 @@ public class ProblemEntity {
                 problemEntity.getName(),
                 problemEntity.getDescription(),
                 new hanu.gdsc.share.domains.Id(problemEntity.getAuthorId()),
-                problemEntity.getMemoryLimits().stream()
-                        .map(memoryLimitEntity -> MemoryLimitEntity.toDomain(memoryLimitEntity))
-                        .collect(Collectors.toList()),
-                problemEntity.getTimeLimits().stream()
-                        .map(timeLimitEntity -> TimeLimitEntity.toDomain(timeLimitEntity))
-                        .collect(Collectors.toList()),
+                gson.fromJson(problemEntity.getMemoryLimits(), MemLimitsWrapper.class).memoryLimits,
+                gson.fromJson(problemEntity.getTimeLimits(), TimeLimitsWrapper.class).timeLimits,
                 allowedLangs
                         .stream()
                         .map(

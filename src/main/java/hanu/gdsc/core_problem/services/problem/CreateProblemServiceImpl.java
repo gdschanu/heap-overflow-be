@@ -5,6 +5,7 @@ import hanu.gdsc.core_problem.domains.SubmissionCount;
 import hanu.gdsc.core_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.core_problem.repositories.submissionCount.SubmissionCountRepository;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class CreateProblemServiceImpl implements CreateProblemService {
 
 
     @Override
-    public Id create(Input input) {
+    public Id create(Input input) throws InvalidInputException {
         Problem problem = Problem.create(
                 input.name,
                 input.description,
@@ -38,7 +39,7 @@ public class CreateProblemServiceImpl implements CreateProblemService {
     }
 
     @Override
-    public List<Id> createMany(List<Input> inputs) {
+    public List<Id> createMany(List<Input> inputs) throws InvalidInputException {
         if (inputs.size() == 0)
             return new ArrayList<>();
         List<Problem> problems = new ArrayList<>();

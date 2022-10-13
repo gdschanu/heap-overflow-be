@@ -5,7 +5,7 @@ import hanu.gdsc.practiceProblem_problemDiscussion.domains.Post;
 import hanu.gdsc.practiceProblem_problemDiscussion.repositories.post.PostRepository;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -43,10 +43,10 @@ public class SearchPostService {
         public String content;
     }
 
-    public Output getById(Id id) {
+    public Output getById(Id id) throws NotFoundException {
         Post post = postRepository.getById(id);
         if (post == null)
-            throw new NotFoundError("Unknown post");
+            throw new NotFoundException("Unknown post");
         hanu.gdsc.core_discussion.domains.Post corePost = searchCoreDiscussionPostService.getById(
                 post.getCorePostId(),
                 ServiceName.serviceName

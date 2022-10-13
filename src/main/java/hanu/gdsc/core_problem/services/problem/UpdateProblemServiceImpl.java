@@ -4,10 +4,13 @@ import hanu.gdsc.core_problem.domains.MemoryLimit;
 import hanu.gdsc.core_problem.domains.Problem;
 import hanu.gdsc.core_problem.domains.TimeLimit;
 import hanu.gdsc.core_problem.repositories.problem.ProblemRepository;
-import hanu.gdsc.share.error.NotFoundError;
+import hanu.gdsc.share.exceptions.InvalidInputException;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,10 +19,10 @@ public class UpdateProblemServiceImpl implements UpdateProblemService{
     private ProblemRepository problemRepository;
 
     @Override
-    public void update(Input input) {
+    public void update(Input input) throws NotFoundException, InvalidInputException {
         Problem problem = problemRepository.getById(input.id, input.serviceToCreate);
         if (problem == null) {
-            throw new NotFoundError("Unknown problem");
+            throw new NotFoundException("Unknown problem");
         }
         if (input.name != null) {
             problem.setName(input.name);
@@ -33,9 +36,10 @@ public class UpdateProblemServiceImpl implements UpdateProblemService{
                     .collect(Collectors.toList()));
         }
         if (input.timeLimits != null) {
-            problem.setTimeLimits(input.timeLimits.stream()
-                    .map(inp -> TimeLimit.create(inp))
-                    .collect(Collectors.toList()));
+            final List<TimeLimit> timeLimits = new ArrayList<>();
+            for (TimeLimit.CreateInputTL inputTL : input.timeLimits)
+                timeLimits.add(TimeLimit.create(inputTL));
+            problem.setTimeLimits(timeLimits);
         }
         if (input.allowedProgrammingLanguages != null) {
             problem.setAllowedProgrammingLanguages(input.allowedProgrammingLanguages);

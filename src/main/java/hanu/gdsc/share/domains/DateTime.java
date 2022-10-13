@@ -2,7 +2,8 @@ package hanu.gdsc.share.domains;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.exceptions.BusinessLogicException;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import hanu.gdsc.share.json.DateTimeDeserializer;
 import hanu.gdsc.share.json.DateTimeSerializer;
 
@@ -20,11 +21,11 @@ public class DateTime {
         this.value = value;
     }
 
-    public DateTime(String value) {
+    public DateTime(String value) throws InvalidInputException {
         try {
             this.value = ZonedDateTime.parse(value);
         } catch (Exception e) {
-            throw new BusinessLogicError("Thời gian không hợp lệ: '" + value + "'", "NOT_VALID_DATE");
+            throw new InvalidInputException("Invalid date: " + value + ".");
         }
     }
 

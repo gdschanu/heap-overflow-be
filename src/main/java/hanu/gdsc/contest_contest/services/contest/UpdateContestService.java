@@ -11,10 +11,13 @@ import hanu.gdsc.core_problem.services.problem.CreateProblemService;
 import hanu.gdsc.core_problem.services.problem.DeleteProblemService;
 import hanu.gdsc.share.domains.DateTime;
 import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.error.BusinessLogicError;
+import hanu.gdsc.share.exceptions.BusinessLogicException;
+import hanu.gdsc.share.exceptions.InvalidInputException;
+import hanu.gdsc.share.exceptions.InvalidStateException;
+import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
+@Service
 public class UpdateContestService {
     private final ContestRepository contestRepository;
     private final CreateProblemService createCoreProblemService;
@@ -54,10 +58,10 @@ public class UpdateContestService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void execute(Input input) {
+    public void execute(Input input) throws InvalidInputException, InvalidStateException, NotFoundException {
         Contest contest = contestRepository.getById(input.id);
         if (contest == null) {
-            throw new BusinessLogicError("Contest không tồn tại.", "NOT_FOUND");
+            throw new NotFoundException("Unknown contest.");
         }
         if (input.name != null) {
             contest.setName(input.name);

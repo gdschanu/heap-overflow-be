@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
+import hanu.gdsc.share.exceptions.RuntimeInvalidInputException;
 
 import java.io.IOException;
 
@@ -21,6 +23,10 @@ public class IdDeserializer extends StdDeserializer<Id> {
 
     @Override
     public Id deserialize(JsonParser jp, DeserializationContext deserializationContext) throws IOException, JacksonException {
-        return new Id(jp.getValueAsString());
+        try {
+            return new Id(jp.getValueAsString());
+        } catch (InvalidInputException e) {
+            throw new RuntimeInvalidInputException(e.getMessage());
+        }
     }
 }

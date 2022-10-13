@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hanu.gdsc.share.json.IdDeserializer;
 import hanu.gdsc.share.json.IdSerializer;
-import hanu.gdsc.share.error.InvalidInputError;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import org.bson.types.ObjectId;
 
 import java.util.Objects;
@@ -14,15 +14,20 @@ import java.util.Objects;
 public class Id {
     private String value;
 
-    public Id(String value) {
+    public Id(String value) throws InvalidInputException {
         if (!ObjectId.isValid(value)) {
-            throw new InvalidInputError("Invalid Id: '" + value + "'.");
+            throw new InvalidInputException("Invalid Id: '" + value + "'.");
         }
         this.value = value;
     }
 
     public static Id generateRandom() {
-        return new Id(new ObjectId().toString());
+        try {
+            return new Id(new ObjectId().toString());
+        } catch (Exception e) {
+            // cannot reach
+            return null;
+        }
     }
 
     public String toString() {
