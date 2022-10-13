@@ -1,6 +1,7 @@
 package hanu.gdsc.core_discussion.repositories.post;
 
 import hanu.gdsc.core_discussion.domains.Post;
+import hanu.gdsc.core_discussion.repositories.comment.CommentRepository;
 import hanu.gdsc.share.domains.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,8 @@ import java.util.stream.Collectors;
 public class PostRepositoryImpl implements PostRepository{
     @Autowired
     private PostJPARepository postJPARepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Override
     public Id save(Post post) {
@@ -43,6 +46,7 @@ public class PostRepositoryImpl implements PostRepository{
 
     @Override
     public void deleteAllByIds(List<Id> corePostIds) {
+        commentRepository.deleteAllByPostIds(corePostIds);
         postJPARepository.deleteAllByIdIn(corePostIds.stream().map(Id::toString).collect(Collectors.toList()));
     }
 }

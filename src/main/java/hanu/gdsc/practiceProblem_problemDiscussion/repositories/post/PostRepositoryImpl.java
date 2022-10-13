@@ -2,6 +2,7 @@ package hanu.gdsc.practiceProblem_problemDiscussion.repositories.post;
 
 import hanu.gdsc.practiceProblem_problemDiscussion.domains.Post;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -54,9 +55,14 @@ public class PostRepositoryImpl implements PostRepository {
     public void deleteAllByProblemId(Id problemId) {
         List<PPPostEntity> pPPostEntitys = pPPostJpaRepository.findByProblemId(problemId.toString());
         List<Id> corePostIds = pPPostEntitys.stream()
-                        .map(postEntity -> new Id(postEntity.getCorePostId()))
+                        .map(postEntity -> {
+                            try {
+                                return new Id(postEntity.getCorePostId());
+                            } catch (InvalidInputException e) {
+                                throw new RuntimeException(e);
+                            }
+                        })
                         .collect(Collectors.toList());
-        //todo delete comment
         corePostRepository.deleteAllByIds(corePostIds);
         pPPostJpaRepository.deleteAllByProblemId(problemId.toString());
     }

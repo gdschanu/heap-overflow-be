@@ -123,7 +123,7 @@ public class Problem extends IdentitifedVersioningDomainObject {
     public void setMemoryLimits(List<MemoryLimit> memoryLimits) throws InvalidInputException {
         Set<ProgrammingLanguage> existed = new HashSet<>();
         for (MemoryLimit memoryLimit : memoryLimits) {
-            if (existed.contains(memoryLimit.getMemoryLimit())) {
+            if (existed.contains(memoryLimit.getProgrammingLanguage())) {
                 throw new InvalidInputException("Contains duplicate memory limit");
             }
             existed.add(memoryLimit.getProgrammingLanguage());

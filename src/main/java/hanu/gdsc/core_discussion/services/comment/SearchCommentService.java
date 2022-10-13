@@ -1,12 +1,10 @@
-package hanu.gdsc.core_discussion.repositories.comment;
+package hanu.gdsc.core_discussion.services.comment;
 
 import hanu.gdsc.core_discussion.domains.Comment;
 import hanu.gdsc.share.domains.Id;
 
-import java.util.List;
 import java.util.Set;
 
-public interface CommentRepository {
+public interface SearchCommentService {
     Set<Comment> findAllByPostIdAndServiceToCreate(Id postId, String serviceToCreate);
-    void deleteAllByPostIds(List<Id> postIds);
 }

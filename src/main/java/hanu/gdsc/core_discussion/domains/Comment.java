@@ -54,4 +54,28 @@ public class Comment extends IdentitifedVersioningDomainObject {
         return content;
     }
 
+    public Id getAuthor() {
+        return author;
+    }
+
+
+    public DateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public DateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public Id getParentCommentId() {
+        return parentCommentId;
+    }
+
+    public Id getPostId() {
+        return postId;
+    }
+
+    public String getServiceToCreate() {
+        return serviceToCreate;
+    }
 }
