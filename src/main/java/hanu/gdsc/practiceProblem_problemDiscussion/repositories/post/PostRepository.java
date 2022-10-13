@@ -15,4 +15,6 @@ public interface PostRepository {
                                int perPage);
 
     public long countPosts(Id problemId);
+
+    public void deleteAllByProblemId(Id ProblemId);
 }

@@ -1,4 +1,4 @@
-package hanu.gdsc.core_discussion.repositories;
+package hanu.gdsc.core_discussion.repositories.post;
 
 import hanu.gdsc.core_discussion.domains.Post;
 import lombok.*;

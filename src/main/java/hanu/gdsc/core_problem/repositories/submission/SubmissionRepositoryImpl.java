@@ -61,4 +61,9 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
         }
     }
 
+    @Override
+    public void deleteAllByProblemId(Id problemId) {
+        submissionJPARepository.deleteAllByProblemId(problemId.toString());
+    }
+
 }

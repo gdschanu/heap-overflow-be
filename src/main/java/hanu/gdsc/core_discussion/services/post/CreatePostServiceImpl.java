@@ -4,11 +4,8 @@ import hanu.gdsc.core_discussion.domains.Post;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 
-import hanu.gdsc.core_discussion.repositories.PostRepository;
-import hanu.gdsc.core_discussion.domains.Post;
+import hanu.gdsc.core_discussion.repositories.post.PostRepository;
 
-import hanu.gdsc.share.domains.Id;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor

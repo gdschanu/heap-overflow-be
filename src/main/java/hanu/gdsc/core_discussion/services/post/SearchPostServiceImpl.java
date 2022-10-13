@@ -1,7 +1,7 @@
 package hanu.gdsc.core_discussion.services.post;
 
 import hanu.gdsc.core_discussion.domains.Post;
-import hanu.gdsc.core_discussion.repositories.PostRepository;
+import hanu.gdsc.core_discussion.repositories.post.PostRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.error.NotFoundError;
 import org.springframework.beans.factory.annotation.Autowired;

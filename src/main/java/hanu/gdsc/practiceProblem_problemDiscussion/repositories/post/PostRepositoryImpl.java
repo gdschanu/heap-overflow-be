@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 public class PostRepositoryImpl implements PostRepository {
     @Autowired
     private PPPostJPARepository pPPostJpaRepository;
+    @Autowired
+    private hanu.gdsc.core_discussion.repositories.post.PostRepository corePostRepository;
 
     @Override
     public void save(Post post) {
@@ -46,5 +48,16 @@ public class PostRepositoryImpl implements PostRepository {
     public long countPosts(Id problemId) {
         return pPPostJpaRepository
                 .countByProblemId(problemId.toString());
+    }
+
+    @Override
+    public void deleteAllByProblemId(Id problemId) {
+        List<PPPostEntity> pPPostEntitys = pPPostJpaRepository.findByProblemId(problemId.toString());
+        List<Id> corePostIds = pPPostEntitys.stream()
+                        .map(postEntity -> new Id(postEntity.getCorePostId()))
+                        .collect(Collectors.toList());
+        //todo delete comment
+        corePostRepository.deleteAllByIds(corePostIds);
+        pPPostJpaRepository.deleteAllByProblemId(problemId.toString());
     }
 }

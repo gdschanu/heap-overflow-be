@@ -25,4 +25,6 @@ public interface SubmissionJPARepository extends JpaRepository<SubmissionEntity,
                                                                               String coderId,
                                                                               String serviceToCreate,
                                                                               Pageable pageable);
+
+    public void deleteAllByProblemId(String problemId);
 }
