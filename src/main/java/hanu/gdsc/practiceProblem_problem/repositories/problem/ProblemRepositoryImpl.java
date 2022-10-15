@@ -82,4 +82,18 @@ public class ProblemRepositoryImpl implements ProblemRepository {
             return null;
         }
     }
+
+    @Override
+    public List<Problem> findByCoreProblemProblemIds(List<Id> coreProblemProblemIds) {
+        return PPProblemJpaRepository.findByCoreProblemProblemIdIn(coreProblemProblemIds.stream()
+                .map(Id::toString)
+                .collect(Collectors.toList())).stream()
+                    .map(PPProblemEntity::toDomain)
+                    .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProblemCountProjection> countProblemGroupByDifficulty() {
+        return PPProblemJpaRepository.countProblemGroupByDifficulty();
+    }
 }

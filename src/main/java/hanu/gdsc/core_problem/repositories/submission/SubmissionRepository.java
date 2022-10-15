@@ -1,6 +1,7 @@
 package hanu.gdsc.core_problem.repositories.submission;
 
 import java.util.List;
+import java.util.Set;
 
 import hanu.gdsc.core_problem.domains.Submission;
 import hanu.gdsc.share.domains.Id;
@@ -11,4 +12,5 @@ public interface SubmissionRepository {
     public void save(Submission submission);
 
     public void deleteAllByProblemId(Id problemId);
+    public List<String> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate);
 }

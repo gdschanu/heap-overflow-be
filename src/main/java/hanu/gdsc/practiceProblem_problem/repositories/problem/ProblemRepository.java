@@ -21,4 +21,8 @@ public interface ProblemRepository {
     public void deleteById(Id id);
 
     public Problem getByCoreProblemProblemId(Id coreProblemProblemId);
+
+    public List<Problem> findByCoreProblemProblemIds(List<Id> coreProblemProblemIds);
+
+    public List<ProblemCountProjection> countProblemGroupByDifficulty();
 }

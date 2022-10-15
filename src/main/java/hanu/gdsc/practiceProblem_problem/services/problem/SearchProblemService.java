@@ -3,14 +3,19 @@ package hanu.gdsc.practiceProblem_problem.services.problem;
 import hanu.gdsc.core_problem.domains.KB;
 import hanu.gdsc.core_problem.domains.Millisecond;
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
+import hanu.gdsc.core_problem.services.submission.SearchSubmissionService;
 import hanu.gdsc.practiceProblem_problem.config.ServiceName;
 import hanu.gdsc.practiceProblem_problem.domains.Difficulty;
 import hanu.gdsc.practiceProblem_problem.domains.Problem;
+import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemCountProjection;
 import hanu.gdsc.practiceProblem_problem.repositories.problem.ProblemRepository;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import hanu.gdsc.share.exceptions.NotFoundException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +29,7 @@ import java.util.stream.Collectors;
 public class SearchProblemService {
     private hanu.gdsc.core_problem.services.problem.SearchProblemService searchCoreProblemProblemService;
     private ProblemRepository problemRepository;
+    private SearchSubmissionService searchSubmissionService;
 
 
     @AllArgsConstructor
@@ -66,6 +72,15 @@ public class SearchProblemService {
         public ProgrammingLanguage programmingLanguage;
         @Schema(example = "1000")
         public Millisecond timeLimit;
+    }
+
+    @Data
+    @Builder
+    public static class OutputProgressData {
+        private Difficulty difficulty;
+        private Integer done;
+        private Integer problems;
+        private Double percentage;
     }
 
     public Output getById(Id practiceProblemId) throws NotFoundException {
@@ -131,6 +146,32 @@ public class SearchProblemService {
                         .collect(Collectors.toList()),
                 coreProblem.getAllowedProgrammingLanguages()
         );
+    }
+
+    public List<OutputProgressData> getProgress(Id coderId) {
+        List<Id> problemIds = searchSubmissionService.getAllProblemIdACByCoderId(coderId, ServiceName.serviceName).stream()
+                .map(id -> {
+                    try {
+                        return new Id(id);
+                    } catch (InvalidInputException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
+        Map<Difficulty, List<Problem>> problemMap = problemRepository.findByCoreProblemProblemIds(problemIds).stream()
+                .collect(Collectors.groupingBy(Problem::getDifficulty));
+        List<ProblemCountProjection> total = problemRepository.countProblemGroupByDifficulty();
+        return total.stream()
+                .map(count -> {
+                    List<Problem> problems = problemMap.get(Difficulty.valueOf(count.getDifficulty()));
+                    return OutputProgressData.builder()
+                            .difficulty(Difficulty.valueOf(count.getDifficulty()))
+                            .done(problems.size())
+                            .problems(count.getAmount())
+                            .percentage(Math.ceil((double) problems.size()/count.getAmount()*100))
+                            .build();
+                })
+                .collect(Collectors.toList());
     }
 
     public long countProblem() {
