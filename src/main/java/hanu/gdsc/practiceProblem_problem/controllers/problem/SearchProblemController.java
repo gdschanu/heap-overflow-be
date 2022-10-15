@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.List;
 
 
 @RestController
+@Slf4j
 @Tag(name = "Practice Problem - Problem" , description = "Rest-API endpoint for Practice Problem")
 public class SearchProblemController {
     @Autowired
@@ -91,6 +93,7 @@ public class SearchProblemController {
 
     @GetMapping("/practiceProblem/problem/recommended")
     public ResponseEntity<?> getRecommendProblem(@RequestParam  int count) {
+        log.info("/practiceProblem/problem/recommended requested, count: " + count);
         return ControllerHandler.handle(() -> {
             List<SearchProblemService.Output> output = servicePracticeProblemService.getRecommendProblem(count);
             return new ControllerHandler.Result(
