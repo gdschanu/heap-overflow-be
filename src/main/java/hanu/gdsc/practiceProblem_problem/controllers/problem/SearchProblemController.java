@@ -93,7 +93,6 @@ public class SearchProblemController {
 
     @GetMapping("/practiceProblem/problem/recommended")
     public ResponseEntity<?> getRecommendProblem(@RequestParam  int count) {
-        log.info("/practiceProblem/problem/recommended requested, count: " + count);
         return ControllerHandler.handle(() -> {
             List<SearchProblemService.Output> output = servicePracticeProblemService.getRecommendProblem(count);
             return new ControllerHandler.Result(
