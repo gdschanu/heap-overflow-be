@@ -15,4 +15,6 @@ public interface SubmissionCountRepository {
     public SubmissionCount getByProblemId(Id problemId, String serviceToCreate);
 
     public SubmissionCount getByProblemId(Id problemId);
+
+    public List<SubmissionCount> getByProblemIds(List<Id> problemIds, String serviceToCreate);
 }

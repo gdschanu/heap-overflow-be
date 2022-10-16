@@ -267,7 +267,8 @@ public class ProcessRunningSubmissionService {
         submissionEventRepository.save(
                 SubmissionEvent.create(
                         runningSubmission.getProblemId(),
-                        submission.getStatus()
+                        submission.getStatus(),
+                        submission.getCoderId()
                 )
         );
     }

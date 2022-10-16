@@ -17,6 +17,10 @@ public class SubmissionCount extends VersioningDomainObject {
         this.serviceToCreate = serviceToCreate;
     }
 
+    public int acceptance() {
+        return (int) ((ACsCount / (double)submissionsCount) * 100);
+    }
+
     public static SubmissionCount create(Id problemId, String serviceToCreate) {
         return new SubmissionCount(
                 0,

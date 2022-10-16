@@ -7,17 +7,21 @@ public class SubmissionEvent extends IdentifiedDomainObject {
     private Id problemId;
     private Status status;
 
-    private SubmissionEvent(Id id, Id problemId, Status status) {
+    private Id coderId;
+
+    private SubmissionEvent(Id id, Id problemId, Status status, Id coderId) {
         super(id);
         this.problemId = problemId;
         this.status = status;
+        this.coderId = coderId;
     }
 
-    public static SubmissionEvent create(Id problemId, Status status) {
+    public static SubmissionEvent create(Id problemId, Status status, Id coderId) {
         return new SubmissionEvent(
                 Id.generateRandom(),
                 problemId,
-                status
+                status,
+                coderId
         );
     }
 
@@ -27,5 +31,9 @@ public class SubmissionEvent extends IdentifiedDomainObject {
 
     public Status getStatus() {
         return status;
+    }
+
+    public Id getCoderId() {
+        return coderId;
     }
 }
