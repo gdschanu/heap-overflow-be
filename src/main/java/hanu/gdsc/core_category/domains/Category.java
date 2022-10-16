@@ -25,6 +25,10 @@ public class Category {
         this.serviceToCreate = serviceToCreate;
     }
 
+    public static Category create(String name) {
+        return new Category(Id.generateRandom(), name, null);
+    }
+
     public Id getId() {
         return id;
     }
