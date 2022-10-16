@@ -12,6 +12,7 @@ import hanu.gdsc.share.exceptions.InvalidInputException;
 import hanu.gdsc.share.scheduling.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,10 +26,12 @@ public class ConsumeSubmissionEventService {
 
     private SubmissionCountRepository submissionCountRepository;
     private AcceptedProblemRepository acceptedProblemRepository;
+    private hanu.gdsc.practiceProblem_problem.services.submissionEvent.ConsumeSubmissionEventService practiceProblemSubmissionEventConsumer;
 
     public ConsumeSubmissionEventService(SubmissionEventRepository submissionEventRepository,
                                          SubmissionCountRepository submissionCountRepository,
-                                         AcceptedProblemRepository acceptedProblemRepository) {
+                                         AcceptedProblemRepository acceptedProblemRepository,
+                                         @Qualifier("PracticeProblem.ConsumeSubmissionEventService") hanu.gdsc.practiceProblem_problem.services.submissionEvent.ConsumeSubmissionEventService practiceProblemSubmissionEventConsumer) {
         this.submissionEventRepository = submissionEventRepository;
         this.submissionCountRepository = submissionCountRepository;
         new Scheduler(SubmissionEventConfig.RATE, new Scheduler.Runner() {
@@ -38,9 +41,10 @@ public class ConsumeSubmissionEventService {
             }
         }).start();
         this.acceptedProblemRepository = acceptedProblemRepository;
+        this.practiceProblemSubmissionEventConsumer = practiceProblemSubmissionEventConsumer;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public void process() throws InvalidInputException {
         try {
             SubmissionEvent submissionEvent = submissionEventRepository.getSubmissionEvent();
@@ -57,6 +61,8 @@ public class ConsumeSubmissionEventService {
             if (submissionEvent.getStatus().equals(Status.AC)) {
                 acceptedProblemRepository.save(new AcceptedProblem(submissionEvent.getCoderId(), submissionEvent.getProblemId(), submissionCount.getServiceToCreate()));
             }
+            // TODO: remove this in the future, consume from message queue instead
+            practiceProblemSubmissionEventConsumer.consume(submissionEvent);
             LOGGER.info("Increased submission count for problemId: " + submissionEvent.getProblemId());
         } catch (Exception e) {
             e.printStackTrace();
