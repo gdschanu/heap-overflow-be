@@ -2,6 +2,7 @@ package hanu.gdsc.contest_contest.services.contest;
 
 import hanu.gdsc.contest_contest.domains.Participant;
 import hanu.gdsc.contest_contest.domains.ParticipantCount;
+import hanu.gdsc.contest_contest.exception.AlreadyJoinedException;
 import hanu.gdsc.contest_contest.exception.ContestEndedException;
 import hanu.gdsc.contest_contest.repositories.contest.ContestRepository;
 import hanu.gdsc.contest_contest.repositories.participant.ParticipantRepository;
@@ -33,7 +34,7 @@ public class JoinContestService {
     @Autowired
     private ParticipantCountRepositoy participantCountRepositoy;
 
-    public void joinContest(Id coderId, Id contestId) throws ContestEndedException, NotFoundException {
+    public void joinContest(Id coderId, Id contestId) throws ContestEndedException, NotFoundException, AlreadyJoinedException {
         createParticipantService.execute(coderId, contestId);
         ParticipantCount participantCount  = participantCountRepositoy.getByContestId(contestId);
         participantCount.increaseNum();

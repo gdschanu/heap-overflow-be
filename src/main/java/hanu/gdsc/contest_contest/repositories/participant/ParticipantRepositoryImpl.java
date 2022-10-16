@@ -53,4 +53,11 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
     public long countByContestId(Id contestId) {
         return participantJPARepository.counByContestId(contestId.toString());
     }
+
+    @Override
+    public Participant getByCoderIdAndContestId(Id coderId, Id contestId) {
+        Optional<ParticipantEntity> entity = participantJPARepository.findById(coderId.toString() + "#" + contestId);
+        if (entity.isEmpty()) return null;
+        return entity.get().toDomain();
+    }
 }
