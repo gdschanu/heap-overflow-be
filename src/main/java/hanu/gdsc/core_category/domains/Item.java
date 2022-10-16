@@ -2,18 +2,16 @@ package hanu.gdsc.core_category.domains;
 
 import hanu.gdsc.share.domains.Id;
 
-import java.util.List;
-
 public class Item {
 
     private Id id;
-    private Category[] categoriesId;
+    private Category[] categoryIds;
 
     private String serviceToCreate;
 
     public Item(Id id, Category[] categoriesId, String serviceToCreate) {
         this.id = id;
-        this.categoriesId = categoriesId;
+        this.categoryIds = categoriesId;
         this.serviceToCreate = serviceToCreate;
     }
 
@@ -33,11 +31,11 @@ public class Item {
         this.id = id;
     }
 
-    public Category[] getCategoriesId() {
-        return categoriesId;
+    public Category[] getCategoryIds() {
+        return categoryIds;
     }
 
-    public void setCategoriesId(Category[] categoriesId) {
-        this.categoriesId = categoriesId;
+    public void setCategoryIds(Category[] categoryIds) {
+        this.categoryIds = categoryIds;
     }
 }

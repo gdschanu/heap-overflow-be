@@ -4,6 +4,6 @@ import hanu.gdsc.core_category.domains.Category;
 
 public interface CreateItemService {
 
-    public void createItem(Category[] categories);
+    public void createItem(Category[] categoryIds);
 
 }

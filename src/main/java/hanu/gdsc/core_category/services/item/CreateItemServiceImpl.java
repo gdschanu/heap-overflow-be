@@ -1,4 +1,11 @@
 package hanu.gdsc.core_category.services.item;
 
-public class CreateItemServiceImpl {
+import hanu.gdsc.core_category.domains.Category;
+
+public class CreateItemServiceImpl implements CreateItemService {
+
+    @Override
+    public void createItem(Category[] categoryIds) {
+
+    }
 }
