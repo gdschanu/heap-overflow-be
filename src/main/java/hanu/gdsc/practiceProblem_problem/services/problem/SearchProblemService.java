@@ -199,7 +199,7 @@ public class SearchProblemService {
                         .collect(Collectors.toList()),
                 coreProblem.getAllowedProgrammingLanguages(),
                 submissionCount.acceptance(),
-                new ArrayList<>(),
+                Arrays.asList("Greedy"),
                 accepted ? Status.DONE : Status.UNDONE
         );
     }
