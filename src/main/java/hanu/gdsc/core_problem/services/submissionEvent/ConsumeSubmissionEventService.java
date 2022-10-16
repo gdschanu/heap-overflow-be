@@ -8,6 +8,7 @@ import hanu.gdsc.core_problem.domains.SubmissionEvent;
 import hanu.gdsc.core_problem.repositories.acceptedProblem.AcceptedProblemRepository;
 import hanu.gdsc.core_problem.repositories.submissionCount.SubmissionCountRepository;
 import hanu.gdsc.core_problem.repositories.submissionEvent.SubmissionEventRepository;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import hanu.gdsc.share.scheduling.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ public class ConsumeSubmissionEventService {
         this.submissionCountRepository = submissionCountRepository;
         new Scheduler(SubmissionEventConfig.RATE, new Scheduler.Runner() {
             @Override
-            public void run() {
+            public void run() throws InvalidInputException {
                 process();
             }
         }).start();
@@ -40,7 +41,7 @@ public class ConsumeSubmissionEventService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED)
-    public void process() {
+    public void process() throws InvalidInputException {
         try {
             SubmissionEvent submissionEvent = submissionEventRepository.getSubmissionEvent();
             if (submissionEvent == null) {
@@ -60,6 +61,7 @@ public class ConsumeSubmissionEventService {
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("Process submission event error: " + e);
+            throw e;
         }
     }
 }

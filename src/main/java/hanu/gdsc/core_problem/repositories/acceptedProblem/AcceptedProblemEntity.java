@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @NoArgsConstructor
 public class AcceptedProblemEntity {
     @Id
-    @Column(columnDefinition = "VARCHAR(30)")
+    @Column(columnDefinition = "VARCHAR(60)")
     private String id;
     @Column(columnDefinition = "VARCHAR(30)")
     private String coderId;

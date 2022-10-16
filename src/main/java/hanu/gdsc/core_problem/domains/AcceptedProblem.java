@@ -8,7 +8,7 @@ public class AcceptedProblem {
     private Id problemId;
     private String serviceToCreate;
 
-    public AcceptedProblem(Id coderId, Id problemIdm, String serviceToCreate) throws InvalidInputException {
+    public AcceptedProblem(Id coderId, Id problemId, String serviceToCreate) throws InvalidInputException {
         if (coderId == null) {
             throw new InvalidInputException("coderId must not be null.");
         }
