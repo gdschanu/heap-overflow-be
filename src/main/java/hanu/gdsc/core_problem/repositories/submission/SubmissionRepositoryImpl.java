@@ -2,6 +2,7 @@ package hanu.gdsc.core_problem.repositories.submission;
 
 import hanu.gdsc.core_problem.domains.Submission;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -67,8 +68,20 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
     }
 
     @Override
-    public List<String> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate) {
-        return submissionJPARepository.getAllProblemIdACByCoderIdAndServiceToCreate(coderId.toString(), serviceToCreate);
+    public List<Id> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate) {
+        List<String> problemIdsString = submissionJPARepository.getAllProblemIdACByCoderIdAndServiceToCreate(coderId.toString(), serviceToCreate);
+        if(!problemIdsString.isEmpty()) {
+            return problemIdsString.stream()
+                    .map(problemId -> {
+                        try {
+                            return new Id(problemId);
+                        } catch (InvalidInputException e) {
+                            throw new RuntimeException(e);
+                        }
+                    })
+                    .collect(Collectors.toList());
+        }
+        return null;
     }
 
 }

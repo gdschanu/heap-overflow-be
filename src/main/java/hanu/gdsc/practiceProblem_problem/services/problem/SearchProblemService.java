@@ -149,29 +149,24 @@ public class SearchProblemService {
     }
 
     public List<OutputProgressData> getProgress(Id coderId) {
-        List<Id> problemIds = searchSubmissionService.getAllProblemIdACByCoderId(coderId, ServiceName.serviceName).stream()
-                .map(id -> {
-                    try {
-                        return new Id(id);
-                    } catch (InvalidInputException e) {
-                        throw new RuntimeException(e);
-                    }
-                })
-                .collect(Collectors.toList());
-        Map<Difficulty, List<Problem>> problemMap = problemRepository.findByCoreProblemProblemIds(problemIds).stream()
-                .collect(Collectors.groupingBy(Problem::getDifficulty));
-        List<ProblemCountProjection> total = problemRepository.countProblemGroupByDifficulty();
-        return total.stream()
-                .map(count -> {
-                    List<Problem> problems = problemMap.get(Difficulty.valueOf(count.getDifficulty()));
-                    return OutputProgressData.builder()
-                            .difficulty(Difficulty.valueOf(count.getDifficulty()))
-                            .done(problems.size())
-                            .problems(count.getAmount())
-                            .percentage(Math.ceil((double) problems.size()/count.getAmount()*100))
-                            .build();
-                })
-                .collect(Collectors.toList());
+        List<Id> problemIds = searchSubmissionService.getAllProblemIdACByCoderId(coderId, ServiceName.serviceName);
+        if(!problemIds.isEmpty()) {
+            Map<Difficulty, List<Problem>> problemMap = problemRepository.findByCoreProblemProblemIds(problemIds).stream()
+                    .collect(Collectors.groupingBy(Problem::getDifficulty));
+            List<ProblemCountProjection> total = problemRepository.countProblemGroupByDifficulty();
+            return total.stream()
+                    .map(count -> {
+                        List<Problem> problems = problemMap.get(Difficulty.valueOf(count.getDifficulty()));
+                        return OutputProgressData.builder()
+                                .difficulty(Difficulty.valueOf(count.getDifficulty()))
+                                .done(problems.size())
+                                .problems(count.getAmount())
+                                .percentage(Math.ceil((double) problems.size()/count.getAmount()*100))
+                                .build();
+                    })
+                    .collect(Collectors.toList());
+        }
+        return null;
     }
 
     public long countProblem() {
