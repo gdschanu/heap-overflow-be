@@ -206,10 +206,10 @@ public class SearchProblemService {
 
     public List<OutputProgressData> getProgress(Id coderId) {
         List<Id> problemIds = searchSubmissionService.getAllProblemIdACByCoderId(coderId, ServiceName.serviceName);
+        List<ProblemCountProjection> total = problemRepository.countProblemGroupByDifficulty();
         if(!problemIds.isEmpty()) {
             Map<Difficulty, List<Problem>> problemMap = problemRepository.findByCoreProblemProblemIds(problemIds).stream()
                     .collect(Collectors.groupingBy(Problem::getDifficulty));
-            List<ProblemCountProjection> total = problemRepository.countProblemGroupByDifficulty();
             return total.stream()
                     .map(count -> {
                         List<Problem> problems = problemMap.get(Difficulty.valueOf(count.getDifficulty()));
@@ -222,7 +222,14 @@ public class SearchProblemService {
                     })
                     .collect(Collectors.toList());
         }
-        return null;
+        return total.stream()
+                .map(count -> OutputProgressData.builder()
+                        .difficulty(Difficulty.valueOf(count.getDifficulty()))
+                        .done(0)
+                        .problems(count.getAmount())
+                        .percentage(0)
+                        .build())
+                .collect(Collectors.toList());
     }
 
     public long countProblem() {
