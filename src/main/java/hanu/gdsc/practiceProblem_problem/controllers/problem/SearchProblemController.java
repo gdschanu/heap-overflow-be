@@ -19,12 +19,13 @@ import java.util.List;
 
 @RestController
 @Slf4j
-@Tag(name = "Practice Problem - Problem" , description = "Rest-API endpoint for Practice Problem")
+@Tag(name = "Practice Problem - Problem", description = "Rest-API endpoint for Practice Problem")
 public class SearchProblemController {
     @Autowired
     private SearchProblemService servicePracticeProblemService;
     @Autowired
     private AuthorizeService authorizeService;
+
 
     @Operation(
             summary = "Search the practice problem by id",
@@ -48,9 +49,11 @@ public class SearchProblemController {
             )}
     )
     @GetMapping("/practiceProblem/problem/{id}")
-    public ResponseEntity<?> getById(@PathVariable String id){
+    public ResponseEntity<?> getById(@PathVariable String id,
+                                     @RequestHeader(name = "access-token", required = false) String token) {
         return ControllerHandler.handle(() -> {
-            SearchProblemService.Output output = servicePracticeProblemService.getById(new Id(id));
+            Id coderId = token == null ? null : authorizeService.authorize(token);
+            SearchProblemService.Output output = servicePracticeProblemService.getById(new Id(id), coderId);
             return new ControllerHandler.Result(
                     "Success",
                     output
@@ -59,9 +62,11 @@ public class SearchProblemController {
     }
 
     @GetMapping("/practiceProblem/problem")
-    public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage) {
+    public ResponseEntity<?> get(@RequestParam int page, @RequestParam int perPage,
+                                 @RequestHeader(name = "access-token", required = false) String token) {
         return ControllerHandler.handle(() -> {
-            List<SearchProblemService.Output> output = servicePracticeProblemService.get(page, perPage);
+            Id coderId = token == null ? null : authorizeService.authorize(token);
+            List<SearchProblemService.Output> output = servicePracticeProblemService.get(page, perPage, coderId);
             return new ControllerHandler.Result(
                     "Success",
                     output
@@ -81,10 +86,11 @@ public class SearchProblemController {
     }
 
     @GetMapping("/practiceProblem/problem/recommended")
-    public ResponseEntity<?> getRecommendProblem(@RequestParam  int count) {
-        log.info("/practiceProblem/problem/recommended requested, count: " + count);
+    public ResponseEntity<?> getRecommendProblem(@RequestParam int count,
+                                                 @RequestHeader(name = "access-token", required = false) String token) {
         return ControllerHandler.handle(() -> {
-            List<SearchProblemService.Output> output = servicePracticeProblemService.getRecommendProblem(count);
+            Id coderId = token == null ? null : authorizeService.authorize(token);
+            List<SearchProblemService.Output> output = servicePracticeProblemService.getRecommendProblem(count, coderId);
             return new ControllerHandler.Result(
                     "Success",
                     output

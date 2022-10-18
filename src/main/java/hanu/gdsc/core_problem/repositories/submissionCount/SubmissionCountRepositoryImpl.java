@@ -57,4 +57,16 @@ public class SubmissionCountRepositoryImpl implements SubmissionCountRepository 
         }
     }
 
+    @Override
+    public List<SubmissionCount> getByProblemIds(List<Id> problemIds, String serviceToCreate) {
+        return submissionCountJPARepository.findByProblemIdInAndServiceToCreate(
+                        problemIds.stream()
+                                .map(id -> id.toString())
+                                .collect(Collectors.toList()),
+                        serviceToCreate
+                ).stream()
+                .map(ent -> SubmissionCountEntity.toDomain(ent))
+                .collect(Collectors.toList());
+    }
+
 }

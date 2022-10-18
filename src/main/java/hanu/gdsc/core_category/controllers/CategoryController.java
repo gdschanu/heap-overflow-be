@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 //@RestController
-//@Tag(name = "Category", description = "Rest-API endpoint for Category")
+@Tag(name = "Category", description = "Rest-API endpoint for Category")
 public class CategoryController {
 
     @Autowired
