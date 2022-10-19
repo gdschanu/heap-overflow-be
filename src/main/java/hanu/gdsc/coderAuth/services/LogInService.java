@@ -1,5 +1,6 @@
 package hanu.gdsc.coderAuth.services;
 
+import hanu.gdsc.coderAuth.config.SessionConfig;
 import hanu.gdsc.coderAuth.domains.*;
 import hanu.gdsc.coderAuth.exceptions.NonExistentUsernameOrEmailException;
 import hanu.gdsc.coderAuth.exceptions.WrongPasswordException;
@@ -13,8 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LogInService {
-   // TODO: get from application.properties
-   private final String secretKey = "Hanuoj";
+   private final String secretKey = SessionConfig.TOKEN_SECRET;
    @Autowired
    private UserRepository userRepository;
 

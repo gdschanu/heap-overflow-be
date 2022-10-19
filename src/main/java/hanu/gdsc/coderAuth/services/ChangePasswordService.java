@@ -1,5 +1,6 @@
 package hanu.gdsc.coderAuth.services;
 
+import hanu.gdsc.coderAuth.config.SessionConfig;
 import hanu.gdsc.coderAuth.domains.HashedPassword;
 import hanu.gdsc.coderAuth.domains.Session;
 import hanu.gdsc.coderAuth.domains.User;
@@ -14,8 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ChangePasswordService {
-    // TODO: get from application.properties
-    private final String secretKey = "Hanuoj";
+    private final String secretKey = SessionConfig.TOKEN_SECRET;
 
     @Autowired
     private SessionRepository sessionRepository;

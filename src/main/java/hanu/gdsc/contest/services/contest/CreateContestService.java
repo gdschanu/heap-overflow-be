@@ -5,7 +5,7 @@ import hanu.gdsc.contest.domains.Contest;
 import hanu.gdsc.contest.domains.ContestProblem;
 import hanu.gdsc.contest.domains.ParticipantCount;
 import hanu.gdsc.contest.repositories.contest.ContestRepository;
-import hanu.gdsc.contest.repositories.participantCount.ParticipantCountRepositoy;
+import hanu.gdsc.contest.repositories.participantCount.ParticipantCountRepository;
 import hanu.gdsc.core_problem.domains.MemoryLimit;
 import hanu.gdsc.core_problem.domains.ProgrammingLanguage;
 import hanu.gdsc.core_problem.domains.TimeLimit;
@@ -30,7 +30,7 @@ public class CreateContestService {
     private final ContestRepository contestRepository;
     private final CreateProblemService createProblemService;
 
-    private final ParticipantCountRepositoy participantCountRepositoy;
+    private final ParticipantCountRepository participantCountRepository;
 
     @AllArgsConstructor
     @NoArgsConstructor
@@ -63,7 +63,7 @@ public class CreateContestService {
         public List<CreateProblemInput> problems;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public Id create(Input input) throws InvalidInputException {
         List<Id> coreProblemIds = createProblemService
                 .createMany(input.problems
@@ -96,7 +96,7 @@ public class CreateContestService {
                 contestProblems
         );
         contestRepository.create(contest);
-        participantCountRepositoy.save(ParticipantCount.create(contest.getId()));
+        participantCountRepository.save(ParticipantCount.create(contest.getId()));
         return contest.getId();
     }
 }

@@ -2,10 +2,12 @@ package hanu.gdsc.contest.services.participant;
 
 import hanu.gdsc.contest.domains.Contest;
 import hanu.gdsc.contest.domains.Participant;
+import hanu.gdsc.contest.domains.ParticipantCount;
 import hanu.gdsc.contest.exception.AlreadyJoinedException;
 import hanu.gdsc.contest.exception.ContestEndedException;
 import hanu.gdsc.contest.repositories.contest.ContestRepository;
 import hanu.gdsc.contest.repositories.participant.ParticipantRepository;
+import hanu.gdsc.contest.repositories.participantCount.ParticipantCountRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class CreateParticipantService {
     private final ContestRepository contestRepository;
     private final ParticipantRepository participantRepository;
+    private final ParticipantCountRepository participantCountRepository;
+
 
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public void execute(Id coderId, Id contestId) throws NotFoundException, ContestEndedException, AlreadyJoinedException {
@@ -30,9 +34,8 @@ public class CreateParticipantService {
         }
         final Participant participant = Participant.create(coderId, contest);
         participantRepository.save(participant);
-        contest = contestRepository.getById(contestId);
-        if (contestRepository.getById(contestId) == null) {
-            throw new NotFoundException("Contest removed");
-        }
+        ParticipantCount participantCount = participantCountRepository.getByContestId(contestId);
+        participantCount.increaseNum();
+        participantCountRepository.save(participantCount);
     }
 }

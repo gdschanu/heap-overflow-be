@@ -5,7 +5,7 @@ import hanu.gdsc.share.domains.Id;
 
 import java.util.List;
 
-public interface ParticipantCountRepositoy {
+public interface ParticipantCountRepository {
     public void save(ParticipantCount pCount);
 
     public ParticipantCount getByContestId(Id contestId);

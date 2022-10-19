@@ -34,7 +34,7 @@ public class ConsumeSubmissionEventService {
                                          @Qualifier("PracticeProblem.ConsumeSubmissionEventService") hanu.gdsc.practiceProblem_problem.services.submissionEvent.ConsumeSubmissionEventService practiceProblemSubmissionEventConsumer) {
         this.submissionEventRepository = submissionEventRepository;
         this.submissionCountRepository = submissionCountRepository;
-        new Scheduler(SubmissionEventConfig.RATE, new Scheduler.Runner() {
+        new Scheduler(SubmissionEventConfig.SCAN_RATE_MILLIS, new Scheduler.Runner() {
             @Override
             public void run() throws InvalidInputException {
                 process();

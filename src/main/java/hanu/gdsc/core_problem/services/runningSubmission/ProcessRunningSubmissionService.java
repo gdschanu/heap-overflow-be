@@ -26,25 +26,22 @@ public class ProcessRunningSubmissionService {
     private final ProblemRepository problemRepository;
     private final SubmissionRepository submissionRepository;
     private final SubmissionEventRepository submissionEventRepository;
-    private final UpdateRunningSubmissionQueue updateRunningSubmissionQueue;
 
     public ProcessRunningSubmissionService(RunningSubmissionRepository runningSubmissionRepository,
                                            TestCaseRepository testCaseRepository,
                                            Judger judger,
                                            ProblemRepository problemRepository,
                                            SubmissionRepository submissionRepository,
-                                           SubmissionEventRepository submissionEventRepository,
-                                           UpdateRunningSubmissionQueue updateRunningSubmissionQueue) {
+                                           SubmissionEventRepository submissionEventRepository) {
         this.runningSubmissionRepository = runningSubmissionRepository;
         this.testCaseRepository = testCaseRepository;
         this.judger = judger;
         this.problemRepository = problemRepository;
         this.submissionRepository = submissionRepository;
         this.submissionEventRepository = submissionEventRepository;
-        this.updateRunningSubmissionQueue = updateRunningSubmissionQueue;
 
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(RunningSubmissionConfig.MAX_THREAD);
-        new Scheduler(RunningSubmissionConfig.RATE_MILLIS, new Scheduler.Runner() {
+        new Scheduler(RunningSubmissionConfig.SCAN_RATE_MILLIS, new Scheduler.Runner() {
             @Override
             protected void run() throws Throwable {
                 process();
@@ -94,7 +91,7 @@ public class ProcessRunningSubmissionService {
         for (int i = start; i < testCases.size(); i++) {
             runningSubmission.setJudgingTestCase(i + 1);
             runningSubmission.setTotalTestCases(testCases.size());
-            updateRunningSubmissionQueue.add(runningSubmission);
+            runningSubmissionRepository.updateClaimed(runningSubmission);
 
             TestCase testCase = testCases.get(i);
             MemoryLimit memoryLimit = problem.getMemoryLimitByProgrammingLanguage(

@@ -1,5 +1,6 @@
 package hanu.gdsc.coderAuth.services;
 
+import hanu.gdsc.coderAuth.config.SessionConfig;
 import hanu.gdsc.coderAuth.domains.Session;
 import hanu.gdsc.coderAuth.repositories.session.SessionRepository;
 import hanu.gdsc.share.domains.Id;
@@ -10,8 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LogOutService {
-    // TODO: get from application.properties
-    private final String secretKey = "Hanuoj";
+    private final String secretKey = SessionConfig.TOKEN_SECRET;
     @Autowired
     private SessionRepository sessionRepository;
 

@@ -5,7 +5,7 @@ import hanu.gdsc.coderAuth.domains.Username;
 import hanu.gdsc.coderAuth.services.SearchUserService;
 import hanu.gdsc.contest.domains.Participant;
 import hanu.gdsc.contest.repositories.participant.ParticipantRepository;
-import hanu.gdsc.contest.repositories.participantCount.ParticipantCountRepositoy;
+import hanu.gdsc.contest.repositories.participantCount.ParticipantCountRepository;
 import hanu.gdsc.share.domains.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class SearchParticipantService {
-    private final ParticipantCountRepositoy participantCountRepository;
+    private final ParticipantCountRepository participantCountRepository;
     @Autowired
     private ParticipantRepository participantRepository;
     @Autowired
@@ -34,14 +34,6 @@ public class SearchParticipantService {
         public List<String> problemScores;
         public String createAt;
         public String username;
-    }
-
-    public Participant getById(Id participantId) {
-        return null;
-    }
-
-    public List<Participant> search(int page, int perPage) {
-        return null;
     }
 
     public List<OutputParticipant> searchByContestId(Id contestId, int page, int perPage) {
@@ -67,11 +59,21 @@ public class SearchParticipantService {
         return outputParticipants;
     }
 
-    public List<Participant> getByCoderId(Id coderId) {
-        return participantRepository.getByCoderId(coderId);
-    }
-
     public long countContestParticipant(Id contestId) {
         return participantCountRepository.getByContestId(contestId).getNum();
+    }
+
+    public boolean joinedContest(Id coderId, Id contestId) {
+        List<Participant> participants = participantRepository.getByCoderId(coderId);
+        if (participants == null) {
+            return false;
+        } else {
+            for(Participant participant: participants) {
+                if(participant.getContestId().toString().equals(contestId.toString())) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

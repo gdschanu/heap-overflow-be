@@ -1,7 +1,6 @@
 package hanu.gdsc.core_problem.services.runningSubmission;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hanu.gdsc.core_problem.config.Judge0Config;
 import hanu.gdsc.core_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.core_problem.domains.KB;
 import hanu.gdsc.core_problem.domains.Millisecond;
@@ -26,12 +25,6 @@ public class JudgerImpl implements Judger {
 
     public JudgerImpl(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-        new Scheduler(RunningSubmissionConfig.DELETE_JUDGER_SUBMISSION_RATE_MILLIS, new Scheduler.Runner() {
-            @Override
-            protected void run() throws Throwable {
-                deleteSubmission();
-            }
-        }).start();
     }
 
     private String base64Encode(String s) {
@@ -74,7 +67,7 @@ public class JudgerImpl implements Judger {
         request.cpu_time_limit = TimeLimit.MAX.toSecond();
         String requestString = objectMapper.writeValueAsString(request);
         HttpRequest httpReq = HttpRequest.newBuilder()
-                .uri(URI.create(Judge0Config.SERVER_URL + "/submissions" + "?base64_encoded=true&fields=*&wait=true"))
+                .uri(URI.create(RunningSubmissionConfig.VM_URL + "/submissions" + "?base64_encoded=true&fields=*&wait=true"))
                 .header("content-type", "application/json")
                 .header("X-Auth-Token", authToken)
                 .method("POST", HttpRequest.BodyPublishers.ofString(requestString))
@@ -82,7 +75,7 @@ public class JudgerImpl implements Judger {
         HttpResponse<String> response = HttpClient.newHttpClient().send(httpReq, HttpResponse.BodyHandlers.ofString());
         CreateSubmissionResponse submission = objectMapper.readValue(response.body(), CreateSubmissionResponse.class);
         if (response.statusCode() == 201)
-            submissionTokenToDeleteQueue.add(submission.token);
+            deleteSubmission(submission.token);
         else {
             return new SubmissionImpl(
                     "",
@@ -196,14 +189,9 @@ public class JudgerImpl implements Judger {
         }
     }
 
-    private static Queue<String> submissionTokenToDeleteQueue = new ConcurrentLinkedQueue<>();
-
-    private void deleteSubmission() {
-        String submissionToDelete = submissionTokenToDeleteQueue.poll();
-        if (submissionToDelete == null)
-            return;
+    private void deleteSubmission(String submissionToDelete) {
         HttpRequest httpReq = HttpRequest.newBuilder()
-                .uri(URI.create(Judge0Config.SERVER_URL + "/submissions/" + submissionToDelete))
+                .uri(URI.create(RunningSubmissionConfig.VM_URL + "/submissions/" + submissionToDelete))
                 .header("content-type", "application/json")
                 .header("X-Auth-Token", authToken)
                 .header("X-Auth-User", "yowtf")

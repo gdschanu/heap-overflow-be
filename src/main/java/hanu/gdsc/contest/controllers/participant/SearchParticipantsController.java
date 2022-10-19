@@ -1,15 +1,17 @@
 package hanu.gdsc.contest.controllers.participant;
 
+import hanu.gdsc.coderAuth.services.AuthorizeService;
 import hanu.gdsc.contest.services.participant.SearchParticipantService;
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +20,9 @@ import java.util.List;
 public class SearchParticipantsController {
     @Autowired
     private SearchParticipantService searchParticipantService;
+    @Autowired
+    private AuthorizeService authorizeService;
+
 
     @GetMapping("/contest/{contestId}/participant")
     public ResponseEntity<?> searchContest(@PathVariable String contestId, @RequestParam int page, @RequestParam int perPage) {
@@ -36,6 +41,40 @@ public class SearchParticipantsController {
             return new ControllerHandler.Result(
                     "Success",
                     searchParticipantService.countContestParticipant(new Id(contestId))
+            );
+        });
+    }
+
+    @Operation(
+            summary = "check coder joined contest or not",
+            responses = {@ApiResponse(
+                    responseCode = "200",
+                    description = "Joined",
+                    content = {
+                            @Content(
+                                    mediaType = "application/json",
+                                    schema = @Schema(example = "false")
+                            )
+                    }
+            ), @ApiResponse(
+                    responseCode = "401",
+                    description = "Unauthorized",
+                    content = {@Content()}
+            ), @ApiResponse(
+                    responseCode = "400",
+                    description = "invalid request",
+                    content = {@Content()}
+            )}
+    )
+    @GetMapping("/contest/{contestId}/participant/joined")
+    public ResponseEntity<?> joinedContest(@RequestHeader("access-token") String token, @PathVariable String contestId) {
+        return ControllerHandler.handle(() -> {
+            //should return page
+            Id coderId = authorizeService.authorize(token);
+            boolean check = searchParticipantService.joinedContest(coderId, new Id(contestId));
+            return new ControllerHandler.Result(
+                    "Success",
+                    check
             );
         });
     }

@@ -28,7 +28,7 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
     }
 
     private long getLockedUntil() {
-        return System.currentTimeMillis() + RunningSubmissionConfig.CLAIM_SUBMISSION_LOCK_SECOND * 1000;
+        return System.currentTimeMillis() + RunningSubmissionConfig.SCAN_LOCK_SECOND * 1000;
     }
 
     @Override

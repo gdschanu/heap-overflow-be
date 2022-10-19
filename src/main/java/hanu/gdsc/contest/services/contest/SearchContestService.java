@@ -5,7 +5,7 @@ import hanu.gdsc.contest.domains.Contest;
 import hanu.gdsc.contest.domains.ContestProblem;
 import hanu.gdsc.contest.domains.ParticipantCount;
 import hanu.gdsc.contest.repositories.contest.ContestRepository;
-import hanu.gdsc.contest.repositories.participantCount.ParticipantCountRepositoy;
+import hanu.gdsc.contest.repositories.participantCount.ParticipantCountRepository;
 import hanu.gdsc.core_problem.domains.KB;
 import hanu.gdsc.core_problem.domains.Millisecond;
 import hanu.gdsc.core_problem.domains.Problem;
@@ -28,7 +28,7 @@ public class SearchContestService {
     private final ContestRepository contestRepository;
     private final SearchProblemService searchCoreProblemService;
 
-    private final ParticipantCountRepositoy participantCountRepository;
+    private final ParticipantCountRepository participantCountRepository;
 
     @AllArgsConstructor
     @NoArgsConstructor

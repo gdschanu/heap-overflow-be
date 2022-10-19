@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ParticipantCountRepositoryImpl implements ParticipantCountRepositoy{
+public class ParticipantCountRepositoryImpl implements ParticipantCountRepository {
 
     @Autowired
     private ParticipantCountJPARepository participantCountJPARepository;
