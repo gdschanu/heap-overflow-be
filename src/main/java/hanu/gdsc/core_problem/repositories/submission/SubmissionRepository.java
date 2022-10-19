@@ -12,5 +12,5 @@ public interface SubmissionRepository {
     public void save(Submission submission);
 
     public void deleteAllByProblemId(Id problemId);
-    public List<String> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate);
+    public List<Id> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate);
 }

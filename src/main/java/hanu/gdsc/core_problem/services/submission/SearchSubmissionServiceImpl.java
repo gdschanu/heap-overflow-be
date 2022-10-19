@@ -37,9 +37,9 @@ public class SearchSubmissionServiceImpl implements SearchSubmissionService {
     }
 
     @Override
-    public List<String> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate) {
-        List<String> submissions = submissionRepository.getAllProblemIdACByCoderId(coderId, serviceToCreate);
-        if(!submissions.isEmpty()) {
+    public List<Id> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate) {
+        List<Id> submissions = submissionRepository.getAllProblemIdACByCoderId(coderId, serviceToCreate);
+        if(submissions != null) {
             return submissions;
         }
         return List.of();
