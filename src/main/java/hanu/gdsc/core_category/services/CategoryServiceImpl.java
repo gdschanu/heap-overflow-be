@@ -3,6 +3,7 @@ package hanu.gdsc.core_category.services;
 import hanu.gdsc.core_category.domains.Category;
 import hanu.gdsc.core_category.repositories.CategoryRepository;
 import hanu.gdsc.share.domains.Id;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -27,16 +28,15 @@ public class CategoryServiceImpl implements CategoryService {
         }
      */
 
-    public Category create(String name) {
-        Category category = new Category(Id.generateRandom(), name, "Create Category");
-        String saved = category.getServiceToCreate() + "#" + category.getName();
-        category.setServiceToCreate(saved);
-        return categoryRepository.save(category);
+    public Id create(String name, String serviceToCreate) throws InvalidInputException {
+        Category category = Category.create(name, serviceToCreate);
+        categoryRepository.save(category);
+        return category.getId();
     }
 
     /*
     Vấn đề:
-    + Ko cần phải query caategory lên xong rồi mới delete, vì ko thừa thãi
+    + Ko cần phải query category lên xong rồi mới delete, vì ko thừa thãi
     + Cần thêm "serviceToCreate" vào trong điều kiện query để xóa
     + Đây là hàm void, k cần trả về data gì cả, có lỗi thì thì throw exception
     + Chú ý: data tầng ở tầng core luôn được định danh bằng cả id lẫn serviceToCreate
@@ -47,14 +47,8 @@ public class CategoryServiceImpl implements CategoryService {
         }
      */
     @Override
-    public boolean delete(Id id, String name) {
-        Optional<Category> category = Optional.ofNullable(categoryRepository.findById(id));
-        if (category.isPresent()) {
-            categoryRepository.delete(category.get());
-            return true;
-        }
-        return false;
-
+    public void delete(Id id, String serviceToCreate) throws NoSuchFieldException {
+        categoryRepository.deleteById(id, serviceToCreate);
     }
 
 

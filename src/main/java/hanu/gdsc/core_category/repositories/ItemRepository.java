@@ -6,10 +6,12 @@ import hanu.gdsc.share.domains.Id;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ItemRepository {
 
-    public Item save(Category[] categoryIds);
+    public Item save(List<Id> categoryIds);
 
     public Item findById(Id id);
 
