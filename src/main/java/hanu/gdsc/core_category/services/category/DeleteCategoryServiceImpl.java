@@ -22,7 +22,6 @@ public class DeleteCategoryServiceImpl implements DeleteCategoryService {
     @Override
     public void deleteMany(List<Id> categories) {
         categoryRepository.deleteMany(categories);
-
     }
 }
 
