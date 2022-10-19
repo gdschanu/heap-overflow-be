@@ -14,9 +14,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ChangePasswordService {
-
-    @Autowired
-    private GetClaimFromToken getClaimFromToken;
+    // TODO: get from application.properties
+    private final String secretKey = "Hanuoj";
 
     @Autowired
     private SessionRepository sessionRepository;
@@ -25,7 +24,7 @@ public class ChangePasswordService {
     private UserRepository userRepository;
 
     public void changePassword(String token, String oldPassword, String newPassword) throws InvalidInputException, WrongPasswordException, UnauthorizedException {
-        Id sessionId = new Id(getClaimFromToken.getClaims(token).getId());
+        Id sessionId = Session.verifyTokenAndGetSessionId(token, secretKey);
         Session session = sessionRepository.getById(sessionId);
         Id coderId = session.getCoderId();
 

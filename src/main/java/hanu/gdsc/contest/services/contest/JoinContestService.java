@@ -13,6 +13,8 @@ import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,6 +36,7 @@ public class JoinContestService {
     @Autowired
     private ParticipantCountRepositoy participantCountRepositoy;
 
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public void joinContest(Id coderId, Id contestId) throws ContestEndedException, NotFoundException, AlreadyJoinedException {
         createParticipantService.execute(coderId, contestId);
         ParticipantCount participantCount  = participantCountRepositoy.getByContestId(contestId);

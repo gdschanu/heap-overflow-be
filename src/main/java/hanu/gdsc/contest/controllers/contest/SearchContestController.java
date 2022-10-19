@@ -69,17 +69,4 @@ public class SearchContestController {
             return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @GetMapping("/contest/countParticipant/{contestId}")
-    public ResponseEntity<?> countContestParticipant(@PathVariable String contestId) {
-        try {
-            return new ResponseEntity<>(new ResponseBody("Success", searchContestService.countContestParticipant(
-                    new Id(contestId))), HttpStatus.OK);
-        } catch (Throwable e) {
-            e.printStackTrace();
-            if (e.getClass().equals(BusinessLogicException.class)) {
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode(), null), HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

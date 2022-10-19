@@ -4,6 +4,7 @@ import hanu.gdsc.coderAuth.domains.Email;
 import hanu.gdsc.coderAuth.domains.ForgotPasswordCode;
 import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.exceptions.EmailSendingException;
+import hanu.gdsc.coderAuth.mail.SendMail;
 import hanu.gdsc.coderAuth.repositories.forgotPasswordCode.ForgotPasswordCodeRepository;
 import hanu.gdsc.coderAuth.repositories.user.UserRepository;
 import hanu.gdsc.share.exceptions.InvalidInputException;
@@ -20,7 +21,7 @@ public class ForgotPasswordService {
     private ForgotPasswordCodeRepository forgotPasswordCodeRepository;
 
     @Autowired
-    private SendMailService sendMailService;
+    private SendMail sendMail;
 
     public void forgotPassword(String email) throws InvalidInputException, NotFoundException, EmailSendingException {
         User user = userRepository.getByEmail(new Email(email));
@@ -32,6 +33,6 @@ public class ForgotPasswordService {
         ForgotPasswordCode forgotPasswordCode = ForgotPasswordCode.createForgotPasswordCode(user.getId());
         forgotPasswordCodeRepository.save(forgotPasswordCode);
 
-        sendMailService.sendMail(toAddress, name, forgotPasswordCode.getCode());
+        sendMail.sendMail(toAddress, name, forgotPasswordCode.getCode());
     }
 }

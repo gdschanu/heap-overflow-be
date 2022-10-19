@@ -52,18 +52,23 @@ public class CoderEntity {
                 .rank(coder.getRank())
         .build();
     }
-    public Coder toDomain() throws InvalidInputException {
-        return new Coder(
-                new hanu.gdsc.share.domains.Id(id),
-                name,
-                age,
-                avatar == null ? null : new Url(avatar),
-                phone == null ? null : new Phone(phone) ,
-                university,
-                slogan,
-                gender == null ? null : Gender.valueOf(gender),
-                address,
-                rank
-        );
+    public Coder toDomain() {
+        try {
+            return new Coder(
+                    new hanu.gdsc.share.domains.Id(id),
+                    name,
+                    age,
+                    avatar == null ? null : new Url(avatar),
+                    phone == null ? null : new Phone(phone),
+                    university,
+                    slogan,
+                    gender == null ? null : Gender.valueOf(gender),
+                    address,
+                    rank
+            );
+        } catch (Exception e) {
+            // Cannot reach
+            return null;
+        }
     }
 }

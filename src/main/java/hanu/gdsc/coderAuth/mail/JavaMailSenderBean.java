@@ -1,4 +1,4 @@
-package hanu.gdsc.coderAuth.configuration;
+package hanu.gdsc.coderAuth.mail;
 
 import java.util.Properties;
 

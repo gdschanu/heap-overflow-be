@@ -1,4 +1,4 @@
-package hanu.gdsc.coderAuth.services;
+package hanu.gdsc.coderAuth.mail;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -14,7 +14,7 @@ import hanu.gdsc.coderAuth.domains.Email;
 import hanu.gdsc.coderAuth.exceptions.EmailSendingException;
 
 @Service
-public class SendMailService {
+public class SendMail {
 
     @Autowired
     private JavaMailSender javaMailSender;

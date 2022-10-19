@@ -9,5 +9,5 @@ import java.util.List;
 public interface CoderRepository {
     public void save(Coder coder);
     public List<Coder> get(int page, int perPage);
-    public Coder getById(Id id) throws InvalidInputException;
+    public Coder getById(Id id);
 }

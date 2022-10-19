@@ -3,6 +3,7 @@ package hanu.gdsc.coderAuth.services;
 import hanu.gdsc.coderAuth.domains.Email;
 import hanu.gdsc.coderAuth.domains.User;
 import hanu.gdsc.coderAuth.exceptions.EmailSendingException;
+import hanu.gdsc.coderAuth.mail.SendMail;
 import hanu.gdsc.coderAuth.repositories.registerVerificationCode.RegisterVerificationCodeRepository;
 import hanu.gdsc.coderAuth.repositories.user.UserRepository;
 import hanu.gdsc.share.exceptions.InvalidInputException;
@@ -23,7 +24,7 @@ public class SendRegisterVerificationCodeService {
     private RegisterVerificationCodeRepository registerVerificationCodeRepository;
 
     @Autowired
-    private SendMailService sendMailService;
+    private SendMail sendMail;
 
     public void sendRegisterVerificationCodeService(Id coderId) throws ExpiredTokenException, InvalidInputException, EmailSendingException {
         User user = userRepository.getByCoderId(coderId);
@@ -35,6 +36,6 @@ public class SendRegisterVerificationCodeService {
         RegisterVerificationCode registerVerificationCode = RegisterVerificationCode.createRegisterVerificationCode(coderId);
         registerVerificationCodeRepository.save(registerVerificationCode);
 
-        sendMailService.sendMail(toAddress, name, registerVerificationCode.getCode());      
+        sendMail.sendMail(toAddress, name, registerVerificationCode.getCode());
     }
 }

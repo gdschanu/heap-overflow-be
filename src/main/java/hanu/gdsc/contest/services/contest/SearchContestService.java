@@ -28,7 +28,7 @@ public class SearchContestService {
     private final ContestRepository contestRepository;
     private final SearchProblemService searchCoreProblemService;
 
-    private final ParticipantCountRepositoy participantCountRepositoy;
+    private final ParticipantCountRepositoy participantCountRepository;
 
     @AllArgsConstructor
     @NoArgsConstructor
@@ -73,8 +73,7 @@ public class SearchContestService {
         public long numberOfParticipant;
     }
 
-    private OutputContest toOutput(Contest contest, List<OutputProblem> problems) {
-        ParticipantCount participantCount = participantCountRepositoy.getByContestId(contest.getId());
+    private OutputContest toOutput(Contest contest, List<OutputProblem> problems, long participantCount) {
         return new OutputContest(
                 contest.getId(),
                 contest.getName(),
@@ -85,7 +84,7 @@ public class SearchContestService {
                 problems,
                 contest.getVersion(),
                 contest.getCreatedAt(),
-                participantCount.getNum()
+                participantCount
         );
     }
 
@@ -134,7 +133,11 @@ public class SearchContestService {
                 }
             }
         }
-        return toOutput(contest, problems);
+        return toOutput(
+                contest,
+                problems,
+                participantCountRepository.getByContestId(contestId).getNum()
+        );
     }
 
     public List<OutputContest> get(int page, int perPage) {
@@ -147,6 +150,11 @@ public class SearchContestService {
                 coreProblemIds,
                 ServiceName.serviceName
         );
+        List<ParticipantCount> participantCounts = participantCountRepository.getByContestIds(
+                contests.stream()
+                        .map(contest -> contest.getId())
+                        .collect(Collectors.toList())
+        );
         List<OutputContest> result = new ArrayList<>();
         for (Contest contest : contests) {
             List<OutputProblem> problems = new ArrayList<>();
@@ -157,16 +165,16 @@ public class SearchContestService {
                     }
                 }
             }
-            result.add(toOutput(contest, problems));
+            for (ParticipantCount participantCount : participantCounts) {
+                if (participantCount.getContestId().equals(contest.getId())) {
+                    result.add(toOutput(contest, problems, participantCount.getNum()));
+                }
+            }
         }
         return result;
     }
 
     public long countContest() {
         return contestRepository.count();
-    }
-
-    public long countContestParticipant(Id contestId) {
-        return participantCountRepositoy.getByContestId(contestId).getNum();
     }
 }

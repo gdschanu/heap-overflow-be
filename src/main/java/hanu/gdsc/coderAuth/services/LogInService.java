@@ -7,16 +7,14 @@ import hanu.gdsc.coderAuth.repositories.session.SessionRepository;
 import hanu.gdsc.coderAuth.repositories.user.UserRepository;
 import hanu.gdsc.share.domains.Id;
 import hanu.gdsc.share.exceptions.InvalidInputException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-
 @Service
 public class LogInService {
+   // TODO: get from application.properties
+   private final String secretKey = "Hanuoj";
    @Autowired
    private UserRepository userRepository;
 
@@ -57,15 +55,10 @@ public class LogInService {
       }
    }
 
-   private final String secretKey = "Hanuoj";
    private String createToken(Id coderId) {
       Id sessionId = Id.generateRandom();
       Session session = Session.createSession(sessionId, coderId);
       sessionRepository.save(session);
-      return Jwts.builder()
-              .setId(sessionId.toString())
-              .setExpiration(Date.from(session.getExpireAt().toZonedDateTime().toInstant()))
-            .signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
-            .compact();
+      return session.genToken(secretKey);
    }
 }

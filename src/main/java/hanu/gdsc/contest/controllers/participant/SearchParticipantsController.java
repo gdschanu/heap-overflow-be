@@ -1,7 +1,6 @@
 package hanu.gdsc.contest.controllers.participant;
 
 import hanu.gdsc.contest.services.participant.SearchParticipantService;
-
 import hanu.gdsc.share.controller.ControllerHandler;
 import hanu.gdsc.share.domains.Id;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,7 +19,7 @@ public class SearchParticipantsController {
     @Autowired
     private SearchParticipantService searchParticipantService;
 
-    @GetMapping("/participant/{contestId}")
+    @GetMapping("/contest/{contestId}/participant")
     public ResponseEntity<?> searchContest(@PathVariable String contestId, @RequestParam int page, @RequestParam int perPage) {
         return ControllerHandler.handle(() -> {
             List<SearchParticipantService.OutputParticipant> outputParticipants = searchParticipantService.searchByContestId(new Id(contestId), page, perPage);
@@ -31,4 +30,13 @@ public class SearchParticipantsController {
         });
     }
 
+    @GetMapping("/contest/{contestId}/participant/count")
+    public ResponseEntity<?> countContestParticipant(@PathVariable String contestId) {
+        return ControllerHandler.handle(() -> {
+            return new ControllerHandler.Result(
+                    "Success",
+                    searchParticipantService.countContestParticipant(new Id(contestId))
+            );
+        });
+    }
 }
