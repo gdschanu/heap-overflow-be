@@ -5,6 +5,7 @@ import hanu.gdsc.share.exceptions.InvalidInputException;
 import lombok.*;
 
 import javax.persistence.*;
+import java.lang.reflect.Constructor;
 
 @Entity
 @Table(name = "category")
@@ -28,15 +29,23 @@ public class CategoryEntity {
                 .build();
     }
 
-    public Category toDomain(){
+    public static Category toDomain(CategoryEntity categoryEntity) {
         try {
-            return new Category(
-                    new hanu.gdsc.share.domains.Id(id),
-                    name,
-                    serviceToCreate
+            Constructor<Category> constructor = Category.class.getDeclaredConstructor(
+                    hanu.gdsc.share.domains.Id.class,
+                    String.class,
+                    String.class
             );
-        } catch (InvalidInputException e) {
-            throw new RuntimeException(e);
+            constructor.setAccessible(true);
+            return constructor.newInstance(
+                    new hanu.gdsc.share.domains.Id(categoryEntity.getId()),
+                    categoryEntity.getName(),
+                    categoryEntity.getServiceToCreate()
+            );
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            throw new Error(e);
         }
     }
 

@@ -1,28 +1,17 @@
 package hanu.gdsc.core_category.domains;
 
 import hanu.gdsc.share.domains.Id;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.UniqueConstraint;
+import hanu.gdsc.share.exceptions.InvalidInputException;
 
 public class Category {
     /*
     Xóa cái annotation này đi, annotation này chỉ dùng cho entity dưới repo
      */
-    @javax.persistence.Id
     private Id id;
     private String name;
 
     private String serviceToCreate;
 
-    /*
-    Xóa constructor này
-     */
-    public Category() {
-
-    }
 
     /*
     Set private constructor này => để đảm bảo đúng nghiệp vụ
@@ -36,7 +25,7 @@ public class Category {
     tạo Category trả về cho service vì data khi đã lưu xuống db thì đảm bảo đã đúng nghiệp vụ, khi get lên
     chỉ cần set vào
      */
-    public Category(Id id, String name, String serviceToCreate) {
+    private Category(Id id, String name, String serviceToCreate) {
         this.id = id;
         this.name = name;
         this.serviceToCreate = serviceToCreate;
@@ -56,8 +45,15 @@ public class Category {
             return new Category(Id.generateRandom(), name, serviceToCreate);
         }
      */
-    public static Category create(String name) {
-        return new Category(Id.generateRandom(), name, null);
+
+    public static Category create(String name, String serviceToCreate) throws InvalidInputException {
+        if (name == null) {
+            throw new InvalidInputException("name must be not null");
+        }
+        if (serviceToCreate == null) {
+            throw new InvalidInputException("serviceToCreate must be not null");
+        }
+        return new Category(Id.generateRandom(), name, serviceToCreate);
     }
 
     public Id getId() {
@@ -67,9 +63,6 @@ public class Category {
     /*
     Xóa hàm setter này, khi Category đã đc khởi tạo, ko đc phép thay đổi id
      */
-    public void setId(Id id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
@@ -82,9 +75,6 @@ public class Category {
     /*
     Xóa hàm setter này, khi Category đã đc khởi tạo, ko đc phép thay đổi serviceToCreate
      */
-    public void setServiceToCreate(String serviceToCreate) {
-        this.serviceToCreate = serviceToCreate;
-    }
 
     public void setName(String name) {
         this.name = name;

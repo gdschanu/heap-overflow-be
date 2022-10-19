@@ -5,16 +5,16 @@ import hanu.gdsc.share.domains.Id;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CategoryRepository{
     public Category save(Category category);
 
     public Category findById(Id id);
 
-    public void deleteById(Id id);
-
-    public void deleteByIds(Id[] ids);
+    public void deleteById(Id id, String serviceToCreate);
 
 
-    void delete(Category category);
+    public void deleteMany(List<Id> ids);
 }
