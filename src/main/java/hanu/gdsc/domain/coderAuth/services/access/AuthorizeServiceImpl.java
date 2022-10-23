@@ -1,4 +1,4 @@
-package hanu.gdsc.domain.coderAuth.services;
+package hanu.gdsc.domain.coderAuth.services.access;
 
 import hanu.gdsc.domain.coderAuth.config.SessionConfig;
 import hanu.gdsc.domain.coderAuth.models.Session;

@@ -1,13 +1,13 @@
-package hanu.gdsc.infrastructure.coderAuth.controllers;
+package hanu.gdsc.infrastructure.coderAuth.controllers.password;
 
-import hanu.gdsc.domain.coderAuth.services.ChangePasswordService;
+import hanu.gdsc.domain.coderAuth.services.password.ForgotPasswordService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import hanu.gdsc.infrastructure.share.controller.ResponseBody;
 import hanu.gdsc.domain.share.exceptions.BusinessLogicException;
@@ -15,24 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "Coder Auth" , description = "Rest-API endpoint for Coder Auth")
-public class ChangePasswordController {
+public class ForgotPasswordController {
     @Autowired
-    private ChangePasswordService changePasswordService;
+    private ForgotPasswordService forgotPasswordService;
 
-    public static class Input {
-        public String oldPassword;
-        public String newPassword;
+    @Schema(title = "Forgot Password", description = "Data transfer object to change password")
+    public static class InputForgotPass{
+        @Schema(description = "specify the email of user to change password", example = "hihi@gmail.com", required = true)
+        public String email;
     }
 
-    @PutMapping("/coderAuth/password")
-    public ResponseEntity<?> changePassword(@RequestHeader String token, @RequestBody Input input) {
+    @PostMapping("/coderAuth/password/forgot")
+    public ResponseEntity<?> forgotPassword(@RequestBody InputForgotPass input) {
         try {
-            changePasswordService.changePassword(token, input.oldPassword, input.newPassword);
+            forgotPasswordService.forgotPassword(input.email);
             return new ResponseEntity<>(new ResponseBody("Success"), HttpStatus.OK);
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicException.class)) {
                 e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode(), null), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode()), HttpStatus.BAD_REQUEST);
             } else {
                 return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
             }

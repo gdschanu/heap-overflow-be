@@ -1,6 +1,6 @@
 package hanu.gdsc.infrastructure.contest.controllers.contest;
 
-import hanu.gdsc.domain.coderAuth.services.AuthorizeService;
+import hanu.gdsc.domain.coderAuth.services.access.AuthorizeService;
 import hanu.gdsc.domain.contest.services.contest.CreateContestService;
 import hanu.gdsc.infrastructure.share.controller.ControllerHandler;
 import hanu.gdsc.domain.share.models.DateTime;

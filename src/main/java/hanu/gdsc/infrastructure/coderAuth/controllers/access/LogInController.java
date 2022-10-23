@@ -1,6 +1,6 @@
-package hanu.gdsc.infrastructure.coderAuth.controllers;
+package hanu.gdsc.infrastructure.coderAuth.controllers.access;
 
-import hanu.gdsc.domain.coderAuth.services.LogInService;
+import hanu.gdsc.domain.coderAuth.services.access.LogInService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

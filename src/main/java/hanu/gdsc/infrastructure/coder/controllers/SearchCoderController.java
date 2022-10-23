@@ -2,7 +2,7 @@ package hanu.gdsc.infrastructure.coder.controllers;
 
 import hanu.gdsc.domain.coder.models.Coder;
 import hanu.gdsc.domain.coder.services.SearchCoderService;
-import hanu.gdsc.domain.coderAuth.services.AuthorizeService;
+import hanu.gdsc.domain.coderAuth.services.access.AuthorizeService;
 import hanu.gdsc.infrastructure.share.controller.ControllerHandler;
 import hanu.gdsc.domain.share.models.Id;
 import io.swagger.v3.oas.annotations.tags.Tag;

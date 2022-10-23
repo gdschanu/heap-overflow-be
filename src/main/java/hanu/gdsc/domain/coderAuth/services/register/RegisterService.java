@@ -1,4 +1,4 @@
-package hanu.gdsc.domain.coderAuth.services;
+package hanu.gdsc.domain.coderAuth.services.register;
 
 import hanu.gdsc.domain.coder.models.Gender;
 import hanu.gdsc.domain.coder.models.Url;
@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SignUpService {
+public class RegisterService {
     @Autowired
     private UserRepository userRepository;
 
@@ -23,7 +23,7 @@ public class SignUpService {
 
     private static final String defaultAvatar = "https://media.istockphoto.com/vectors/male-face-silhouette-or-icon-man-avatar-profile-unknown-or-anonymous-vector-id1087531642?k=20&m=1087531642&s=170667a&w=0&h=ge3fq1Dw0-J2FoW96c8klSiHyOnitVhReUUuIIYqtvw=";
 
-    public void signUpService(String email, String username, String password) throws InvalidInputException, ExistedUsernameOrEmailException {
+    public void register(String email, String username, String password) throws InvalidInputException, ExistedUsernameOrEmailException {
         Email newEmail = new Email(email);
         Username newUsername = new Username(username);
         HashedPassword newPassword = HashedPassword.fromRawPassword(password);

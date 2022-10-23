@@ -1,6 +1,6 @@
 package hanu.gdsc.infrastructure.practiceProblem_problem.controllers.problem;
 
-import hanu.gdsc.domain.coderAuth.services.AuthorizeService;
+import hanu.gdsc.domain.coderAuth.services.access.AuthorizeService;
 import hanu.gdsc.domain.practiceProblem_problem.services.problem.SearchProblemService;
 import hanu.gdsc.infrastructure.share.controller.ControllerHandler;
 import hanu.gdsc.domain.share.models.Id;

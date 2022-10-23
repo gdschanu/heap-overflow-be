@@ -1,6 +1,6 @@
-package hanu.gdsc.infrastructure.coderAuth.controllers;
+package hanu.gdsc.infrastructure.coderAuth.controllers.password;
 
-import hanu.gdsc.domain.coderAuth.services.ConfirmForgotPasswordService;
+import hanu.gdsc.domain.coderAuth.services.password.ConfirmForgotPasswordService;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

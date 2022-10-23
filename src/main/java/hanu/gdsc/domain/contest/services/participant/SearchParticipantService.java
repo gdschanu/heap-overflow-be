@@ -2,7 +2,7 @@ package hanu.gdsc.domain.contest.services.participant;
 
 import hanu.gdsc.domain.coderAuth.models.User;
 import hanu.gdsc.domain.coderAuth.models.Username;
-import hanu.gdsc.domain.coderAuth.services.SearchUserService;
+import hanu.gdsc.domain.coderAuth.services.user.SearchUserService;
 import hanu.gdsc.domain.contest.models.Participant;
 import hanu.gdsc.domain.contest.repositories.ParticipantRepository;
 import hanu.gdsc.domain.contest.repositories.ParticipantCountRepository;

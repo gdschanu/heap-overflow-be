@@ -1,13 +1,13 @@
-package hanu.gdsc.infrastructure.coderAuth.controllers;
+package hanu.gdsc.infrastructure.coderAuth.controllers.password;
 
-import hanu.gdsc.domain.coderAuth.services.ForgotPasswordService;
-import io.swagger.v3.oas.annotations.media.Schema;
+import hanu.gdsc.domain.coderAuth.services.password.ChangePasswordService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import hanu.gdsc.infrastructure.share.controller.ResponseBody;
 import hanu.gdsc.domain.share.exceptions.BusinessLogicException;
@@ -15,25 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "Coder Auth" , description = "Rest-API endpoint for Coder Auth")
-public class ForgotPasswordController {
+public class ChangePasswordController {
     @Autowired
-    private ForgotPasswordService forgotPasswordService;
+    private ChangePasswordService changePasswordService;
 
-    @Schema(title = "Forgot Password", description = "Data transfer object to change password")
-    public static class InputForgotPass{
-        @Schema(description = "specify the email of user to change password", example = "hihi@gmail.com", required = true)
-        public String email;
+    public static class Input {
+        public String oldPassword;
+        public String newPassword;
     }
 
-    @PostMapping("/coderAuth/password/forgot")
-    public ResponseEntity<?> forgotPassword(@RequestBody InputForgotPass input) {
+    @PutMapping("/coderAuth/password")
+    public ResponseEntity<?> changePassword(@RequestHeader String token, @RequestBody Input input) {
         try {
-            forgotPasswordService.forgotPassword(input.email);
+            changePasswordService.changePassword(token, input.oldPassword, input.newPassword);
             return new ResponseEntity<>(new ResponseBody("Success"), HttpStatus.OK);
         } catch (Throwable e) {
             if(e.getClass().equals(BusinessLogicException.class)) {
                 e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode()), HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode(), null), HttpStatus.BAD_REQUEST);
             } else {
                 return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
             }

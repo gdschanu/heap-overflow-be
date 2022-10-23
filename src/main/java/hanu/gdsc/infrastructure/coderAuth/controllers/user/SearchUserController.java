@@ -1,8 +1,8 @@
-package hanu.gdsc.infrastructure.coderAuth.controllers;
+package hanu.gdsc.infrastructure.coderAuth.controllers.user;
 
 import hanu.gdsc.domain.coderAuth.models.User;
-import hanu.gdsc.domain.coderAuth.services.AuthorizeService;
-import hanu.gdsc.domain.coderAuth.services.SearchUserService;
+import hanu.gdsc.domain.coderAuth.services.access.AuthorizeService;
+import hanu.gdsc.domain.coderAuth.services.user.SearchUserService;
 import hanu.gdsc.infrastructure.share.controller.ControllerHandler;
 import hanu.gdsc.domain.share.models.Id;
 import io.swagger.v3.oas.annotations.tags.Tag;

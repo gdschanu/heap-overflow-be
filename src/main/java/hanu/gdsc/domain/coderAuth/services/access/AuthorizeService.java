@@ -1,4 +1,4 @@
-package hanu.gdsc.domain.coderAuth.services;
+package hanu.gdsc.domain.coderAuth.services.access;
 
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;

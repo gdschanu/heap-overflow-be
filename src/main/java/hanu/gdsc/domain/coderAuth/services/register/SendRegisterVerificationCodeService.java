@@ -1,4 +1,4 @@
-package hanu.gdsc.domain.coderAuth.services;
+package hanu.gdsc.domain.coderAuth.services.register;
 
 import hanu.gdsc.domain.coderAuth.models.Email;
 import hanu.gdsc.domain.coderAuth.models.User;

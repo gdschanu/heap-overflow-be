@@ -1,6 +1,6 @@
 package hanu.gdsc.infrastructure.practiceProblem_problem.controllers.testCase;
 
-import hanu.gdsc.domain.coderAuth.services.AuthorizeService;
+import hanu.gdsc.domain.coderAuth.services.access.AuthorizeService;
 import hanu.gdsc.infrastructure.share.controller.ControllerHandler;
 import hanu.gdsc.domain.practiceProblem_problem.services.testCase.CreateTestCaseService;
 import io.swagger.v3.oas.annotations.tags.Tag;

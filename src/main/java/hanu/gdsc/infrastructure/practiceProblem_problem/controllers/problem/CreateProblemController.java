@@ -1,6 +1,6 @@
 package hanu.gdsc.infrastructure.practiceProblem_problem.controllers.problem;
 
-import hanu.gdsc.domain.coderAuth.services.AuthorizeService;
+import hanu.gdsc.domain.coderAuth.services.access.AuthorizeService;
 import hanu.gdsc.domain.core_problem.models.MemoryLimit;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 import hanu.gdsc.domain.core_problem.models.TimeLimit;

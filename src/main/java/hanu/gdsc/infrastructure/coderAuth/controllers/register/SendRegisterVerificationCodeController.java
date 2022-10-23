@@ -1,7 +1,7 @@
-package hanu.gdsc.infrastructure.coderAuth.controllers;
+package hanu.gdsc.infrastructure.coderAuth.controllers.register;
 
-import hanu.gdsc.domain.coderAuth.services.SendRegisterVerificationCodeService;
-import hanu.gdsc.domain.coderAuth.services.AuthorizeService;
+import hanu.gdsc.domain.coderAuth.services.register.SendRegisterVerificationCodeService;
+import hanu.gdsc.domain.coderAuth.services.access.AuthorizeService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
