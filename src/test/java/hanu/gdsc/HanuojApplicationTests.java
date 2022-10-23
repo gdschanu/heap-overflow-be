@@ -1,11 +1,11 @@
 package hanu.gdsc;
 
-import hanu.gdsc.core_like.domains.Action;
-import hanu.gdsc.core_like.exceptions.InvalidActionException;
-import hanu.gdsc.core_like.services.reactedObject.CreateReactedObjectService;
-import hanu.gdsc.core_like.services.reactedObject.ReactService;
-import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.exceptions.NotFoundException;
+import hanu.gdsc.domain.core_like.models.Action;
+import hanu.gdsc.domain.core_like.exceptions.InvalidActionException;
+import hanu.gdsc.domain.core_like.services.reactedObject.CreateReactedObjectService;
+import hanu.gdsc.domain.core_like.services.reactedObject.ReactService;
+import hanu.gdsc.domain.share.models.Id;
+import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

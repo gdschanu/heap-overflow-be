@@ -1,9 +1,9 @@
 package hanu.gdsc;
 
-import hanu.gdsc.core_problem.domains.*;
-import hanu.gdsc.core_problem.repositories.problem.ProblemEntity;
-import hanu.gdsc.share.domains.Id;
-import hanu.gdsc.share.exceptions.InvalidInputException;
+import hanu.gdsc.domain.core_problem.models.*;
+import hanu.gdsc.infrastructure.core_problem.repositories.problem.ProblemEntity;
+import hanu.gdsc.domain.share.models.Id;
+import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
