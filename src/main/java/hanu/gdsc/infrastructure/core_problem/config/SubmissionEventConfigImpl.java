@@ -1,8 +1,11 @@
 package hanu.gdsc.infrastructure.core_problem.config;
 
 import hanu.gdsc.domain.core_problem.config.SubmissionEventConfig;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+
+@Configuration
 public class SubmissionEventConfigImpl implements SubmissionEventConfig {
     private static int SCAN_RATE_MILLIS = 10000;
 
