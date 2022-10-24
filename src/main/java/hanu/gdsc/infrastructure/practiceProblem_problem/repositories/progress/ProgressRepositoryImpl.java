@@ -1,6 +1,6 @@
 package hanu.gdsc.infrastructure.practiceProblem_problem.repositories.progress;
 
-import hanu.gdsc.domain.practiceProblem_problem.domains.Progress;
+import hanu.gdsc.domain.practiceProblem_problem.models.Progress;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProgressRepository;
 import hanu.gdsc.domain.share.models.Id;
 import org.springframework.beans.factory.annotation.Autowired;

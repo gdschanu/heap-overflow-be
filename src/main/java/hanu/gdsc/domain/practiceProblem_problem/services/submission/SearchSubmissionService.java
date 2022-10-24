@@ -2,7 +2,7 @@ package hanu.gdsc.domain.practiceProblem_problem.services.submission;
 
 import hanu.gdsc.domain.core_problem.models.*;
 import hanu.gdsc.domain.practiceProblem_problem.config.ServiceName;
-import hanu.gdsc.domain.practiceProblem_problem.domains.Problem;
+import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.exceptions.SubmissionIsBeingJudgedException;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
 import hanu.gdsc.domain.share.models.DateTime;

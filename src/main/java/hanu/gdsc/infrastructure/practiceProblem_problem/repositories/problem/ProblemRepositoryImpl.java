@@ -1,6 +1,6 @@
 package hanu.gdsc.infrastructure.practiceProblem_problem.repositories.problem;
 
-import hanu.gdsc.domain.practiceProblem_problem.domains.Problem;
+import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
 import hanu.gdsc.domain.share.models.Id;
 import org.springframework.beans.factory.annotation.Autowired;

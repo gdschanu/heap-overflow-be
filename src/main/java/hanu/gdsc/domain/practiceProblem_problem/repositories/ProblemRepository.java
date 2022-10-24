@@ -1,6 +1,6 @@
 package hanu.gdsc.domain.practiceProblem_problem.repositories;
 
-import hanu.gdsc.domain.practiceProblem_problem.domains.Problem;
+import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.infrastructure.practiceProblem_problem.repositories.problem.ProblemCountProjection;
 import hanu.gdsc.domain.share.models.Id;
 

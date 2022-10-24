@@ -1,6 +1,6 @@
 package hanu.gdsc.infrastructure.practiceProblem_problem.repositories.progress;
 
-import hanu.gdsc.domain.practiceProblem_problem.domains.Progress;
+import hanu.gdsc.domain.practiceProblem_problem.models.Progress;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

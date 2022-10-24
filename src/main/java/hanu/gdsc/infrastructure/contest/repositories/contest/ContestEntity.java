@@ -1,13 +1,16 @@
 package hanu.gdsc.infrastructure.contest.repositories.contest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.contest.models.Contest;
+import hanu.gdsc.domain.contest.models.ContestProblem;
 import hanu.gdsc.domain.share.models.DateTime;
 import lombok.*;
 
 import javax.persistence.*;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "contest_contest")
@@ -28,30 +31,32 @@ public class ContestEntity {
     private String endAt;
     @Column(columnDefinition = "VARCHAR(30)")
     private String createdBy;
-    @OneToMany(mappedBy = "contest", cascade = CascadeType.ALL)
-    private List<ContestProblemEntity> problems;
+    @Column(columnDefinition = "LONGTEXT")
+    private String problems;
     private String createdAt;
     private long createdAtMillis;
 
-    public static ContestEntity fromDomain(Contest contest) {
-        ContestEntity res = ContestEntity.builder()
-                .id(contest.getId().toString())
-                .version(contest.getVersion())
-                .name(contest.getName())
-                .description(contest.getDescription())
-                .startAt(contest.getStartAt().toString())
-                .endAt(contest.getEndAt().toString())
-                .createdBy(contest.getCreatedBy().toString())
-                .createdAt(contest.getCreatedAt().toString())
-                .createdAtMillis(contest.getCreatedAt().toMillis())
-                .build();
-        res.setProblems(contest.getProblems().stream()
-                .map(x -> ContestProblemEntity.fromDomain(x, res))
-                .collect(Collectors.toList()));
-        return res;
+    public static ContestEntity fromDomain(Contest contest, ObjectMapper objectMapper) {
+        try {
+            ContestEntity res = ContestEntity.builder()
+                    .id(contest.getId().toString())
+                    .version(contest.getVersion())
+                    .name(contest.getName())
+                    .description(contest.getDescription())
+                    .startAt(contest.getStartAt().toString())
+                    .endAt(contest.getEndAt().toString())
+                    .createdBy(contest.getCreatedBy().toString())
+                    .createdAt(contest.getCreatedAt().toString())
+                    .createdAtMillis(contest.getCreatedAt().toMillis())
+                    .build();
+            res.setProblems(objectMapper.writeValueAsString(contest.getProblems()));
+            return res;
+        } catch (JsonProcessingException e) {
+            throw new Error(e);
+        }
     }
 
-    public Contest toDomain() {
+    public Contest toDomain(ObjectMapper objectMapper) {
         try {
             Constructor<Contest> con = Contest.class.getDeclaredConstructor(
                     hanu.gdsc.domain.share.models.Id.class,
@@ -65,6 +70,10 @@ public class ContestEntity {
                     DateTime.class
             );
             con.setAccessible(true);
+            /*
+            Just for getting class of generic type
+             */
+            final List<ContestProblem> justAListToGetClass = new ArrayList<>();
             return con.newInstance(
                     new hanu.gdsc.domain.share.models.Id(id),
                     version,
@@ -73,11 +82,10 @@ public class ContestEntity {
                     new DateTime(startAt),
                     new DateTime(endAt),
                     new hanu.gdsc.domain.share.models.Id(createdBy),
-                    problems.stream().map(x -> x.toDomain()).collect(Collectors.toList()),
-                    createdAt == null ? DateTime.now() : new DateTime(createdAt) // TODO: remove this
+                    objectMapper.readValue(problems, justAListToGetClass.getClass()),
+                    new DateTime(createdAt)
             );
         } catch (Exception e) {
-            e.printStackTrace();
             throw new Error(e);
         }
     }

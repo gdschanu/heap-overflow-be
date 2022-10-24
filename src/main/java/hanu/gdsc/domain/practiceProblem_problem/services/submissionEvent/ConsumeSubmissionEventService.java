@@ -1,8 +1,8 @@
 package hanu.gdsc.domain.practiceProblem_problem.services.submissionEvent;
 
 import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
-import hanu.gdsc.domain.practiceProblem_problem.domains.Problem;
-import hanu.gdsc.domain.practiceProblem_problem.domains.Progress;
+import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
+import hanu.gdsc.domain.practiceProblem_problem.models.Progress;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProgressRepository;
 import lombok.AllArgsConstructor;

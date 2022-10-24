@@ -5,7 +5,7 @@ import hanu.gdsc.domain.core_problem.services.acceptedProblem.SearchAcceptedProb
 import hanu.gdsc.domain.core_problem.services.submission.SearchSubmissionService;
 import hanu.gdsc.domain.core_problem.services.submissionsCount.SearchSubmissionCountService;
 import hanu.gdsc.domain.practiceProblem_problem.config.ServiceName;
-import hanu.gdsc.domain.practiceProblem_problem.domains.Difficulty;
+import hanu.gdsc.domain.practiceProblem_problem.models.Difficulty;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.infrastructure.practiceProblem_problem.repositories.problem.ProblemCountProjection;
@@ -94,7 +94,7 @@ public class SearchProblemService {
     }
 
     public Output getById(Id practiceProblemId, Id coderId) throws NotFoundException {
-        hanu.gdsc.domain.practiceProblem_problem.domains.Problem practiceProblem = problemRepository.getById(practiceProblemId);
+        hanu.gdsc.domain.practiceProblem_problem.models.Problem practiceProblem = problemRepository.getById(practiceProblemId);
         if (practiceProblem == null) {
             throw new NotFoundException("Unknown problem");
         }
@@ -117,7 +117,7 @@ public class SearchProblemService {
     }
 
     public List<Output> get(int page, int perPage, Id coderId) {
-        List<hanu.gdsc.domain.practiceProblem_problem.domains.Problem> practiceProblems = problemRepository.get(
+        List<hanu.gdsc.domain.practiceProblem_problem.models.Problem> practiceProblems = problemRepository.get(
                 page,
                 perPage
         );
@@ -125,14 +125,14 @@ public class SearchProblemService {
     }
 
     public List<Output> getRecommendProblem(int count, Id coderId) {
-        List<hanu.gdsc.domain.practiceProblem_problem.domains.Problem> recommendProblems = problemRepository.getRecommendProblem(count);
+        List<hanu.gdsc.domain.practiceProblem_problem.models.Problem> recommendProblems = problemRepository.getRecommendProblem(count);
         return toListOutPut(recommendProblems, coderId);
     }
 
-    private List<Output> toListOutPut(List<hanu.gdsc.domain.practiceProblem_problem.domains.Problem> problems, Id coderId) {
+    private List<Output> toListOutPut(List<hanu.gdsc.domain.practiceProblem_problem.models.Problem> problems, Id coderId) {
         final List<hanu.gdsc.domain.core_problem.models.Problem> coreProblems = searchCoreProblemProblemService.getByIds(
                 problems.stream()
-                        .map(hanu.gdsc.domain.practiceProblem_problem.domains.Problem::getCoreProblemProblemId)
+                        .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemProblemId)
                         .collect(Collectors.toList()),
                 ServiceName.serviceName
         );
@@ -141,7 +141,7 @@ public class SearchProblemService {
             coreProblemsIdMap.put(coreProb.getId(), coreProb);
         final List<SubmissionCount> submissionCounts = searchSubmissionCountService.getByProblemIds(
                 problems.stream()
-                        .map(hanu.gdsc.domain.practiceProblem_problem.domains.Problem::getCoreProblemProblemId)
+                        .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemProblemId)
                         .collect(Collectors.toList()),
                 ServiceName.serviceName
         );
@@ -153,7 +153,7 @@ public class SearchProblemService {
                 searchAcceptedProblemService.getByProblemIdsAndCoderId(
                         coderId,
                         problems.stream()
-                                .map(hanu.gdsc.domain.practiceProblem_problem.domains.Problem::getCoreProblemProblemId)
+                                .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemProblemId)
                                 .collect(Collectors.toList()),
                         ServiceName.serviceName
                 );
@@ -171,7 +171,7 @@ public class SearchProblemService {
                 .collect(Collectors.toList());
     }
 
-    private Output toOutput(hanu.gdsc.domain.practiceProblem_problem.domains.Problem practiceProblem,
+    private Output toOutput(hanu.gdsc.domain.practiceProblem_problem.models.Problem practiceProblem,
                             hanu.gdsc.domain.core_problem.models.Problem coreProblem,
                             SubmissionCount submissionCount,
                             boolean accepted) {
@@ -206,11 +206,11 @@ public class SearchProblemService {
         List<Id> problemIds = searchSubmissionService.getAllProblemIdACByCoderId(coderId, ServiceName.serviceName);
         List<ProblemCountProjection> total = problemRepository.countProblemGroupByDifficulty();
         if(!problemIds.isEmpty()) {
-            Map<Difficulty, List<hanu.gdsc.domain.practiceProblem_problem.domains.Problem>> problemMap = problemRepository.findByCoreProblemProblemIds(problemIds).stream()
-                    .collect(Collectors.groupingBy(hanu.gdsc.domain.practiceProblem_problem.domains.Problem::getDifficulty));
+            Map<Difficulty, List<hanu.gdsc.domain.practiceProblem_problem.models.Problem>> problemMap = problemRepository.findByCoreProblemProblemIds(problemIds).stream()
+                    .collect(Collectors.groupingBy(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getDifficulty));
             return total.stream()
                     .map(count -> {
-                        List<hanu.gdsc.domain.practiceProblem_problem.domains.Problem> problems = problemMap.get(Difficulty.valueOf(count.getDifficulty()));
+                        List<hanu.gdsc.domain.practiceProblem_problem.models.Problem> problems = problemMap.get(Difficulty.valueOf(count.getDifficulty()));
                         return OutputProgressData.builder()
                                 .difficulty(Difficulty.valueOf(count.getDifficulty()))
                                 .done(problems.size())

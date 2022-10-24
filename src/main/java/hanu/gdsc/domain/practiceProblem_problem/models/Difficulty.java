@@ -1,4 +1,4 @@
-package hanu.gdsc.domain.practiceProblem_problem.domains;
+package hanu.gdsc.domain.practiceProblem_problem.models;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;

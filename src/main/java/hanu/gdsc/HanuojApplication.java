@@ -12,5 +12,4 @@ public class HanuojApplication {
 	public static void main(String[] args) throws IOException {
 		SpringApplication.run(HanuojApplication.class, args);
 	}
-
 }

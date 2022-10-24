@@ -1,11 +1,10 @@
-package hanu.gdsc.domain.core_problem.virtualMachine;
+package hanu.gdsc.domain.core_problem.vm;
 
 import hanu.gdsc.domain.core_problem.models.KB;
 import hanu.gdsc.domain.core_problem.models.Millisecond;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public interface VirtualMachine {
     public static interface Submission {

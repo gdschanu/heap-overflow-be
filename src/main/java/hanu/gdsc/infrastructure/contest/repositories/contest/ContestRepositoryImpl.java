@@ -1,5 +1,6 @@
 package hanu.gdsc.infrastructure.contest.repositories.contest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.contest.models.Contest;
 import hanu.gdsc.domain.contest.repositories.ContestRepository;
 import hanu.gdsc.domain.share.models.Id;
@@ -18,16 +19,18 @@ import java.util.stream.Collectors;
 public class ContestRepositoryImpl implements ContestRepository {
     @Autowired
     private ContestJPARepository contestJPARepository;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public void create(Contest contest) {
-        ContestEntity e = ContestEntity.fromDomain(contest);
+        ContestEntity e = ContestEntity.fromDomain(contest, objectMapper);
         contestJPARepository.save(e);
     }
 
     @Override
     public void update(Contest contest) {
-        contestJPARepository.save(ContestEntity.fromDomain(contest));
+        contestJPARepository.save(ContestEntity.fromDomain(contest, objectMapper));
     }
 
     @Override
@@ -36,7 +39,7 @@ public class ContestRepositoryImpl implements ContestRepository {
         if (entity.isEmpty()) {
             return null;
         }
-        return entity.get().toDomain();
+        return entity.get().toDomain(objectMapper);
     }
 
     @Override
@@ -46,7 +49,7 @@ public class ContestRepositoryImpl implements ContestRepository {
                 .findAll(pageable);
         return entities.getContent()
                 .stream()
-                .map(x -> x.toDomain())
+                .map(x -> x.toDomain(objectMapper))
                 .collect(Collectors.toList());
     }
 

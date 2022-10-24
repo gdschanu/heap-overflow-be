@@ -4,7 +4,7 @@ import hanu.gdsc.domain.coderAuth.services.access.AuthorizeService;
 import hanu.gdsc.domain.core_problem.models.MemoryLimit;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 import hanu.gdsc.domain.core_problem.models.TimeLimit;
-import hanu.gdsc.domain.practiceProblem_problem.domains.Difficulty;
+import hanu.gdsc.domain.practiceProblem_problem.models.Difficulty;
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.practiceProblem_problem.services.problem.CreateProblemService;
 import hanu.gdsc.infrastructure.share.controller.ControllerHandler;

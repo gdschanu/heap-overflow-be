@@ -1,22 +1,19 @@
 package hanu.gdsc.domain.core_problem.models;
 
 import hanu.gdsc.domain.share.models.Id;
-import hanu.gdsc.domain.share.models.IdentifiedDomainObject;
 
-public class FailedTestCaseDetail extends IdentifiedDomainObject {
+public class FailedTestCaseDetail {
     private int failedAtLine;
     private String input;
     private String actualOutput;
     private String expectedOutput;
     private String description;
 
-    private FailedTestCaseDetail(Id id,
-                                 int failedAtLine,
+    private FailedTestCaseDetail(int failedAtLine,
                                  String input,
                                  String actualOutput,
                                  String expectedOutput,
                                  String description) {
-        super(id);
         this.failedAtLine = failedAtLine;
         this.input = input;
         this.actualOutput = actualOutput;
@@ -26,7 +23,6 @@ public class FailedTestCaseDetail extends IdentifiedDomainObject {
 
     public static FailedTestCaseDetail fromTestCase(Integer failedAtLine, String actualOutput, TestCase testCase) {
         return new FailedTestCaseDetail(
-                Id.generateRandom(),
                 failedAtLine,
                 testCase.getShortenedInput(),
                 shorten(actualOutput),

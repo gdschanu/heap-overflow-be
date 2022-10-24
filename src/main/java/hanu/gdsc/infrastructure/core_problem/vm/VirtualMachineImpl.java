@@ -1,4 +1,4 @@
-package hanu.gdsc.infrastructure.core_problem.virtualMachine;
+package hanu.gdsc.infrastructure.core_problem.vm;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.core_problem.config.RunningSubmissionConfig;
@@ -6,7 +6,7 @@ import hanu.gdsc.domain.core_problem.models.KB;
 import hanu.gdsc.domain.core_problem.models.Millisecond;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 import hanu.gdsc.domain.core_problem.models.TimeLimit;
-import hanu.gdsc.domain.core_problem.virtualMachine.VirtualMachine;
+import hanu.gdsc.domain.core_problem.vm.VirtualMachine;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

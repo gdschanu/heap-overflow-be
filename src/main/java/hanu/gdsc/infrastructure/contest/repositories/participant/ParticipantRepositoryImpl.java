@@ -1,5 +1,6 @@
 package hanu.gdsc.infrastructure.contest.repositories.participant;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.contest.models.Participant;
 import hanu.gdsc.domain.contest.repositories.ParticipantRepository;
 import hanu.gdsc.domain.share.models.Id;
@@ -17,16 +18,18 @@ import java.util.stream.Collectors;
 public class ParticipantRepositoryImpl implements ParticipantRepository {
     @Autowired
     private ParticipantJPARepository participantJPARepository;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public void save(Participant participant) {
-        participantJPARepository.save(ParticipantEntity.fromDomains(participant));
+        participantJPARepository.save(ParticipantEntity.fromDomains(participant, objectMapper));
     }
 
     @Override
     public List<Participant> getByCoderId(Id coderId) {
         List<ParticipantEntity> entity = participantJPARepository.findByCoderId(coderId.toString());
-        return entity == null ? null : entity.stream().map(x -> x.toDomain()).collect(Collectors.toList());
+        return entity == null ? null : entity.stream().map(x -> x.toDomain(objectMapper)).collect(Collectors.toList());
     }
 
     @Override
@@ -36,7 +39,7 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
                 pageable);
         return entities
                 .stream()
-                .map(x -> x.toDomain())
+                .map(x -> x.toDomain(objectMapper))
                 .collect(Collectors.toList());
     }
 
@@ -46,7 +49,7 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
         if(entity.isEmpty()) {
             return null;
         } else {
-            return entity.get().toDomain();
+            return entity.get().toDomain(objectMapper);
         }
     }
 
@@ -59,6 +62,6 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
     public Participant getByCoderIdAndContestId(Id coderId, Id contestId) {
         Optional<ParticipantEntity> entity = participantJPARepository.findById(coderId.toString() + "#" + contestId);
         if (entity.isEmpty()) return null;
-        return entity.get().toDomain();
+        return entity.get().toDomain(objectMapper);
     }
 }

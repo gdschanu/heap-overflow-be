@@ -3,7 +3,7 @@ package hanu.gdsc.infrastructure.practiceProblem_problem.json;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import hanu.gdsc.domain.practiceProblem_problem.domains.Difficulty;
+import hanu.gdsc.domain.practiceProblem_problem.models.Difficulty;
 
 import java.io.IOException;
 

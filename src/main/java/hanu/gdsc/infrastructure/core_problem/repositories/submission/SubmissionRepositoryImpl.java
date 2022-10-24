@@ -1,9 +1,10 @@
 package hanu.gdsc.infrastructure.core_problem.repositories.submission;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.core_problem.models.Submission;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionRepository;
-import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;
+import hanu.gdsc.domain.share.models.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,10 +20,12 @@ import java.util.stream.Collectors;
 public class SubmissionRepositoryImpl implements SubmissionRepository {
     @Autowired
     private SubmissionJPARepository submissionJPARepository;
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Override
     public void save(Submission submission) {
-        submissionJPARepository.save(SubmissionEntity.toEntity(submission));
+        submissionJPARepository.save(SubmissionEntity.toEntity(submission, objectMapper));
     }
 
     @Override
@@ -46,7 +49,7 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
             submissionsEntity = submissionJPARepository.findByServiceToCreate(serviceToCreate, pageable);
         }
         return submissionsEntity.getContent().stream()
-                .map(s -> SubmissionEntity.toDomain(s))
+                .map(s -> SubmissionEntity.toDomain(s, objectMapper))
                 .collect(Collectors.toList());
     }
 
@@ -57,7 +60,7 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
             if (submissionEntity == null) {
                 return null;
             }
-            return SubmissionEntity.toDomain(submissionEntity);
+            return SubmissionEntity.toDomain(submissionEntity, objectMapper);
         } catch (EntityNotFoundException e) {
             return null;
         }

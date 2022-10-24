@@ -2,7 +2,7 @@ package hanu.gdsc.domain.practiceProblem_problem.services.problem;
 
 import hanu.gdsc.domain.core_problem.repositories.SubmissionRepository;
 import hanu.gdsc.domain.core_problem.repositories.TestCaseRepository;
-import hanu.gdsc.domain.practiceProblem_problem.domains.Problem;
+import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problemDiscussion.repositories.PostRepository;
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;

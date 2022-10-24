@@ -1,7 +1,7 @@
 package hanu.gdsc.infrastructure.practiceProblem_problem.repositories.problem;
 
-import hanu.gdsc.domain.practiceProblem_problem.domains.Difficulty;
-import hanu.gdsc.domain.practiceProblem_problem.domains.Problem;
+import hanu.gdsc.domain.practiceProblem_problem.models.Difficulty;
+import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.share.models.DateTime;
 import lombok.*;
 

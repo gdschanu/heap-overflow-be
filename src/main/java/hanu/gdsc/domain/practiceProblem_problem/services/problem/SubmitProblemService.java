@@ -3,7 +3,7 @@ package hanu.gdsc.domain.practiceProblem_problem.services.problem;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 import hanu.gdsc.domain.core_problem.services.submit.SubmitService;
 import hanu.gdsc.domain.practiceProblem_problem.config.ServiceName;
-import hanu.gdsc.domain.practiceProblem_problem.domains.Problem;
+import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;

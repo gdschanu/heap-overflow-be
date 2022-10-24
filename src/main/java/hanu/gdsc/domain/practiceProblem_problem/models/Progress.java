@@ -1,4 +1,4 @@
-package hanu.gdsc.domain.practiceProblem_problem.domains;
+package hanu.gdsc.domain.practiceProblem_problem.models;
 
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.models.VersioningDomainObject;

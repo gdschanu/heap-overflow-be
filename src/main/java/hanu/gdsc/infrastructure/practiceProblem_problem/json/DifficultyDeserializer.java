@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import hanu.gdsc.domain.practiceProblem_problem.domains.Difficulty;
+import hanu.gdsc.domain.practiceProblem_problem.models.Difficulty;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import hanu.gdsc.domain.share.exceptions.RuntimeInvalidInputException;
 
