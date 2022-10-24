@@ -4,7 +4,7 @@ import hanu.gdsc.domain.core_problem.models.*;
 import hanu.gdsc.domain.core_problem.services.acceptedProblem.SearchAcceptedProblemService;
 import hanu.gdsc.domain.core_problem.services.submission.SearchSubmissionService;
 import hanu.gdsc.domain.core_problem.services.submissionsCount.SearchSubmissionCountService;
-import hanu.gdsc.domain.practiceProblem_problem.config.ServiceName;
+import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Difficulty;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
 import hanu.gdsc.domain.share.models.Id;
@@ -100,18 +100,18 @@ public class SearchProblemService {
         }
         hanu.gdsc.domain.core_problem.models.Problem coreProblem = searchCoreProblemProblemService.getById(
                 practiceProblem.getCoreProblemProblemId(),
-                ServiceName.serviceName
+                PracticeProblemProblemServiceName.serviceName
         );
         SubmissionCount submissionCount = searchSubmissionCountService.getByProblemId(
                 practiceProblem.getCoreProblemProblemId(),
-                ServiceName.serviceName
+                PracticeProblemProblemServiceName.serviceName
         );
         AcceptedProblem acceptedProblem = coderId == null ?
                 null :
                 searchAcceptedProblemService.getByProblemIdAndCoderId(
                         practiceProblem.getCoreProblemProblemId(),
                         coderId,
-                        ServiceName.serviceName
+                        PracticeProblemProblemServiceName.serviceName
                 );
         return toOutput(practiceProblem, coreProblem, submissionCount, acceptedProblem != null);
     }
@@ -134,7 +134,7 @@ public class SearchProblemService {
                 problems.stream()
                         .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemProblemId)
                         .collect(Collectors.toList()),
-                ServiceName.serviceName
+                PracticeProblemProblemServiceName.serviceName
         );
         final Map<Id, hanu.gdsc.domain.core_problem.models.Problem> coreProblemsIdMap = new HashMap<>();
         for (hanu.gdsc.domain.core_problem.models.Problem coreProb : coreProblems)
@@ -143,7 +143,7 @@ public class SearchProblemService {
                 problems.stream()
                         .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemProblemId)
                         .collect(Collectors.toList()),
-                ServiceName.serviceName
+                PracticeProblemProblemServiceName.serviceName
         );
         final Map<Id, SubmissionCount> submissionCountMap = new HashMap<>();
         for (SubmissionCount submissionCount : submissionCounts)
@@ -155,7 +155,7 @@ public class SearchProblemService {
                         problems.stream()
                                 .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemProblemId)
                                 .collect(Collectors.toList()),
-                        ServiceName.serviceName
+                        PracticeProblemProblemServiceName.serviceName
                 );
         final Set<Id> acceptedProblemIdsSet = new HashSet<>();
         for (AcceptedProblem acceptedProblem : acceptedProblems)
@@ -203,7 +203,7 @@ public class SearchProblemService {
     }
 
     public List<OutputProgressData> getProgress(Id coderId) {
-        List<Id> problemIds = searchSubmissionService.getAllProblemIdACByCoderId(coderId, ServiceName.serviceName);
+        List<Id> problemIds = searchSubmissionService.getAllProblemIdACByCoderId(coderId, PracticeProblemProblemServiceName.serviceName);
         List<ProblemCountProjection> total = problemRepository.countProblemGroupByDifficulty();
         if(!problemIds.isEmpty()) {
             Map<Difficulty, List<hanu.gdsc.domain.practiceProblem_problem.models.Problem>> problemMap = problemRepository.findByCoreProblemProblemIds(problemIds).stream()

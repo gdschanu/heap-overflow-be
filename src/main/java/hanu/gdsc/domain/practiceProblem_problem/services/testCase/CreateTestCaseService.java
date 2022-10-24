@@ -1,6 +1,6 @@
 package hanu.gdsc.domain.practiceProblem_problem.services.testCase;
 
-import hanu.gdsc.domain.practiceProblem_problem.config.ServiceName;
+import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
 import hanu.gdsc.domain.share.models.Id;
@@ -46,7 +46,7 @@ public class CreateTestCaseService {
                 input.ordinal,
                 input.isSample,
                 input.description,
-                ServiceName.serviceName
+                PracticeProblemProblemServiceName.serviceName
         ));
     }
 }

@@ -1,6 +1,6 @@
 package hanu.gdsc.domain.contest.services.contest;
 
-import hanu.gdsc.domain.contest.config.ServiceName;
+import hanu.gdsc.domain.contest.config.ContestServiceName;
 import hanu.gdsc.domain.contest.models.Contest;
 import hanu.gdsc.domain.contest.models.ContestProblem;
 import hanu.gdsc.domain.contest.models.ParticipantCount;
@@ -123,7 +123,7 @@ public class SearchContestService {
                         .stream()
                         .map(contestProb -> contestProb.getCoreProblemId())
                         .collect(Collectors.toList()),
-                ServiceName.serviceName
+                ContestServiceName.serviceName
         );
         List<OutputProblem> problems = new ArrayList<>();
         for (ContestProblem contestProblem : contest.getProblems()) {
@@ -148,7 +148,7 @@ public class SearchContestService {
                 coreProblemIds.add(contestProblem.getCoreProblemId());
         List<Problem> coreProblems = searchCoreProblemService.getByIds(
                 coreProblemIds,
-                ServiceName.serviceName
+                ContestServiceName.serviceName
         );
         List<ParticipantCount> participantCounts = participantCountRepository.getByContestIds(
                 contests.stream()

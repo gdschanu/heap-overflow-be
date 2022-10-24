@@ -2,7 +2,7 @@ package hanu.gdsc.domain.practiceProblem_problemDiscussion.services.post;
 
 import hanu.gdsc.domain.practiceProblem_problemDiscussion.repositories.PostRepository;
 import hanu.gdsc.domain.share.models.Id;
-import hanu.gdsc.domain.practiceProblem_problemDiscussion.config.ServiceName;
+import hanu.gdsc.domain.practiceProblem_problemDiscussion.config.PracticeProblemDiscussionServiceName;
 import hanu.gdsc.domain.practiceProblem_problemDiscussion.models.Post;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
@@ -27,7 +27,7 @@ public class UpdatePostService {
             throw new NotFoundException("Unknown post");
         updateCoreDiscussionPostService.execute(new hanu.gdsc.domain.core_discussion.services.post.UpdatePostService.Input(
                 post.getCorePostId(),
-                ServiceName.serviceName,
+                PracticeProblemDiscussionServiceName.serviceName,
                 input.title,
                 input.content
         ));

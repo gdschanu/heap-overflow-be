@@ -2,7 +2,7 @@ package hanu.gdsc.domain.practiceProblem_problem.services.runningSubmission;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.share.models.Id;
-import hanu.gdsc.domain.practiceProblem_problem.config.ServiceName;
+import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class SearchRunningSubmissionService {
     public hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output
     getById(Id id) {
         hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output
-                rsp = searchCoreRunningSubmissionService.getById(id, ServiceName.serviceName);
+                rsp = searchCoreRunningSubmissionService.getById(id, PracticeProblemProblemServiceName.serviceName);
         if (rsp == null)
             return null;
         Problem problem = problemRepository.getByCoreProblemProblemId(rsp.problemId);
@@ -63,7 +63,7 @@ public class SearchRunningSubmissionService {
                 coderId,
                 page,
                 perPage,
-                ServiceName.serviceName
+                PracticeProblemProblemServiceName.serviceName
         );
         if (problemId != null) {
             for (hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output

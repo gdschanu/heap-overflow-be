@@ -1,7 +1,7 @@
 package hanu.gdsc.domain.practiceProblem_problem.services.testCase;
 
 import hanu.gdsc.domain.core_problem.models.TestCase;
-import hanu.gdsc.domain.practiceProblem_problem.config.ServiceName;
+import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
 import hanu.gdsc.domain.share.models.Id;
@@ -36,7 +36,7 @@ public class SearchTestCaseService {
             throw new NotFoundException("Unknown problem, problem must be exist in order to have test case");
         return searchCoreTestCaseService.getSampleTestCases(
                         problem.getCoreProblemProblemId(),
-                        ServiceName.serviceName
+                        PracticeProblemProblemServiceName.serviceName
                 )
                 .stream()
                 .map(this::toOutput)

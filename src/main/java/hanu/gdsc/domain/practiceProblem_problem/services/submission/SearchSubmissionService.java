@@ -1,7 +1,7 @@
 package hanu.gdsc.domain.practiceProblem_problem.services.submission;
 
 import hanu.gdsc.domain.core_problem.models.*;
-import hanu.gdsc.domain.practiceProblem_problem.config.ServiceName;
+import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.exceptions.SubmissionIsBeingJudgedException;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
@@ -56,14 +56,14 @@ public class SearchSubmissionService {
                 throw new NotFoundException("Unknown problem");
             coreProblemId = problem.getCoreProblemProblemId();
         }
-        List<Submission> submissions = searchCoreProblemSubmissionService.get(page, perPage, coreProblemId, coderId, ServiceName.serviceName);
+        List<Submission> submissions = searchCoreProblemSubmissionService.get(page, perPage, coreProblemId, coderId, PracticeProblemProblemServiceName.serviceName);
         return submissions.stream()
                 .map(this::toOutput)
                 .collect(Collectors.toList());
     }
 
     public Output getById(Id id) throws NotFoundException, SubmissionIsBeingJudgedException {
-        Submission submission = searchCoreProblemSubmissionService.getById(id, ServiceName.serviceName);
+        Submission submission = searchCoreProblemSubmissionService.getById(id, PracticeProblemProblemServiceName.serviceName);
         return toOutput(submission);
     }
 

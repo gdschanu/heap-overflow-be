@@ -3,7 +3,7 @@ package hanu.gdsc.domain.practiceProblem_problem.services.problem;
 import hanu.gdsc.domain.core_problem.models.MemoryLimit;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 import hanu.gdsc.domain.core_problem.models.TimeLimit;
-import hanu.gdsc.domain.practiceProblem_problem.config.ServiceName;
+import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Difficulty;
 import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
@@ -45,7 +45,7 @@ public class UpdateProblemService {
         problemRepository.update(problem);
         updateCoreProblemService.update(new hanu.gdsc.domain.core_problem.services.problem.UpdateProblemService.Input(
                 problem.getCoreProblemProblemId(),
-                ServiceName.serviceName,
+                PracticeProblemProblemServiceName.serviceName,
                 input.name,
                 input.description,
                 input.memoryLimits,

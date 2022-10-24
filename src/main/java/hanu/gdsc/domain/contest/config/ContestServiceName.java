@@ -1,5 +1,5 @@
 package hanu.gdsc.domain.contest.config;
 
-public class ServiceName {
+public class ContestServiceName {
     public static String serviceName = "contest";
 }

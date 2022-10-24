@@ -2,7 +2,7 @@ package hanu.gdsc.domain.practiceProblem_problemDiscussion.services.comment;
 
 import hanu.gdsc.domain.practiceProblem_problemDiscussion.repositories.PostRepository;
 import hanu.gdsc.domain.share.models.Id;
-import hanu.gdsc.domain.practiceProblem_problemDiscussion.config.ServiceName;
+import hanu.gdsc.domain.practiceProblem_problemDiscussion.config.PracticeProblemDiscussionServiceName;
 import hanu.gdsc.domain.practiceProblem_problemDiscussion.models.Post;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ public class CreateCommentService {
                 input.author,
                 input.content,
                 input.parentCommentId,
-                ServiceName.serviceName,
+                PracticeProblemDiscussionServiceName.serviceName,
                 post.getCorePostId()
         ));
     }

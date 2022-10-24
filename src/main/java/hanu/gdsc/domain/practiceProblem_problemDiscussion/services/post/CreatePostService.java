@@ -3,7 +3,7 @@ package hanu.gdsc.domain.practiceProblem_problemDiscussion.services.post;
 import hanu.gdsc.domain.practiceProblem_problem.services.problem.SearchProblemService;
 import hanu.gdsc.domain.practiceProblem_problemDiscussion.repositories.PostRepository;
 import hanu.gdsc.domain.share.models.Id;
-import hanu.gdsc.domain.practiceProblem_problemDiscussion.config.ServiceName;
+import hanu.gdsc.domain.practiceProblem_problemDiscussion.config.PracticeProblemDiscussionServiceName;
 import hanu.gdsc.domain.practiceProblem_problemDiscussion.models.Post;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,7 +41,7 @@ public class CreatePostService {
                 input.title,
                 input.author,
                 input.content,
-                ServiceName.serviceName
+                PracticeProblemDiscussionServiceName.serviceName
         ));
         Post post = Post.create(input.problemId, corePostId);
         postRepository.save(post);

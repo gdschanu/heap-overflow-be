@@ -3,7 +3,7 @@ package hanu.gdsc.domain.practiceProblem_problemDiscussion.services.post;
 import hanu.gdsc.domain.practiceProblem_problemDiscussion.repositories.PostRepository;
 import hanu.gdsc.domain.share.models.DateTime;
 import hanu.gdsc.domain.share.models.Id;
-import hanu.gdsc.domain.practiceProblem_problemDiscussion.config.ServiceName;
+import hanu.gdsc.domain.practiceProblem_problemDiscussion.config.PracticeProblemDiscussionServiceName;
 import hanu.gdsc.domain.practiceProblem_problemDiscussion.models.Post;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -49,7 +49,7 @@ public class SearchPostService {
             throw new NotFoundException("Unknown post");
         hanu.gdsc.domain.core_discussion.models.Post corePost = searchCoreDiscussionPostService.getById(
                 post.getCorePostId(),
-                ServiceName.serviceName
+                PracticeProblemDiscussionServiceName.serviceName
         );
         return new Output(
                 id,
@@ -74,7 +74,7 @@ public class SearchPostService {
                 posts.stream()
                         .map(post -> post.getCorePostId())
                         .collect(Collectors.toList()),
-                ServiceName.serviceName
+                PracticeProblemDiscussionServiceName.serviceName
         );
         if (posts.size() != corePosts.size())
             log.error("Post size != Core Post size for practice problem " + problemId);

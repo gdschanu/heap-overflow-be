@@ -1,6 +1,6 @@
 package hanu.gdsc.domain.contest.services.contest;
 
-import hanu.gdsc.domain.contest.config.ServiceName;
+import hanu.gdsc.domain.contest.config.ContestServiceName;
 import hanu.gdsc.domain.contest.models.Contest;
 import hanu.gdsc.domain.contest.models.ContestProblem;
 import hanu.gdsc.domain.contest.repositories.ContestRepository;
@@ -88,7 +88,7 @@ public class UpdateContestService {
                                     createProblemInput.memoryLimits,
                                     createProblemInput.timeLimits,
                                     createProblemInput.allowedProgrammingLanguages,
-                                    ServiceName.serviceName
+                                    ContestServiceName.serviceName
                             ))
                             .collect(Collectors.toList()));
             List<ContestProblem> contestProblems = new ArrayList<>();
