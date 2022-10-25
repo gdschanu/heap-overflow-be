@@ -9,7 +9,7 @@ import hanu.gdsc.domain.core_problem.repositories.AcceptedProblemRepository;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionCountRepository;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionEventRepository;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;
-import hanu.gdsc.domain.share.scheduling.Scheduler;
+import hanu.gdsc.domain.share.models.Scheduler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;

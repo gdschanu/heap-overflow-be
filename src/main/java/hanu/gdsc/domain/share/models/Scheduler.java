@@ -1,4 +1,4 @@
-package hanu.gdsc.domain.share.scheduling;
+package hanu.gdsc.domain.share.models;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 

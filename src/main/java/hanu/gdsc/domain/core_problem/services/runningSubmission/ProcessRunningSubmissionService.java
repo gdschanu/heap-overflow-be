@@ -4,7 +4,7 @@ import hanu.gdsc.domain.core_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.domain.core_problem.models.*;
 import hanu.gdsc.domain.core_problem.repositories.*;
 import hanu.gdsc.domain.core_problem.vm.VirtualMachine;
-import hanu.gdsc.domain.share.scheduling.Scheduler;
+import hanu.gdsc.domain.share.models.Scheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
