@@ -8,8 +8,8 @@ import java.io.IOException;
 
 @SpringBootApplication
 @EnableScheduling
-public class HanuojApplication {
+public class HeapOverflowApplication {
 	public static void main(String[] args) throws IOException {
-		SpringApplication.run(HanuojApplication.class, args);
+		SpringApplication.run(HeapOverflowApplication.class, args);
 	}
 }

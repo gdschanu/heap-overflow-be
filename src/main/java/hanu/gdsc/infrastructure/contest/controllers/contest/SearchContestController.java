@@ -1,6 +1,7 @@
 package hanu.gdsc.infrastructure.contest.controllers.contest;
 
 import hanu.gdsc.domain.contest.services.contest.SearchContestService;
+import hanu.gdsc.infrastructure.share.controller.ControllerHandler;
 import hanu.gdsc.infrastructure.share.controller.ResponseBody;
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.exceptions.BusinessLogicException;
@@ -25,36 +26,18 @@ public class SearchContestController {
     @GetMapping("/contest")
     public ResponseEntity<?> searchContest(@RequestParam int page,
                                            @RequestParam int perPage) {
-        try {
+        return ControllerHandler.handle(()-> {
             List<SearchContestService.OutputContest> contests = searchContestService.get(page, perPage);
-            return new ResponseEntity<>(
-                    new ResponseBody("Success", contests),
-                    HttpStatus.OK
-            );
-        } catch (Throwable e) {
-            if(e instanceof BusinessLogicException) {
-                e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode(), null), HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        } 
+            return new ControllerHandler.Result("Success", contests);
+        });
     }
 
     @GetMapping("/contest/{id}")
     public ResponseEntity<?> searchContest(@PathVariable String id) {
-        try {
+        return ControllerHandler.handle(()-> {
             SearchContestService.OutputContest contest = searchContestService.getById(new Id(id));
-            return new ResponseEntity<>(
-                    new ResponseBody("Success", contest),
-                    HttpStatus.OK
-            );
-        } catch (Throwable e) {
-            if(e instanceof BusinessLogicException) {
-                e.printStackTrace();
-                return new ResponseEntity<>(new ResponseBody(e.getMessage(), ((BusinessLogicException) e).getCode(), null), HttpStatus.BAD_REQUEST);
-            }
-            return new ResponseEntity<>(new ResponseBody(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+            return new ControllerHandler.Result("Success", contest);
+        });
     }
 
     @GetMapping("/contest/count")

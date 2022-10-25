@@ -12,8 +12,8 @@
 	<groupId>com.hanu.gdsc</groupId>
 	<artifactId>hanuoj</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>hanuoj</name>
-	<description>Hanu Online Judge</description>
+	<name>heapoverflow</name>
+	<description>Heap Overflow</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>

@@ -1,6 +1,7 @@
 package hanu.gdsc.infrastructure.contest.repositories.contest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.contest.models.Contest;
 import hanu.gdsc.domain.contest.models.ContestProblem;
@@ -73,7 +74,6 @@ public class ContestEntity {
             /*
             Just for getting class of generic type
              */
-            final List<ContestProblem> justAListToGetClass = new ArrayList<>();
             return con.newInstance(
                     new hanu.gdsc.domain.share.models.Id(id),
                     version,
@@ -82,7 +82,7 @@ public class ContestEntity {
                     new DateTime(startAt),
                     new DateTime(endAt),
                     new hanu.gdsc.domain.share.models.Id(createdBy),
-                    objectMapper.readValue(problems, justAListToGetClass.getClass()),
+                    objectMapper.readValue(problems, new TypeReference<List<ContestProblem>>() {}),
                     new DateTime(createdAt)
             );
         } catch (Exception e) {

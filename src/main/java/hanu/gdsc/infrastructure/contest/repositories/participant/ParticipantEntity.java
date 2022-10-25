@@ -1,6 +1,7 @@
 package hanu.gdsc.infrastructure.contest.repositories.participant;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.contest.models.Participant;
 import hanu.gdsc.domain.contest.models.ProblemScore;
@@ -62,13 +63,12 @@ public class ParticipantEntity {
                     DateTime.class
             );
             con.setAccessible(true);
-            final List<ProblemScore> justAVariableForGettingClass = new ArrayList<>();
             return con.newInstance(
                     version,
                     new hanu.gdsc.domain.share.models.Id(coderId),
                     new hanu.gdsc.domain.share.models.Id(contestId),
                     participantRank,
-                    objectMapper.readValue(problemScores, justAVariableForGettingClass.getClass()),
+                    objectMapper.readValue(problemScores, new TypeReference<List<ProblemScore>>() {}),
                     new DateTime(createdAt)
             );
         } catch (Exception e) {

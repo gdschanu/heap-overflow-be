@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HanuojApplicationTests {
+class HeapOverflowApplicationTests {
 	@Autowired
 	ReactService reactService;
 	@Autowired
