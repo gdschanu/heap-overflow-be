@@ -3,8 +3,11 @@ package hanu.gdsc.domain.core_problem.services.runningSubmission;
 import hanu.gdsc.domain.core_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.domain.core_problem.models.*;
 import hanu.gdsc.domain.core_problem.repositories.*;
+import hanu.gdsc.domain.core_problem.services.submissionEvent.PublishSubmissionEventService;
 import hanu.gdsc.domain.core_problem.vm.VirtualMachine;
 import hanu.gdsc.domain.share.scheduling.Scheduler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,23 +25,23 @@ public class ProcessRunningSubmissionService {
     private final VirtualMachine virtualMachine;
     private final ProblemRepository problemRepository;
     private final SubmissionRepository submissionRepository;
-    private final SubmissionEventRepository submissionEventRepository;
     private final RunningSubmissionConfig runningSubmissionConfig;
+    private final PublishSubmissionEventService publishSubmissionEvent;
 
     public ProcessRunningSubmissionService(RunningSubmissionRepository runningSubmissionRepository,
                                            TestCaseRepository testCaseRepository,
                                            VirtualMachine virtualMachine,
                                            ProblemRepository problemRepository,
                                            SubmissionRepository submissionRepository,
-                                           SubmissionEventRepository submissionEventRepository,
-                                           RunningSubmissionConfig runningSubmissionConfig) {
+                                           RunningSubmissionConfig runningSubmissionConfig,
+                                           PublishSubmissionEventService publishSubmissionEvent) {
         this.runningSubmissionRepository = runningSubmissionRepository;
         this.testCaseRepository = testCaseRepository;
         this.virtualMachine = virtualMachine;
         this.problemRepository = problemRepository;
         this.submissionRepository = submissionRepository;
-        this.submissionEventRepository = submissionEventRepository;
         this.runningSubmissionConfig = runningSubmissionConfig;
+        this.publishSubmissionEvent = publishSubmissionEvent;
 
         executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(runningSubmissionConfig.getMaxProcessingThread());
         new Scheduler(runningSubmissionConfig.getScanRateMillis(), new Scheduler.Runner() {
@@ -264,15 +267,14 @@ public class ProcessRunningSubmissionService {
     }
 
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    private void saveSubmission(Submission submission, RunningSubmission runningSubmission) {
+    protected void saveSubmission(Submission submission, RunningSubmission runningSubmission) {
         runningSubmissionRepository.delete(runningSubmission.getId());
         submissionRepository.save(submission);
-        submissionEventRepository.save(
-                SubmissionEvent.create(
-                        runningSubmission.getProblemId(),
-                        submission.getStatus(),
-                        submission.getCoderId()
-                )
+        SubmissionEvent submissionEvent = SubmissionEvent.create(
+                runningSubmission.getProblemId(),
+                submission.getStatus(),
+                submission.getCoderId()
         );
+        publishSubmissionEvent.publishMessage(submissionEvent);
     }
 }

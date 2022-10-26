@@ -2,15 +2,17 @@ package hanu.gdsc.domain.core_problem.models;
 
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.models.IdentifiedDomainObject;
-
-public class SubmissionEvent extends IdentifiedDomainObject {
+import lombok.Data;
+import lombok.NoArgsConstructor;
+public class SubmissionEvent {
     private Id problemId;
     private Status status;
-
     private Id coderId;
 
-    private SubmissionEvent(Id id, Id problemId, Status status, Id coderId) {
-        super(id);
+    public SubmissionEvent() {
+    };
+
+    private SubmissionEvent(Id problemId, Status status, Id coderId) {
         this.problemId = problemId;
         this.status = status;
         this.coderId = coderId;
@@ -18,7 +20,6 @@ public class SubmissionEvent extends IdentifiedDomainObject {
 
     public static SubmissionEvent create(Id problemId, Status status, Id coderId) {
         return new SubmissionEvent(
-                Id.generateRandom(),
                 problemId,
                 status,
                 coderId
