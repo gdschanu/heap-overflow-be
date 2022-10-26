@@ -56,7 +56,7 @@ public class UpdateContestService {
         public Id updatedBy;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public void execute(Input input) throws InvalidInputException, InvalidStateException, NotFoundException {
         Contest contest = contestRepository.getById(input.id);
         if (contest == null) {

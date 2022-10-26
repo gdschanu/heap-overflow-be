@@ -24,7 +24,7 @@ public class UpdateOrderServiceImpl implements UpdateOrderService {
     private final BudgetRepository budgetRepository;
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public void cancel(Id orderId, Id coderId) throws NotFoundException,
             InvalidInputException, InvalidStatusException {
         // validate input

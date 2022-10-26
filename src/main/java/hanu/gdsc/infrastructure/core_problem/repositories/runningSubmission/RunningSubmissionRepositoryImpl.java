@@ -35,7 +35,7 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
     }
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public RunningSubmission claim() {
         RunningSubmissionEntity runningSubmission = runningSubmissionJPARepository.claim(System.currentTimeMillis());
         if (runningSubmission == null) {
