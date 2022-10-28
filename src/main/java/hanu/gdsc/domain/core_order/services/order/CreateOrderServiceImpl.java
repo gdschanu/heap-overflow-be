@@ -31,7 +31,7 @@ public class CreateOrderServiceImpl implements CreateOrderService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public Id create(Id coderId, List<OrderLineItemInput> lineItemsToOrder) throws
             InvalidInputException, InsufficientQuantityException, InsufficientBudgetException, NotFoundException {
         // validate input

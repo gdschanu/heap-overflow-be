@@ -6,6 +6,7 @@ import hanu.gdsc.domain.core_problem.models.SubmissionCount;
 import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
 import hanu.gdsc.domain.core_problem.repositories.AcceptedProblemRepository;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionCountRepository;
+import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,7 @@ public class ConsumeSubmissionEventService {
         this.acceptedProblemRepository = acceptedProblemRepository;
     }
 
-    public void process(SubmissionEvent submissionEvent) throws Exception {
+    public void process(SubmissionEvent submissionEvent) {
         try {
             if (submissionEvent == null) {
                 return;
@@ -38,10 +39,8 @@ public class ConsumeSubmissionEventService {
                 acceptedProblemRepository.save(new AcceptedProblem(submissionEvent.getCoderId(), submissionEvent.getProblemId(), submissionCount.getServiceToCreate()));
             }
             LOGGER.info("Increased submission count for problemId: " + submissionEvent.getProblemId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            LOGGER.error("Process submission event error: " + e);
-            throw e;
+        } catch (InvalidInputException e) {
+            // Cannot reach
         }
     }
 }

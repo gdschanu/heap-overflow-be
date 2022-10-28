@@ -30,7 +30,7 @@ public class CreatePostService {
         public String content;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public Id execute(Input input) throws NotFoundException {
         try {
             searchProblemService.getById(input.problemId);
