@@ -6,8 +6,10 @@ import hanu.gdsc.domain.practiceProblem_problem.services.submissionEvent.Process
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
+import org.springframework.amqp.core.*;
 
 import java.io.IOException;
 
@@ -15,8 +17,9 @@ import java.io.IOException;
 public class SubmissionEventConsumer {
     @Autowired
     private ProcessSubmissionEventService processSubmissionEventService;
+    private static final String SUBMISSIONEVENTQUEUE = "Q_COREPROBLEM_SUBMISSIONEVENT";
 
-    @RabbitListener(queues = "SUBMISSIONEVENTQUEUE", ackMode = "MANUAL")
+    @RabbitListener(queues = SUBMISSIONEVENTQUEUE, ackMode = "MANUAL")
     public void consume(SubmissionEvent event, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws IOException {
         channel.basicQos(1);
         processSubmissionEventService.consume(event, () -> {
@@ -26,5 +29,10 @@ public class SubmissionEventConsumer {
                 throw new RuntimeException(e);
             }
         });
+    }
+
+    @Bean
+    public Queue submissionEventQueue() {
+        return new Queue(SUBMISSIONEVENTQUEUE, true);
     }
 }
