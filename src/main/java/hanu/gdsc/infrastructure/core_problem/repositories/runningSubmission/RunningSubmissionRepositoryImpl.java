@@ -1,6 +1,5 @@
 package hanu.gdsc.infrastructure.core_problem.repositories.runningSubmission;
 
-import hanu.gdsc.domain.core_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.domain.core_problem.models.RunningSubmission;
 import hanu.gdsc.domain.core_problem.repositories.RunningSubmissionRepository;
 import hanu.gdsc.domain.share.models.Id;
@@ -19,8 +18,6 @@ import java.util.stream.Collectors;
 public class RunningSubmissionRepositoryImpl implements RunningSubmissionRepository {
     @Autowired
     private RunningSubmissionJPARepository runningSubmissionJPARepository;
-    @Autowired
-    private RunningSubmissionConfig runningSubmissionConfig;
 
     @Override
     public void create(RunningSubmission runningSubmission) {
