@@ -30,7 +30,6 @@ public class ParticipantEntity {
     private String coderId;
     @Column(columnDefinition = "VARCHAR(30)")
     private String contestId;
-    private int participantRank; // "rank" trùng với từ khóa của SQL
     private String problemScores;
     private String createdAt;
     private long createdAtMillis;
@@ -42,7 +41,6 @@ public class ParticipantEntity {
                     .version(participant.getVersion())
                     .coderId(participant.getCoderId().toString())
                     .contestId(participant.getContestId().toString())
-                    .participantRank(participant.getRank())
                     .problemScores(objectMapper.writeValueAsString(participant.getProblemScores()))
                     .createdAt(participant.getCreatedAt().toString())
                     .createdAtMillis(participant.getCreatedAt().toMillis())
@@ -58,7 +56,6 @@ public class ParticipantEntity {
                     long.class,
                     hanu.gdsc.domain.share.models.Id.class,
                     hanu.gdsc.domain.share.models.Id.class,
-                    int.class,
                     List.class,
                     DateTime.class
             );
@@ -67,7 +64,6 @@ public class ParticipantEntity {
                     version,
                     new hanu.gdsc.domain.share.models.Id(coderId),
                     new hanu.gdsc.domain.share.models.Id(contestId),
-                    participantRank,
                     objectMapper.readValue(problemScores, new TypeReference<List<ProblemScore>>() {}),
                     new DateTime(createdAt)
             );

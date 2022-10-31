@@ -12,20 +12,17 @@ import java.util.Objects;
 public class Participant extends VersioningDomainObject {
     private Id coderId;
     private Id contestId;
-    private int rank;
     private List<ProblemScore> problemScores;
     private DateTime createdAt;
 
     private Participant(long version,
                         Id coderId,
                         Id contestId,
-                        int rank,
                         List<ProblemScore> problemScores,
                         DateTime createdAt) {
         super(version);
         this.coderId = coderId;
         this.contestId = contestId;
-        this.rank = rank;
         this.problemScores = problemScores;
         this.createdAt = createdAt;
     }
@@ -38,7 +35,6 @@ public class Participant extends VersioningDomainObject {
                 0,
                 coderId,
                 contest.getId(),
-                0,
                 new ArrayList<>(),
                 DateTime.now()
         );
@@ -67,10 +63,6 @@ public class Participant extends VersioningDomainObject {
 
     public Id getContestId() {
         return contestId;
-    }
-
-    public int getRank() {
-        return rank;
     }
 
     public List<ProblemScore> getProblemScores() {

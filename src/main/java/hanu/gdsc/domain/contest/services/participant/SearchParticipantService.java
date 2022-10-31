@@ -30,7 +30,6 @@ public class SearchParticipantService {
     public static class OutputParticipant {
         public String coderId;
         public String contestId;
-        public int rank;
         public List<String> problemScores;
         public String createAt;
         public String username;
@@ -50,7 +49,6 @@ public class SearchParticipantService {
             outputParticipants.add(OutputParticipant.builder()
                     .coderId(participant.getCoderId().toString())
                     .contestId(participant.getContestId().toString())
-                    .rank(participant.getRank())
                     .problemScores(participant.getProblemScores().stream().map(x -> x.toString()).collect(Collectors.toList()))
                     .createAt(participant.getCreatedAt().toString())
                     .username(username.toString())
