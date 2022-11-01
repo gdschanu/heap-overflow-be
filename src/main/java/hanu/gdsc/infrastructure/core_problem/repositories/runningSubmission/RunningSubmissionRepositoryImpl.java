@@ -1,6 +1,5 @@
 package hanu.gdsc.infrastructure.core_problem.repositories.runningSubmission;
 
-import hanu.gdsc.domain.core_problem.config.RunningSubmissionConfig;
 import hanu.gdsc.domain.core_problem.models.RunningSubmission;
 import hanu.gdsc.domain.core_problem.repositories.RunningSubmissionRepository;
 import hanu.gdsc.domain.share.models.Id;
@@ -19,8 +18,6 @@ import java.util.stream.Collectors;
 public class RunningSubmissionRepositoryImpl implements RunningSubmissionRepository {
     @Autowired
     private RunningSubmissionJPARepository runningSubmissionJPARepository;
-    @Autowired
-    private RunningSubmissionConfig runningSubmissionConfig;
 
     @Override
     public void create(RunningSubmission runningSubmission) {
@@ -28,38 +25,6 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
                 .fromDomain(runningSubmission,
                         0,
                         System.currentTimeMillis() - 999999));
-    }
-
-    private long getLockedUntil() {
-        return System.currentTimeMillis() + runningSubmissionConfig.getScanLockSecond() * 1000;
-    }
-
-    @Override
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
-    public RunningSubmission claim() {
-        RunningSubmissionEntity runningSubmission = runningSubmissionJPARepository.claim(System.currentTimeMillis());
-        if (runningSubmission == null) {
-            return null;
-        }
-        runningSubmission.setLocked(1);
-        runningSubmission.setLockedUntil(getLockedUntil());
-        runningSubmissionJPARepository.save(runningSubmission);
-        RunningSubmission domain = runningSubmission.toDomain();
-        domain.increaseVersion();
-        return domain;
-    }
-
-    @Override
-    public void delete(Id id) {
-        runningSubmissionJPARepository.deleteById(id.toString());
-    }
-
-
-    @Override
-    public void updateClaimed(RunningSubmission runningSubmission) {
-        RunningSubmissionEntity entity = RunningSubmissionEntity.fromDomain(runningSubmission, 1, getLockedUntil());
-        runningSubmissionJPARepository.save(entity);
-        runningSubmission.increaseVersion();
     }
 
     @Override

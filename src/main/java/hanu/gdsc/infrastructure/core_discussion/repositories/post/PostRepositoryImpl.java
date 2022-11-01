@@ -47,6 +47,7 @@ public class PostRepositoryImpl implements PostRepository {
 
     @Override
     public void deleteAllByIds(List<Id> corePostIds) {
+
         commentRepository.deleteAllByPostIds(corePostIds);
         postJPARepository.deleteAllByIdIn(corePostIds.stream().map(Id::toString).collect(Collectors.toList()));
     }

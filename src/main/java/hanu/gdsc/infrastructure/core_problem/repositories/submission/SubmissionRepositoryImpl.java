@@ -22,12 +22,6 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
     private SubmissionJPARepository submissionJPARepository;
     @Autowired
     private ObjectMapper objectMapper;
-
-    @Override
-    public void save(Submission submission) {
-        submissionJPARepository.save(SubmissionEntity.toEntity(submission, objectMapper));
-    }
-
     @Override
     public List<Submission> get(int page, int perPage, Id problemId, Id coderId, String serviceToCreate) {
         Pageable pageable = PageRequest.of(page, perPage, Sort.by("submittedAtMillis").descending());

@@ -64,7 +64,9 @@ public class PostRepositoryImpl implements PostRepository {
                             }
                         })
                         .collect(Collectors.toList());
-        corePostRepository.deleteAllByIds(corePostIds);
-        pPPostJpaRepository.deleteAllByProblemId(problemId.toString());
+        if(!corePostIds.isEmpty()) {
+            corePostRepository.deleteAllByIds(corePostIds);
+            pPPostJpaRepository.deleteAllByProblemId(problemId.toString());
+        }
     }
 }
