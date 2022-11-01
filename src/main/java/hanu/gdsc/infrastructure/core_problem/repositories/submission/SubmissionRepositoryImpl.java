@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.core_problem.models.Submission;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionRepository;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;
+import hanu.gdsc.domain.share.models.DateTime;
 import hanu.gdsc.domain.share.models.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -81,5 +82,11 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
         }
         return null;
     }
+
+    @Override
+    public int countNotACSubmissionsBefore(Id coderId, Id problemId, String serviceToCreate, DateTime beforeTime) {
+        return 0; // TODO
+    }
+
 
 }

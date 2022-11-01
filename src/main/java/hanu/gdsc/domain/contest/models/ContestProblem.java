@@ -6,7 +6,7 @@ import hanu.gdsc.domain.share.models.VersioningDomainObject;
 public class ContestProblem {
     private int ordinal;
     private Id coreProblemId;
-    private int score;
+    private double score;
 
     private ContestProblem(int ordinal, Id coreProblemId, int score) {
         this.ordinal = ordinal;
@@ -34,7 +34,7 @@ public class ContestProblem {
         return coreProblemId;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 }

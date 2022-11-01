@@ -49,7 +49,7 @@ public class SearchContestService {
     @NoArgsConstructor
     public static class OutputProblem {
         public int ordinal;
-        public int score;
+        public double score;
         public String name;
         public String description;
         public Id author;

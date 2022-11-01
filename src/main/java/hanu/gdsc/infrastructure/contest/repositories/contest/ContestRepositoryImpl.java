@@ -57,4 +57,10 @@ public class ContestRepositoryImpl implements ContestRepository {
     public long count() {
         return contestJPARepository.count();
     }
+
+    @Override
+    public Contest getContestContainsCoreProblemId(Id coreProblemId) {
+        // TODO
+        return null;
+    }
 }

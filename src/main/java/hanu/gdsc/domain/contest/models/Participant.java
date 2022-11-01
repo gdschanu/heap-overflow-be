@@ -40,6 +40,8 @@ public class Participant extends VersioningDomainObject {
         );
     }
 
+    public void updateProblemScore(int score, int ordinal) {}
+
     public DateTime getCreatedAt() {
         return createdAt;
     }

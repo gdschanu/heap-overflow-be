@@ -1,10 +1,10 @@
 package hanu.gdsc.domain.contest.models;
 
+import hanu.gdsc.domain.share.exceptions.InvalidInputException;
+import hanu.gdsc.domain.share.exceptions.InvalidStateException;
 import hanu.gdsc.domain.share.models.DateTime;
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.models.IdentitifedVersioningDomainObject;
-import hanu.gdsc.domain.share.exceptions.InvalidInputException;
-import hanu.gdsc.domain.share.exceptions.InvalidStateException;
 
 import java.util.*;
 
@@ -59,8 +59,36 @@ public class Contest extends IdentitifedVersioningDomainObject {
         );
     }
 
+    public double calculateScoreForACSubmission(int problemOrdinal,
+                                                DateTime submittedAt,
+                                                int notACSubmissionsBeforeCount) {
+        double score = 0;
+        final ContestProblem contestProblem = getProblem(problemOrdinal);
+        score += contestProblem.getScore();
+        final long millisecondTillEnd = endAt.toMillis() - submittedAt.toMillis();
+        score += millisecondTillEnd;
+        final double nonACSubmissionsSubtract = (score / 100) * notACSubmissionsBeforeCount;
+        score -= nonACSubmissionsSubtract;
+        final double maxScore = endAt.toMillis() - startAt.toMillis() + contestProblem.getScore();
+        score = scale(score, maxScore, contestProblem.getScore());
+        return score;
+    }
+
+    private double scale(double value,
+                         double maxValue,
+                         double scaleValue) {
+        return (value / maxValue) * scaleValue;
+    }
+
     public DateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public ContestProblem getProblem(Id coreProblemId) {
+        for (ContestProblem contestProblem : contestProblems)
+            if (contestProblem.getCoreProblemId().equals(coreProblemId))
+                return contestProblem;
+        return null;
     }
 
     public void setProblems(List<ContestProblem> problems) throws InvalidInputException {

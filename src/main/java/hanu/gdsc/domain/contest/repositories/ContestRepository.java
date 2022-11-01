@@ -15,4 +15,6 @@ public interface ContestRepository {
     public List<Contest> get(int page, int perPage);
 
     public long count();
+
+    public Contest getContestContainsCoreProblemId(Id coreProblemId);
 }

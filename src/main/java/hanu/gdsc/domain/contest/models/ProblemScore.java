@@ -1,22 +1,17 @@
 package hanu.gdsc.domain.contest.models;
 
 import hanu.gdsc.domain.share.models.Id;
-import hanu.gdsc.domain.share.models.IdentitifedVersioningDomainObject;
 
-public class ProblemScore extends IdentitifedVersioningDomainObject {
-    private Id problemId;
-    private int score;
+public class ProblemScore {
+    private int problemOrdinal;
+    private double score;
     private int tryCount;
 
-    private ProblemScore(Id id, long version) {
-        super(id, version);
+    public int getProblemOrdinal() {
+        return problemOrdinal;
     }
 
-    public Id getProblemId() {
-        return problemId;
-    }
-
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
