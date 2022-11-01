@@ -28,7 +28,8 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public void deleteById(Id id, String serviceToCreate) {
-
+        CategoryEntity category = categoryJpaRepository.getById(id.toString());
+        categoryJpaRepository.delete(category);
     }
 
     @Override

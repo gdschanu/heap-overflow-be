@@ -9,10 +9,12 @@ import java.util.List;
 @Repository
 public interface ItemRepository {
 
-    public Item save(List<Id> categoryIds);
+    public Item saveItem(Item item);
+
+/*    public Item save(List<Id> categoryIds);*/
 
     public Item findById(Id id);
 
-    public void delete(Item item);
+    public void deleteById(Id id, String serviceToCreate);
 
 }

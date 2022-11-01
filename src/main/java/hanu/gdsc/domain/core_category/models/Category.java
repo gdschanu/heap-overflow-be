@@ -4,9 +4,7 @@ import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 
 public class Category {
-    /*
-    Xóa cái annotation này đi, annotation này chỉ dùng cho entity dưới repo
-     */
+
     private Id id;
     private String name;
 

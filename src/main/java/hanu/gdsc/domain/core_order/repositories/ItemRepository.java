@@ -9,4 +9,8 @@ public interface ItemRepository {
     public List<Item> getByIds(List<Id> ids);
 
     public void save(List<Item> items);
+
+    public void deleteById(Id id, String serviceToCreate);
+
+    public void deleteMany(List<Id> categoryIds);
 }
