@@ -1,5 +1,6 @@
 package hanu.gdsc.domain.contest.models;
 
+import hanu.gdsc.domain.core_problem.models.Status;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import hanu.gdsc.domain.share.exceptions.InvalidStateException;
 import hanu.gdsc.domain.share.models.DateTime;
@@ -59,19 +60,33 @@ public class Contest extends IdentitifedVersioningDomainObject {
         );
     }
 
-    public double calculateScoreForACSubmission(int problemOrdinal,
-                                                DateTime submittedAt,
-                                                int notACSubmissionsBeforeCount) {
+    public double calculateScoreForSubmission(int problemOrdinal,
+                                              DateTime submittedAt,
+                                              int notACSubmissionsBeforeCount,
+                                              Status status,
+                                              int passedTestCasesCount,
+                                              int totalTestCasesCount) {
         double score = 0;
         final ContestProblem contestProblem = getProblem(problemOrdinal);
-        score += contestProblem.getScore();
-        final long millisecondTillEnd = endAt.toMillis() - submittedAt.toMillis();
-        score += millisecondTillEnd;
-        final double nonACSubmissionsSubtract = (score / 100) * notACSubmissionsBeforeCount;
-        score -= nonACSubmissionsSubtract;
-        final double maxScore = endAt.toMillis() - startAt.toMillis() + contestProblem.getScore();
-        score = scale(score, maxScore, contestProblem.getScore());
-        return score;
+        if (contestProblem.isAllowPartialScore()) {
+            score += (passedTestCasesCount / totalTestCasesCount) * contestProblem.getScore();
+            final long millisecondTillEnd = endAt.toMillis() - submittedAt.toMillis();
+            score += millisecondTillEnd;
+            final double nonACSubmissionsSubtract = (score / 100) * notACSubmissionsBeforeCount;
+            score -= nonACSubmissionsSubtract;
+            final double maxScore = endAt.toMillis() - startAt.toMillis() + contestProblem.getScore();
+            score = scale(score, maxScore, contestProblem.getScore());
+            return score;
+        } else {
+            score += contestProblem.getScore();
+            final long millisecondTillEnd = endAt.toMillis() - submittedAt.toMillis();
+            score += millisecondTillEnd;
+            final double nonACSubmissionsSubtract = (score / 100) * notACSubmissionsBeforeCount;
+            score -= nonACSubmissionsSubtract;
+            final double maxScore = endAt.toMillis() - startAt.toMillis() + contestProblem.getScore();
+            score = scale(score, maxScore, contestProblem.getScore());
+            return score;
+        }
     }
 
     private double scale(double value,

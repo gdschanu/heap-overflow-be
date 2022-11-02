@@ -2,6 +2,7 @@ package hanu.gdsc.domain.contest.services.submissionEvent;
 
 import hanu.gdsc.domain.contest.config.ContestServiceName;
 import hanu.gdsc.domain.contest.models.Contest;
+import hanu.gdsc.domain.contest.models.ContestProblem;
 import hanu.gdsc.domain.contest.models.Participant;
 import hanu.gdsc.domain.contest.repositories.ContestRepository;
 import hanu.gdsc.domain.contest.repositories.ParticipantRepository;
@@ -29,12 +30,16 @@ public class ProcessSubmissionEventService {
                     ContestServiceName.serviceName,
                     submissionEvent.getSubmittedAt()
             );
-            final double score = contest.calculateScoreForACSubmission(
-                    contest.getProblem(submissionEvent.getProblemId()).getOrdinal(),
+            final ContestProblem contestProblem = contest.getProblem(submissionEvent.getProblemId());
+            final double score = contest.calculateScoreForSubmission(
+                    contestProblem.getOrdinal(),
                     submissionEvent.getSubmittedAt(),
-                    notACSubmissionsBeforeCount
+                    notACSubmissionsBeforeCount,
+                    submissionEvent.getStatus(),
+                    submissionEvent.getPassedTestCasesCount(),
+                    submissionEvent.getTotalTestCasesCount()
             );
-
+            participant.updateProblemScore(score, contestProblem.getOrdinal());
         }
         ack.run();
     }

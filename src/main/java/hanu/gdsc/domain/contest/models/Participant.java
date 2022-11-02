@@ -40,7 +40,20 @@ public class Participant extends VersioningDomainObject {
         );
     }
 
-    public void updateProblemScore(int score, int ordinal) {}
+    public void updateProblemScore(double score,
+                                   int problemOrdinal) {
+        for (ProblemScore problemScore : problemScores) {
+            if (problemScore.getProblemOrdinal() == problemOrdinal) {
+                final double finalScore = Math.max(score, problemScore.getScore());
+                problemScores.remove(problemScore);
+                problemScores.add(new ProblemScore(
+                        problemOrdinal,
+                        finalScore
+                ));
+                break;
+            }
+        }
+    }
 
     public DateTime getCreatedAt() {
         return createdAt;
