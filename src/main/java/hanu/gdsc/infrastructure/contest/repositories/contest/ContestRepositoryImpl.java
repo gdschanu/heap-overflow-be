@@ -23,14 +23,9 @@ public class ContestRepositoryImpl implements ContestRepository {
     private ObjectMapper objectMapper;
 
     @Override
-    public void create(Contest contest) {
+    public void save(Contest contest) {
         ContestEntity e = ContestEntity.fromDomain(contest, objectMapper);
         contestJPARepository.save(e);
-    }
-
-    @Override
-    public void update(Contest contest) {
-        contestJPARepository.save(ContestEntity.fromDomain(contest, objectMapper));
     }
 
     @Override

@@ -13,6 +13,7 @@ public class SubmissionEvent {
     private DateTime submittedAt;
     private int passedTestCasesCount;
     private int totalTestCasesCount;
+    private String serviceToCreate;
 
     private SubmissionEvent() {
     }

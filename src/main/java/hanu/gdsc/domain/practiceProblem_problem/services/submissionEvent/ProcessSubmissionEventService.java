@@ -2,6 +2,7 @@ package hanu.gdsc.domain.practiceProblem_problem.services.submissionEvent;
 
 import hanu.gdsc.domain.core_problem.models.Status;
 import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
+import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.models.Progress;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
@@ -23,7 +24,12 @@ public class ProcessSubmissionEventService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public void consume(SubmissionEvent event, Runnable ack) {
+        // TODO
         coreConsumeSubmissionEventService.process(event);
+        if (!event.getServiceToCreate().equals(PracticeProblemProblemServiceName.serviceName)) {
+            ack.run();
+            return;
+        }
         LOGGER.info("PRACTICE COMSUMING: " + event.getProblemId());
         Progress progress = progressRepository.getByCoderId(event.getCoderId());
         if (progress == null) {
