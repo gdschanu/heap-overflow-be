@@ -7,9 +7,9 @@ import hanu.gdsc.domain.core_problem.services.submissionsCount.SearchSubmissionC
 import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Difficulty;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
+import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.infrastructure.practiceProblem_problem.repositories.problem.ProblemCountProjection;
-import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -211,6 +211,7 @@ public class SearchProblemService {
             return total.stream()
                     .map(count -> {
                         List<hanu.gdsc.domain.practiceProblem_problem.models.Problem> problems = problemMap.get(Difficulty.valueOf(count.getDifficulty()));
+                        if (problems == null) problems = new ArrayList<>();
                         return OutputProgressData.builder()
                                 .difficulty(Difficulty.valueOf(count.getDifficulty()))
                                 .done(problems.size())
