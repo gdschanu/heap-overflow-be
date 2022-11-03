@@ -10,20 +10,23 @@ import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class ConsumeSubmissionEventService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConsumeSubmissionEventService.class);
+public class ProcessSubmissionEventService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSubmissionEventService.class);
     private SubmissionCountRepository submissionCountRepository;
     private AcceptedProblemRepository acceptedProblemRepository;
 
-    public ConsumeSubmissionEventService(SubmissionCountRepository submissionCountRepository,
+    public ProcessSubmissionEventService(SubmissionCountRepository submissionCountRepository,
                                          AcceptedProblemRepository acceptedProblemRepository) {
         this.submissionCountRepository = submissionCountRepository;
         this.acceptedProblemRepository = acceptedProblemRepository;
     }
 
-    public void process(SubmissionEvent submissionEvent) {
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
+    public void process(SubmissionEvent submissionEvent, Runnable ack) {
         try {
             if (submissionEvent == null) {
                 return;
@@ -39,6 +42,7 @@ public class ConsumeSubmissionEventService {
                 acceptedProblemRepository.save(new AcceptedProblem(submissionEvent.getCoderId(), submissionEvent.getProblemId(), submissionCount.getServiceToCreate()));
             }
             LOGGER.info("Increased submission count for problemId: " + submissionEvent.getProblemId());
+            ack.run();
         } catch (InvalidInputException e) {
             // Cannot reach
         }

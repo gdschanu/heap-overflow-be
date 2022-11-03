@@ -20,12 +20,10 @@ public class ProcessSubmissionEventService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSubmissionEventService.class);
     private final ProgressRepository progressRepository;
     private final ProblemRepository problemRepository;
-    private final hanu.gdsc.domain.core_problem.services.submissionEvent.ConsumeSubmissionEventService coreConsumeSubmissionEventService;
+    private final hanu.gdsc.domain.core_problem.services.submissionEvent.ProcessSubmissionEventService coreProcessSubmissionEventService;
 
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
-    public void consume(SubmissionEvent event, Runnable ack) {
-        // TODO
-        coreConsumeSubmissionEventService.process(event);
+    public void process(SubmissionEvent event, Runnable ack) {
         if (!event.getServiceToCreate().equals(PracticeProblemProblemServiceName.serviceName)) {
             ack.run();
             return;
