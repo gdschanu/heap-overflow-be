@@ -8,7 +8,9 @@ import hanu.gdsc.domain.contest.repositories.ContestRepository;
 import hanu.gdsc.domain.contest.repositories.ParticipantRepository;
 import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionRepository;
+import org.springframework.stereotype.Service;
 
+@Service("hanu.gdsc.domain.contest.services.submissionEvent.ProcessSubmissionEventService")
 public class ProcessSubmissionEventService {
     private ContestRepository contestRepository;
     private ParticipantRepository participantRepository;

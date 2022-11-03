@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
-@Service
+@Service("hanu.gdsc.infrastructure.practiceProblem_problem.consumer.SubmissionEventConsumer")
 public class SubmissionEventConsumer {
     @Autowired
     private ProcessSubmissionEventService processSubmissionEventService;
@@ -46,7 +46,7 @@ public class SubmissionEventConsumer {
         return new FanoutExchange(EXCHANGE);
     }
 
-    @Bean
+    @Bean(name = "hanu.gdsc.infrastructure.practiceProblem_problem.consumer.binding")
     public Binding binding(@Qualifier("hanu.gdsc.infrastructure.practiceProblem_problem.consumer.queue")
                            FanoutExchange fanoutExchange,
                            @Qualifier("hanu.gdsc.infrastructure.practiceProblem_problem.consumer.exchange")

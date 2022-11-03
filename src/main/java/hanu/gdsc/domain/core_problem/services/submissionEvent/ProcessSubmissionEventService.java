@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service("hanu.gdsc.domain.core_problem.services.submissionEvent.ProcessSubmissionEventService")
 public class ProcessSubmissionEventService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSubmissionEventService.class);
     private SubmissionCountRepository submissionCountRepository;

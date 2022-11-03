@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service(value = "PracticeProblem.ConsumeSubmissionEventService")
+@Service(value = "hanu.gdsc.domain.practiceProblem_problem.services.submissionEvent.ProcessSubmissionEventService")
 @AllArgsConstructor
 public class ProcessSubmissionEventService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSubmissionEventService.class);

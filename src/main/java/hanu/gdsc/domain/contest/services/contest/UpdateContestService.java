@@ -9,11 +9,11 @@ import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 import hanu.gdsc.domain.core_problem.models.TimeLimit;
 import hanu.gdsc.domain.core_problem.services.problem.CreateProblemService;
 import hanu.gdsc.domain.core_problem.services.problem.DeleteProblemService;
-import hanu.gdsc.domain.share.models.DateTime;
-import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import hanu.gdsc.domain.share.exceptions.InvalidStateException;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
+import hanu.gdsc.domain.share.models.DateTime;
+import hanu.gdsc.domain.share.models.Id;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -42,6 +42,7 @@ public class UpdateContestService {
         public List<MemoryLimit.CreateInputML> memoryLimits;
         public List<TimeLimit.CreateInputTL> timeLimits;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
+        public boolean allowPartialScore;
     }
 
     @AllArgsConstructor
@@ -97,11 +98,12 @@ public class UpdateContestService {
                 contestProblems.add(ContestProblem.create(
                         updateProblemInput.ordinal,
                         coreProblemIds.get(i++),
-                        updateProblemInput.score
+                        updateProblemInput.score,
+                        updateProblemInput.allowPartialScore
                 ));
             }
             contest.setProblems(contestProblems);
         }
-        contestRepository.update(contest);
+        contestRepository.save(contest);
     }
 }
