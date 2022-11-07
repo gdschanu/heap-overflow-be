@@ -6,7 +6,9 @@ import hanu.gdsc.domain.core_problem.services.submission.SearchSubmissionService
 import hanu.gdsc.domain.core_problem.services.submissionsCount.SearchSubmissionCountService;
 import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Difficulty;
+import hanu.gdsc.domain.practiceProblem_problem.models.Progress;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
+import hanu.gdsc.domain.practiceProblem_problem.repositories.ProgressRepository;
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.infrastructure.practiceProblem_problem.repositories.problem.ProblemCountProjection;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
@@ -29,6 +31,7 @@ public class SearchProblemService {
 
     private SearchAcceptedProblemService searchAcceptedProblemService;
     private SearchSubmissionCountService searchSubmissionCountService;
+    private final ProgressRepository progressRepository;
 
 
     @AllArgsConstructor
@@ -82,10 +85,11 @@ public class SearchProblemService {
 
     @Data
     @Builder
+    @AllArgsConstructor
     public static class OutputProgressData {
         private Difficulty difficulty;
         private int done;
-        private int problems;
+        private long problems;
         private double percentage;
     }
 
@@ -203,31 +207,26 @@ public class SearchProblemService {
     }
 
     public List<OutputProgressData> getProgress(Id coderId) {
-        List<Id> problemIds = searchSubmissionService.getAllProblemIdACByCoderId(coderId, PracticeProblemProblemServiceName.serviceName);
-        List<ProblemCountProjection> total = problemRepository.countProblemGroupByDifficulty();
-        if(!problemIds.isEmpty()) {
-            Map<Difficulty, List<hanu.gdsc.domain.practiceProblem_problem.models.Problem>> problemMap = problemRepository.findByCoreProblemProblemIds(problemIds).stream()
-                    .collect(Collectors.groupingBy(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getDifficulty));
-            return total.stream()
-                    .map(count -> {
-                        List<hanu.gdsc.domain.practiceProblem_problem.models.Problem> problems = problemMap.get(Difficulty.valueOf(count.getDifficulty()));
-                        return OutputProgressData.builder()
-                                .difficulty(Difficulty.valueOf(count.getDifficulty()))
-                                .done(problems.size())
-                                .problems(count.getAmount())
-                                .percentage(Math.ceil((double) problems.size()/count.getAmount()*100))
-                                .build();
-                    })
-                    .collect(Collectors.toList());
-        }
-        return total.stream()
-                .map(count -> OutputProgressData.builder()
-                        .difficulty(Difficulty.valueOf(count.getDifficulty()))
-                        .done(0)
-                        .problems(count.getAmount())
-                        .percentage(0)
-                        .build())
-                .collect(Collectors.toList());
+        Progress progress = progressRepository.getByCoderId(coderId);
+        OutputProgressData easyOutput = OutputProgressData.builder()
+                .difficulty(Difficulty.EASY)
+                .done(progress != null ? progress.getSolvedEasyProblems() : 0)
+                .problems(countProblem())
+                .percentage(progress != null ? Math.ceil((double) progress.getSolvedEasyProblems() / countProblem() * 100) : 0)
+                .build();
+        OutputProgressData mediumOutput = OutputProgressData.builder()
+                .difficulty(Difficulty.MEDIUM)
+                .done(progress != null ? progress.getSolvedMediumProblems() : 0)
+                .problems(countProblem())
+                .percentage(progress != null ? Math.ceil((double) progress.getSolvedMediumProblems() / countProblem() * 100) : 0)
+                .build();
+        OutputProgressData hardOutput = OutputProgressData.builder()
+                .difficulty(Difficulty.HARD)
+                .done(progress != null ? progress.getSolvedHardProblems() : 0)
+                .problems(countProblem())
+                .percentage(progress != null ? Math.ceil((double) progress.getSolvedHardProblems() / countProblem() * 100) : 0)
+                .build();
+        return List.of(easyOutput, mediumOutput, hardOutput);
     }
 
     public long countProblem() {
