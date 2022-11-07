@@ -47,9 +47,9 @@ public class SubmissionEventConsumer {
     }
 
     @Bean(name = "hanu.gdsc.infrastructure.contest.consumer.binding")
-    public Binding binding(@Qualifier("hanu.gdsc.infrastructure.contest.consumer.queue")
+    public Binding binding(@Qualifier("hanu.gdsc.infrastructure.contest.consumer.exchange")
                            FanoutExchange fanoutExchange,
-                           @Qualifier("hanu.gdsc.infrastructure.contest.consumer.exchange")
+                           @Qualifier("hanu.gdsc.infrastructure.contest.consumer.queue")
                            Queue queue) {
         return BindingBuilder.bind(queue).to(fanoutExchange);
     }

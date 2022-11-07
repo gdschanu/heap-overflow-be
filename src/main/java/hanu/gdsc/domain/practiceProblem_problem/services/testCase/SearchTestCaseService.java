@@ -35,7 +35,7 @@ public class SearchTestCaseService {
         if (problem == null)
             throw new NotFoundException("Unknown problem, problem must be exist in order to have test case");
         return searchCoreTestCaseService.getSampleTestCases(
-                        problem.getCoreProblemProblemId(),
+                        problem.getCoreProblemId(),
                         PracticeProblemProblemServiceName.serviceName
                 )
                 .stream()

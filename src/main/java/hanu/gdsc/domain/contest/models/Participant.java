@@ -41,18 +41,28 @@ public class Participant extends VersioningDomainObject {
     }
 
     public void updateProblemScore(double score,
-                                   int problemOrdinal) {
+                                   int problemOrdinal,
+                                   boolean accepted) {
         for (ProblemScore problemScore : problemScores) {
             if (problemScore.getProblemOrdinal() == problemOrdinal) {
+                accepted = problemScore.isAccepted() || accepted;
                 final double finalScore = Math.max(score, problemScore.getScore());
                 problemScores.remove(problemScore);
                 problemScores.add(new ProblemScore(
                         problemOrdinal,
-                        finalScore
+                        finalScore,
+                        accepted
                 ));
                 break;
             }
         }
+    }
+
+    public double totalScore() {
+        double res = 0;
+        for (ProblemScore score : problemScores)
+            res += score.getScore();
+        return res;
     }
 
     public DateTime getCreatedAt() {

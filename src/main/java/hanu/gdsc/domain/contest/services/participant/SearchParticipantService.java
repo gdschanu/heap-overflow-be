@@ -4,8 +4,8 @@ import hanu.gdsc.domain.coderAuth.models.User;
 import hanu.gdsc.domain.coderAuth.models.Username;
 import hanu.gdsc.domain.coderAuth.services.user.SearchUserService;
 import hanu.gdsc.domain.contest.models.Participant;
-import hanu.gdsc.domain.contest.repositories.ParticipantRepository;
 import hanu.gdsc.domain.contest.repositories.ParticipantCountRepository;
+import hanu.gdsc.domain.contest.repositories.ParticipantRepository;
 import hanu.gdsc.domain.share.models.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,6 +33,7 @@ public class SearchParticipantService {
         public List<String> problemScores;
         public String createAt;
         public String username;
+        public double totalScore;
     }
 
     public List<OutputParticipant> searchByContestId(Id contestId, int page, int perPage) {
@@ -52,6 +53,7 @@ public class SearchParticipantService {
                     .problemScores(participant.getProblemScores().stream().map(x -> x.toString()).collect(Collectors.toList()))
                     .createAt(participant.getCreatedAt().toString())
                     .username(username.toString())
+                    .totalScore(participant.totalScore())
                     .build());
         }
         return outputParticipants;
@@ -62,12 +64,12 @@ public class SearchParticipantService {
     }
 
     public boolean joinedContest(Id coderId, Id contestId) {
-        List<Participant> participants = participantRepository.getByCoderId(coderId);
+        final List<Participant> participants = participantRepository.getByCoderId(coderId);
         if (participants == null) {
             return false;
         } else {
-            for(Participant participant: participants) {
-                if(participant.getContestId().toString().equals(contestId.toString())) {
+            for (Participant participant : participants) {
+                if (participant.getContestId().toString().equals(contestId.toString())) {
                     return true;
                 }
             }

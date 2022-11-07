@@ -26,7 +26,7 @@ public class DeleteProblemService {
         Problem problem = problemRepository.getById(id);
         if (problem == null)
             throw new NotFoundException("Unknown problem.");
-        deleteCoreProblemService.deleteById(problem.getCoreProblemProblemId());
+        deleteCoreProblemService.deleteById(problem.getCoreProblemId());
         problemRepository.deleteById(id);
         testCaseRepository.deleteByProblemId(id);
         submissionRepository.deleteAllByProblemId(id);

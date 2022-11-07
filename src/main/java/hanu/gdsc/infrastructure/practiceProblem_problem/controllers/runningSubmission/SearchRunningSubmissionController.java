@@ -7,7 +7,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DataListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.infrastructure.practiceProblem_problem.config.RunningSubmissionConfig;
-import hanu.gdsc.domain.practiceProblem_problem.services.runningSubmission.SearchRunningSubmissionService;
+import hanu.gdsc.domain.practiceProblem_problem.services.runningSubmission.SearchPracticeProblemRunningSubmissionService;
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.infrastructure.share.controller.ControllerHandler;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,7 +27,7 @@ import java.util.List;
 @Tag(name = "Practice Problem - Running Submission", description = "Rest-API endpoint for Practice Problem")
 public class SearchRunningSubmissionController {
     @Autowired
-    private SearchRunningSubmissionService searchRunningSubmissionService;
+    private SearchPracticeProblemRunningSubmissionService searchPracticeProblemRunningSubmissionService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -39,7 +39,7 @@ public class SearchRunningSubmissionController {
             Id problem = problemId == null ? null : new Id(problemId);
             Id coder = coderId == null ? null : new Id(coderId);
             List<hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output> output =
-                    searchRunningSubmissionService
+                    searchPracticeProblemRunningSubmissionService
                             .getRunningSubmissions(problem, coder, page, perPage);
             return new ControllerHandler.Result(
                     "Success",
@@ -61,7 +61,7 @@ public class SearchRunningSubmissionController {
             @Override
             public void onData(SocketIOClient socketIOClient, String s, AckRequest ackRequest) throws Exception {
                 hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output
-                        output = searchRunningSubmissionService.getById(new Id(s));
+                        output = searchPracticeProblemRunningSubmissionService.getById(new Id(s));
                 if (output != null)
                     socketIOClient.sendEvent("RETURN_RUNNING_SUBMISSION", output);
                 else

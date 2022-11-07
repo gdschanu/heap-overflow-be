@@ -1,6 +1,8 @@
 package hanu.gdsc.domain.contest.services.contest;
 
 import hanu.gdsc.domain.contest.config.ContestServiceName;
+import hanu.gdsc.domain.contest.exception.ContestEndedException;
+import hanu.gdsc.domain.contest.exception.ContestNotStartedException;
 import hanu.gdsc.domain.contest.models.Contest;
 import hanu.gdsc.domain.contest.models.ContestProblem;
 import hanu.gdsc.domain.contest.repositories.ContestRepository;
@@ -26,10 +28,17 @@ public class SubmitContestProblemService {
         public ProgrammingLanguage programmingLanguage;
     }
 
-    public SubmitService.Output execute(Input input) throws NotFoundException, InvalidInputException {
+    public SubmitService.Output execute(Input input) throws NotFoundException,
+            InvalidInputException, ContestEndedException, ContestNotStartedException {
         final Contest contest = contestRepository.getById(input.contestId);
         if (contest == null) {
             throw new NotFoundException("Unknown contest.");
+        }
+        if (contest.ended()) {
+            throw new ContestEndedException();
+        }
+        if (!contest.started()) {
+            throw new ContestNotStartedException();
         }
         final ContestProblem contestProblem = contest.getProblem(input.contestProblemOrdinal);
         if (contestProblem == null) {

@@ -1,38 +1,37 @@
 package hanu.gdsc.domain.practiceProblem_problem.services.runningSubmission;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hanu.gdsc.domain.share.models.Id;
+import hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService;
 import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
+import hanu.gdsc.domain.share.models.Id;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.List;
 
 @Service
-public class SearchRunningSubmissionService {
-    private ServerSocket serverSocket;
-    private final hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService
+public class SearchPracticeProblemRunningSubmissionService {
+    private final SearchRunningSubmissionService
             searchCoreRunningSubmissionService;
     private final ObjectMapper objectMapper;
     private final ProblemRepository problemRepository;
 
-    public SearchRunningSubmissionService(hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService searchCoreRunningSubmissionService,
-                                          ObjectMapper objectMapper,
-                                          ProblemRepository problemRepository) throws IOException {
+    public SearchPracticeProblemRunningSubmissionService(SearchRunningSubmissionService searchCoreRunningSubmissionService,
+                                                         ObjectMapper objectMapper,
+                                                         ProblemRepository problemRepository) throws IOException {
         this.searchCoreRunningSubmissionService = searchCoreRunningSubmissionService;
         this.objectMapper = objectMapper;
         this.problemRepository = problemRepository;
     }
 
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    public hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output
+    public SearchRunningSubmissionService.Output
     getById(Id id) {
-        hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output
+        SearchRunningSubmissionService.Output
                 rsp = searchCoreRunningSubmissionService.getById(id, PracticeProblemProblemServiceName.serviceName);
         if (rsp == null)
             return null;
@@ -45,7 +44,7 @@ public class SearchRunningSubmissionService {
     }
 
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
-    public List<hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output>
+    public List<SearchRunningSubmissionService.Output>
     getRunningSubmissions(Id problemId,
                           Id coderId,
                           int page,
@@ -54,10 +53,10 @@ public class SearchRunningSubmissionService {
         if (problemId != null) {
             Problem problem = problemRepository.getById(problemId);
             if (problem != null) {
-                coreProblemId = problem.getCoreProblemProblemId();
+                coreProblemId = problem.getCoreProblemId();
             }
         }
-        List<hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output>
+        List<SearchRunningSubmissionService.Output>
                 outputs = searchCoreRunningSubmissionService.getByProblemIdAndCoderId(
                 coreProblemId,
                 coderId,
@@ -66,7 +65,7 @@ public class SearchRunningSubmissionService {
                 PracticeProblemProblemServiceName.serviceName
         );
         if (problemId != null) {
-            for (hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService.Output
+            for (SearchRunningSubmissionService.Output
                     output : outputs) {
                 output.problemId = problemId;
             }

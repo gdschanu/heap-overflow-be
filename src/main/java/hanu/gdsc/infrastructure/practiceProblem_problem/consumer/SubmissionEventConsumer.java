@@ -47,9 +47,9 @@ public class SubmissionEventConsumer {
     }
 
     @Bean(name = "hanu.gdsc.infrastructure.practiceProblem_problem.consumer.binding")
-    public Binding binding(@Qualifier("hanu.gdsc.infrastructure.practiceProblem_problem.consumer.queue")
+    public Binding binding(@Qualifier("hanu.gdsc.infrastructure.practiceProblem_problem.consumer.exchange")
                            FanoutExchange fanoutExchange,
-                           @Qualifier("hanu.gdsc.infrastructure.practiceProblem_problem.consumer.exchange")
+                           @Qualifier("hanu.gdsc.infrastructure.practiceProblem_problem.consumer.queue")
                            Queue queue) {
         return BindingBuilder.bind(queue).to(fanoutExchange);
     }

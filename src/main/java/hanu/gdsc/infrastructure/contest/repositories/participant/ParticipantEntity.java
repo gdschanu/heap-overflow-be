@@ -33,6 +33,7 @@ public class ParticipantEntity {
     private String problemScores;
     private String createdAt;
     private long createdAtMillis;
+    private double totalScore;
 
     public static ParticipantEntity fromDomains(Participant participant, ObjectMapper objectMapper) {
         try {
@@ -44,6 +45,7 @@ public class ParticipantEntity {
                     .problemScores(objectMapper.writeValueAsString(participant.getProblemScores()))
                     .createdAt(participant.getCreatedAt().toString())
                     .createdAtMillis(participant.getCreatedAt().toMillis())
+                    .totalScore(participant.totalScore())
                     .build();
         } catch (JsonProcessingException e) {
             throw new Error(e);

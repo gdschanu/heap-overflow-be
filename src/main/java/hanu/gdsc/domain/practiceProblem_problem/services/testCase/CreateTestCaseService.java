@@ -40,7 +40,7 @@ public class CreateTestCaseService {
         if (problem == null)
             throw new NotFoundException("Unknown problem");
         createCoreTestCaseService.create(new hanu.gdsc.domain.core_problem.services.testCase.CreateTestCaseService.Input(
-                problem.getCoreProblemProblemId(),
+                problem.getCoreProblemId(),
                 input.input,
                 input.expectedOutput,
                 input.ordinal,

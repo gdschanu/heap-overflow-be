@@ -6,6 +6,7 @@ import hanu.gdsc.domain.contest.models.ContestProblem;
 import hanu.gdsc.domain.contest.models.Participant;
 import hanu.gdsc.domain.contest.repositories.ContestRepository;
 import hanu.gdsc.domain.contest.repositories.ParticipantRepository;
+import hanu.gdsc.domain.core_problem.models.Status;
 import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionRepository;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,11 @@ public class ProcessSubmissionEventService {
                 submissionEvent.getPassedTestCasesCount(),
                 submissionEvent.getTotalTestCasesCount()
         );
-        participant.updateProblemScore(score, contestProblem.getOrdinal());
+        participant.updateProblemScore(
+                score,
+                contestProblem.getOrdinal(),
+                submissionEvent.getStatus().equals(Status.AC)
+        );
         contestRepository.save(contest);
         participantRepository.save(participant);
         ack.run();

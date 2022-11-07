@@ -26,7 +26,7 @@ public interface SearchRunningSubmissionService {
         public int totalTestCases;
     }
 
-    public List<Output> getByProblemIdAndCoderId(Id problemId,
+    public List<Output>     getByProblemIdAndCoderId(Id problemId,
                                                  Id coderId,
                                                  int page,
                                                  int perPage,

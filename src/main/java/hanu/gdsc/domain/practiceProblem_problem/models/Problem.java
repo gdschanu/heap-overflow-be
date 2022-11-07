@@ -5,18 +5,18 @@ import hanu.gdsc.domain.share.models.IdentitifedVersioningDomainObject;
 import hanu.gdsc.domain.share.models.DateTime;
 
 public class Problem extends IdentitifedVersioningDomainObject {
-    private Id coreProblemProblemId;
+    private Id coreProblemId;
     private Difficulty difficulty;
     private DateTime createdAt;
 
 
     private Problem(Id id,
                     long version,
-                    Id coreProblemProblemId,
+                    Id coreProblemId,
                     Difficulty difficulty,
                     DateTime createdAt) {
         super(id, version);
-        this.coreProblemProblemId = coreProblemProblemId;
+        this.coreProblemId = coreProblemId;
         this.difficulty = difficulty;
         this.createdAt = createdAt;
     }
@@ -30,8 +30,8 @@ public class Problem extends IdentitifedVersioningDomainObject {
                 DateTime.now());
     }
 
-    public Id getCoreProblemProblemId() {
-        return coreProblemProblemId;
+    public Id getCoreProblemId() {
+        return coreProblemId;
     }
 
     public Difficulty getDifficulty() {
