@@ -62,7 +62,7 @@ public class Contest extends IdentitifedVersioningDomainObject {
 
     public double calculateScoreForSubmission(int problemOrdinal,
                                               DateTime submittedAt,
-                                              int notACSubmissionsBeforeCount,
+                                              long notACSubmissionsBeforeCount,
                                               Status status,
                                               int passedTestCasesCount,
                                               int totalTestCasesCount) {

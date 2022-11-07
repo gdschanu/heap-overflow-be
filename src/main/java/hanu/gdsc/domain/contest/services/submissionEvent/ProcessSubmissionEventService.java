@@ -28,7 +28,7 @@ public class ProcessSubmissionEventService {
                 submissionEvent.getCoderId(),
                 contest.getId()
         );
-        final int notACSubmissionsBeforeCount = submissionRepository.countNotACSubmissionsBefore(
+        final long notACSubmissionsBeforeCount = submissionRepository.countNotACSubmissionsBefore(
                 submissionEvent.getCoderId(),
                 submissionEvent.getProblemId(),
                 ContestServiceName.serviceName,

@@ -3,6 +3,7 @@ package hanu.gdsc.infrastructure.contest.repositories.contest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.contest.models.Contest;
 import hanu.gdsc.domain.contest.repositories.ContestRepository;
+import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import hanu.gdsc.domain.share.models.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,10 +23,20 @@ public class ContestRepositoryImpl implements ContestRepository {
     private ContestJPARepository contestJPARepository;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private ContestCoreProblemIdJpaRepository contestCoreProblemIdJpaRepository;
 
     @Override
     public void save(Contest contest) {
         ContestEntity e = ContestEntity.fromDomain(contest, objectMapper);
+        List<ContestCoreProblemIdEntity> contestCoreProblemIdEntities = new ArrayList<>();
+        contest.getProblems().forEach(prob -> {
+            contestCoreProblemIdEntities.add(new ContestCoreProblemIdEntity(
+                    contest.getId().toString(),
+                    prob.getCoreProblemId().toString()
+            ));
+        });
+        contestCoreProblemIdJpaRepository.saveAll(contestCoreProblemIdEntities);
         contestJPARepository.save(e);
     }
 
@@ -55,7 +67,15 @@ public class ContestRepositoryImpl implements ContestRepository {
 
     @Override
     public Contest getContestContainsCoreProblemId(Id coreProblemId) {
-        // TODO
-        return null;
+        final ContestCoreProblemIdEntity e = contestCoreProblemIdJpaRepository
+                .findByCoreProblemId(coreProblemId.toString());
+        if (e == null)
+            return null;
+        try {
+            return getById(new Id(e.getContestId()));
+        } catch (InvalidInputException x) {
+            // Cannot reach
+            return null;
+        }
     }
 }

@@ -12,7 +12,7 @@ public interface SubmissionRepository {
     public void deleteAllByProblemId(Id problemId);
     public List<Id> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate);
 
-    public int countNotACSubmissionsBefore(Id coderId,
+    public long countNotACSubmissionsBefore(Id coderId,
                                            Id problemId,
                                            String serviceToCreate,
                                            DateTime beforeTime);

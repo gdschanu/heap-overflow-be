@@ -84,8 +84,17 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
     }
 
     @Override
-    public int countNotACSubmissionsBefore(Id coderId, Id problemId, String serviceToCreate, DateTime beforeTime) {
-        return 0; // TODO
+    public long countNotACSubmissionsBefore(Id coderId,
+                                           Id problemId,
+                                           String serviceToCreate,
+                                           DateTime beforeTime) {
+        return submissionJPARepository.countByCoderIdAndProblemIdAndServiceToCreateAndSubmittedAtMillisLessThanAndStatusNot(
+                coderId.toString(),
+                problemId.toString(),
+                serviceToCreate,
+                beforeTime.toMillis(),
+                "AC"
+        ); 
     }
 
 

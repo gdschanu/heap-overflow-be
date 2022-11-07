@@ -9,7 +9,6 @@ public class SubmissionEvent {
     private Id problemId;
     private Status status;
     private Id coderId;
-    // TODO
     private DateTime submittedAt;
     private int passedTestCasesCount;
     private int totalTestCasesCount;
