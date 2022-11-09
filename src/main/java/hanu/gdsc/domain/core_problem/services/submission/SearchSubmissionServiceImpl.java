@@ -35,13 +35,4 @@ public class SearchSubmissionServiceImpl implements SearchSubmissionService {
         }
         return submission;
     }
-
-    @Override
-    public List<Id> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate) {
-        List<Id> submissions = submissionRepository.getAllProblemIdACByCoderId(coderId, serviceToCreate);
-        if(submissions != null) {
-            return submissions;
-        }
-        return List.of();
-    }
 }

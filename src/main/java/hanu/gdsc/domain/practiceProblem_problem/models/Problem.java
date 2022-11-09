@@ -8,26 +8,30 @@ public class Problem extends IdentitifedVersioningDomainObject {
     private Id coreProblemProblemId;
     private Difficulty difficulty;
     private DateTime createdAt;
+    private Integer point;
 
 
     private Problem(Id id,
                     long version,
                     Id coreProblemProblemId,
                     Difficulty difficulty,
-                    DateTime createdAt) {
+                    DateTime createdAt,
+                    Integer point) {
         super(id, version);
         this.coreProblemProblemId = coreProblemProblemId;
         this.difficulty = difficulty;
         this.createdAt = createdAt;
+        this.point = point;
     }
 
-    public static Problem create(Id coreProlemProblemId, Difficulty difficulty) {
+    public static Problem create(Id coreProlemProblemId, Difficulty difficulty, Integer point) {
         return new Problem(
                 Id.generateRandom(),
                 0,
                 coreProlemProblemId,
                 difficulty,
-                DateTime.now());
+                DateTime.now(),
+                point);
     }
 
     public Id getCoreProblemProblemId() {
@@ -42,6 +46,9 @@ public class Problem extends IdentitifedVersioningDomainObject {
         return createdAt;
     }
 
+    public Integer getPoint() {
+        return point;
+    }
     public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
     }

@@ -16,7 +16,5 @@ public interface SearchSubmissionService {
                                 String serviceToCreate);
 
     public Submission getById(Id id, String serviceToCreate) throws SubmissionIsBeingJudgedException, NotFoundException;
-
-    public List<Id> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate);
 }
 

@@ -9,5 +9,5 @@ public interface SubmissionRepository {
     public List<Submission> get(int page, int perPage, Id problemId, Id coderId, String serviceToCreate);
     public Submission getById(Id id, String serviceToCreate);
     public void deleteAllByProblemId(Id problemId);
-    public List<Id> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate);
+    public Submission getByProblemIdAndCoderId(Id problemId, Id coderId);
 }

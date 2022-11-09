@@ -1,7 +1,9 @@
 package hanu.gdsc.domain.practiceProblem_problem.services.submissionEvent;
 
 import hanu.gdsc.domain.core_problem.models.Status;
+import hanu.gdsc.domain.core_problem.models.Submission;
 import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
+import hanu.gdsc.domain.core_problem.repositories.SubmissionRepository;
 import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.models.Progress;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
@@ -20,6 +22,7 @@ public class ProcessSubmissionEventService {
     private final ProgressRepository progressRepository;
     private final ProblemRepository problemRepository;
     private final hanu.gdsc.domain.core_problem.services.submissionEvent.ConsumeSubmissionEventService coreConsumeSubmissionEventService;
+    private final SubmissionRepository submissionRepository;
 
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public void consume(SubmissionEvent event, Runnable ack) {
@@ -30,7 +33,8 @@ public class ProcessSubmissionEventService {
             progress = Progress.create(event.getCoderId());
         }
         final Problem practiceProblem = problemRepository.getByCoreProblemProblemId(event.getProblemId());
-        if (practiceProblem == null || !event.getStatus().equals(Status.AC))
+        final Submission submission = submissionRepository.getByProblemIdAndCoderId(event.getProblemId(), event.getCoderId());
+        if (practiceProblem == null || !event.getStatus().equals(Status.AC) || submission != null)
             return;
         progress.update(practiceProblem.getDifficulty());
         progressRepository.save(progress);

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -66,20 +67,10 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
     }
 
     @Override
-    public List<Id> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate) {
-        List<String> problemIdsString = submissionJPARepository.getAllProblemIdACByCoderIdAndServiceToCreate(coderId.toString(), serviceToCreate);
-        if(!problemIdsString.isEmpty()) {
-            return problemIdsString.stream()
-                    .map(problemId -> {
-                        try {
-                            return new Id(problemId);
-                        } catch (InvalidInputException e) {
-                            throw new RuntimeException(e);
-                        }
-                    })
-                    .collect(Collectors.toList());
-        }
-        return null;
+    public Submission getByProblemIdAndCoderId(Id problemId, Id coderId) {
+        return submissionJPARepository.findByProblemIdAndCoderId(problemId.toString(), coderId.toString())
+                .map(submissionEntity -> SubmissionEntity.toDomain(submissionEntity, objectMapper))
+                .orElse(null);
     }
 
 }
