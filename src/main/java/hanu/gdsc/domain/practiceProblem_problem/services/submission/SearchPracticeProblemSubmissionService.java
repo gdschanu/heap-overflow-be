@@ -57,7 +57,7 @@ public class SearchPracticeProblemSubmissionService {
                 throw new NotFoundException("Unknown problem");
             coreProblemId = problem.getCoreProblemId();
         }
-        List<Submission> submissions = searchCoreProblemSubmissionService.get(page, perPage, coreProblemId, coderId, PracticeProblemProblemServiceName.serviceName);
+        List<Submission> submissions = searchCoreProblemSubmissionService.getByProblemIdAndCoderId(page, perPage, coreProblemId, coderId, PracticeProblemProblemServiceName.serviceName);
         return submissions.stream()
                 .map(this::toOutput)
                 .collect(Collectors.toList());

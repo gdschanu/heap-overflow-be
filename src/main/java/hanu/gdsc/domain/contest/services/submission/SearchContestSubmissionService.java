@@ -6,7 +6,6 @@ import hanu.gdsc.domain.contest.models.ContestProblem;
 import hanu.gdsc.domain.contest.repositories.ContestRepository;
 import hanu.gdsc.domain.core_problem.models.*;
 import hanu.gdsc.domain.core_problem.services.submission.SearchSubmissionService;
-import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import hanu.gdsc.domain.share.models.DateTime;
 import hanu.gdsc.domain.share.models.Id;
@@ -14,7 +13,9 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -54,9 +55,9 @@ public class SearchContestSubmissionService {
     private Output toOutput(Submission submission,
                             Id contestId,
                             int contestProblemOrdinal,
-                            boolean showFailedTestCaseDetail) {
+                            Contest contest) {
         FailedTestCaseDetailOutput failedTestCaseDetail = null;
-        if (showFailedTestCaseDetail) {
+        if (contest.ended()) {
             failedTestCaseDetail = submission.getFailedTestCaseDetail() == null ? null :
                     toOutputTestCase(submission.getFailedTestCaseDetail());
         }
@@ -91,31 +92,61 @@ public class SearchContestSubmissionService {
                             Id contestId,
                             Integer contestProblemOrdinal,
                             Id coderId)
-            throws NotFoundException, InvalidInputException {
-        if (contestId == null)
-            throw new InvalidInputException("contestId must not be null");
-        Id coreProblemId = null;
-        final Contest contest = contestRepository.getById(contestId);
-        if (contestProblemOrdinal != null) {
+            throws NotFoundException {
+        List<Submission> submissions = null;
+        if (contestId == null) {
+            submissions = searchSubmissionService.getByProblemIdAndCoderId(
+                    page,
+                    perPage,
+                    null,
+                    coderId,
+                    ContestServiceName.serviceName
+            );
+        }
+        if (contestId != null && contestProblemOrdinal == null) {
+            final Contest contest = contestRepository.getById(contestId);
+            if (contest == null)
+                throw new NotFoundException("Unknown contest");
+            submissions = searchSubmissionService.getByProblemIdsAndCoderId(
+                    page,
+                    perPage,
+                    contest.getCoreProblemIds(),
+                    coderId,
+                    ContestServiceName.serviceName
+            );
+        }
+        if (contestId != null && contestProblemOrdinal != null) {
+            final Contest contest = contestRepository.getById(contestId);
             if (contest == null)
                 throw new NotFoundException("Unknown contest");
             final ContestProblem contestProblem = contest.getProblem(contestProblemOrdinal);
-            if (contestProblem == null)
-                throw new NotFoundException("Unknown problem ordinal");
-            coreProblemId = contestProblem.getCoreProblemId();
+            if (contest == null)
+                throw new NotFoundException("Unknown contest problem");
+            submissions = searchSubmissionService
+                    .getByProblemIdAndCoderId(
+                            page,
+                            perPage,
+                            contestProblem.getCoreProblemId(),
+                            coderId,
+                            ContestServiceName.serviceName
+                    );
         }
-        final List<Submission> submissions = searchSubmissionService.get(
-                page,
-                perPage,
-                coreProblemId,
-                coderId,
-                ContestServiceName.serviceName
-        );
+        final List<Contest> contests = contestRepository
+                .getContestContainsCoreProblemIds(submissions.stream()
+                        .map(submission -> submission.getProblemId())
+                        .collect(Collectors.toList()));
+        final Map<Id, Contest> coreProblemIdContestMap = new HashMap<>();
+        contests.forEach(contest -> {
+            for (Id coreProblemId : contest.getCoreProblemIds())
+                coreProblemIdContestMap.put(coreProblemId, contest);
+        });
         return submissions.stream()
-                .map(sub -> toOutput(sub,
+                .map(submission -> toOutput(
+                        submission,
                         contestId,
-                        contestProblemOrdinal,
-                        contest.ended()))
-                .collect(Collectors.toList());
+                        coreProblemIdContestMap.get(submission.getProblemId())
+                                .getProblem(submission.getProblemId()).getOrdinal(),
+                        coreProblemIdContestMap.get(submission.getProblemId())
+                )).collect(Collectors.toList());
     }
 }

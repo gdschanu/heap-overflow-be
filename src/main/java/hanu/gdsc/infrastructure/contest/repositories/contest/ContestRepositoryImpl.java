@@ -78,4 +78,11 @@ public class ContestRepositoryImpl implements ContestRepository {
             return null;
         }
     }
+
+    @Override
+    public List<Contest> getContestContainsCoreProblemIds(List<Id> coreProblemIds) {
+        // TODO
+        return null;
+    }
+
 }

@@ -15,4 +15,7 @@ public interface ContestRepository {
     public long count();
 
     public Contest getContestContainsCoreProblemId(Id coreProblemId);
+
+    public List<Contest> getContestContainsCoreProblemIds(List<Id> coreProblemIds);
+
 }

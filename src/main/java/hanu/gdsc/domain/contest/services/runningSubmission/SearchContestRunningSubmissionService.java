@@ -5,6 +5,7 @@ import hanu.gdsc.domain.contest.models.Contest;
 import hanu.gdsc.domain.contest.models.ContestProblem;
 import hanu.gdsc.domain.contest.repositories.ContestRepository;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
+import hanu.gdsc.domain.core_problem.models.RunningSubmission;
 import hanu.gdsc.domain.core_problem.services.runningSubmission.SearchRunningSubmissionService;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import hanu.gdsc.domain.share.models.DateTime;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
@@ -44,46 +47,84 @@ public class SearchContestRunningSubmissionService {
 
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
     public Output toOutput(
-            SearchRunningSubmissionService.Output
-                    coreOutput,
+            RunningSubmission coreOutput,
             Id contestId,
             int contestProblemOrdinal
     ) {
         return Output.builder()
-                .id(coreOutput.id)
+                .id(coreOutput.getId())
                 .contestId(contestId)
                 .contestProblemOrdinal(contestProblemOrdinal)
-                .code(coreOutput.code)
-                .programmingLanguage(coreOutput.programmingLanguage)
-                .submittedAt(coreOutput.submittedAt)
-                .judgingTestCase(coreOutput.judgingTestCase)
-                .totalTestCases(coreOutput.totalTestCases)
+                .code(coreOutput.getCode())
+                .programmingLanguage(coreOutput.getProgrammingLanguage())
+                .submittedAt(coreOutput.getSubmittedAt())
+                .judgingTestCase(coreOutput.getJudgingTestCase())
+                .totalTestCases(coreOutput.getTotalTestCases())
                 .build();
     }
 
     public List<Output>
     getRunningSubmissions(Id contestId,
-                          int problemOrdinal,
+                          Integer contestProblemOrdinal,
                           Id coderId,
                           int page,
                           int perPage) throws NotFoundException {
-        final Contest contest = contestRepository.getById(contestId);
-        if (contest == null)
-            throw new NotFoundException("Unknown contest");
-        final ContestProblem contestProblem = contest.getProblem(problemOrdinal);
-        if (contestProblem == null)
-            throw new NotFoundException("Unknown problem ordinal");
-        final List<SearchRunningSubmissionService.Output>
-                outputs = searchRunningSubmissionService.getByProblemIdAndCoderId(
-                contestProblem.getCoreProblemId(),
-                coderId,
-                page,
-                perPage,
-                ContestServiceName.serviceName
-        );
-        return outputs.stream()
-                .map(o -> toOutput(o, contestId, contestProblem.getOrdinal()))
-                .collect(Collectors.toList());
+        List<RunningSubmission> runningSubmissions = null;
+        if (contestId == null) {
+            runningSubmissions = searchRunningSubmissionService
+                    .getByProblemIdAndCoderId(
+                            null,
+                            coderId,
+                            page,
+                            perPage,
+                            ContestServiceName.serviceName
+                    );
+        }
+        if (contestId != null && contestProblemOrdinal == null) {
+            final Contest contest = contestRepository.getById(contestId);
+            if (contest == null)
+                throw new NotFoundException("Unknown contest");
+            runningSubmissions = searchRunningSubmissionService
+                    .getByProblemIdsAndCoderId(
+                            contest.getCoreProblemIds(),
+                            coderId,
+                            page,
+                            perPage,
+                            ContestServiceName.serviceName
+                    );
+        }
+        if (contestId != null && contestProblemOrdinal != null) {
+            final Contest contest = contestRepository.getById(contestId);
+            if (contest == null)
+                throw new NotFoundException("Unknown contest");
+            final ContestProblem contestProblem = contest.getProblem(contestProblemOrdinal);
+            if (contest == null)
+                throw new NotFoundException("Unknown contest problem");
+            runningSubmissions = searchRunningSubmissionService
+                    .getByProblemIdAndCoderId(
+                            contestProblem.getCoreProblemId(),
+                            coderId,
+                            page,
+                            perPage,
+                            ContestServiceName.serviceName
+                    );
+        }
+        final List<Contest> contests = contestRepository
+                .getContestContainsCoreProblemIds(runningSubmissions.stream()
+                        .map(submission -> submission.getProblemId())
+                        .collect(Collectors.toList()));
+        final Map<Id, Contest> coreProblemIdContestMap = new HashMap<>();
+        contests.forEach(contest -> {
+            for (Id coreProblemId : contest.getCoreProblemIds())
+                coreProblemIdContestMap.put(coreProblemId, contest);
+        });
+        return runningSubmissions.stream()
+                .map(runningSubmission -> toOutput(
+                        runningSubmission,
+                        coreProblemIdContestMap.get(runningSubmission.getProblemId()).getId(),
+                        coreProblemIdContestMap.get(runningSubmission.getProblemId())
+                                .getProblem(runningSubmission.getProblemId()).getOrdinal()
+                )).collect(Collectors.toList());
     }
 
     @Transactional(isolation = Isolation.READ_UNCOMMITTED)
@@ -95,7 +136,7 @@ public class SearchContestRunningSubmissionService {
         final ContestProblem contestProblem = contest.getProblem(contestProblemOrdinal);
         if (contestProblem == null)
             throw new NotFoundException("Unknown problem ordinal");
-        final SearchRunningSubmissionService.Output
+        final RunningSubmission
                 coreSubmission = searchRunningSubmissionService.getById(
                 contestProblem.getCoreProblemId(),
                 ContestServiceName.serviceName

@@ -8,6 +8,7 @@ import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.models.IdentitifedVersioningDomainObject;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Contest extends IdentitifedVersioningDomainObject {
     private String name;
@@ -93,6 +94,12 @@ public class Contest extends IdentitifedVersioningDomainObject {
                          double maxValue,
                          double scaleValue) {
         return (value / maxValue) * scaleValue;
+    }
+
+    public List<Id> getCoreProblemIds() {
+        return contestProblems.stream()
+                .map(prob -> prob.getCoreProblemId())
+                .collect(Collectors.toList());
     }
 
     public DateTime getCreatedAt() {
