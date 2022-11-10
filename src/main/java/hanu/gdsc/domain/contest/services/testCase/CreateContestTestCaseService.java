@@ -11,8 +11,10 @@ import hanu.gdsc.domain.share.models.Id;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
+@Service
 public class CreateContestTestCaseService {
     private final CreateTestCaseService createTestCaseService;
     private final ContestRepository contestRepository;

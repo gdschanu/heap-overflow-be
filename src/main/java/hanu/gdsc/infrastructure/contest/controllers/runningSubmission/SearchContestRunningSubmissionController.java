@@ -22,7 +22,7 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 @RestController
-@Tag(name = "Contest", description = "Rest-API endpoint for Contest")
+@Tag(name = "Contest - Submission", description = "Rest-API endpoint for Contest")
 public class SearchContestRunningSubmissionController {
     @Autowired
     private SearchContestRunningSubmissionService searchContestRunningSubmissionService;

@@ -1,5 +1,6 @@
 package hanu.gdsc.domain.practiceProblem_problem.services.submissionEvent;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.core_problem.models.Status;
 import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
 import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
@@ -14,16 +15,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service(value = "hanu.gdsc.domain.practiceProblem_problem.services.submissionEvent.ProcessSubmissionEventService")
+@Service
 @AllArgsConstructor
-public class ProcessSubmissionEventService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSubmissionEventService.class);
+public class ProcessPracticeProblemSubmissionEventService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessPracticeProblemSubmissionEventService.class);
     private final ProgressRepository progressRepository;
     private final ProblemRepository problemRepository;
-    private final hanu.gdsc.domain.core_problem.services.submissionEvent.ProcessSubmissionEventService coreProcessSubmissionEventService;
+    private final ObjectMapper objectMapper;
 
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public void process(SubmissionEvent event, Runnable ack) {
+        try {
+            System.out.println(objectMapper.writeValueAsString(event));
+        } catch (Throwable e) {}
         if (!event.getServiceToCreate().equals(PracticeProblemProblemServiceName.serviceName)) {
             ack.run();
             return;

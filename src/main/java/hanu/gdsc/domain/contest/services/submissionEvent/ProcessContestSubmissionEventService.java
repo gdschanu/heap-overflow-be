@@ -1,5 +1,6 @@
 package hanu.gdsc.domain.contest.services.submissionEvent;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.contest.config.ContestServiceName;
 import hanu.gdsc.domain.contest.models.Contest;
 import hanu.gdsc.domain.contest.models.ContestProblem;
@@ -11,13 +12,17 @@ import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionRepository;
 import org.springframework.stereotype.Service;
 
-@Service("hanu.gdsc.domain.contest.services.submissionEvent.ProcessSubmissionEventService")
-public class ProcessSubmissionEventService {
+@Service
+public class ProcessContestSubmissionEventService {
     private ContestRepository contestRepository;
     private ParticipantRepository participantRepository;
     private SubmissionRepository submissionRepository;
+    private ObjectMapper objectMapper;
 
     public void process(SubmissionEvent submissionEvent, Runnable ack) {
+        try {
+            System.out.println(objectMapper.writeValueAsString(submissionEvent));
+        } catch (Throwable e) {}
         if (!submissionEvent.getServiceToCreate().equals(ContestServiceName.serviceName)) {
             ack.run();
             return;
