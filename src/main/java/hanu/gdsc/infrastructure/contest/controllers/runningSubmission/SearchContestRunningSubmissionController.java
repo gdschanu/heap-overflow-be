@@ -23,7 +23,7 @@ import java.util.List;
 
 @RestController
 @Tag(name = "Contest", description = "Rest-API endpoint for Contest")
-public class SearchRunningSubmissionController {
+public class SearchContestRunningSubmissionController {
     @Autowired
     private SearchContestRunningSubmissionService searchContestRunningSubmissionService;
     @Autowired

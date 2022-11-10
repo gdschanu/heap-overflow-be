@@ -13,10 +13,13 @@ import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import hanu.gdsc.domain.share.models.Id;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Service;
 
+@Service
+@AllArgsConstructor
 public class SubmitContestProblemService {
-    private ContestRepository contestRepository;
-    private SubmitService submitCoreProblemService;
+    private final ContestRepository contestRepository;
+    private final SubmitService submitCoreProblemService;
 
     @AllArgsConstructor
     @NoArgsConstructor
