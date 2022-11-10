@@ -8,7 +8,7 @@ import com.corundumstudio.socketio.listener.DataListener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.practiceProblem_problem.services.runningSubmission.SearchPracticeProblemRunningSubmissionService;
 import hanu.gdsc.domain.share.models.Id;
-import hanu.gdsc.infrastructure.practiceProblem_problem.config.RunningSubmissionConfig;
+import hanu.gdsc.infrastructure.share.config.SocketConfig;
 import hanu.gdsc.infrastructure.share.controller.ControllerHandler;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +53,8 @@ public class SearchRunningSubmissionController {
     @EventListener(ApplicationReadyEvent.class)
     public void getRunningSubmissionById() throws UnknownHostException {
         Configuration config = new Configuration();
-        config.setHostname(RunningSubmissionConfig.IP);
-        config.setPort(RunningSubmissionConfig.PORT);
+        config.setHostname(SocketConfig.IP);
+        config.setPort(SocketConfig.PORT);
         config.setOrigin("*");
         server = new SocketIOServer(config);
         server.addEventListener("GET_RUNNING_SUBMISSION", String.class, new DataListener<String>() {
