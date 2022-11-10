@@ -15,4 +15,10 @@ public interface RunningSubmissionRepository {
                                                             int page,
                                                             int perPage,
                                                             String serviceToCreate);
+
+    public List<RunningSubmission> getByProblemIdsAndCoderId(List<Id> problemIds,
+                                                             Id coderId,
+                                                             int page,
+                                                             int perPage,
+                                                             String serviceToCreate);
 }

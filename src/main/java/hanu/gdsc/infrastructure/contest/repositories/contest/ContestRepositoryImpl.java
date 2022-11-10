@@ -81,8 +81,17 @@ public class ContestRepositoryImpl implements ContestRepository {
 
     @Override
     public List<Contest> getContestContainsCoreProblemIds(List<Id> coreProblemIds) {
-        // TODO
-        return null;
+        final List<ContestCoreProblemIdEntity> contestCoreProblemIdEntities = contestCoreProblemIdJpaRepository
+                .findByCoreProblemIdIn(coreProblemIds.stream()
+                        .map(coreProblemId -> coreProblemId.toString())
+                        .collect(Collectors.toList()));
+        final List<ContestEntity> contestEntities = contestJPARepository
+                .findAllById(contestCoreProblemIdEntities.stream()
+                        .map(e -> e.getContestId())
+                        .collect(Collectors.toList()));
+        return contestEntities.stream()
+                .map(e -> e.toDomain(objectMapper))
+                .collect(Collectors.toList());
     }
 
 }

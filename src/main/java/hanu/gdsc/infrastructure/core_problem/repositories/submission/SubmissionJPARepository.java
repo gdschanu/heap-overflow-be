@@ -20,11 +20,20 @@ public interface SubmissionJPARepository extends JpaRepository<SubmissionEntity,
                                                                     String serviceToCreate,
                                                                     Pageable pageable);
 
+    public Page<SubmissionEntity> findByProblemIdInAndServiceToCreate(List<String> problemIds,
+                                                                    String serviceToCreate,
+                                                                    Pageable pageable);
+
     public Page<SubmissionEntity> findByCoderIdAndServiceToCreate(String coderId,
                                                                   String serviceToCreate,
                                                                   Pageable pageable);
 
     public Page<SubmissionEntity> findByProblemIdAndCoderIdAndServiceToCreate(String problemId,
+                                                                              String coderId,
+                                                                              String serviceToCreate,
+                                                                              Pageable pageable);
+
+    public Page<SubmissionEntity> findByProblemIdInAndCoderIdAndServiceToCreate(List<String> problemId,
                                                                               String coderId,
                                                                               String serviceToCreate,
                                                                               Pageable pageable);

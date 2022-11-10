@@ -5,8 +5,8 @@ import hanu.gdsc.domain.core_problem.models.Submission;
 import hanu.gdsc.domain.core_problem.repositories.RunningSubmissionRepository;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionRepository;
 import hanu.gdsc.domain.practiceProblem_problem.exceptions.SubmissionIsBeingJudgedException;
-import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
+import hanu.gdsc.domain.share.models.Id;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +25,11 @@ public class SearchSubmissionServiceImpl implements SearchSubmissionService {
 
     @Override
     public List<Submission> getByProblemIdsAndCoderId(int page, int perPage, List<Id> problemIds, Id coderId, String serviceToCreate) {
-        // TODO
-        return null;
+        return submissionRepository.get(page,
+                perPage,
+                problemIds,
+                coderId,
+                serviceToCreate);
     }
 
     @Override

@@ -37,9 +37,16 @@ public class SearchRunningSubmissionServiceImpl implements SearchRunningSubmissi
     }
 
     @Override
-    public List<RunningSubmission> getByProblemIdsAndCoderId(List<Id> problemIds, Id coderId, int page, int perPage, String serviceToCreate) {
-        // TODO
-        return null;
+    public List<RunningSubmission> getByProblemIdsAndCoderId(List<Id> problemIds,
+                                                             Id coderId,
+                                                             int page,
+                                                             int perPage,
+                                                             String serviceToCreate) {
+        return runningSubmissionRepository.getByProblemIdsAndCoderId(problemIds,
+                coderId,
+                page,
+                perPage,
+                serviceToCreate);
     }
 
     @Override
