@@ -57,6 +57,7 @@ public class SearchProblemService {
         public int acceptance;
         public List<String> tags;
         public Status status;
+        public Integer point;
     }
 
     public static enum Status {
@@ -202,7 +203,8 @@ public class SearchProblemService {
                 coreProblem.getAllowedProgrammingLanguages(),
                 submissionCount.acceptance(),
                 Arrays.asList("Greedy"),
-                accepted ? Status.DONE : Status.UNDONE
+                accepted ? Status.DONE : Status.UNDONE,
+                practiceProblem.getPoint()
         );
     }
 

@@ -87,4 +87,20 @@ public class Budget extends VersioningDomainObject {
     private void refreshUpdatedAt() {
         updatedAt = DateTime.now();
     }
+
+    public Id getCoderId() {
+        return coderId;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public DateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public DateTime getUpdatedAt() {
+        return updatedAt;
+    }
 }

@@ -27,7 +27,7 @@ public class PPProblemEntity {
     @Column(columnDefinition = "VARCHAR(100)")
     private String createdAt;
     private long createdAtMillis;
-    private Integer point;
+    private int point;
 
     public static PPProblemEntity toEntity(Problem problem) {
         return PPProblemEntity.builder()
@@ -49,7 +49,7 @@ public class PPProblemEntity {
                 hanu.gdsc.domain.share.models.Id.class,
                 Difficulty.class,
                 DateTime.class,
-                Integer.class
+                Integer.TYPE
             );
             constructor.setAccessible(true);
             return constructor.newInstance(
