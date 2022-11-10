@@ -36,7 +36,7 @@ public class SubmitProblemService {
         }
         return submitCoreProblemService.submit(new SubmitService.Input(
                 input.coderId,
-                problem.getCoreProblemProblemId(),
+                problem.getCoreProblemId(),
                 PracticeProblemProblemServiceName.serviceName,
                 input.code,
                 input.programmingLanguage

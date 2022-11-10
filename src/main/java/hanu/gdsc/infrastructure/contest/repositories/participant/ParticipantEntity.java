@@ -30,10 +30,10 @@ public class ParticipantEntity {
     private String coderId;
     @Column(columnDefinition = "VARCHAR(30)")
     private String contestId;
-    private int participantRank; // "rank" trùng với từ khóa của SQL
     private String problemScores;
     private String createdAt;
     private long createdAtMillis;
+    private double totalScore;
 
     public static ParticipantEntity fromDomains(Participant participant, ObjectMapper objectMapper) {
         try {
@@ -42,10 +42,10 @@ public class ParticipantEntity {
                     .version(participant.getVersion())
                     .coderId(participant.getCoderId().toString())
                     .contestId(participant.getContestId().toString())
-                    .participantRank(participant.getRank())
                     .problemScores(objectMapper.writeValueAsString(participant.getProblemScores()))
                     .createdAt(participant.getCreatedAt().toString())
                     .createdAtMillis(participant.getCreatedAt().toMillis())
+                    .totalScore(participant.totalScore())
                     .build();
         } catch (JsonProcessingException e) {
             throw new Error(e);
@@ -58,7 +58,6 @@ public class ParticipantEntity {
                     long.class,
                     hanu.gdsc.domain.share.models.Id.class,
                     hanu.gdsc.domain.share.models.Id.class,
-                    int.class,
                     List.class,
                     DateTime.class
             );
@@ -67,7 +66,6 @@ public class ParticipantEntity {
                     version,
                     new hanu.gdsc.domain.share.models.Id(coderId),
                     new hanu.gdsc.domain.share.models.Id(contestId),
-                    participantRank,
                     objectMapper.readValue(problemScores, new TypeReference<List<ProblemScore>>() {}),
                     new DateTime(createdAt)
             );

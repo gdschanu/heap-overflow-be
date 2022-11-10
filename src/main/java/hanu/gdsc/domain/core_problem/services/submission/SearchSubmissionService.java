@@ -9,11 +9,17 @@ import java.util.List;
 
 public interface SearchSubmissionService {
 
-    public List<Submission> get(int page,
-                                int perPage,
-                                Id problemId,
-                                Id coderId,
-                                String serviceToCreate);
+    public List<Submission> getByProblemIdAndCoderId(int page,
+                                                     int perPage,
+                                                     Id problemId,
+                                                     Id coderId,
+                                                     String serviceToCreate);
+
+    public List<Submission> getByProblemIdsAndCoderId(int page,
+                                                     int perPage,
+                                                     List<Id> problemIds,
+                                                     Id coderId,
+                                                     String serviceToCreate);
 
     public Submission getById(Id id, String serviceToCreate) throws SubmissionIsBeingJudgedException, NotFoundException;
 

@@ -10,9 +10,9 @@ import hanu.gdsc.domain.core_problem.models.MemoryLimit;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 import hanu.gdsc.domain.core_problem.models.TimeLimit;
 import hanu.gdsc.domain.core_problem.services.problem.CreateProblemService;
+import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import hanu.gdsc.domain.share.models.DateTime;
 import hanu.gdsc.domain.share.models.Id;
-import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -50,6 +50,7 @@ public class CreateContestService {
         public List<TimeLimit.CreateInputTL> timeLimits;
         @Schema(description = "specify the programming language of problem", required = true)
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
+        public boolean allowPartialScore;
     }
 
     @AllArgsConstructor
@@ -84,7 +85,8 @@ public class CreateContestService {
             contestProblems.add(ContestProblem.create(
                     createProblemInput.ordinal,
                     coreProblemIds.get(i++),
-                    createProblemInput.score
+                    createProblemInput.score,
+                    createProblemInput.allowPartialScore
             ));
         }
         Contest contest = Contest.create(
@@ -95,7 +97,7 @@ public class CreateContestService {
                 input.createdBy,
                 contestProblems
         );
-        contestRepository.create(contest);
+        contestRepository.save(contest);
         participantCountRepository.save(ParticipantCount.create(contest.getId()));
         return contest.getId();
     }

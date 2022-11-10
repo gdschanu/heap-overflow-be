@@ -3,6 +3,7 @@ package hanu.gdsc.domain.core_problem.repositories;
 import java.util.List;
 
 import hanu.gdsc.domain.core_problem.models.Submission;
+import hanu.gdsc.domain.share.models.DateTime;
 import hanu.gdsc.domain.share.models.Id;
 
 public interface SubmissionRepository {
@@ -10,4 +11,9 @@ public interface SubmissionRepository {
     public Submission getById(Id id, String serviceToCreate);
     public void deleteAllByProblemId(Id problemId);
     public List<Id> getAllProblemIdACByCoderId(Id coderId, String serviceToCreate);
+
+    public long countNotACSubmissionsBefore(Id coderId,
+                                           Id problemId,
+                                           String serviceToCreate,
+                                           DateTime beforeTime);
 }

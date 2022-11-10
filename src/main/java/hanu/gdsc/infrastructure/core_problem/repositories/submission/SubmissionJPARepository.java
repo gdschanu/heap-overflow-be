@@ -34,4 +34,12 @@ public interface SubmissionJPARepository extends JpaRepository<SubmissionEntity,
     @Query(value = "select s.problemId from SubmissionEntity s where s.status = 'CE' and " +
             "s.coderId = :coderId and s.serviceToCreate = :serviceToCreate group by s.problemId")
     public List<String> getAllProblemIdACByCoderIdAndServiceToCreate(String coderId, String serviceToCreate);
+
+    public long countByCoderIdAndProblemIdAndServiceToCreateAndSubmittedAtMillisLessThanAndStatusNot(
+            String coderId,
+            String problemId,
+            String serviceToCreate,
+            long submittedAt,
+            String status
+    );
 }

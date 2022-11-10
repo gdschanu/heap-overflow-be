@@ -2,6 +2,7 @@ package hanu.gdsc.domain.practiceProblem_problem.services.submissionEvent;
 
 import hanu.gdsc.domain.core_problem.models.Status;
 import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
+import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.models.Progress;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
@@ -13,17 +14,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service(value = "PracticeProblem.ConsumeSubmissionEventService")
+@Service(value = "hanu.gdsc.domain.practiceProblem_problem.services.submissionEvent.ProcessSubmissionEventService")
 @AllArgsConstructor
 public class ProcessSubmissionEventService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSubmissionEventService.class);
     private final ProgressRepository progressRepository;
     private final ProblemRepository problemRepository;
-    private final hanu.gdsc.domain.core_problem.services.submissionEvent.ConsumeSubmissionEventService coreConsumeSubmissionEventService;
+    private final hanu.gdsc.domain.core_problem.services.submissionEvent.ProcessSubmissionEventService coreProcessSubmissionEventService;
 
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
-    public void consume(SubmissionEvent event, Runnable ack) {
-        coreConsumeSubmissionEventService.process(event);
+    public void process(SubmissionEvent event, Runnable ack) {
+        if (!event.getServiceToCreate().equals(PracticeProblemProblemServiceName.serviceName)) {
+            ack.run();
+            return;
+        }
         LOGGER.info("PRACTICE COMSUMING: " + event.getProblemId());
         Progress progress = progressRepository.getByCoderId(event.getCoderId());
         if (progress == null) {

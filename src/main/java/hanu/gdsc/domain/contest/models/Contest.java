@@ -1,12 +1,14 @@
 package hanu.gdsc.domain.contest.models;
 
+import hanu.gdsc.domain.core_problem.models.Status;
+import hanu.gdsc.domain.share.exceptions.InvalidInputException;
+import hanu.gdsc.domain.share.exceptions.InvalidStateException;
 import hanu.gdsc.domain.share.models.DateTime;
 import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.models.IdentitifedVersioningDomainObject;
-import hanu.gdsc.domain.share.exceptions.InvalidInputException;
-import hanu.gdsc.domain.share.exceptions.InvalidStateException;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Contest extends IdentitifedVersioningDomainObject {
     private String name;
@@ -59,8 +61,56 @@ public class Contest extends IdentitifedVersioningDomainObject {
         );
     }
 
+    public double calculateScoreForSubmission(int problemOrdinal,
+                                              DateTime submittedAt,
+                                              long notACSubmissionsBeforeCount,
+                                              Status status,
+                                              int passedTestCasesCount,
+                                              int totalTestCasesCount) {
+        double score = 0;
+        final ContestProblem contestProblem = getProblem(problemOrdinal);
+        if (contestProblem.isAllowPartialScore()) {
+            score += (passedTestCasesCount / totalTestCasesCount) * contestProblem.getScore();
+            final long millisecondTillEnd = endAt.toMillis() - submittedAt.toMillis();
+            score += millisecondTillEnd;
+            final double nonACSubmissionsSubtract = (score / 100) * notACSubmissionsBeforeCount;
+            score -= nonACSubmissionsSubtract;
+            final double maxScore = endAt.toMillis() - startAt.toMillis() + contestProblem.getScore();
+            score = scale(score, maxScore, contestProblem.getScore());
+            return score;
+        } else {
+            score += contestProblem.getScore();
+            final long millisecondTillEnd = endAt.toMillis() - submittedAt.toMillis();
+            score += millisecondTillEnd;
+            final double nonACSubmissionsSubtract = (score / 100) * notACSubmissionsBeforeCount;
+            score -= nonACSubmissionsSubtract;
+            final double maxScore = endAt.toMillis() - startAt.toMillis() + contestProblem.getScore();
+            score = scale(score, maxScore, contestProblem.getScore());
+            return score;
+        }
+    }
+
+    private double scale(double value,
+                         double maxValue,
+                         double scaleValue) {
+        return (value / maxValue) * scaleValue;
+    }
+
+    public List<Id> getCoreProblemIds() {
+        return contestProblems.stream()
+                .map(prob -> prob.getCoreProblemId())
+                .collect(Collectors.toList());
+    }
+
     public DateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public ContestProblem getProblem(Id coreProblemId) {
+        for (ContestProblem contestProblem : contestProblems)
+            if (contestProblem.getCoreProblemId().equals(coreProblemId))
+                return contestProblem;
+        return null;
     }
 
     public void setProblems(List<ContestProblem> problems) throws InvalidInputException {

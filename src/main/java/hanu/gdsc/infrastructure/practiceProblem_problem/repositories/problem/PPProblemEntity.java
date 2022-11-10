@@ -32,7 +32,7 @@ public class PPProblemEntity {
         return PPProblemEntity.builder()
                 .id(problem.getId().toString())
                 .version(problem.getVersion())
-                .coreProblemProblemId(problem.getCoreProblemProblemId().toString())
+                .coreProblemProblemId(problem.getCoreProblemId().toString())
                 .difficulty(problem.getDifficulty().toString())
                 .createdAt(problem.getCreatedAt().toString())
                 .createdAtMillis(problem.getCreatedAt().toMillis())

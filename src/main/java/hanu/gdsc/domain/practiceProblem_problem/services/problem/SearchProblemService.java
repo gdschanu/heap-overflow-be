@@ -10,7 +10,6 @@ import hanu.gdsc.domain.practiceProblem_problem.models.Progress;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProgressRepository;
 import hanu.gdsc.domain.share.models.Id;
-import hanu.gdsc.infrastructure.practiceProblem_problem.repositories.problem.ProblemCountProjection;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -103,17 +102,17 @@ public class SearchProblemService {
             throw new NotFoundException("Unknown problem");
         }
         hanu.gdsc.domain.core_problem.models.Problem coreProblem = searchCoreProblemProblemService.getById(
-                practiceProblem.getCoreProblemProblemId(),
+                practiceProblem.getCoreProblemId(),
                 PracticeProblemProblemServiceName.serviceName
         );
         SubmissionCount submissionCount = searchSubmissionCountService.getByProblemId(
-                practiceProblem.getCoreProblemProblemId(),
+                practiceProblem.getCoreProblemId(),
                 PracticeProblemProblemServiceName.serviceName
         );
         AcceptedProblem acceptedProblem = coderId == null ?
                 null :
                 searchAcceptedProblemService.getByProblemIdAndCoderId(
-                        practiceProblem.getCoreProblemProblemId(),
+                        practiceProblem.getCoreProblemId(),
                         coderId,
                         PracticeProblemProblemServiceName.serviceName
                 );
@@ -136,7 +135,7 @@ public class SearchProblemService {
     private List<Output> toListOutPut(List<hanu.gdsc.domain.practiceProblem_problem.models.Problem> problems, Id coderId) {
         final List<hanu.gdsc.domain.core_problem.models.Problem> coreProblems = searchCoreProblemProblemService.getByIds(
                 problems.stream()
-                        .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemProblemId)
+                        .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemId)
                         .collect(Collectors.toList()),
                 PracticeProblemProblemServiceName.serviceName
         );
@@ -145,7 +144,7 @@ public class SearchProblemService {
             coreProblemsIdMap.put(coreProb.getId(), coreProb);
         final List<SubmissionCount> submissionCounts = searchSubmissionCountService.getByProblemIds(
                 problems.stream()
-                        .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemProblemId)
+                        .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemId)
                         .collect(Collectors.toList()),
                 PracticeProblemProblemServiceName.serviceName
         );
@@ -157,7 +156,7 @@ public class SearchProblemService {
                 searchAcceptedProblemService.getByProblemIdsAndCoderId(
                         coderId,
                         problems.stream()
-                                .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemProblemId)
+                                .map(hanu.gdsc.domain.practiceProblem_problem.models.Problem::getCoreProblemId)
                                 .collect(Collectors.toList()),
                         PracticeProblemProblemServiceName.serviceName
                 );
@@ -167,9 +166,9 @@ public class SearchProblemService {
         return problems.stream()
                 .map(p -> toOutput(
                                 p,
-                                coreProblemsIdMap.get(p.getCoreProblemProblemId()),
-                                submissionCountMap.get(p.getCoreProblemProblemId()),
-                                acceptedProblemIdsSet.contains(p.getCoreProblemProblemId())
+                                coreProblemsIdMap.get(p.getCoreProblemId()),
+                                submissionCountMap.get(p.getCoreProblemId()),
+                                acceptedProblemIdsSet.contains(p.getCoreProblemId())
                         )
                 )
                 .collect(Collectors.toList());
