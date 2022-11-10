@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PreDestroy;
 
 @Component
-public class SocketIO {
+public class Socket {
     private SocketIOServer server = null;
 
-    public SocketIO() {
+    public Socket() {
         Configuration config = new Configuration();
         config.setHostname(SocketConfig.IP);
         config.setPort(SocketConfig.PORT);
