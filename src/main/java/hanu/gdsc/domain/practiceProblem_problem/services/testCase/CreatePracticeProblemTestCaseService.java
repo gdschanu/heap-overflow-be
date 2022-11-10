@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class CreateTestCaseService {
+public class CreatePracticeProblemTestCaseService {
     private final hanu.gdsc.domain.core_problem.services.testCase.CreateTestCaseService createCoreTestCaseService;
     private final ProblemRepository problemRepository;
 

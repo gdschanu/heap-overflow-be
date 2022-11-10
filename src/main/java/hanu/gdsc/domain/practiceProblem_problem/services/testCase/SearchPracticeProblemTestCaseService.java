@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class SearchTestCaseService {
+public class SearchPracticeProblemTestCaseService {
     private final hanu.gdsc.domain.core_problem.services.testCase.SearchTestCaseService searchCoreTestCaseService;
     private final ProblemRepository problemRepository;
 

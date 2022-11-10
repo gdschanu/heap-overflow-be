@@ -98,7 +98,7 @@ public class SearchContestRunningSubmissionService {
             if (contest == null)
                 throw new NotFoundException("Unknown contest");
             final ContestProblem contestProblem = contest.getProblem(contestProblemOrdinal);
-            if (contest == null)
+            if (contestProblem == null)
                 throw new NotFoundException("Unknown contest problem");
             runningSubmissions = searchRunningSubmissionService
                     .getByProblemIdAndCoderId(
