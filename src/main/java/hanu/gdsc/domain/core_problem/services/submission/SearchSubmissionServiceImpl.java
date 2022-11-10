@@ -24,6 +24,12 @@ public class SearchSubmissionServiceImpl implements SearchSubmissionService {
     }
 
     @Override
+    public List<Submission> getByProblemIdsAndCoderId(int page, int perPage, List<Id> problemIds, Id coderId, String serviceToCreate) {
+        // TODO
+        return null;
+    }
+
+    @Override
     public Submission getById(Id id, String serviceToCreate) throws SubmissionIsBeingJudgedException, NotFoundException {
         Submission submission = submissionRepository.getById(id, serviceToCreate);
         if (submission == null) {
