@@ -6,6 +6,7 @@ import hanu.gdsc.domain.contest.exception.ContestNotStartedException;
 import hanu.gdsc.domain.contest.models.Contest;
 import hanu.gdsc.domain.contest.models.ContestProblem;
 import hanu.gdsc.domain.contest.repositories.ContestRepository;
+import hanu.gdsc.domain.core_problem.exceptions.NoTestCasesWereDefined;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 import hanu.gdsc.domain.core_problem.services.submit.SubmitService;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;
@@ -32,7 +33,7 @@ public class SubmitContestProblemService {
     }
 
     public SubmitService.Output execute(Input input) throws NotFoundException,
-            InvalidInputException, ContestEndedException, ContestNotStartedException {
+            InvalidInputException, ContestEndedException, ContestNotStartedException, NoTestCasesWereDefined {
         final Contest contest = contestRepository.getById(input.contestId);
         if (contest == null) {
             throw new NotFoundException("Unknown contest.");

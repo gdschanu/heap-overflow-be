@@ -21,13 +21,9 @@ public class ProcessPracticeProblemSubmissionEventService {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessPracticeProblemSubmissionEventService.class);
     private final ProgressRepository progressRepository;
     private final ProblemRepository problemRepository;
-    private final ObjectMapper objectMapper;
 
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Throwable.class)
     public void process(SubmissionEvent event, Runnable ack) {
-        try {
-            System.out.println(objectMapper.writeValueAsString(event));
-        } catch (Throwable e) {}
         if (!event.getServiceToCreate().equals(PracticeProblemProblemServiceName.serviceName)) {
             ack.run();
             return;

@@ -1,5 +1,6 @@
 package hanu.gdsc.domain.core_problem.services.submit;
 
+import hanu.gdsc.domain.core_problem.exceptions.NoTestCasesWereDefined;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import hanu.gdsc.domain.share.models.Id;
@@ -23,5 +24,5 @@ public interface SubmitService {
         public Id submissionId;
     }
 
-    public Output submit(Input input) throws InvalidInputException;
+    public Output submit(Input input) throws InvalidInputException, NoTestCasesWereDefined;
 }

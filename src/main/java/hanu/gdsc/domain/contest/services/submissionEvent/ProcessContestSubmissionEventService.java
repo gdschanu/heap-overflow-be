@@ -17,12 +17,8 @@ public class ProcessContestSubmissionEventService {
     private ContestRepository contestRepository;
     private ParticipantRepository participantRepository;
     private SubmissionRepository submissionRepository;
-    private ObjectMapper objectMapper;
 
     public void process(SubmissionEvent submissionEvent, Runnable ack) {
-        try {
-            System.out.println(objectMapper.writeValueAsString(submissionEvent));
-        } catch (Throwable e) {}
         if (!submissionEvent.getServiceToCreate().equals(ContestServiceName.serviceName)) {
             ack.run();
             return;
