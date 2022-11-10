@@ -28,11 +28,11 @@ public class CreateItemServiceImpl implements CreateItemService {
     public void createItem(List<Id> categoryIds, String serviceToCreate) throws NotFoundException, InvalidInputException {
         List<Id> filter = new ArrayList<>();
         for (Id id : categoryIds) {
-            if (categoryRepository.findById(id).getId() == id) {
-                filter.add(id);
+            if (categoryRepository.findById(id) == null) {
+                throw new NullPointerException("Category not exists!");
             }
             else {
-                throw new NotFoundException("Id not exists!");
+                filter.add(id);
             }
         }
         Item saveItem = Item.create(filter, serviceToCreate);
