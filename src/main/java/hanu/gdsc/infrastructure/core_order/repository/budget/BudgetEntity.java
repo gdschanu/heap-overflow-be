@@ -1,4 +1,4 @@
-package hanu.gdsc.infrastructure.core_order.budget;
+package hanu.gdsc.infrastructure.core_order.repository.budget;
 
 import hanu.gdsc.domain.core_order.models.Budget;
 import hanu.gdsc.domain.share.models.DateTime;

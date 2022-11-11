@@ -7,6 +7,7 @@ import hanu.gdsc.domain.core_category.repositories.CategoryRepository;
 import hanu.gdsc.domain.core_category.repositories.ItemRepository;
 import hanu.gdsc.domain.core_like.exceptions.InvalidActionException;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;
+import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import hanu.gdsc.domain.share.models.Id;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +21,21 @@ import java.util.List;
 public class CreateItemServiceImpl implements CreateItemService {
 
     @Autowired
+    private CategoryRepository categoryRepository;
     private ItemRepository itemRepository;
 
     @Override
-    public void createItem(List<Id> categoryIds) throws InvalidInputException {
-        List<Id> filtered = new ArrayList<>();
-        for (int i = 0; i < categoryIds.size(); i++) {
-            if (itemRepository.findById(categoryIds.get(i)).getId() == (categoryIds.get(i))) {
-                filtered.add(categoryIds.get(i));
+    public void createItem(List<Id> categoryIds, String serviceToCreate) throws NotFoundException, InvalidInputException {
+        List<Id> filter = new ArrayList<>();
+        for (Id id : categoryIds) {
+            if (categoryRepository.findById(id) == null) {
+                throw new NullPointerException("Category not exists!");
+            }
+            else {
+                filter.add(id);
             }
         }
-        Item item = Item.create(filtered, "");
-        itemRepository.saveItem(item);
+        Item saveItem = Item.create(filter, serviceToCreate);
+        itemRepository.saveItem(saveItem);
     }
 }

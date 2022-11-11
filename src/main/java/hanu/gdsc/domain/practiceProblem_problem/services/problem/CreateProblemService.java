@@ -27,7 +27,6 @@ public class CreateProblemService {
         public Difficulty difficulty;
         public String name;
         public String description;
-        public Integer point;
         public List<MemoryLimit.CreateInputML> memoryLimits;
         public List<TimeLimit.CreateInputTL> timeLimits;
         public List<ProgrammingLanguage> allowedProgrammingLanguages;
@@ -44,7 +43,7 @@ public class CreateProblemService {
                 input.allowedProgrammingLanguages,
                 PracticeProblemProblemServiceName.serviceName
         ));
-        Problem practiceProblem = Problem.create(coreProblemId, input.difficulty, input.point);
+        Problem practiceProblem = Problem.create(coreProblemId, input.difficulty);
         problemRepository.create(practiceProblem);
         return practiceProblem.getId();
     }

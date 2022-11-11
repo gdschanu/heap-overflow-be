@@ -44,7 +44,7 @@ public class UpdateProblemService {
         }
         problemRepository.update(problem);
         updateCoreProblemService.update(new hanu.gdsc.domain.core_problem.services.problem.UpdateProblemService.Input(
-                problem.getCoreProblemProblemId(),
+                problem.getCoreProblemId(),
                 PracticeProblemProblemServiceName.serviceName,
                 input.name,
                 input.description,

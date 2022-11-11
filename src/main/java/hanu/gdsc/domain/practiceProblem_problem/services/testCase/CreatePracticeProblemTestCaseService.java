@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class CreateTestCaseService {
+public class CreatePracticeProblemTestCaseService {
     private final hanu.gdsc.domain.core_problem.services.testCase.CreateTestCaseService createCoreTestCaseService;
     private final ProblemRepository problemRepository;
 
@@ -40,7 +40,7 @@ public class CreateTestCaseService {
         if (problem == null)
             throw new NotFoundException("Unknown problem");
         createCoreTestCaseService.create(new hanu.gdsc.domain.core_problem.services.testCase.CreateTestCaseService.Input(
-                problem.getCoreProblemProblemId(),
+                problem.getCoreProblemId(),
                 input.input,
                 input.expectedOutput,
                 input.ordinal,

@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class SearchTestCaseService {
+public class SearchPracticeProblemTestCaseService {
     private final hanu.gdsc.domain.core_problem.services.testCase.SearchTestCaseService searchCoreTestCaseService;
     private final ProblemRepository problemRepository;
 
@@ -35,7 +35,7 @@ public class SearchTestCaseService {
         if (problem == null)
             throw new NotFoundException("Unknown problem, problem must be exist in order to have test case");
         return searchCoreTestCaseService.getSampleTestCases(
-                        problem.getCoreProblemProblemId(),
+                        problem.getCoreProblemId(),
                         PracticeProblemProblemServiceName.serviceName
                 )
                 .stream()

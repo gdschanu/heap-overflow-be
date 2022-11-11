@@ -27,17 +27,15 @@ public class PPProblemEntity {
     @Column(columnDefinition = "VARCHAR(100)")
     private String createdAt;
     private long createdAtMillis;
-    private int point;
 
     public static PPProblemEntity toEntity(Problem problem) {
         return PPProblemEntity.builder()
                 .id(problem.getId().toString())
                 .version(problem.getVersion())
-                .coreProblemProblemId(problem.getCoreProblemProblemId().toString())
+                .coreProblemProblemId(problem.getCoreProblemId().toString())
                 .difficulty(problem.getDifficulty().toString())
                 .createdAt(problem.getCreatedAt().toString())
                 .createdAtMillis(problem.getCreatedAt().toMillis())
-                .point(problem.getPoint())
             .build();
     }
 
@@ -48,8 +46,7 @@ public class PPProblemEntity {
                 Long.TYPE,
                 hanu.gdsc.domain.share.models.Id.class,
                 Difficulty.class,
-                DateTime.class,
-                Integer.TYPE
+                DateTime.class
             );
             constructor.setAccessible(true);
             return constructor.newInstance(
@@ -57,8 +54,7 @@ public class PPProblemEntity {
                 PPProblemEntity.getVersion(),
                 new hanu.gdsc.domain.share.models.Id(PPProblemEntity.getCoreProblemProblemId()),
                 Difficulty.valueOf(PPProblemEntity.getDifficulty()),
-                new DateTime(PPProblemEntity.getCreatedAt().toString()),
-                PPProblemEntity.getPoint()
+                new DateTime(PPProblemEntity.getCreatedAt().toString())
             );
         } catch (Exception e) {
             e.printStackTrace();

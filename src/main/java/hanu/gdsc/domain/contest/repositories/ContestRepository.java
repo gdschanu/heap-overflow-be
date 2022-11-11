@@ -6,13 +6,16 @@ import hanu.gdsc.domain.share.models.Id;
 import java.util.List;
 
 public interface ContestRepository {
-    public void create(Contest contest);
-
-    public void update(Contest contest);
+    public void save(Contest contest);
 
     public Contest getById(Id id);
 
     public List<Contest> get(int page, int perPage);
 
     public long count();
+
+    public Contest getContestContainsCoreProblemId(Id coreProblemId);
+
+    public List<Contest> getContestContainsCoreProblemIds(List<Id> coreProblemIds);
+
 }

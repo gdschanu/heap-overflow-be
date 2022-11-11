@@ -33,6 +33,14 @@ public interface SubmissionJPARepository extends JpaRepository<SubmissionEntity,
 
     public void deleteAllByProblemId(String problemId);
 
-    @Query("SELECT s FROM SubmissionEntity s WHERE s.problemId = : problemId AND s.coderId = : coderId AND s.status = 'AC'")
-    public Optional<SubmissionEntity> findByProblemIdAndCoderId(String problemId, String coderId);
+    @Query("SELECT s FROM SubmissionEntity s WHERE s.coderId = :coderId AND s.problemId = :problemId AND s.status = 'AC'")
+    public Optional<SubmissionEntity> findACSubmission(String coderId, String problemId);
+
+    public long countByCoderIdAndProblemIdAndServiceToCreateAndSubmittedAtMillisLessThanAndStatusNot(
+            String coderId,
+            String problemId,
+            String serviceToCreate,
+            long submittedAt,
+            String status
+    );
 }
