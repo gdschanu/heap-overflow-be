@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface SubmissionRepository {
     public List<Submission> get(int page, int perPage, Id problemId, Id coderId, String serviceToCreate);
+    public List<Submission> get(int page, int perPage, List<Id> problemIds, Id coderId, String serviceToCreate);
     public Submission getById(Id id, String serviceToCreate);
     public void deleteAllByProblemId(Id problemId);
     public Submission getACSubmission(Id coderId, Id problemId);

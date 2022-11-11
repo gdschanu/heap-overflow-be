@@ -26,14 +26,14 @@ public class SearchPracticeProblemRunningSubmissionService {
 
     @AllArgsConstructor
     public static class Output {
-        private Id id;
-        private Id coderId;
-        private Id problemId;
-        private String code;
-        private ProgrammingLanguage programmingLanguage;
-        private DateTime submittedAt;
-        private int judgingTestCase;
-        private int totalTestCases;
+        public Id id;
+        public Id coderId;
+        public Id problemId;
+        public String code;
+        public ProgrammingLanguage programmingLanguage;
+        public DateTime submittedAt;
+        public int judgingTestCase;
+        public int totalTestCases;
     }
 
     public Output toOutput(RunningSubmission runningSubmission, Problem problem) {

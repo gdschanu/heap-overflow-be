@@ -50,6 +50,35 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
     }
 
     @Override
+    public List<Submission> get(int page, int perPage, List<Id> problemIds, Id coderId, String serviceToCreate) {
+        Pageable pageable = PageRequest.of(page, perPage, Sort.by("submittedAtMillis").descending());
+        Page<SubmissionEntity> submissionsEntity;
+        if (problemIds != null && coderId != null) {
+            submissionsEntity = submissionJPARepository.findByProblemIdInAndCoderIdAndServiceToCreate(problemIds.stream()
+                            .map(x -> x.toString())
+                            .collect(Collectors.toList()),
+                    coderId.toString(),
+                    serviceToCreate,
+                    pageable);
+        } else if (problemIds != null) {
+            submissionsEntity = submissionJPARepository.findByProblemIdInAndServiceToCreate(problemIds.stream()
+                            .map(x -> x.toString())
+                            .collect(Collectors.toList()),
+                    serviceToCreate,
+                    pageable);
+        } else if (coderId != null) {
+            submissionsEntity = submissionJPARepository.findByCoderIdAndServiceToCreate(coderId.toString(),
+                    serviceToCreate,
+                    pageable);
+        } else {
+            submissionsEntity = submissionJPARepository.findByServiceToCreate(serviceToCreate, pageable);
+        }
+        return submissionsEntity.getContent().stream()
+                .map(s -> SubmissionEntity.toDomain(s, objectMapper))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public Submission getById(Id id, String serviceToCreate) {
         try {
             SubmissionEntity submissionEntity = submissionJPARepository.getByIdAndServiceToCreate(id.toString(), serviceToCreate);

@@ -1,7 +1,7 @@
 package hanu.gdsc.infrastructure.contest.consumer;
 
 import com.rabbitmq.client.Channel;
-import hanu.gdsc.domain.contest.services.submissionEvent.ProcessSubmissionEventService;
+import hanu.gdsc.domain.contest.services.submissionEvent.ProcessContestSubmissionEventService;
 import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -20,14 +20,14 @@ import java.io.IOException;
 @Service("hanu.gdsc.infrastructure.contest.consumer.SubmissionEventConsumer")
 public class SubmissionEventConsumer {
     @Autowired
-    private ProcessSubmissionEventService processSubmissionEventService;
+    private ProcessContestSubmissionEventService processContestSubmissionEventService;
     private static final String SUBMISSIONEVENTQUEUE = "Q_CONTEST_SUBMISSIONEVENT";
     private static final String EXCHANGE = "E_COREPROBLEM_SUBMISSIONEVENT";
 
     @RabbitListener(queues = SUBMISSIONEVENTQUEUE, ackMode = "MANUAL")
     public void consume(SubmissionEvent event, Channel channel, @Header(AmqpHeaders.DELIVERY_TAG) long tag) throws IOException {
         channel.basicQos(1);
-        processSubmissionEventService.process(event, () -> {
+        processContestSubmissionEventService.process(event, () -> {
             try {
                 channel.basicAck(tag, false);
             } catch (IOException e) {

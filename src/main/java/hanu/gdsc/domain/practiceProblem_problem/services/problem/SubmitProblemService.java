@@ -1,5 +1,6 @@
 package hanu.gdsc.domain.practiceProblem_problem.services.problem;
 
+import hanu.gdsc.domain.core_problem.exceptions.NoTestCasesWereDefined;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 import hanu.gdsc.domain.core_problem.services.submit.SubmitService;
 import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
@@ -29,7 +30,7 @@ public class SubmitProblemService {
     }
 
 
-    public SubmitService.Output submit(Input input) throws NotFoundException, InvalidInputException {
+    public SubmitService.Output submit(Input input) throws NotFoundException, InvalidInputException, NoTestCasesWereDefined {
         Problem problem = problemRepository.getById(input.problemId);
         if (problem == null) {
             throw new NotFoundException("Problem not found");

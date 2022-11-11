@@ -8,8 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,6 +67,45 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
             entities = runningSubmissionJPARepository
                     .findByProblemIdAndCoderIdAndServiceToCreate(
                             problemId.toString(),
+                            coderId.toString(),
+                            serviceToCreate,
+                            pageable);
+        }
+        return entities.getContent()
+                .stream()
+                .map(e -> e.toDomain())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<RunningSubmission> getByProblemIdsAndCoderId(List<Id> problemIds, Id coderId, int page, int perPage, String serviceToCreate) {
+        Pageable pageable = PageRequest.of(page, perPage);
+        Page<RunningSubmissionEntity> entities = null;
+        if (problemIds == null && coderId == null) {
+            entities = runningSubmissionJPARepository
+                    .findByServiceToCreate(
+                            serviceToCreate,
+                            pageable);
+        } else if (problemIds == null && coderId != null) {
+            entities = runningSubmissionJPARepository
+                    .findByCoderIdAndServiceToCreate(
+                            coderId.toString(),
+                            serviceToCreate,
+                            pageable);
+        } else if (problemIds != null && coderId == null) {
+            entities = runningSubmissionJPARepository
+                    .findByProblemIdInAndServiceToCreate(
+                            problemIds.stream()
+                                    .map(x -> x.toString())
+                                    .collect(Collectors.toList()),
+                            serviceToCreate,
+                            pageable);
+        } else if (problemIds != null && coderId != null) {
+            entities = runningSubmissionJPARepository
+                    .findByProblemIdInAndCoderIdAndServiceToCreate(
+                            problemIds.stream()
+                                    .map(x -> x.toString())
+                                    .collect(Collectors.toList()),
                             coderId.toString(),
                             serviceToCreate,
                             pageable);

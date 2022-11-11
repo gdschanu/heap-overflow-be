@@ -13,14 +13,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("hanu.gdsc.domain.core_problem.services.submissionEvent.ProcessSubmissionEventService")
-public class ProcessSubmissionEventService {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSubmissionEventService.class);
+@Service
+public class ProcessCoreProblemSubmissionEventService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessCoreProblemSubmissionEventService.class);
     private SubmissionCountRepository submissionCountRepository;
     private AcceptedProblemRepository acceptedProblemRepository;
 
-    public ProcessSubmissionEventService(SubmissionCountRepository submissionCountRepository,
-                                         AcceptedProblemRepository acceptedProblemRepository) {
+    public ProcessCoreProblemSubmissionEventService(SubmissionCountRepository submissionCountRepository,
+                                                    AcceptedProblemRepository acceptedProblemRepository) {
         this.submissionCountRepository = submissionCountRepository;
         this.acceptedProblemRepository = acceptedProblemRepository;
     }
