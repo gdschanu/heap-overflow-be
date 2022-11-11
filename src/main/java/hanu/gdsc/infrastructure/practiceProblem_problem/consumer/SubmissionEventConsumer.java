@@ -31,6 +31,7 @@ public class SubmissionEventConsumer {
             try {
                 channel.basicAck(tag, false);
             } catch (IOException e) {
+                e.printStackTrace();
                 throw new RuntimeException(e);
             }
         });
