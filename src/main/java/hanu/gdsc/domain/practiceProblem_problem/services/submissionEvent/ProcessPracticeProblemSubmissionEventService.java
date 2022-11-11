@@ -41,8 +41,10 @@ public class ProcessPracticeProblemSubmissionEventService {
                 event.getProblemId(),
                 event.getSubmittedAt()
         );
-        if (practiceProblem == null || !event.getStatus().equals(Status.AC) || submission != null)
+        if (practiceProblem == null || !event.getStatus().equals(Status.AC) || submission != null) {
+            ack.run();
             return;
+        }
         progress.update(practiceProblem.getDifficulty());
         progressRepository.save(progress);
         LOGGER.info("UPDATED PROCESS: " + progress.getCoderId());
