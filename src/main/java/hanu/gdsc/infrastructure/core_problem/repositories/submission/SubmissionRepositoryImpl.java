@@ -1,9 +1,9 @@
 package hanu.gdsc.infrastructure.core_problem.repositories.submission;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hanu.gdsc.domain.core_problem.models.Status;
 import hanu.gdsc.domain.core_problem.models.Submission;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionRepository;
-import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import hanu.gdsc.domain.share.models.DateTime;
 import hanu.gdsc.domain.share.models.Id;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -97,10 +96,19 @@ public class SubmissionRepositoryImpl implements SubmissionRepository {
     }
 
     @Override
-    public Submission getACSubmission(Id coderId, Id problemId) {
-        return submissionJPARepository.findACSubmission(coderId.toString(), problemId.toString())
-                .map(s -> SubmissionEntity.toDomain(s, objectMapper))
-                .orElse(null);
+    public Submission getACSubmissionBefore(Id coderId, Id problemId, DateTime beforeTime) {
+        final Page<SubmissionEntity> entities = submissionJPARepository
+                .findByStatusAndSubmittedAtMillisLessThan(
+                        Status.AC.name(),
+                        beforeTime.toMillis(),
+                        Pageable.ofSize(1)
+                );
+        if (entities.getContent().size() == 0)
+            return null;
+        return SubmissionEntity.toDomain(
+                entities.getContent().get(0),
+                objectMapper
+        );
     }
 
     @Override

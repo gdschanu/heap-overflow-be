@@ -36,7 +36,11 @@ public class ProcessPracticeProblemSubmissionEventService {
             progress = Progress.create(event.getCoderId());
         }
         final Problem practiceProblem = problemRepository.getByCoreProblemProblemId(event.getProblemId());
-        final Submission submission = submissionRepository.getACSubmission(event.getCoderId(), event.getProblemId());
+        final Submission submission = submissionRepository.getACSubmissionBefore(
+                event.getCoderId(),
+                event.getProblemId(),
+                event.getSubmittedAt()
+        );
         if (practiceProblem == null || !event.getStatus().equals(Status.AC) || submission != null)
             return;
         progress.update(practiceProblem.getDifficulty());

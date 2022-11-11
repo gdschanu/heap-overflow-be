@@ -12,7 +12,7 @@ public interface SubmissionRepository {
     public List<Submission> get(int page, int perPage, List<Id> problemIds, Id coderId, String serviceToCreate);
     public Submission getById(Id id, String serviceToCreate);
     public void deleteAllByProblemId(Id problemId);
-    public Submission getACSubmission(Id coderId, Id problemId);
+    public Submission getACSubmissionBefore(Id coderId, Id problemId, DateTime beforeTime);
 
     public long countNotACSubmissionsBefore(Id coderId,
                                            Id problemId,
