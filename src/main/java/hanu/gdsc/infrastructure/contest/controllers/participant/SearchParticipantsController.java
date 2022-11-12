@@ -2,8 +2,8 @@ package hanu.gdsc.infrastructure.contest.controllers.participant;
 
 import hanu.gdsc.domain.coderAuth.services.access.AuthorizeService;
 import hanu.gdsc.domain.contest.services.participant.SearchParticipantService;
-import hanu.gdsc.infrastructure.share.controller.ControllerHandler;
 import hanu.gdsc.domain.share.models.Id;
+import hanu.gdsc.infrastructure.share.controller.ControllerHandler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -25,9 +25,17 @@ public class SearchParticipantsController {
 
 
     @GetMapping("/contest/{contestId}/participant")
-    public ResponseEntity<?> searchContest(@PathVariable String contestId, @RequestParam int page, @RequestParam int perPage) {
+    public ResponseEntity<?> searchContest(@PathVariable String contestId,
+                                           @RequestParam int page,
+                                           @RequestParam int perPage,
+                                           @RequestParam(required = false) Boolean sortByContestProblemScore) {
         return ControllerHandler.handle(() -> {
-            List<SearchParticipantService.OutputParticipant> outputParticipants = searchParticipantService.searchByContestId(new Id(contestId), page, perPage);
+            List<SearchParticipantService.OutputParticipant> outputParticipants = searchParticipantService.searchByContestId(
+                    new Id(contestId),
+                    page,
+                    perPage,
+                    sortByContestProblemScore != null && sortByContestProblemScore == true
+            );
             return new ControllerHandler.Result(
                     "Success",
                     outputParticipants

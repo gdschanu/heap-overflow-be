@@ -4,8 +4,8 @@ import hanu.gdsc.domain.core_problem.models.TestCase;
 import hanu.gdsc.domain.practiceProblem_problem.config.PracticeProblemProblemServiceName;
 import hanu.gdsc.domain.practiceProblem_problem.models.Problem;
 import hanu.gdsc.domain.practiceProblem_problem.repositories.ProblemRepository;
-import hanu.gdsc.domain.share.models.Id;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
+import hanu.gdsc.domain.share.models.Id;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class SearchPracticeProblemTestCaseService {
     }
 
     public List<Output> getSampleTestcasesOfProblem(Id problemId) throws NotFoundException {
-        Problem problem = problemRepository.getById(problemId);
+        final Problem problem = problemRepository.getById(problemId);
         if (problem == null)
             throw new NotFoundException("Unknown problem, problem must be exist in order to have test case");
         return searchCoreTestCaseService.getSampleTestCases(
@@ -39,14 +39,14 @@ public class SearchPracticeProblemTestCaseService {
                         PracticeProblemProblemServiceName.serviceName
                 )
                 .stream()
-                .map(this::toOutput)
+                .map(testCase -> toOutput(testCase, problem.getId()))
                 .collect(Collectors.toList());
     }
 
-    private Output toOutput(TestCase testCase) {
+    private Output toOutput(TestCase testCase, Id practiceProblemId) {
         return new Output(
                 testCase.isSample(),
-                testCase.getProblemId(),
+                practiceProblemId,
                 testCase.getInput(),
                 testCase.getExpectedOutput(),
                 testCase.getOrdinal(),

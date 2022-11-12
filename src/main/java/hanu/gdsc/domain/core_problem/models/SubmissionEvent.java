@@ -16,4 +16,17 @@ public class SubmissionEvent {
 
     private SubmissionEvent() {
     }
+
+    @Override
+    public String toString() {
+        return "SubmissionEvent{" +
+                "problemId=" + problemId +
+                ", status=" + status +
+                ", coderId=" + coderId +
+                ", submittedAt=" + submittedAt +
+                ", passedTestCasesCount=" + passedTestCasesCount +
+                ", totalTestCasesCount=" + totalTestCasesCount +
+                ", serviceToCreate='" + serviceToCreate + '\'' +
+                '}';
+    }
 }

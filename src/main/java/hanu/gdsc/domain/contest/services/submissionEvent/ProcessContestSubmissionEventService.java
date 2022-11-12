@@ -1,6 +1,5 @@
 package hanu.gdsc.domain.contest.services.submissionEvent;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import hanu.gdsc.domain.contest.config.ContestServiceName;
 import hanu.gdsc.domain.contest.models.Contest;
 import hanu.gdsc.domain.contest.models.ContestProblem;
@@ -10,9 +9,11 @@ import hanu.gdsc.domain.contest.repositories.ParticipantRepository;
 import hanu.gdsc.domain.core_problem.models.Status;
 import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ProcessContestSubmissionEventService {
     private ContestRepository contestRepository;
     private ParticipantRepository participantRepository;
@@ -23,6 +24,7 @@ public class ProcessContestSubmissionEventService {
             ack.run();
             return;
         }
+        log.info("Receive contest submission event: " + submissionEvent);
         final Contest contest = contestRepository.getContestContainsCoreProblemId(
                 submissionEvent.getProblemId()
         );

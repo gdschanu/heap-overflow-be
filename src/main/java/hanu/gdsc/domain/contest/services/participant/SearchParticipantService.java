@@ -36,8 +36,8 @@ public class SearchParticipantService {
         public double totalScore;
     }
 
-    public List<OutputParticipant> searchByContestId(Id contestId, int page, int perPage) {
-        List<Participant> participants = participantRepository.get(contestId, page, perPage);
+    public List<OutputParticipant> searchByContestId(Id contestId, int page, int perPage, boolean sortByContestProblemScore) {
+        List<Participant> participants = participantRepository.get(contestId, page, perPage, sortByContestProblemScore);
         List<OutputParticipant> outputParticipants = new ArrayList<>();
         List<User> users = searchUserService.getListUserByCoderIds(participants.stream()
                 .map(x -> x.getCoderId()).collect(Collectors.toList()));

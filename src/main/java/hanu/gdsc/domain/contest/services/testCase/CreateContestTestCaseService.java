@@ -8,7 +8,6 @@ import hanu.gdsc.domain.core_problem.services.testCase.CreateTestCaseService;
 import hanu.gdsc.domain.share.exceptions.InvalidInputException;
 import hanu.gdsc.domain.share.exceptions.NotFoundException;
 import hanu.gdsc.domain.share.models.Id;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,25 +20,17 @@ public class CreateContestTestCaseService {
 
     @AllArgsConstructor
     @NoArgsConstructor
-    @Schema(title = "Create Test Case", description = "Data transfer object for TestCase to create")
-    public static class InputCreate {
-        @Schema(description = "specify the id of contest", example = "627778618119e29412c16201", required = true)
+    public static class Input {
         public Id contestId;
-        @Schema(description = "specify the ordinal of contest problem", example = "1", required = true)
         public int contestProblemOrdinal;
-        @Schema(description = "specify the input of this testcase in problem", example = "String", required = true)
         public String input;
-        @Schema(description = "specify the expectedOutput of this testcase in problem", example = "String", required = true)
         public String expectedOutput;
-        @Schema(description = "specify the oridinal of this testcase in problem", example = "1", required = true)
         public int ordinal;
-        @Schema(description = "specify this testcase is sample or not", example = "true", required = true)
         public boolean isSample;
-        @Schema(description = "specify the description of this testcase", example = "blablablabla", required = true)
         public String description;
     }
 
-    public void create(InputCreate input) throws NotFoundException, InvalidInputException {
+    public void create(Input input) throws NotFoundException, InvalidInputException {
         final Contest contest = contestRepository.getById(input.contestId);
         if (contest == null)
             throw new NotFoundException("Unknown contest");

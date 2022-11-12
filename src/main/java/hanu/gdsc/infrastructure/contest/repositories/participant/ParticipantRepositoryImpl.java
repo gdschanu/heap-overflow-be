@@ -33,9 +33,12 @@ public class ParticipantRepositoryImpl implements ParticipantRepository {
     }
 
     @Override
-    public List<Participant> get(Id contestId, int page, int perPage) {
-        Pageable pageable = PageRequest.of(page, perPage, Sort.by("createdAtMillis").descending());
-        List<ParticipantEntity> entities = participantJPARepository.findByContestId(contestId.toString(),
+    public List<Participant> get(Id contestId, int page, int perPage, boolean sortByContestProblemScore) {
+        final Sort sort = sortByContestProblemScore ?
+                Sort.by("createdAtMillis").descending() :
+                Sort.by("totalScore").descending();
+        final Pageable pageable = PageRequest.of(page, perPage, sort);
+        final List<ParticipantEntity> entities = participantJPARepository.findByContestId(contestId.toString(),
                 pageable);
         return entities
                 .stream()
