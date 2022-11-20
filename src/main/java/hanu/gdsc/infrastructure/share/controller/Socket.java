@@ -3,6 +3,7 @@ package hanu.gdsc.infrastructure.share.controller;
 import com.corundumstudio.socketio.Configuration;
 import com.corundumstudio.socketio.SocketIOServer;
 import hanu.gdsc.infrastructure.share.config.SocketConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PreDestroy;
 
@@ -12,10 +13,10 @@ public class Socket {
     private int eventListenerCount = 0;
     private final int startServerWhenEventListenerCountReach = 2;
 
-    public Socket() {
+    public Socket(SocketConfig socketConfig) {
         Configuration config = new Configuration();
-        config.setHostname(SocketConfig.IP);
-        config.setPort(SocketConfig.PORT);
+        config.setHostname(socketConfig.IP);
+        config.setPort(socketConfig.PORT);
         config.setOrigin("*");
         server = new SocketIOServer(config);
     }

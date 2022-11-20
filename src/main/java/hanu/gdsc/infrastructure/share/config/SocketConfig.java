@@ -1,11 +1,13 @@
 package hanu.gdsc.infrastructure.share.config;
 
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 
+@Configuration
 public class SocketConfig {
-    public static int PORT = 5000;
+    public int PORT = 5000;
 
-    public static String IP = "localhost";
+    public String IP = "localhost";
 
     public SocketConfig(Environment environment) {
         if (environment.getProperty("server.ip") != null) {
