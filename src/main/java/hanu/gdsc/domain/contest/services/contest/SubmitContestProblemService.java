@@ -3,9 +3,12 @@ package hanu.gdsc.domain.contest.services.contest;
 import hanu.gdsc.domain.contest.config.ContestServiceName;
 import hanu.gdsc.domain.contest.exception.ContestEndedException;
 import hanu.gdsc.domain.contest.exception.ContestNotStartedException;
+import hanu.gdsc.domain.contest.exception.NotJoinedException;
 import hanu.gdsc.domain.contest.models.Contest;
 import hanu.gdsc.domain.contest.models.ContestProblem;
+import hanu.gdsc.domain.contest.models.Participant;
 import hanu.gdsc.domain.contest.repositories.ContestRepository;
+import hanu.gdsc.domain.contest.repositories.ParticipantRepository;
 import hanu.gdsc.domain.core_problem.exceptions.NoTestCasesWereDefined;
 import hanu.gdsc.domain.core_problem.models.ProgrammingLanguage;
 import hanu.gdsc.domain.core_problem.services.submit.SubmitService;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class SubmitContestProblemService {
     private final ContestRepository contestRepository;
     private final SubmitService submitCoreProblemService;
+    private final ParticipantRepository participantRepository;
 
     @AllArgsConstructor
     @NoArgsConstructor
@@ -33,7 +37,8 @@ public class SubmitContestProblemService {
     }
 
     public SubmitService.Output execute(Input input) throws NotFoundException,
-            InvalidInputException, ContestEndedException, ContestNotStartedException, NoTestCasesWereDefined {
+            InvalidInputException, ContestEndedException, ContestNotStartedException,
+            NoTestCasesWereDefined, NotJoinedException {
         final Contest contest = contestRepository.getById(input.contestId);
         if (contest == null) {
             throw new NotFoundException("Unknown contest.");
@@ -48,6 +53,9 @@ public class SubmitContestProblemService {
         if (contestProblem == null) {
             throw new NotFoundException("Unknown contest problem ordinal");
         }
+        final Participant participant = participantRepository.getByCoderIdAndContestId(input.coderId, input.contestId);
+        if (participant == null)
+            throw new NotJoinedException("You haven't join this contest");
         return submitCoreProblemService.submit(new SubmitService.Input(
                 input.coderId,
                 contestProblem.getCoreProblemId(),

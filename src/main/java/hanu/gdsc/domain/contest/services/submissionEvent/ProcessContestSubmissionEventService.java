@@ -9,15 +9,17 @@ import hanu.gdsc.domain.contest.repositories.ParticipantRepository;
 import hanu.gdsc.domain.core_problem.models.Status;
 import hanu.gdsc.domain.core_problem.models.SubmissionEvent;
 import hanu.gdsc.domain.core_problem.repositories.SubmissionRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class ProcessContestSubmissionEventService {
-    private ContestRepository contestRepository;
-    private ParticipantRepository participantRepository;
-    private SubmissionRepository submissionRepository;
+    private final ContestRepository contestRepository;
+    private final ParticipantRepository participantRepository;
+    private final SubmissionRepository submissionRepository;
 
     public void process(SubmissionEvent submissionEvent, Runnable ack) {
         if (!submissionEvent.getServiceToCreate().equals(ContestServiceName.serviceName)) {

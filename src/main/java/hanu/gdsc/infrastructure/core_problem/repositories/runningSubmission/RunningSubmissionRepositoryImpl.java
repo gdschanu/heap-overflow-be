@@ -18,7 +18,7 @@ public class RunningSubmissionRepositoryImpl implements RunningSubmissionReposit
     private RunningSubmissionJPARepository runningSubmissionJPARepository;
 
     @Override
-    public void create(RunningSubmission runningSubmission) {
+    public void save(RunningSubmission runningSubmission) {
         runningSubmissionJPARepository.save(RunningSubmissionEntity
                 .fromDomain(runningSubmission,
                         0,

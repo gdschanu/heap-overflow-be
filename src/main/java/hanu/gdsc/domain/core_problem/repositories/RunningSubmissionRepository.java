@@ -6,7 +6,7 @@ import hanu.gdsc.domain.share.models.Id;
 import java.util.List;
 
 public interface RunningSubmissionRepository {
-    public void create(RunningSubmission runningSubmission);
+    public void save(RunningSubmission runningSubmission);
 
     public RunningSubmission getById(Id id, String serviceToCreate);
 

@@ -13,8 +13,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 
 @AllArgsConstructor
+@RestController
 public class CreateParticipantController {
     private final AuthorizeService authorizeService;
     private final CreateParticipantService createParticipantService;
@@ -41,7 +43,7 @@ public class CreateParticipantController {
             )}
     )
     @PostMapping("/contest/{contestId}/participant")
-    public ResponseEntity<?> joinContest(@PathVariable String contestId, @RequestHeader("access-token") String token) {
+    public ResponseEntity<?> createParticipant(@PathVariable String contestId, @RequestHeader("access-token") String token) {
         return ControllerHandler.handle(() -> {
             Id coderId = authorizeService.authorize(token);
             createParticipantService.execute(coderId, new Id(contestId));

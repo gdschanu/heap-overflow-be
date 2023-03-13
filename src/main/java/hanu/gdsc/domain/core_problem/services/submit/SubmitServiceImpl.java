@@ -32,7 +32,7 @@ public class SubmitServiceImpl implements SubmitService {
                 0,
                 testCases
         );
-        runningSubmissionRepository.create(runningSubmission);
+        runningSubmissionRepository.save(runningSubmission);
         return new Output(
                 runningSubmission.getId()
         );
